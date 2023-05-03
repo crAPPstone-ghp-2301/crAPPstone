@@ -6,6 +6,10 @@ const User = require('./models/User')
 const Favorites=require("./models/Favorites")
 const Ratings=require("./models/Ratings")
 
+const Comments = require('./models/Comments')
+
+const Restroom = require('./models/Restroom')
+
 //associations could go here!
 User.belongsToMany(Restroom, { through: Favorites });
 Restroom.belongsToMany(User, { through: Favorites });
@@ -25,5 +29,8 @@ module.exports = {
     User,
     Favorites,
     Ratings,
+    Comments,
+    Review,
+    Restroom,
   },
 }
