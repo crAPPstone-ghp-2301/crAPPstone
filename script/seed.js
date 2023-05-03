@@ -345,7 +345,7 @@ async function runSeed() {
   console.log('seeding...')
   try {
     await Promise.all(users.map(user => {
-      return Users.create(user);
+      return User.create(user);
     }));
     await Promise.all(restrooms.map(restroom => {
       return Restrooms.create(restroom);

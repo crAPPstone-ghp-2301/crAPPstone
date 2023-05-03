@@ -10,5 +10,7 @@ module.exports = {
   db,
   models: {
     User,
+    Favorites,
+    Ratings,
   },
 }
