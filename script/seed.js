@@ -18,7 +18,6 @@ async function seed() {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'password123',
-      isAdmin: true,
       created_at: new Date('2022-01-01T10:00:00.000Z'),
       last_login: new Date('2022-01-01T10:00:00.000Z')
     },
@@ -28,7 +27,6 @@ async function seed() {
       name: 'Jane Smith',
       email: 'janesmith@example.com',
       password: 'password456',
-      isAdmin: false,
       created_at: new Date('2022-01-02T10:00:00.000Z'),
       last_login: new Date('2022-01-02T10:00:00.000Z')
     },
@@ -38,7 +36,6 @@ async function seed() {
       name: 'Bob Johnson',
       email: 'bobjohnson@example.com',
       password: 'password789',
-      isAdmin: false,
       created_at: new Date('2022-01-03T10:00:00.000Z'),
       last_login: new Date('2022-01-03T10:00:00.000Z')
     },
@@ -48,7 +45,6 @@ async function seed() {
       name: 'Kate Wilson',
       email: 'katewilson@example.com',
       password: 'password123',
-      isAdmin: false,
       created_at: new Date('2022-01-04T10:00:00.000Z'),
       last_login: new Date('2022-01-04T10:00:00.000Z')
     },
@@ -58,7 +54,6 @@ async function seed() {
       name: 'Alex Miller',
       email: 'alexmiller@example.com',
       password: 'password456',
-      isAdmin: true,
       created_at: new Date('2022-01-05T10:00:00.000Z'),
       last_login: new Date('2022-01-05T10:00:00.000Z')
     }
