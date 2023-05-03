@@ -40,5 +40,26 @@ router.get('/:userId', async (req, res) => {
   });
 
   //user add the rating 
+  router.post('/', async (req, res, next) => {
+    try {
+      const newRating = await Ratings.create(req.body)
+      res.json(newRating)
+    } catch (err) {
+      res.send(err)
+    }
+  })
+
+  //user remove rating 
+  router.delete('/:restroomId', async(req,res,next)=>{
+    try{
+      const deleteed= await Ratings.destroy({ where: {restroomId : req.params.restroomId}})
+        res.sendStatus(204)
+      }
+    catch(error){
+      next(error)
+    }
+  })
 
   
+
+  module.exports = router;
