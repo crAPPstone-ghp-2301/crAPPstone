@@ -6,348 +6,344 @@ const { db, models: { User, Restrooms, Favorites, Ratings, Reviews, Comments } }
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
-async function seed() {
-  await db.sync({ force: true }) // clears db and matches models to tables
-  console.log('db synced!')
 
-  // Creating Users
-  const users = [
-    {
-      id: 1,
-      username: 'john_doe',
-      name: 'John Doe',
-      email: 'johndoe@example.com',
-      password: 'password123',
-      isAdmin: true,
-      createdAt: new Date('2022-01-01T10:00:00.000Z'),
-      lastLogin: new Date('2022-01-01T10:00:00.000Z')
-    },
-    {
-      id: 2,
-      username: 'jane_smith',
-      name: 'Jane Smith',
-      email: 'janesmith@example.com',
-      password: 'password456',
-      isAdmin: false,
-      createdAt: new Date('2022-01-02T10:00:00.000Z'),
-      lastLogin: new Date('2022-01-02T10:00:00.000Z')
-    },
-    {
-      id: 3,
-      username: 'bob_johnson',
-      name: 'Bob Johnson',
-      email: 'bobjohnson@example.com',
-      password: 'password789',
-      isAdmin: false,
-      createdAt: new Date('2022-01-03T10:00:00.000Z'),
-      lastLogin: new Date('2022-01-03T10:00:00.000Z')
-    },
-    {
-      id: 4,
-      username: 'kate_wilson',
-      name: 'Kate Wilson',
-      email: 'katewilson@example.com',
-      password: 'password123',
-      isAdmin: false,
-      createdAt: new Date('2022-01-04T10:00:00.000Z'),
-      lastLogin: new Date('2022-01-04T10:00:00.000Z')
-    },
-    {
-      id: 5,
-      username: 'alex_miller',
-      name: 'Alex Miller',
-      email: 'alexmiller@example.com',
-      password: 'password456',
-      isAdmin: true,
-      createdAt: new Date('2022-01-05T10:00:00.000Z'),
-      lastLogin: new Date('2022-01-05T10:00:00.000Z')
-    }
-  ];
-  //creating restrooms
-  const restrooms = [
-    {
-      id: 1,
-      name: 'Central Park Restroom',
-      openingHours: '8:00am-10:00pm',
-      description: 'A clean public restroom located in Central Park.',
-      address: 'Central Park, New York, NY, USA',
-      placeType: 'Park',
-      latitude: '40.7829',
-      longitude: '-73.9654',
-      capacity: 10,
-      isLocked: false,
-      code: '1234',
-      isBusy: false,
-      lastUpdate: new Date('2022-01-01T10:00:00.000Z'),
-      createdAt: new Date('2022-01-01T10:00:00.000Z')
-    },
-    {
-      id: 2,
-      name: 'Starbucks Restroom',
-      openingHours: '7:00am-9:00pm',
-      description: 'A restroom located inside a Starbucks coffee shop.',
-      address: '123 Main St, Seattle, WA, USA',
-      placeType: 'Coffee Shop',
-      latitude: '47.6062',
-      longitude: '-122.3321',
-      capacity: 5,
-      isLocked: true,
-      code: '4321',
-      isBusy: true,
-      lastUpdate: new Date('2022-01-02T10:00:00.000Z'),
-      createdAt: new Date('2022-01-02T10:00:00.000Z')
-    },
-    {
-      id: 3,
-      name: 'Mall Restroom',
-      openingHours: '10:00am-8:00pm',
-      description: 'A public restroom located inside a shopping mall.',
-      address: '456 Oak St, Los Angeles, CA, USA',
-      placeType: 'Shopping Mall',
-      latitude: '34.0522',
-      longitude: '-118.2437',
-      capacity: 15,
-      isLocked: false,
-      code: '2468',
-      isBusy: false,
-      lastUpdate: new Date('2022-01-03T10:00:00.000Z'),
-      createdAt: new Date('2022-01-03T10:00:00.000Z')
-    },
-    {
-      id: 4,
-      name: 'Airport Restroom',
-      openingHours: '24/7',
-      description: 'A restroom located inside an airport.',
-      address: '789 International Blvd, Atlanta, GA, USA',
-      placeType: 'Airport',
-      latitude: '33.6367',
-      longitude: '-84.4281',
-      capacity: 20,
-      isLocked: true,
-      code: '1357',
-      isBusy: true,
-      lastUpdate: new Date('2022-01-04T10:00:00.000Z'),
-      createdAt: new Date('2022-01-04T10:00:00.000Z')
-    },
-    {
-      id: 5,
-      name: 'Hotel Restroom',
-      openingHours: '24/7',
-      description: 'A clean restroom located inside a hotel.',
-      address: '987 Broadway, San Francisco, CA, USA',
-      placeType: 'Hotel',
-      latitude: '37.7749',
-      longitude: '-122.4194',
-      capacity: 8,
-      isLocked: false,
-      code: '8642',
-      isBusy: false,
-      lastUpdate: new Date('2022-01-05T10:00:00.000Z'),
-      createdAt: new Date('2022-01-04T10:00:00.000Z')
-    }
-  ]
-  //creating favorites
-  const favorites = [
-    {
-      id: 1,
-      users_id: 1,
-      restrooms_id: 2
-    },
-    {
-      id: 2,
-      users_id: 1,
-      restrooms_id: 3
-    },
-    {
-      id: 3,
-      users_id: 2,
-      restrooms_id: 1
-    },
-    {
-      id: 4,
-      users_id: 2,
-      restrooms_id: 4
-    },
-    {
-      id: 5,
-      users_id: 3,
-      restrooms_id: 5
-    }
-  ]
-  //creating ratings
-  const ratings = [
-    {
-      id: 1,
-      restroom_id: 1,
-      user_id: 1,
-      user_rating: 4.5,
-      isClean: true,
-      user_ratings_total: 20,
-    },
-    {
-      id: 2,
-      restroom_id: 2,
-      user_id: 2,
-      user_rating: 3.2,
-      isClean: false,
-      user_ratings_total: 10,
-    },
-    {
-      id: 3,
-      restroom_id: 3,
-      user_id: 3,
-      user_rating: 4.0,
-      isClean: true,
-      user_ratings_total: 15,
-    },
-    {
-      id: 4,
-      restroom_id: 4,
-      user_id: 4,
-      user_rating: 2.5,
-      isClean: false,
-      user_ratings_total: 8,
-    },
-    {
-      id: 5,
-      restroom_id: 5,
-      user_id: 5,
-      user_rating: 5.0,
-      isClean: true,
-      user_ratings_total: 30,
-    }
-  ]
-  //creating reviews
-  const reviews = [
-    {
-      id: 1,
-      restroom_id: 1,
-      user_id: 1,
-      imageURL: "https://example.com/image1.png",
-      reviewText: "This is a great restroom!",
-      reportStatus: ["spam"],
-      rating: 4.5,
-      totalRatings: 20,
-      created_at: "2022-04-20 12:00:00",
-      commentId: 1,
-    },
-    {
-      id: 2,
-      restroom_id: 2,
-      user_id: 2,
-      imageURL: "https://example.com/image2.png",
-      reviewText: "This restroom is not very clean.",
-      reportStatus: [],
-      rating: 3.2,
-      createdAt: "2022-05-01 10:30:00",
-      totalRatings: 10,
-      commentId: 2,
-    },
-    {
-      id: 3,
-      restroom_id: 3,
-      user_id: 3,
-      imageURL: null,
-      reviewText: "This is an average restroom.",
-      reportStatus: [],
-      rating: 3.8,
-      createdAt: "2022-05-02 15:20:00",
-      totalRatings: 15,
-      commentId: 3,
-    },
-    {
-      id: 4,
-      restroom_id: 4,
-      user_id: 4,
-      imageURL: "https://example.com/image4.png",
-      reviewText: "This restroom is in bad condition.",
-      reportStatus: ["offensive"],
-      rating: 2.5,
-      total_ratings: 8,
-      createdAt: "2022-05-03 18:40:00",
-      comment_id: 4,
-    },
-    {
-      id: 5,
-      restroom_id: 5,
-      user_id: 5,
-      imageURL: null,
-      reviewText: "This is the best restroom ever!",
-      reportStatus: ["spam", "offensive"],
-      rating: 5.0,
-      createdAt: "2022-05-03 23:10:00",
-      totalRatings: 30,
-      commentId: 5,
-    }
-  ]
-  //creating comments
-  const comments = [
-    {
-      id: 1,
-      parentCommentId: null,
-      userId: 1,
-      reviewId: 1,
-      comment: 'Great review, thanks for sharing!',
-      createdAt: '2022-05-01 10:30:00',
-      likes: 3
-    },
-    {
-      id: 2,
-      parentCommentId: null,
-      userId: 3,
-      reviewId: 1,
-      comment: 'I completely agree with your review, it was a great experience!',
-      createdAt: '2022-05-01 12:15:00',
-      likes: 5
-    },
-    {
-      id: 3,
-      parentCommentId: null,
-      userId: 2,
-      reviewId: 2,
-      comment: 'Thanks for sharing this review, I found it really helpful!',
-      createdAt: '2022-05-02 08:45:00',
-      likes: 2
-    },
-    {
-      id: 4,
-      parentCommentId: 1,
-      userId: 4,
-      reviewId: null,
-      comment: 'I second that, great review!',
-      createdAt: '2022-05-03 14:10:00',
-      likes: 1
-    },
-    {
-      id: 5,
-      parentCommentId: null,
-      userId: 1,
-      reviewId: 3,
-      comment: 'Thank you for your review, I had a great time at this location as well!',
-      createdAt: '2022-05-04 11:20:00',
-      likes: 0
-    }
-    //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
-  ]
+// Creating Users
+const users = [
+  {
+    id: 1,
+    username: 'john_doe',
+    name: 'John Doe',
+    email: 'johndoe@example.com',
+    password: 'password123',
+    isAdmin: true,
+    createdAt: new Date('2022-01-01T10:00:00.000Z'),
+    lastLogin: new Date('2022-01-01T10:00:00.000Z')
+  },
+  {
+    id: 2,
+    username: 'jane_smith',
+    name: 'Jane Smith',
+    email: 'janesmith@example.com',
+    password: 'password456',
+    isAdmin: false,
+    createdAt: new Date('2022-01-02T10:00:00.000Z'),
+    lastLogin: new Date('2022-01-02T10:00:00.000Z')
+  },
+  {
+    id: 3,
+    username: 'bob_johnson',
+    name: 'Bob Johnson',
+    email: 'bobjohnson@example.com',
+    password: 'password789',
+    isAdmin: false,
+    createdAt: new Date('2022-01-03T10:00:00.000Z'),
+    lastLogin: new Date('2022-01-03T10:00:00.000Z')
+  },
+  {
+    id: 4,
+    username: 'kate_wilson',
+    name: 'Kate Wilson',
+    email: 'katewilson@example.com',
+    password: 'password123',
+    isAdmin: false,
+    createdAt: new Date('2022-01-04T10:00:00.000Z'),
+    lastLogin: new Date('2022-01-04T10:00:00.000Z')
+  },
+  {
+    id: 5,
+    username: 'alex_miller',
+    name: 'Alex Miller',
+    email: 'alexmiller@example.com',
+    password: 'password456',
+    isAdmin: true,
+    createdAt: new Date('2022-01-05T10:00:00.000Z'),
+    lastLogin: new Date('2022-01-05T10:00:00.000Z')
+  }
+];
+//creating restrooms
+const restrooms = [
+  {
+    id: 1,
+    name: 'Central Park Restroom',
+    openingHours: '8:00am-10:00pm',
+    description: 'A clean public restroom located in Central Park.',
+    address: 'Central Park, New York, NY, USA',
+    placeType: 'Park',
+    latitude: '40.7829',
+    longitude: '-73.9654',
+    capacity: 10,
+    isLocked: false,
+    code: '1234',
+    isBusy: false,
+    lastUpdate: new Date('2022-01-01T10:00:00.000Z'),
+    createdAt: new Date('2022-01-01T10:00:00.000Z')
+  },
+  {
+    id: 2,
+    name: 'Starbucks Restroom',
+    openingHours: '7:00am-9:00pm',
+    description: 'A restroom located inside a Starbucks coffee shop.',
+    address: '123 Main St, Seattle, WA, USA',
+    placeType: 'Coffee Shop',
+    latitude: '47.6062',
+    longitude: '-122.3321',
+    capacity: 5,
+    isLocked: true,
+    code: '4321',
+    isBusy: true,
+    lastUpdate: new Date('2022-01-02T10:00:00.000Z'),
+    createdAt: new Date('2022-01-02T10:00:00.000Z')
+  },
+  {
+    id: 3,
+    name: 'Mall Restroom',
+    openingHours: '10:00am-8:00pm',
+    description: 'A public restroom located inside a shopping mall.',
+    address: '456 Oak St, Los Angeles, CA, USA',
+    placeType: 'Shopping Mall',
+    latitude: '34.0522',
+    longitude: '-118.2437',
+    capacity: 15,
+    isLocked: false,
+    code: '2468',
+    isBusy: false,
+    lastUpdate: new Date('2022-01-03T10:00:00.000Z'),
+    createdAt: new Date('2022-01-03T10:00:00.000Z')
+  },
+  {
+    id: 4,
+    name: 'Airport Restroom',
+    openingHours: '24/7',
+    description: 'A restroom located inside an airport.',
+    address: '789 International Blvd, Atlanta, GA, USA',
+    placeType: 'Airport',
+    latitude: '33.6367',
+    longitude: '-84.4281',
+    capacity: 20,
+    isLocked: true,
+    code: '1357',
+    isBusy: true,
+    lastUpdate: new Date('2022-01-04T10:00:00.000Z'),
+    createdAt: new Date('2022-01-04T10:00:00.000Z')
+  },
+  {
+    id: 5,
+    name: 'Hotel Restroom',
+    openingHours: '24/7',
+    description: 'A clean restroom located inside a hotel.',
+    address: '987 Broadway, San Francisco, CA, USA',
+    placeType: 'Hotel',
+    latitude: '37.7749',
+    longitude: '-122.4194',
+    capacity: 8,
+    isLocked: false,
+    code: '8642',
+    isBusy: false,
+    lastUpdate: new Date('2022-01-05T10:00:00.000Z'),
+    createdAt: new Date('2022-01-04T10:00:00.000Z')
+  }
+]
+//creating favorites
+const favorites = [
+  {
+    id: 1,
+    users_id: 1,
+    restrooms_id: 2
+  },
+  {
+    id: 2,
+    users_id: 1,
+    restrooms_id: 3
+  },
+  {
+    id: 3,
+    users_id: 2,
+    restrooms_id: 1
+  },
+  {
+    id: 4,
+    users_id: 2,
+    restrooms_id: 4
+  },
+  {
+    id: 5,
+    users_id: 3,
+    restrooms_id: 5
+  }
+]
+//creating ratings
+const ratings = [
+  {
+    id: 1,
+    restroom_id: 1,
+    user_id: 1,
+    user_rating: 4.5,
+    isClean: true,
+    user_ratings_total: 20,
+  },
+  {
+    id: 2,
+    restroom_id: 2,
+    user_id: 2,
+    user_rating: 3.2,
+    isClean: false,
+    user_ratings_total: 10,
+  },
+  {
+    id: 3,
+    restroom_id: 3,
+    user_id: 3,
+    user_rating: 4.0,
+    isClean: true,
+    user_ratings_total: 15,
+  },
+  {
+    id: 4,
+    restroom_id: 4,
+    user_id: 4,
+    user_rating: 2.5,
+    isClean: false,
+    user_ratings_total: 8,
+  },
+  {
+    id: 5,
+    restroom_id: 5,
+    user_id: 5,
+    user_rating: 5.0,
+    isClean: true,
+    user_ratings_total: 30,
+  }
+]
+//creating reviews
+const reviews = [
+  {
+    id: 1,
+    restroom_id: 1,
+    user_id: 1,
+    imageURL: "https://example.com/image1.png",
+    reviewText: "This is a great restroom!",
+    reportStatus: ["spam"],
+    rating: 4.5,
+    totalRatings: 20,
+    created_at: "2022-04-20 12:00:00",
+    commentId: 1,
+  },
+  {
+    id: 2,
+    restroom_id: 2,
+    user_id: 2,
+    imageURL: "https://example.com/image2.png",
+    reviewText: "This restroom is not very clean.",
+    reportStatus: [],
+    rating: 3.2,
+    createdAt: "2022-05-01 10:30:00",
+    totalRatings: 10,
+    commentId: 2,
+  },
+  {
+    id: 3,
+    restroom_id: 3,
+    user_id: 3,
+    imageURL: null,
+    reviewText: "This is an average restroom.",
+    reportStatus: [],
+    rating: 3.8,
+    createdAt: "2022-05-02 15:20:00",
+    totalRatings: 15,
+    commentId: 3,
+  },
+  {
+    id: 4,
+    restroom_id: 4,
+    user_id: 4,
+    imageURL: "https://example.com/image4.png",
+    reviewText: "This restroom is in bad condition.",
+    reportStatus: ["offensive"],
+    rating: 2.5,
+    total_ratings: 8,
+    createdAt: "2022-05-03 18:40:00",
+    comment_id: 4,
+  },
+  {
+    id: 5,
+    restroom_id: 5,
+    user_id: 5,
+    imageURL: null,
+    reviewText: "This is the best restroom ever!",
+    reportStatus: ["spam", "offensive"],
+    rating: 5.0,
+    createdAt: "2022-05-03 23:10:00",
+    totalRatings: 30,
+    commentId: 5,
+  }
+]
+//creating comments
+const comments = [
+  {
+    id: 1,
+    parentCommentId: null,
+    userId: 1,
+    reviewId: 1,
+    comment: 'Great review, thanks for sharing!',
+    createdAt: '2022-05-01 10:30:00',
+    likes: 3
+  },
+  {
+    id: 2,
+    parentCommentId: null,
+    userId: 3,
+    reviewId: 1,
+    comment: 'I completely agree with your review, it was a great experience!',
+    createdAt: '2022-05-01 12:15:00',
+    likes: 5
+  },
+  {
+    id: 3,
+    parentCommentId: null,
+    userId: 2,
+    reviewId: 2,
+    comment: 'Thanks for sharing this review, I found it really helpful!',
+    createdAt: '2022-05-02 08:45:00',
+    likes: 2
+  },
+  {
+    id: 4,
+    parentCommentId: 1,
+    userId: 4,
+    reviewId: null,
+    comment: 'I second that, great review!',
+    createdAt: '2022-05-03 14:10:00',
+    likes: 1
+  },
+  {
+    id: 5,
+    parentCommentId: null,
+    userId: 1,
+    reviewId: 3,
+    comment: 'Thank you for your review, I had a great time at this location as well!',
+    createdAt: '2022-05-04 11:20:00',
+    likes: 0
+  }
+  //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
+]
 
 
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${restrooms.length} users`)
-  console.log(`seeded ${comments.length} users`)
-  console.log(`seeded ${reviews.length} users`)
-  console.log(`seeded ${ratings.length} users`)
-  console.log(`seeded ${favorites.length} users`)
-  console.log(`seeded successfully`)
-}
+console.log(`seeded ${users.length} users`)
+console.log(`seeded ${restrooms.length} users`)
+console.log(`seeded ${comments.length} users`)
+console.log(`seeded ${reviews.length} users`)
+console.log(`seeded ${ratings.length} users`)
+console.log(`seeded ${favorites.length} users`)
+console.log(`seeded successfully`)
+
 
 /*
  We've separated the `seed` function from the `runSeed` function.
  This way we can isolate the error handling and exit trapping.
  The `seed` function is concerned only with modifying the database.
 */
-async function runSeed() {
-  console.log('seeding...')
+const seed = async () => {
   try {
     await Promise.all(users.map(user => {
       return User.create(user);
@@ -378,13 +374,14 @@ async function runSeed() {
   }
 }
 
+
 /*
   Execute the `seed` function, IF we ran this module directly (`node seed`).
   `Async` functions always return a promise, so we can use `catch` to handle
   any errors that might occur inside of `seed`.
 */
 if (module === require.main) {
-  runSeed()
+  seed()
 }
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)

@@ -5,7 +5,7 @@ const db = require('./db')
 const User = require('./models/User')
 const Favorites=require("./models/Favorites")
 const Ratings=require("./models/Ratings")
-
+const Review=require('./models/Review')
 const Comments = require('./models/Comments')
 
 const Restroom = require('./models/Restroom')
