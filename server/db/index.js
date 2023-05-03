@@ -10,6 +10,7 @@ module.exports = {
   db,
   models: {
     User,
+    Review,
     Restroom,
   },
 }

@@ -218,45 +218,45 @@ async function seed() {
       id: 1,
       restroom_id: 1,
       user_id: 1,
-      image_URL: "https://example.com/image1.png",
-      review: "This is a great restroom!",
-      report_status: ["spam"],
+      imageURL: "https://example.com/image1.png",
+      reviewText: "This is a great restroom!",
+      reportStatus: ["spam"],
       rating: 4.5,
-      total_ratings: 20,
-      createdAt: "2022-04-20 12:00:00",
+      totalRatings: 20,
+      created_at: "2022-04-20 12:00:00",
       comment_id: 1,
     },
     {
       id: 2,
       restroom_id: 2,
       user_id: 2,
-      image_URL: "https://example.com/image2.png",
-      review: "This restroom is not very clean.",
-      report_status: [],
+      imageURL: "https://example.com/image2.png",
+      reviewText: "This restroom is not very clean.",
+      reportStatus: [],
       rating: 3.2,
-      total_ratings: 10,
-      createdAt: "2022-05-01 10:30:00",
+      totalRatings: 10,
+      created_at: "2022-05-01 10:30:00",
       comment_id: 2,
     },
     {
       id: 3,
       restroom_id: 3,
       user_id: 3,
-      image_URL: null,
-      review: "This is an average restroom.",
-      report_status: [],
+      imageURL: null,
+      reviewText: "This is an average restroom.",
+      reportStatus: [],
       rating: 3.8,
-      total_ratings: 15,
-      createdAt: "2022-05-02 15:20:00",
+      totalRatings: 15,
+      created_at: "2022-05-02 15:20:00",
       comment_id: 3,
     },
     {
       id: 4,
       restroom_id: 4,
       user_id: 4,
-      image_URL: "https://example.com/image4.png",
-      review: "This restroom is in bad condition.",
-      report_status: ["offensive"],
+      imageURL: "https://example.com/image4.png",
+      reviewText: "This restroom is in bad condition.",
+      reportStatus: ["offensive"],
       rating: 2.5,
       total_ratings: 8,
       createdAt: "2022-05-03 18:40:00",
@@ -266,12 +266,12 @@ async function seed() {
       id: 5,
       restroom_id: 5,
       user_id: 5,
-      image_URL: null,
-      review: "This is the best restroom ever!",
-      report_status: ["spam", "offensive"],
+      imageURL: null,
+      reviewText: "This is the best restroom ever!",
+      reportStatus: ["spam", "offensive"],
       rating: 5.0,
-      total_ratings: 30,
-      createdAt: "2022-05-03 23:10:00",
+      totalRatings: 30,
+      created_at: "2022-05-03 23:10:00",
       comment_id: 5,
     }
   ]
@@ -324,9 +324,9 @@ async function seed() {
     }
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
   ]
-  
-   
-  
+
+
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${restrooms.length} users`)
   console.log(`seeded ${comments.length} users`)
