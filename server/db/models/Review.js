@@ -1,3 +1,4 @@
+const { REAL } = require('sequelize');
 const Sequelize = require('sequelize')
 const db = require('../db')
 
@@ -8,7 +9,7 @@ const db = require('../db')
 //reviews belongs to one restroom
 
 const Review = db.define('review', {
-  imageUrl: {
+  imageURL: {
     type: Sequelize.STRING,
     allowNull: true,
   },
