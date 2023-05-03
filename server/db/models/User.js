@@ -7,21 +7,22 @@ const SALT_ROUNDS = 5;
 
 const User = db.define('user', {
   id: {
-    type: DataTypes.INTEGER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     primaryKey: true,
     autoIncrement: true,
   },
   username: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
+    unique: true,
     allowNull: false,
   },
   name: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
   },
   email: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
     unique: true,
     validate: {
@@ -29,20 +30,20 @@ const User = db.define('user', {
     },
   },
   password: {
-    type: DataTypes.STRING,
+    type: Sequelize.STRING,
     allowNull: false,
   },
-  created_at: {
-    type: DataTypes.DATE,
+  createdAt: {
+    type: Sequelize.DATE,
     allowNull: false,
-    defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+    defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
   },
-  last_login: {
-    type: DataTypes.DATE,
+  lastLogin: {
+    type: Sequelize.DATE,
     allowNull: true,
   },
   isAdmin: {
-    type: DataTypes.BOOLEAN,
+    type: Sequelize.BOOLEAN,
     allowNull: false,
     defaultValue: false,
   },

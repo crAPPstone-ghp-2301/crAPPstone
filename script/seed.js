@@ -19,8 +19,8 @@ async function seed() {
       email: 'johndoe@example.com',
       password: 'password123',
       isAdmin: true,
-      created_at: new Date('2022-01-01T10:00:00.000Z'),
-      last_login: new Date('2022-01-01T10:00:00.000Z')
+      createdAt: new Date('2022-01-01T10:00:00.000Z'),
+      lastLogin: new Date('2022-01-01T10:00:00.000Z')
     },
     {
       id: 2,
@@ -29,8 +29,8 @@ async function seed() {
       email: 'janesmith@example.com',
       password: 'password456',
       isAdmin: false,
-      created_at: new Date('2022-01-02T10:00:00.000Z'),
-      last_login: new Date('2022-01-02T10:00:00.000Z')
+      createdAt: new Date('2022-01-02T10:00:00.000Z'),
+      lastLogin: new Date('2022-01-02T10:00:00.000Z')
     },
     {
       id: 3,
@@ -39,8 +39,8 @@ async function seed() {
       email: 'bobjohnson@example.com',
       password: 'password789',
       isAdmin: false,
-      created_at: new Date('2022-01-03T10:00:00.000Z'),
-      last_login: new Date('2022-01-03T10:00:00.000Z')
+      createdAt: new Date('2022-01-03T10:00:00.000Z'),
+      lastLogin: new Date('2022-01-03T10:00:00.000Z')
     },
     {
       id: 4,
@@ -49,8 +49,8 @@ async function seed() {
       email: 'katewilson@example.com',
       password: 'password123',
       isAdmin: false,
-      created_at: new Date('2022-01-04T10:00:00.000Z'),
-      last_login: new Date('2022-01-04T10:00:00.000Z')
+      createdAt: new Date('2022-01-04T10:00:00.000Z'),
+      lastLogin: new Date('2022-01-04T10:00:00.000Z')
     },
     {
       id: 5,
@@ -59,8 +59,8 @@ async function seed() {
       email: 'alexmiller@example.com',
       password: 'password456',
       isAdmin: true,
-      created_at: new Date('2022-01-05T10:00:00.000Z'),
-      last_login: new Date('2022-01-05T10:00:00.000Z')
+      createdAt: new Date('2022-01-05T10:00:00.000Z'),
+      lastLogin: new Date('2022-01-05T10:00:00.000Z')
     }
   ];
   //creating restrooms
@@ -79,7 +79,7 @@ async function seed() {
       code: '1234',
       isBusy: false,
       last_update: new Date('2022-01-01T10:00:00.000Z'),
-      created_at: new Date('2022-01-01T10:00:00.000Z')
+      createdAt: new Date('2022-01-01T10:00:00.000Z')
     },
     {
       id: 2,
@@ -95,7 +95,7 @@ async function seed() {
       code: '4321',
       isBusy: true,
       last_update: new Date('2022-01-02T10:00:00.000Z'),
-      created_at: new Date('2022-01-02T10:00:00.000Z')
+      createdAt: new Date('2022-01-02T10:00:00.000Z')
     },
     {
       id: 3,
@@ -111,7 +111,7 @@ async function seed() {
       code: '2468',
       isBusy: false,
       last_update: new Date('2022-01-03T10:00:00.000Z'),
-      created_at: new Date('2022-01-03T10:00:00.000Z')
+      createdAt: new Date('2022-01-03T10:00:00.000Z')
     },
     {
       id: 4,
@@ -127,7 +127,7 @@ async function seed() {
       code: '1357',
       isBusy: true,
       last_update: new Date('2022-01-04T10:00:00.000Z'),
-      created_at: new Date('2022-01-04T10:00:00.000Z')
+      createdAt: new Date('2022-01-04T10:00:00.000Z')
     },
     {
       id: 5,
@@ -143,7 +143,7 @@ async function seed() {
       code: '8642',
       isBusy: false,
       last_update: new Date('2022-01-05T10:00:00.000Z'),
-      created_at: new Date('2022-01-04T10:00:00.000Z')
+      createdAt: new Date('2022-01-04T10:00:00.000Z')
     }
   ]
   //creating favorites
@@ -228,7 +228,7 @@ async function seed() {
       report_status: ["spam"],
       rating: 4.5,
       total_ratings: 20,
-      created_at: "2022-04-20 12:00:00",
+      createdAt: "2022-04-20 12:00:00",
       comment_id: 1,
     },
     {
@@ -240,7 +240,7 @@ async function seed() {
       report_status: [],
       rating: 3.2,
       total_ratings: 10,
-      created_at: "2022-05-01 10:30:00",
+      createdAt: "2022-05-01 10:30:00",
       comment_id: 2,
     },
     {
@@ -252,7 +252,7 @@ async function seed() {
       report_status: [],
       rating: 3.8,
       total_ratings: 15,
-      created_at: "2022-05-02 15:20:00",
+      createdAt: "2022-05-02 15:20:00",
       comment_id: 3,
     },
     {
@@ -264,7 +264,7 @@ async function seed() {
       report_status: ["offensive"],
       rating: 2.5,
       total_ratings: 8,
-      created_at: "2022-05-03 18:40:00",
+      createdAt: "2022-05-03 18:40:00",
       comment_id: 4,
     },
     {
@@ -276,7 +276,7 @@ async function seed() {
       report_status: ["spam", "offensive"],
       rating: 5.0,
       total_ratings: 30,
-      created_at: "2022-05-03 23:10:00",
+      createdAt: "2022-05-03 23:10:00",
       comment_id: 5,
     }
   ]
@@ -288,7 +288,7 @@ async function seed() {
       user_id: 1,
       review_id: 1,
       comment: 'Great review, thanks for sharing!',
-      created_at: '2022-05-01 10:30:00',
+      createdAt: '2022-05-01 10:30:00',
       likes: 3
     },
     {
@@ -297,7 +297,7 @@ async function seed() {
       user_id: 3,
       review_id: 1,
       comment: 'I completely agree with your review, it was a great experience!',
-      created_at: '2022-05-01 12:15:00',
+      createdAt: '2022-05-01 12:15:00',
       likes: 5
     },
     {
@@ -306,7 +306,7 @@ async function seed() {
       user_id: 2,
       review_id: 2,
       comment: 'Thanks for sharing this review, I found it really helpful!',
-      created_at: '2022-05-02 08:45:00',
+      createdAt: '2022-05-02 08:45:00',
       likes: 2
     },
     {
@@ -315,7 +315,7 @@ async function seed() {
       user_id: 4,
       review_id: null,
       comment: 'I second that, great review!',
-      created_at: '2022-05-03 14:10:00',
+      createdAt: '2022-05-03 14:10:00',
       likes: 1
     },
     {
@@ -324,7 +324,7 @@ async function seed() {
       user_id: 1,
       review_id: 3,
       comment: 'Thank you for your review, I had a great time at this location as well!',
-      created_at: '2022-05-04 11:20:00',
+      createdAt: '2022-05-04 11:20:00',
       likes: 0
     }
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
