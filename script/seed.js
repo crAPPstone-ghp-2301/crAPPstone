@@ -284,45 +284,45 @@ async function seed() {
   const comments = [
     {
       id: 1,
-      parent_comment_id: null,
-      user_id: 1,
-      review_id: 1,
+      parentCommentId: null,
+      userId: 1,
+      reviewId: 1,
       comment: 'Great review, thanks for sharing!',
       createdAt: '2022-05-01 10:30:00',
       likes: 3
     },
     {
       id: 2,
-      parent_comment_id: null,
-      user_id: 3,
-      review_id: 1,
+      parentCommentId: null,
+      userId: 3,
+      reviewId: 1,
       comment: 'I completely agree with your review, it was a great experience!',
       createdAt: '2022-05-01 12:15:00',
       likes: 5
     },
     {
       id: 3,
-      parent_comment_id: null,
-      user_id: 2,
-      review_id: 2,
+      parentCommentId: null,
+      userId: 2,
+      reviewId: 2,
       comment: 'Thanks for sharing this review, I found it really helpful!',
       createdAt: '2022-05-02 08:45:00',
       likes: 2
     },
     {
       id: 4,
-      parent_comment_id: 1,
-      user_id: 4,
-      review_id: null,
+      parentCommentId: 1,
+      userId: 4,
+      reviewId: null,
       comment: 'I second that, great review!',
       createdAt: '2022-05-03 14:10:00',
       likes: 1
     },
     {
       id: 5,
-      parent_comment_id: null,
-      user_id: 1,
-      review_id: 3,
+      parentCommentId: null,
+      userId: 1,
+      reviewId: 3,
       comment: 'Thank you for your review, I had a great time at this location as well!',
       createdAt: '2022-05-04 11:20:00',
       likes: 0
