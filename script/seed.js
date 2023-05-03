@@ -1,65 +1,13 @@
 'use strict'
 
-const { db, models: { User, Restrooms, Favorites, Ratings, Reviews, Comments } } = require('../server/db')
+const { db, models: { User, Restroom, Ratings, Review, Comments } } = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
  *      match the models, and populates the database.
  */
 
-// Creating Users
-const users = [
-  {
-    id: 1,
-    username: 'john_doe',
-    name: 'John Doe',
-    email: 'johndoe@example.com',
-    password: 'password123',
-    isAdmin: true,
-    createdAt: new Date('2022-01-01T10:00:00.000Z'),
-    lastLogin: new Date('2022-01-01T10:00:00.000Z')
-  },
-  {
-    id: 2,
-    username: 'jane_smith',
-    name: 'Jane Smith',
-    email: 'janesmith@example.com',
-    password: 'password456',
-    isAdmin: false,
-    createdAt: new Date('2022-01-02T10:00:00.000Z'),
-    lastLogin: new Date('2022-01-02T10:00:00.000Z')
-  },
-  {
-    id: 3,
-    username: 'bob_johnson',
-    name: 'Bob Johnson',
-    email: 'bobjohnson@example.com',
-    password: 'password789',
-    isAdmin: false,
-    createdAt: new Date('2022-01-03T10:00:00.000Z'),
-    lastLogin: new Date('2022-01-03T10:00:00.000Z')
-  },
-  {
-    id: 4,
-    username: 'kate_wilson',
-    name: 'Kate Wilson',
-    email: 'katewilson@example.com',
-    password: 'password123',
-    isAdmin: false,
-    createdAt: new Date('2022-01-04T10:00:00.000Z'),
-    lastLogin: new Date('2022-01-04T10:00:00.000Z')
-  },
-  {
-    id: 5,
-    username: 'alex_miller',
-    name: 'Alex Miller',
-    email: 'alexmiller@example.com',
-    password: 'password456',
-    isAdmin: true,
-    createdAt: new Date('2022-01-05T10:00:00.000Z'),
-    lastLogin: new Date('2022-01-05T10:00:00.000Z')
-  }
-];
+
 //creating restrooms
 const restrooms = [
   {
@@ -143,83 +91,56 @@ const restrooms = [
     createdAt: new Date('2022-01-04T10:00:00.000Z')
   }
 ]
-//creating favorites
-const favorites = [
-  {
-    id: 1,
-    users_id: 1,
-    restrooms_id: 2
-  },
-  {
-    id: 2,
-    users_id: 1,
-    restrooms_id: 3
-  },
-  {
-    id: 3,
-    users_id: 2,
-    restrooms_id: 1
-  },
-  {
-    id: 4,
-    users_id: 2,
-    restrooms_id: 4
-  },
-  {
-    id: 5,
-    users_id: 3,
-    restrooms_id: 5
-  }
-]
+
 //creating ratings
 const ratings = [
   {
     id: 1,
-    restroom_id: 1,
-    user_id: 1,
-    user_rating: 4.5,
+    restroomId: 1,
+    userId: 1,
+    userRating: 4.5,
     isClean: true,
-    user_ratings_total: 20,
+    userRatingsTotal: 20,
   },
   {
     id: 2,
-    restroom_id: 2,
-    user_id: 2,
-    user_rating: 3.2,
+    restroomId: 2,
+    userId: 2,
+    userRating: 3.2,
     isClean: false,
-    user_ratings_total: 10,
+    userRatingsTotal: 10,
   },
   {
     id: 3,
-    restroom_id: 3,
-    user_id: 3,
-    user_rating: 4.0,
+    restroomId: 3,
+    userId: 3,
+    userRating: 4.0,
     isClean: true,
-    user_ratings_total: 15,
+    userRatingsTotal: 15,
   },
   {
     id: 4,
-    restroom_id: 4,
-    user_id: 4,
-    user_rating: 2.5,
+    restroomId: 4,
+    userId: 4,
+    userRating: 2.5,
     isClean: false,
-    user_ratings_total: 8,
+    userRatingsTotal: 8,
   },
   {
     id: 5,
-    restroom_id: 5,
-    user_id: 5,
-    user_rating: 5.0,
+    restroomId: 5,
+    userId: 5,
+    userRating: 5.0,
     isClean: true,
-    user_ratings_total: 30,
+    userRatingsTotal: 30,
   }
 ]
 //creating reviews
 const reviews = [
   {
     id: 1,
-    restroom_id: 1,
-    user_id: 1,
+    restroomId: 1,
+    userId: 1,
     imageURL: "https://example.com/image1.png",
     reviewText: "This is a great restroom!",
     reportStatus: ["spam"],
@@ -230,8 +151,8 @@ const reviews = [
   },
   {
     id: 2,
-    restroom_id: 2,
-    user_id: 2,
+    restroomId: 2,
+    userId: 2,
     imageURL: "https://example.com/image2.png",
     reviewText: "This restroom is not very clean.",
     reportStatus: [],
@@ -242,8 +163,8 @@ const reviews = [
   },
   {
     id: 3,
-    restroom_id: 3,
-    user_id: 3,
+    restroomId: 3,
+    userId: 3,
     imageURL: null,
     reviewText: "This is an average restroom.",
     reportStatus: [],
@@ -254,20 +175,20 @@ const reviews = [
   },
   {
     id: 4,
-    restroom_id: 4,
-    user_id: 4,
+    restroomId: 4,
+    userId: 4,
     imageURL: "https://example.com/image4.png",
     reviewText: "This restroom is in bad condition.",
     reportStatus: ["offensive"],
     rating: 2.5,
     total_ratings: 8,
     createdAt: "2022-05-03 18:40:00",
-    comment_id: 4,
+    commentId: 4,
   },
   {
     id: 5,
-    restroom_id: 5,
-    user_id: 5,
+    restroomId: 5,
+    userId: 5,
     imageURL: null,
     reviewText: "This is the best restroom ever!",
     reportStatus: ["spam", "offensive"],
@@ -329,12 +250,11 @@ const comments = [
 
 
 
-console.log(`seeded ${users.length} users`)
+
 console.log(`seeded ${restrooms.length} users`)
 console.log(`seeded ${comments.length} users`)
 console.log(`seeded ${reviews.length} users`)
 console.log(`seeded ${ratings.length} users`)
-console.log(`seeded ${favorites.length} users`)
 console.log(`seeded successfully`)
 
 
@@ -344,21 +264,71 @@ console.log(`seeded successfully`)
  The `seed` function is concerned only with modifying the database.
 */
 const seed = async () => {
+  await db.sync({ force: true }); // clears db and matches models to tables
+  console.log("db synced!");
   try {
-    await Promise.all(users.map(user => {
-      return User.create(user);
-    }));
+    // Creating Users
+    const users = await Promise.all([
+      User.create({
+        id: 1,
+        username: 'john_doe',
+        name: 'John Doe',
+        email: 'johndoe@example.com',
+        password: 'password123',
+        isAdmin: true,
+        createdAt: new Date('2022-01-01T10:00:00.000Z'),
+        lastLogin: new Date('2022-01-01T10:00:00.000Z')
+      }),
+      User.create({
+        id: 2,
+        username: 'jane_smith',
+        name: 'Jane Smith',
+        email: 'janesmith@example.com',
+        password: 'password456',
+        isAdmin: false,
+        createdAt: new Date('2022-01-02T10:00:00.000Z'),
+        lastLogin: new Date('2022-01-02T10:00:00.000Z')
+      }),
+      User.create({
+        id: 3,
+        username: 'bob_johnson',
+        name: 'Bob Johnson',
+        email: 'bobjohnson@example.com',
+        password: 'password789',
+        isAdmin: false,
+        createdAt: new Date('2022-01-03T10:00:00.000Z'),
+        lastLogin: new Date('2022-01-03T10:00:00.000Z')
+      }),
+      User.create({
+        id: 4,
+        username: 'kate_wilson',
+        name: 'Kate Wilson',
+        email: 'katewilson@example.com',
+        password: 'password123',
+        isAdmin: false,
+        createdAt: new Date('2022-01-04T10:00:00.000Z'),
+        lastLogin: new Date('2022-01-04T10:00:00.000Z')
+      }),
+      User.create({
+        id: 5,
+        username: 'alex_miller',
+        name: 'Alex Miller',
+        email: 'alexmiller@example.com',
+        password: 'password456',
+        isAdmin: true,
+        createdAt: new Date('2022-01-05T10:00:00.000Z'),
+        lastLogin: new Date('2022-01-05T10:00:00.000Z')
+      })
+    ])
+    console.log(`seeded ${users.length} users`)
     await Promise.all(restrooms.map(restroom => {
       return Restroom.create(restroom);
-    }));
-    await Promise.all(favorites.map(favorite => {
-      return Favorites.create(favorite);
     }));
     await Promise.all(ratings.map(rating => {
       return Ratings.create(rating);
     }));
     await Promise.all(reviews.map(review => {
-      return Reviews.create(review);
+      return Review.create(review);
     }));
     await Promise.all(comments.map(comment => {
       return Comments.create(comment);
@@ -380,9 +350,7 @@ const seed = async () => {
   `Async` functions always return a promise, so we can use `catch` to handle
   any errors that might occur inside of `seed`.
 */
-if (module === require.main) {
-  seed()
-}
+seed()
 
 // we export the seed function for testing purposes (see `./seed.spec.js`)
 module.exports = seed

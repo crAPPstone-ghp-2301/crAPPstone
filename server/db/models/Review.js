@@ -22,7 +22,7 @@ const Review = db.define('review', {
     defaultValue: false,
   },
   rating: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     allowNull: false,
     validate: {
       min: 1,
@@ -40,7 +40,7 @@ const Review = db.define('review', {
     //-----------------------------------------------------------------------otherwise can delete-----------------------------------------------------------
   },
   totalRatings: {
-    type: Sequelize.NUMBER,
+    type: Sequelize.INTEGER,
     defaultValue: null
   },
 })
