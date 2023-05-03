@@ -6,31 +6,11 @@ const Comments = db.define('comments', {
         type: Sequelize.INTEGER,
         primaryKey: true,
     },
-    parentCommentId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        defaultValue: null,
-
-    },
-    userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
-    reviewId: {
-        type: Sequelize.INTEGER,
-    },
-    comment: {
+    content: {
         type: Sequelize.TEXT,
-        allowNull: false,
-    },
-    createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
     },
     likes: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         defaultValue: 0,
     }
 });
