@@ -1,6 +1,6 @@
 'use strict'
 
-const {db, models: {User, Restrooms, Favorites, Ratings, Reviews, Comments} } = require('../server/db')
+const { db, models: { User, Restrooms, Favorites, Ratings, Reviews, Comments } } = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
@@ -281,7 +281,7 @@ async function seed() {
     }
   ]
   //creating comments
-  const comments=[
+  const comments = [
     {
       id: 1,
       parent_comment_id: null,
@@ -329,9 +329,9 @@ async function seed() {
     }
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
   ]
-  
-   
-  
+
+
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
@@ -345,7 +345,7 @@ async function runSeed() {
   console.log('seeding...')
   try {
     await Promise.all(users.map(user => {
-      return Users.create(user);
+      return User.create(user);
     }));
     await Promise.all(restrooms.map(restroom => {
       return Restrooms.create(restroom);
