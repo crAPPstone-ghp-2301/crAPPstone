@@ -143,7 +143,7 @@ const reviews = [
     userId: 1,
     imageURL: "https://example.com/image1.png",
     reviewText: "This is a great restroom!",
-    reportStatus: ["spam"],
+    reportStatus: false,
     rating: 4.5,
     totalRatings: 20,
     created_at: "2022-04-20 12:00:00",
@@ -155,7 +155,7 @@ const reviews = [
     userId: 2,
     imageURL: "https://example.com/image2.png",
     reviewText: "This restroom is not very clean.",
-    reportStatus: [],
+    reportStatus: true,
     rating: 3.2,
     createdAt: "2022-05-01 10:30:00",
     totalRatings: 10,
@@ -167,7 +167,7 @@ const reviews = [
     userId: 3,
     imageURL: null,
     reviewText: "This is an average restroom.",
-    reportStatus: [],
+    reportStatus: true,
     rating: 3.8,
     createdAt: "2022-05-02 15:20:00",
     totalRatings: 15,
@@ -179,9 +179,9 @@ const reviews = [
     userId: 4,
     imageURL: "https://example.com/image4.png",
     reviewText: "This restroom is in bad condition.",
-    reportStatus: ["offensive"],
+    reportStatus: false,
     rating: 2.5,
-    total_ratings: 8,
+    totalRatings: 8,
     createdAt: "2022-05-03 18:40:00",
     commentId: 4,
   },
@@ -191,7 +191,7 @@ const reviews = [
     userId: 5,
     imageURL: null,
     reviewText: "This is the best restroom ever!",
-    reportStatus: ["spam", "offensive"],
+    reportStatus: true,
     rating: 5.0,
     createdAt: "2022-05-03 23:10:00",
     totalRatings: 30,
@@ -265,7 +265,6 @@ console.log(`seeded successfully`)
 */
 const seed = async () => {
   await db.sync({ force: true }); // clears db and matches models to tables
-  console.log("db synced!");
   try {
     // Creating Users
     const users = await Promise.all([
@@ -333,7 +332,6 @@ const seed = async () => {
     await Promise.all(comments.map(comment => {
       return Comments.create(comment);
     }));
-    await seed()
   } catch (err) {
     console.error(err)
     process.exitCode = 1

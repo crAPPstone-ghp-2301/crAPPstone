@@ -2,22 +2,22 @@ const Sequelize = require('sequelize')
 const db = require('../db')
 
 const Ratings=db.define("ratings", {
-    user_id:{
+    userId:{
         type: Sequelize.INTEGER,
       },
     
-      restroom_id: {
+      restroomId: {
         type: Sequelize.INTEGER,
       },
 
-      user_rating:{
+      userRating:{
         type: Sequelize.FLOAT,
       },
       isClean:{
         type:Sequelize.BOOLEAN,
       },
      
-      user_ratings_total:{
+      userRatingTotal:{
         type:Sequelize.INTEGER
       }
 

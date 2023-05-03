@@ -18,11 +18,10 @@ const Review = db.define('review', {
     allowNull: false,
   },
   reportStatus: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false,
+    type: Sequelize.STRING,
   },
   rating: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.FLOAT,
     allowNull: false,
     validate: {
       min: 1,

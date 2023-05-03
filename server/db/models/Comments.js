@@ -18,7 +18,6 @@ const Comments = db.define('comments', {
     },
     reviewId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
     },
     comment: {
         type: Sequelize.TEXT,

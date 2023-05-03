@@ -35,14 +35,12 @@ const Restroom = db.define("restroom", {
   },
   isLocked:{
     type: Sequelize.BOOLEAN,
-    defaultValue: "false",
   },
   code:{
     type: Sequelize.STRING,
   },
   isBusy:{
-    type: Sequelize.BOOLEAN,
-    defaultValue: "false",
+    type: Sequelize.BOOLEAN
   },
   lastUpdate:{
     type: Sequelize.DATE,
