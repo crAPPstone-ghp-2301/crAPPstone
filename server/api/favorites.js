@@ -1,4 +1,4 @@
-const router=require("express").router
+const router = require('express').Router();
 const {models:{User, Restroom, Favorites, Ratings, Reviews, Comments} }=require("../db/index")
 
 //find one user's favs

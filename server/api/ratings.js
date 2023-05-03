@@ -1,4 +1,4 @@
-const router=require("express").router
+const router = require('express').Router();
 const {models:{User, Restroom, Favorites, Ratings, Reviews, Comments} }=require("../db/index")
 
 //get ratings made by user
@@ -60,6 +60,6 @@ router.get('/:userId', async (req, res) => {
     }
   })
 
-  
+
 
   module.exports = router;
