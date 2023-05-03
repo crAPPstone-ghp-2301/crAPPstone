@@ -329,9 +329,9 @@ async function seed() {
     }
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
   ]
-  
-   
-  
+
+
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded successfully`)
 }
@@ -345,7 +345,7 @@ async function runSeed() {
   console.log('seeding...')
   try {
     await Promise.all(users.map(user => {
-      return Users.create(user);
+      return User.create(user);
     }));
     await Promise.all(restrooms.map(restroom => {
       return Restrooms.create(restroom);
