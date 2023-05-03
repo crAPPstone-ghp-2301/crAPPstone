@@ -11,11 +11,11 @@ const Review = db.define('review', {
   imageUrl: {
     type: Sequelize.STRING,
   },
-  review: {
+  reviewText: {
     type: Sequelize.TEXT,
     allowNull: false,
   },
-  report_status: {
+  reportStatus: {
     type: Sequelize.BOOLEAN,
     defaultValue: false,
   },
@@ -27,7 +27,7 @@ const Review = db.define('review', {
       max: 5
     }
   },
-  total_ratings: {
+  totalRatings: {
     type: Sequelize.NUMBER,
     defaultValue: null
   },
