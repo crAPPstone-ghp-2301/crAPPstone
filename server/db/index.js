@@ -3,8 +3,21 @@
 const db = require('./db')
 
 const User = require('./models/User')
+const Favorites=require("./models/Favorites")
+const Ratings=require("./models/Ratings")
 
 //associations could go here!
+User.belongsToMany(Restroom, { through: Favorites });
+Restroom.belongsToMany(User, { through: Favorites });
+
+Restroom.hasMany(Ratings)
+Ratings.belongsTo(Restroom)
+
+User.hasMany(Ratings)
+Ratings.belongsTo(User)
+
+
+
 
 module.exports = {
   db,
