@@ -1,6 +1,6 @@
 'use strict'
 
-const {db, models: {User, Restroom, Favorites, Ratings, Reviews, Comments} } = require('../server/db')
+const { db, models: { User, Restrooms, Favorites, Ratings, Reviews, Comments } } = require('../server/db')
 
 /**
  * seed - this function clears the database, updates tables to
@@ -18,8 +18,9 @@ async function seed() {
       name: 'John Doe',
       email: 'johndoe@example.com',
       password: 'password123',
+      isAdmin: true,
       createdAt: new Date('2022-01-01T10:00:00.000Z'),
-      last_login: new Date('2022-01-01T10:00:00.000Z')
+      lastLogin: new Date('2022-01-01T10:00:00.000Z')
     },
     {
       id: 2,
@@ -27,8 +28,9 @@ async function seed() {
       name: 'Jane Smith',
       email: 'janesmith@example.com',
       password: 'password456',
+      isAdmin: false,
       createdAt: new Date('2022-01-02T10:00:00.000Z'),
-      last_login: new Date('2022-01-02T10:00:00.000Z')
+      lastLogin: new Date('2022-01-02T10:00:00.000Z')
     },
     {
       id: 3,
@@ -36,8 +38,9 @@ async function seed() {
       name: 'Bob Johnson',
       email: 'bobjohnson@example.com',
       password: 'password789',
+      isAdmin: false,
       createdAt: new Date('2022-01-03T10:00:00.000Z'),
-      last_login: new Date('2022-01-03T10:00:00.000Z')
+      lastLogin: new Date('2022-01-03T10:00:00.000Z')
     },
     {
       id: 4,
@@ -45,8 +48,9 @@ async function seed() {
       name: 'Kate Wilson',
       email: 'katewilson@example.com',
       password: 'password123',
+      isAdmin: false,
       createdAt: new Date('2022-01-04T10:00:00.000Z'),
-      last_login: new Date('2022-01-04T10:00:00.000Z')
+      lastLogin: new Date('2022-01-04T10:00:00.000Z')
     },
     {
       id: 5,
@@ -54,8 +58,9 @@ async function seed() {
       name: 'Alex Miller',
       email: 'alexmiller@example.com',
       password: 'password456',
+      isAdmin: true,
       createdAt: new Date('2022-01-05T10:00:00.000Z'),
-      last_login: new Date('2022-01-05T10:00:00.000Z')
+      lastLogin: new Date('2022-01-05T10:00:00.000Z')
     }
   ];
   //creating restrooms
@@ -224,7 +229,7 @@ async function seed() {
       rating: 4.5,
       totalRatings: 20,
       created_at: "2022-04-20 12:00:00",
-      comment_id: 1,
+      commentId: 1,
     },
     {
       id: 2,
@@ -234,9 +239,9 @@ async function seed() {
       reviewText: "This restroom is not very clean.",
       reportStatus: [],
       rating: 3.2,
+      createdAt: "2022-05-01 10:30:00",
       totalRatings: 10,
-      created_at: "2022-05-01 10:30:00",
-      comment_id: 2,
+      commentId: 2,
     },
     {
       id: 3,
@@ -246,9 +251,9 @@ async function seed() {
       reviewText: "This is an average restroom.",
       reportStatus: [],
       rating: 3.8,
+      createdAt: "2022-05-02 15:20:00",
       totalRatings: 15,
-      created_at: "2022-05-02 15:20:00",
-      comment_id: 3,
+      commentId: 3,
     },
     {
       id: 4,
@@ -270,13 +275,13 @@ async function seed() {
       reviewText: "This is the best restroom ever!",
       reportStatus: ["spam", "offensive"],
       rating: 5.0,
+      createdAt: "2022-05-03 23:10:00",
       totalRatings: 30,
-      created_at: "2022-05-03 23:10:00",
-      comment_id: 5,
+      commentId: 5,
     }
   ]
   //creating comments
-  const comments=[
+  const comments = [
     {
       id: 1,
       parent_comment_id: null,
