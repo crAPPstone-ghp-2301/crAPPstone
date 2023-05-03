@@ -284,47 +284,47 @@ async function seed() {
   const comments=[
     {
       id: 1,
-      parent_comment_id: null,
-      user_id: 1,
-      review_id: 1,
+      parentCommentId: null,
+      userId: 1,
+      reviewId: 1,
       comment: 'Great review, thanks for sharing!',
-      created_at: '2022-05-01 10:30:00',
+      createdAt: '2022-05-01 10:30:00',
       likes: 3
     },
     {
       id: 2,
-      parent_comment_id: null,
-      user_id: 3,
-      review_id: 1,
+      parentCommentId: null,
+      userId: 3,
+      reviewId: 1,
       comment: 'I completely agree with your review, it was a great experience!',
-      created_at: '2022-05-01 12:15:00',
+      createdAt: '2022-05-01 12:15:00',
       likes: 5
     },
     {
       id: 3,
-      parent_comment_id: null,
-      user_id: 2,
-      review_id: 2,
+      parentCommentId: null,
+      userId: 2,
+      reviewId: 2,
       comment: 'Thanks for sharing this review, I found it really helpful!',
-      created_at: '2022-05-02 08:45:00',
+      createdAt: '2022-05-02 08:45:00',
       likes: 2
     },
     {
       id: 4,
-      parent_comment_id: 1,
-      user_id: 4,
-      review_id: null,
+      parentCommentId: 1,
+      userId: 4,
+      reviewId: null,
       comment: 'I second that, great review!',
-      created_at: '2022-05-03 14:10:00',
+      createdAt: '2022-05-03 14:10:00',
       likes: 1
     },
     {
       id: 5,
-      parent_comment_id: null,
-      user_id: 1,
-      review_id: 3,
+      parentCommentId: null,
+      userId: 1,
+      reviewId: 3,
       comment: 'Thank you for your review, I had a great time at this location as well!',
-      created_at: '2022-05-04 11:20:00',
+      createdAt: '2022-05-04 11:20:00',
       likes: 0
     }
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
@@ -345,7 +345,7 @@ async function runSeed() {
   console.log('seeding...')
   try {
     await Promise.all(users.map(user => {
-      return Users.create(user);
+      return User.create(user);
     }));
     await Promise.all(restrooms.map(restroom => {
       return Restrooms.create(restroom);
