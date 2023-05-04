@@ -190,9 +190,7 @@ async function seed() {
       userId: 1,
       imageURL: "https://example.com/image1.png",
       reviewText: "This is a great restroom!",
-      reportStatus: false,
-      rating: 4.5,
-      totalRatings: 20,
+      // reportStatus: false,
       created_at: "2022-04-20 12:00:00",
       commentId: 1,
     },
@@ -202,10 +200,8 @@ async function seed() {
       userId: 2,
       imageURL: "https://example.com/image2.png",
       reviewText: "This restroom is not very clean.",
-      reportStatus: true,
-      rating: 3.2,
+      // reportStatus: true,
       createdAt: "2022-05-01 10:30:00",
-      totalRatings: 10,
       commentId: 2,
     },
     {
@@ -214,10 +210,8 @@ async function seed() {
       userId: 3,
       imageURL: null,
       reviewText: "This is an average restroom.",
-      reportStatus: true,
-      rating: 3.8,
+      // reportStatus: true,
       createdAt: "2022-05-02 15:20:00",
-      totalRatings: 15,
       commentId: 3,
     },
     {
@@ -226,9 +220,7 @@ async function seed() {
       userId: 4,
       imageURL: "https://example.com/image4.png",
       reviewText: "This restroom is in bad condition.",
-      reportStatus: false,
-      rating: 2.5,
-      totalRatings: 8,
+      // reportStatus: false,
       createdAt: "2022-05-03 18:40:00",
       commentId: 4,
     },
@@ -238,10 +230,8 @@ async function seed() {
       userId: 5,
       imageURL: null,
       reviewText: "This is the best restroom ever!",
-      reportStatus: true,
-      rating: 5.0,
+      // reportStatus: true,
       createdAt: "2022-05-03 23:10:00",
-      totalRatings: 30,
       commentId: 5,
     }
   ]
@@ -294,7 +284,7 @@ async function seed() {
     }
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
   ]
-  
+
   await Promise.all(restrooms.map(restroom => {
     return Restroom.create(restroom);
   }));
