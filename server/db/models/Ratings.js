@@ -17,9 +17,9 @@ const Ratings=db.define("ratings", {
         type:Sequelize.BOOLEAN,
       },
      
-      userRatingTotal:{
-        type:Sequelize.INTEGER
-      }
+      // userRatingTotal:{
+      //   type:Sequelize.INTEGER
+      // }
 
     
 })

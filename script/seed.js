@@ -147,7 +147,7 @@ async function seed() {
       userId: 1,
       userRating: 4.5,
       isClean: true,
-      userRatingsTotal: 20,
+      // userRatingsTotal: 20,
     },
     {
       id: 2,
@@ -155,7 +155,7 @@ async function seed() {
       userId: 2,
       userRating: 3.2,
       isClean: false,
-      userRatingsTotal: 10,
+      // userRatingsTotal: 10,
     },
     {
       id: 3,
@@ -163,7 +163,7 @@ async function seed() {
       userId: 3,
       userRating: 4.0,
       isClean: true,
-      userRatingsTotal: 15,
+      // userRatingsTotal: 15,
     },
     {
       id: 4,
@@ -171,7 +171,7 @@ async function seed() {
       userId: 4,
       userRating: 2.5,
       isClean: false,
-      userRatingsTotal: 8,
+      // userRatingsTotal: 8,
     },
     {
       id: 5,
@@ -179,7 +179,7 @@ async function seed() {
       userId: 5,
       userRating: 5.0,
       isClean: true,
-      userRatingsTotal: 30,
+      // userRatingsTotal: 30,
     }
   ]
   //creating reviews
