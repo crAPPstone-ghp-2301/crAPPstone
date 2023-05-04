@@ -3,11 +3,10 @@
 const db = require('./db')
 
 const User = require('./models/User')
-const Favorites=require("./models/Favorites")
-const Ratings=require("./models/Ratings")
-const Review=require('./models/Review')
+const Favorites = require("./models/Favorites")
+const Ratings = require("./models/Ratings")
+const Review = require('./models/Review')
 const Comments = require('./models/Comments')
-
 const Restroom = require('./models/Restroom')
 
 //associations could go here!
@@ -23,12 +22,17 @@ Ratings.belongsTo(User)
 Review.hasMany(Comments);
 Comments.belongsTo(Review);
 
+Review.belongsTo(User);
+User.hasMany(Review);
+
+Review.belongsTo(Restroom);
+Restroom.hasMany(Review);
+
 User.hasMany(Comments, { foreignKey: 'userId' });
 Comments.belongsTo(User, { foreignKey: 'userId' });
 
 Comments.hasMany(Comments, { as: 'replies', foreignKey: 'parentCommentId' });
 Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId' });
-
 
 module.exports = {
   db,

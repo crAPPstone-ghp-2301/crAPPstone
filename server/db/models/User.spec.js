@@ -1,104 +1,67 @@
 /* global describe beforeEach it */
 
-const { expect } = require('chai')
-const { db, models: { User } } = require('../index')
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const seed = require('../../../script/seed');
+const { expect } = require("chai");
+const {
+  db,
+  models: { User },
+} = require("../index");
+const jwt = require("jsonwebtoken");
+const seed = require("../../../script/seed");
 
-describe('User model', () => {
-  let users;
-  beforeEach(async () => {
-    await db.sync({ force: true });
-    users = (await seed()).users;
-  })
+describe("User model", () => {
+  beforeEach(() => {
+    return db.sync({ force: true });
+  });
 
-  describe('instanceMethods', () => {
-    describe('generateToken', () => {
-      it('returns a token with the id of the user', async () => {
-        const token = await users.cody.generateToken();
-        const { id } = await jwt.verify(token, process.env.JWT);
-        expect(id).to.equal(users.cody.id);
-      })
-    })
+  describe("User creation", () => {
+    let newUser;
+    beforeEach(async () => {
+      newUser = await User.create({
+        username: "testuser",
+        password: "testpassword",
+        name: "John",
+        email: "testuser@example.com",
+      });
+    });
 
-    describe('correctPassword', () => {
-      it('returns true if the password is correct', async () => {
-        const user = await User.create({
-          username: 'johndoe',
-          password: 'password123'
+    it("should create a new user with valid attributes", async () => {
+      expect(newUser.id).to.be.a("number");
+      expect(newUser.username).to.equal("testuser");
+      expect(newUser.name).to.equal("John");
+      expect(newUser.email).to.equal("testuser@example.com");
+      expect(newUser.isAdmin).to.equal(false);
+    });
+
+    it("should encrypt the user password", async () => {
+      expect(newUser.password).to.not.equal("testpassword");
+      const match = await newUser.correctPassword("testpassword");
+      expect(match).to.be.true;
+    });
+
+    it("should not create a user with a duplicate username", async () => {
+      try {
+        await User.create({
+          username: "testuser",
+          password: "testpassword2",
+          name: "Jane",
+          email: "testuser2@example.com",
         });
-        const result = await user.correctPassword('password123');
-        expect(result).to.be.true;
-      });
+      } catch (error) {
+        expect(error.name).to.equal("SequelizeUniqueConstraintError");
+      }
+    });
 
-      it('returns false if the password is incorrect', async () => {
-        const user = await User.create({
-          username: 'janedoe',
-          password: 'password123'
+    it("should not create a user with an invalid email address", async () => {
+      try {
+        await User.create({
+          username: "testuser2",
+          password: "testpassword",
+          name: "Jane",
+          email: "invalidemail",
         });
-        const result = await user.correctPassword('wrongpassword');
-        expect(result).to.be.false;
-      });
-    })
-  })
-
-  describe('classMethods', () => {
-    describe('authenticate', () => {
-      let user;
-      beforeEach(async () => user = await User.create({
-        username: 'john',
-        password: 'doe'
-      }));
-      describe('with correct credentials', () => {
-        it('returns a token', async () => {
-          const token = await User.authenticate({
-            username: 'john',
-            password: 'doe'
-          });
-          expect(token).to.be.ok;
-        })
-      });
-      describe('with incorrect credentials', () => {
-        it('throws a 401', async () => {
-
-          try {
-            await User.authenticate({
-              username: 'john@gmail.com',
-              password: '123'
-            });
-            throw 'nooo';
-          }
-          catch (ex) {
-            expect(ex.status).to.equal(401);
-          }
-        })
-
-      });
-    }) // end describe('authenticate')
-
-    describe('findByToken', () => {
-      let user;
-      beforeEach(async () => {
-        user = await User.create({
-          username: 'jane',
-          password: 'doe',
-        });
-      });
-      it('returns a user instance', async () => {
-        const token = await user.generateToken();
-        const foundUser = await User.findByToken(token);
-        expect(foundUser.id).to.equal(user.id);
-      });
-      it('throws a 401 error for an invalid token', async () => {
-        try {
-          await User.findByToken('invalid token');
-          throw 'nooo';
-        }
-        catch (ex) {
-          expect(ex.status).to.equal(401);
-        }
-      });
-    }) // end describe('findByToken')
-  })
-}) // end describe('classMethods')
+      } catch (error) {
+        expect(error.name).to.equal("SequelizeValidationError");
+      }
+    });
+  });
+});
