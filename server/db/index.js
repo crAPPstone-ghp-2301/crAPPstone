@@ -19,18 +19,15 @@ Ratings.belongsTo(Restroom)
 
 User.hasMany(Ratings)
 Ratings.belongsTo(User)
+
 Review.hasMany(Comments);
 Comments.belongsTo(Review);
 
-Comments.hasMany(Comments, { foreignKey: 'parentCommentId', allowNull: true });
+User.hasMany(Comments, { foreignKey: 'userId' });
+Comments.belongsTo(User, { foreignKey: 'userId' });
 
-Comments.belongsTo(Comments, { foreignKey: 'parentCommentId'});
-
-
-
-
-
-
+Comments.hasMany(Comments, { as: 'replies', foreignKey: 'parentCommentId' });
+Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId' });
 
 
 module.exports = {

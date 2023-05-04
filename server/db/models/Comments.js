@@ -6,33 +6,33 @@ const Comments = db.define('comments', {
         type: Sequelize.INTEGER,
         primaryKey: true,
     },
-    parentCommentId: {
-        type: Sequelize.INTEGER,
-        allowNull: true,
-        defaultValue: null,
-
-    },
-    userId: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-    },
-    reviewId: {
-        type: Sequelize.INTEGER,
-    },
-    comment: {
+    content: {
         type: Sequelize.TEXT,
-        allowNull: false,
-    },
-    createdAt: {
-        type: Sequelize.DATE,
-        allowNull: false,
-        defaultValue: Sequelize.NOW,
     },
     likes: {
         type: Sequelize.INTEGER,
-        allowNull: false,
         defaultValue: 0,
     }
 });
+
+//instance method - to save likes to database
+Comments.prototype.likeComment = async function() {
+    this.likes++;
+    await this.save();
+};
+  
+//class methods - not sure if needed for sorting purposes
+Comments.findByUser = async function(userId) {
+    return await this.findAll({ where: { userId } });
+};
+  
+Comments.findByReview = async function(reviewId) {
+    return await this.findAll({ where: { reviewId } });
+};
+
+Comments.findMostLiked = async function(limit) {
+    return await this.findAll({ order: [['likes', 'DESC']], limit });
+};
+  
 
 module.exports = Comments;
