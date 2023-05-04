@@ -252,7 +252,7 @@ async function seed() {
       parentCommentId: null,
       userId: 1,
       reviewId: 1,
-      comment: 'Great review, thanks for sharing!',
+      content: 'Great review, thanks for sharing!',
       createdAt: '2022-05-01 10:30:00',
       likes: 3
     },
@@ -261,7 +261,7 @@ async function seed() {
       parentCommentId: null,
       userId: 3,
       reviewId: 1,
-      comment: 'I completely agree with your review, it was a great experience!',
+      content: 'I completely agree with your review, it was a great experience!',
       createdAt: '2022-05-01 12:15:00',
       likes: 5
     },
@@ -270,7 +270,7 @@ async function seed() {
       parentCommentId: null,
       userId: 2,
       reviewId: 2,
-      comment: 'Thanks for sharing this review, I found it really helpful!',
+      content: 'Thanks for sharing this review, I found it really helpful!',
       createdAt: '2022-05-02 08:45:00',
       likes: 2
     },
@@ -279,7 +279,7 @@ async function seed() {
       parentCommentId: 1,
       userId: 4,
       reviewId: null,
-      comment: 'I second that, great review!',
+      content: 'I second that, great review!',
       createdAt: '2022-05-03 14:10:00',
       likes: 1
     },
@@ -288,31 +288,41 @@ async function seed() {
       parentCommentId: null,
       userId: 1,
       reviewId: 3,
-      comment: 'Thank you for your review, I had a great time at this location as well!',
+      content: 'Thank you for your review, I had a great time at this location as well!',
       createdAt: '2022-05-04 11:20:00',
       likes: 0
     }
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
   ]
+  
+  await Promise.all(restrooms.map(restroom => {
+    return Restroom.create(restroom);
+  }));
+  await Promise.all(ratings.map(rating => {
+    return Ratings.create(rating);
+  }));
+  await Promise.all(reviews.map(review => {
+    return Review.create(review);
+  }));
+  const parentComments = comments.filter(comment => {
+    return comment.parentCommentId === null;
+  });
+  const childComments = comments.filter(comment => {
+    return comment.parentCommentId !== null;
+  });
+  await Promise.all(parentComments.map(comment => {
+    return Comments.create(comment);
+  }));
+  await Promise.all(childComments.map(comment => {
+    return Comments.create(comment);
+  }));
+
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${restrooms.length} restrooms`)
   console.log(`seeded ${comments.length} comments`)
   console.log(`seeded ${reviews.length} reviews`)
   console.log(`seeded ${ratings.length} ratings`)
   console.log(`seeded successfully`)
-
-  // await Promise.all(restrooms.map(restroom => {
-  //   return Restroom.create(restroom);
-  // }));
-  // await Promise.all(ratings.map(rating => {
-  //   return Ratings.create(rating);
-  // }));
-  // await Promise.all(reviews.map(review => {
-  //   return Review.create(review);
-  // }));
-  // await Promise.all(comments.map(comment => {
-  //   return Comments.create(comment);
-  // }));
 }
 
 async function runSeed() {
