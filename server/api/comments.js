@@ -2,7 +2,7 @@ const router = require('express').Router()
 const { models: { Comments, User, Review } } = require('../db')
 module.exports = router
 
-//fetching all comments
+//fetching all comments - WORKS
 router.get('/', async (req, res, next) => {
   try {
     const comments = await Comments.findAll({
@@ -19,7 +19,7 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-//fetching a single comment
+//fetching a single comment - WORKS
 router.get('/:id', async (req, res, next) => {
   try {
     const comment = await Comments.findByPk(req.params.id, {
@@ -32,6 +32,8 @@ router.get('/:id', async (req, res, next) => {
     });
 
     if (comment) {
+    console.log("data", req.body)
+
       res.json(comment);
     } else {
       res.status(404).json({ error: 'Comment not found!' });
@@ -42,35 +44,14 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-//creating new comment
-router.post('/', async (req, res, next) => {
-  try {
-    const { content, userId, reviewId, parentCommentId } = req.body;
-
-    // here, we are checking if the parent comment exists 
-    if (parentCommentId) {
-      const parentComment = await Comments.findByPk(parentCommentId);
-      if (!parentComment) {
-        res.status(404).json({ error: 'Parent comment not found' });
-        return;
-      }
-    }
-
-    const comment = await Comments.create({ content, userId, reviewId, parentCommentId });
-    res.status(201).json(comment);
-
-  } catch (err) {
-    next(err);
-  }
-});
-
-//update comment
+//combined put routes for likes and content without using instance method - WORKS
 router.put('/:id', async (req, res, next) => {
   try {
     const comment = await Comments.findByPk(req.params.id);
 
     if (comment) {
-      await comment.update(req.body);
+      const { content, likes } = req.body;
+      await comment.update({ content, likes });
       res.json(comment);
     } else {
       res.status(404).json({ error: 'Comment not found' });
@@ -81,23 +62,7 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-//update likes in a comment using the instance method in Comments model
-router.put('/:id/like', async (req, res, next) => {
-  try {
-    const comment = await Comments.findByPk(req.params.id);
-
-    if (comment) {
-      await comment.likeComment();
-      res.json(comment);
-    } else {
-      res.status(404).json({ error: 'Comment not found' });
-    }
-
-  } catch (err) {
-    next(err);
-  }
-});
-
+//delete comments - WORKS
 router.delete('/:id', async (req, res, next) => {
   try {
     const comment = await Comments.findByPk(req.params.id);
@@ -111,6 +76,17 @@ router.delete('/:id', async (req, res, next) => {
 
   } catch (err) {
     next(err);
+  }
+});
+
+//create new comments within review - WORKS
+router.post("/", async (req, res, next) => {
+  try {
+    const comment = await Comments.create(req.body);
+    console.log(req.body)
+    res.json(comment);
+  } catch (error) {
+    next(error);
   }
 });
 
