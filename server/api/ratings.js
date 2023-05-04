@@ -50,15 +50,33 @@ router.get('/:userId', async (req, res) => {
   })
 
   //user remove rating 
-  router.delete('/:restroomId', async(req,res,next)=>{
+  router.delete('/:id', async(req,res,next)=>{
     try{
-      const deleteed= await Ratings.destroy({ where: {restroomId : req.params.restroomId}})
+      const deleteed= await Ratings.destroy({ where: { id } })
         res.sendStatus(204)
       }
     catch(error){
       next(error)
     }
   })
+
+//user update the rating 
+router.put('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { userId, restroomId, userRating, isClean } = req.body;
+    const ratingToUpdate = await Ratings.findOne({ where: { id } });
+    
+    if (!ratingToUpdate) {
+      return res.status(404).json({ error: 'Rating not found' });
+    }
+
+    await ratingToUpdate.update({ userId, restroomId, userRating, isClean });
+    res.status(200).json({ message: 'Rating updated successfully' });
+  } catch (error) {
+    next(error);
+  }
+});
 
 
 
