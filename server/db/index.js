@@ -23,9 +23,13 @@ Ratings.belongsTo(User)
 Review.hasMany(Comments);
 Comments.belongsTo(Review);
 
+User.hasMany(Comments, { foreignKey: 'userId' });
+Comments.belongsTo(User, { foreignKey: 'userId' });
 
 Comments.hasMany(Comments, { as: 'replies', foreignKey: 'parentCommentId' });
 Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId' });
+
+
 
 
 

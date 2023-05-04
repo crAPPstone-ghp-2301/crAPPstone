@@ -246,10 +246,10 @@ const comments = [
 
 
 
-console.log(`seeded ${restrooms.length} users`)
-console.log(`seeded ${comments.length} users`)
-console.log(`seeded ${reviews.length} users`)
-console.log(`seeded ${ratings.length} users`)
+console.log(`seeded ${restrooms.length} restrooms`)
+console.log(`seeded ${comments.length} comments`)
+console.log(`seeded ${reviews.length} reviews`)
+console.log(`seeded ${ratings.length} ratings`)
 console.log(`seeded successfully`)
 
 
@@ -324,9 +324,19 @@ const seed = async () => {
     await Promise.all(reviews.map(review => {
       return Review.create(review);
     }));
-    await Promise.all(comments.map(comment => {
+    const parentComments = comments.filter(comment => {
+      return comment.parentCommentId === null;
+    });
+    const childComments = comments.filter(comment => {
+      return comment.parentCommentId !== null;
+    });
+    await Promise.all(parentComments.map(comment => {
       return Comments.create(comment);
     }));
+    await Promise.all(childComments.map(comment => {
+      return Comments.create(comment);
+    }));
+    
   } catch (err) {
     console.error(err)
     process.exitCode = 1
