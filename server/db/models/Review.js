@@ -2,12 +2,6 @@ const { REAL } = require('sequelize');
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-//association with restroom and user
-//restroom has many reviews
-//review belongs to one restroom
-//user has many reviews
-//reviews belongs to one restroom
-
 const Review = db.define('review', {
   imageURL: {
     type: Sequelize.STRING,
