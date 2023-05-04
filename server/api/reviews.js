@@ -32,11 +32,15 @@ router.delete('/:reviewId', async (req, res, next) => {
 })
 
 //create or update review
+// //change this when you have authentication - possibly something like api route to /api/reviews and then token
 router.patch('/:reviewId', async (req, res, next) => {
   try {
+    // const currentUser = await User.findByToken(req.headers.authorization);
+
     const { imageURL, reviewText, reportStatus } = req.body;
 
     const [review, created] = await Review.findOrCreate({
+      // where: { userId: currentUser.id },
       where: { id: req.params.reviewId },
       defaults: { imageURL, reviewText, reportStatus }
     });
