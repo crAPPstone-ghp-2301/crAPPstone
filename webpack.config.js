@@ -1,5 +1,5 @@
 module.exports = {
-  entry: ['./client/index.js'],
+  entry: ['./client/index.tsx'],
   output: {
     path: __dirname + '/public',
     filename: 'bundle.js',
@@ -9,7 +9,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.jsx?$/,
+        test: /\.tsx?$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
         options: {
@@ -17,5 +17,8 @@ module.exports = {
         },
       },
     ],
+  },
+  resolve: {
+    extensions: [".tsx", ".ts", ".js"],
   },
 };
