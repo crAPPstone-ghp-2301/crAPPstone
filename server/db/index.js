@@ -30,14 +30,6 @@ Comments.hasMany(Comments, { as: 'replies', foreignKey: 'parentCommentId' });
 Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId' });
 
 
-
-
-
-
-
-
-
-
 module.exports = {
   db,
   models: {
