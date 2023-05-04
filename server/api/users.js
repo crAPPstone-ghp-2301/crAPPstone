@@ -16,16 +16,20 @@ router.get('/', async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id)
-    res.json(user)
+    if (!user) {
+      res.status(404).send("User not found")
+    } else {
+      res.json(user)
+    }
   } catch (error) {
-    next(error)
+    next(new Error('User not found'));
   }
 })
 
 // create new user
 router.post("/", async (req, res, next) => {
   try {
-    const user = await User.create(req.body)
+    const user = await User.create(req.body);
     res.json(user)
   } catch (error) {
     next(error)
@@ -33,9 +37,10 @@ router.post("/", async (req, res, next) => {
 })
 
 // update user
-router.put("/:id", async (req, res, next) => {
+router.patch("/:id", async (req, res, next) => {
   try {
     const user = await User.findByPk(req.params.id);
+    console.log(user)
     if (user) {
       res.json(await user.update(req.body));
     } else {

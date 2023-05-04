@@ -1,4 +1,4 @@
-const router=require("express").router
+const router = require('express').Router();
 const {models:{User, Restroom, Favorites, Ratings, Reviews, Comments} }=require("../db/index")
 
 //get ratings made by user
@@ -40,5 +40,44 @@ router.get('/:userId', async (req, res) => {
   });
 
   //user add the rating 
+  router.post('/', async (req, res, next) => {
+    try {
+      const newRating = await Ratings.create(req.body)
+      res.json(newRating)
+    } catch (err) {
+      res.send(err)
+    }
+  })
 
-  
+  //user remove rating 
+  router.delete('/:id', async(req,res,next)=>{
+    try{
+      const deleteed= await Ratings.destroy({ where: { id } })
+        res.sendStatus(204)
+      }
+    catch(error){
+      next(error)
+    }
+  })
+
+//user update the rating 
+router.put('/:id', async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { userId, restroomId, userRating, isClean } = req.body;
+    const ratingToUpdate = await Ratings.findOne({ where: { id } });
+    
+    if (!ratingToUpdate) {
+      return res.status(404).json({ error: 'Rating not found' });
+    }
+
+    await ratingToUpdate.update({ userId, restroomId, userRating, isClean });
+    res.status(200).json({ message: 'Rating updated successfully' });
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+
+  module.exports = router;
