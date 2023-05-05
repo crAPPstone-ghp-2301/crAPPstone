@@ -42,7 +42,6 @@ const App = () => {
       <NavBar />
       <AppRoutes />
       <div ref={mapContainer} className="map-container" />
-      </div>
     </ThemeProvider>
   );
 };
