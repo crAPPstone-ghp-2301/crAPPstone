@@ -1,42 +1,6 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 let crAppTheme = createTheme({
-  overrides: {
-    MuiContainer: {
-      styleOverrides: {
-        maxWidth: false,
-      },
-    },
-  },
-  palette: {
-    primary: {
-      main: "#FEFAE0",
-      light: "#FAEDCD",
-      dark: "#D4A373",
-    },
-    secondary: {
-      main: "#EDDCD2",
-      light: "#CB997E",
-      dark: "#A5A58D",
-    },
-    error: {
-      main: "#EA0000",
-    },
-    warning: {
-      main: "#f89446",
-    },
-    success: {
-      main: "#0bb000",
-    },
-    text: {
-      primary: "#000",
-      secondary: "#D4A373",
-      disabled: "#838282",
-    },
-    background: {
-      default: "#FFF",
-    },
-  },
   typography: {
     fontFamily: "Helvetica",
     h1: {
@@ -73,6 +37,35 @@ let crAppTheme = createTheme({
       fontSize: "1rem",
       fontWeight: 400,
       lineHeight: 1.5,
+    },
+  },
+  palette: {
+    primary: {
+      main: "#FEFAE0",
+      light: "#FAEDCD",
+      dark: "#D4A373",
+    },
+    secondary: {
+      main: "#EDDCD2",
+      light: "#CB997E",
+      dark: "#A5A58D",
+    },
+    error: {
+      main: "#EA0000",
+    },
+    warning: {
+      main: "#f89446",
+    },
+    success: {
+      main: "#0bb000",
+    },
+    text: {
+      primary: "#000",
+      secondary: "#D4A373",
+      disabled: "#838282",
+    },
+    background: {
+      default: "#FFF",
     },
   },
 });

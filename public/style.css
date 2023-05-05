@@ -3,23 +3,27 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #fefae0;
   overflow: "hidden";
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
 }
 a {
   text-decoration: none;
+}
+
+.MuiContainer-root {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
 #app {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #fefae0;
   overflow: "hidden";
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
 }
 
 @media only screen and (max-width: 600px) {
