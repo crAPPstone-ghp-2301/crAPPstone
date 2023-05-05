@@ -6,7 +6,13 @@ import Profile from "./Profile";
 const NavBar = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
-      <Container sx={{ display: "flex", flexDirection: "row" }}>
+      <Container
+        sx={{
+          display: "flex",
+          flexDirection: "row",
+          backgroundColor: "transparent",
+        }}
+      >
         <Profile />
       </Container>
     </ThemeProvider>

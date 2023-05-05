@@ -33,12 +33,13 @@ const Profile = () => {
     <ThemeProvider theme={crAppTheme}>
       <Container
         sx={{
+          position: "absolute",
+          top: 0,
+          right: 0,
           display: "flex",
-          flexDirection: "row",
+          alignItems: "center",
           justifyContent: "flex-end",
-          marginTop: 2,
-          margin: 0,
-          padding: 0,
+          zIndex: 1,
         }}
       >
         <PrimaryButton onClick={toggleDialog}>
