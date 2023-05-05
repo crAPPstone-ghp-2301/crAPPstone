@@ -3,6 +3,7 @@ import crAppTheme from "../../app/theme";
 import { ThemeProvider, Container, Button, TextField } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { authenticate } from "../../app/store";
+import { PrimaryButton, CustomizedTextField } from "../styles/StyleGuide";
 
 /**
   The AuthForm component can be used for Login or Sign Up.
@@ -26,13 +27,17 @@ const AuthForm = ({ name, displayName }) => {
     <ThemeProvider theme={crAppTheme}>
       <form onSubmit={handleSubmit} name={name}>
         <Container>
-          <TextField label="Username" name="username" />
+          <CustomizedTextField label="Username" name="username" />
         </Container>
         <Container>
-          <TextField label="Password" name="password" type="password" />
+          <CustomizedTextField
+            label="Password"
+            name="password"
+            type="password"
+          />
         </Container>
         <Container>
-          <Button type="submit">{displayName}</Button>
+          <PrimaryButton type="submit">{displayName}</PrimaryButton>
         </Container>
         {error && <Container> {error} </Container>}
       </form>

@@ -8,13 +8,8 @@ import AppRoutes from "./AppRoutes";
 const App = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
-      <CssBaseline />
-      <Container
-        sx={{
-          backgroundColor: `${crAppTheme.palette.primary.main}`,
-          color: `${crAppTheme.palette.text.primary}`,
-        }}
-      >
+      <Container sx={{ margin: 0, padding: 0, width: "100%" }}>
+        <CssBaseline />
         <Profile />
         <AppRoutes />
       </Container>

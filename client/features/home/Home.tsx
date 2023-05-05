@@ -1,11 +1,13 @@
 import React from "react";
 import crAppTheme from "../../app/theme";
-import { ThemeProvider, Typography } from "@mui/material";
+import { ThemeProvider, Typography, Container } from "@mui/material";
 
 const Home = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
-      <Typography>map goes here~</Typography>
+      <Container sx={{ padding: 0, margin: 0 }}>
+        <Typography>map goes here~</Typography>
+      </Container>
     </ThemeProvider>
   );
 };

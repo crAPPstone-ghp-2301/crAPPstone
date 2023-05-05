@@ -68,9 +68,6 @@ let crAppTheme = createTheme({
       lineHeight: 1.5,
     },
   },
-  shape: {
-    borderRadius: 10,
-  },
 });
 
 crAppTheme = responsiveFontSizes(crAppTheme);

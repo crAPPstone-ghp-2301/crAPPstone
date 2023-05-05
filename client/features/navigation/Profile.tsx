@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import crAppTheme from "../../app/theme";
+import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import {
   ThemeProvider,
   Container,
@@ -31,15 +32,19 @@ const Profile = () => {
 
   return (
     <ThemeProvider theme={crAppTheme}>
-      <Box
+      <Container
         sx={{
           display: "flex",
           flexDirection: "row",
-          contentAlign: "right",
-          alignItems: "right",
+          justifyContent: "flex-end",
+          marginTop: 2,
+          margin: 0,
+          padding: 0,
         }}
       >
-        <Button onClick={toggleDialog}>Sign In/ Create Account</Button>
+        <PrimaryButton onClick={toggleDialog}>
+          Sign In/ Create Account
+        </PrimaryButton>
         <Dialog open={isOpen} onClose={toggleDialog}>
           <DialogTitle>
             {isLoggedIn ? "Welcome Back!" : "Create an Account"}
@@ -58,9 +63,9 @@ const Profile = () => {
                   <Link to="/home">Home</Link>
                 </Box>
                 <Box>
-                  <Button type="button" onClick={logoutAndRedirectHome}>
+                  <TertiaryButton type="button" onClick={logoutAndRedirectHome}>
                     Logout
-                  </Button>
+                  </TertiaryButton>
                 </Box>
               </Container>
             ) : (
@@ -72,11 +77,22 @@ const Profile = () => {
                 }}
               >
                 {/* The Profile will show these links before you log in */}
-                <Box sx={{ mr: 2 }}>
-                  <Link to="/login">Login</Link>
+                <Box
+                  sx={{
+                    mr: 2,
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Link to="/login">
+                    <TertiaryButton>Login</TertiaryButton>
+                  </Link>
                 </Box>
                 <Box>
-                  <Link to="/signup">Sign Up</Link>
+                  <Link to="/signup">
+                    <TertiaryButton>Sign Up</TertiaryButton>
+                  </Link>
                 </Box>
               </Container>
             )}
@@ -98,7 +114,7 @@ const Profile = () => {
             <Button onClick={toggleDialog}>Close</Button>
           </DialogActions>
         </Dialog>
-      </Box>
+      </Container>
     </ThemeProvider>
   );
 };
