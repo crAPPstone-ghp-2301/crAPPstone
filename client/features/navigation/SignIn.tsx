@@ -10,6 +10,7 @@ import {
   DialogContent,
   DialogActions,
   Typography,
+  CssBaseline,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { useSelector, useDispatch } from "react-redux";
@@ -33,6 +34,7 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={crAppTheme}>
+      <CssBaseline />
       <Container
         sx={{
           position: "absolute",

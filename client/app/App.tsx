@@ -5,6 +5,7 @@ import crAppTheme from "./theme";
 import AppRoutes from "./AppRoutes";
 import NavBar from "../features/navigation/Navbar";
 import Map from "./Map";
+import SideBar from "../features/navigation/SideBar";
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <NavBar />
       <AppRoutes />
       <Map />
+      <SideBar />
     </ThemeProvider>
   );
 };
