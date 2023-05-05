@@ -8,7 +8,6 @@ import Map from "./Map";
 
 
 const App = () => {
-
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
