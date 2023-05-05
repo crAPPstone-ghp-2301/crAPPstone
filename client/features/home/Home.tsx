@@ -1,16 +1,14 @@
 import React from "react";
-import { useSelector } from "react-redux";
+import crAppTheme from "../../app/theme";
+import { ThemeProvider, Typography, Container } from "@mui/material";
 
-/**
- * COMPONENT
- */
-const Home = (props) => {
-  const username = useSelector((state) => state.auth.me.username);
-
+const Home = () => {
   return (
-    <div>
-      <h3>Welcome, {username}</h3>
-    </div>
+    <ThemeProvider theme={crAppTheme}>
+      <Container sx={{ padding: 0, margin: 0 }}>
+        <Typography>map goes here~</Typography>
+      </Container>
+    </ThemeProvider>
   );
 };
 
