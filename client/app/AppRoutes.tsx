@@ -14,8 +14,8 @@ const AppRoutes = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <Routes>
-        <Route path="/*" element={<Home />} />
-        <Route to="/home" element={<Home />} />
+        {/* <Route path="/*" element={<Home />} />
+        <Route to="/home" element={<Home />} /> */}
         <Route path="/styleguide" element={<StyleGuide />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>

@@ -38,13 +38,13 @@
   },
   "eslintConfig": {
     "extends": [
-    "react-app"
+      "react-app"
     ]
-    },
-    "browserslist": [
-      "defaults",
-      "not ie 11"
-      ],
+  },
+  "browserslist": [
+    "defaults",
+    "not ie 11"
+  ],
   "devDependencies": {
     "@babel/compat-data": "7.19.4",
     "@babel/core": "7.19.6",
