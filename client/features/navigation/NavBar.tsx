@@ -1,7 +1,7 @@
 import React from "react";
 import crAppTheme from "../../app/theme";
 import { ThemeProvider, Container } from "@mui/material";
-import Profile from "./Profile";
+import SignIn from "./SignIn";
 
 const NavBar = () => {
   return (
@@ -13,7 +13,7 @@ const NavBar = () => {
           backgroundColor: "transparent",
         }}
       >
-        <Profile />
+        <SignIn />
       </Container>
     </ThemeProvider>
   );

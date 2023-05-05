@@ -2,9 +2,8 @@ import React from "react";
 import crAppTheme from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
-import Home from "../features/home/Home";
 import StyleGuide from "../features/styles/StyleGuide";
-import Profile from "../features/navigation/Profile";
+import SignIn from "../features/navigation/SignIn";
 
 /**
  * COMPONENT
@@ -17,7 +16,7 @@ const AppRoutes = () => {
         {/* <Route path="/*" element={<Home />} />
         <Route to="/home" element={<Home />} /> */}
         <Route path="/styleguide" element={<StyleGuide />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/signin" element={<SignIn />} />
       </Routes>
     </ThemeProvider>
   );

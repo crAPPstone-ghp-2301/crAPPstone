@@ -13,11 +13,9 @@ const User = db.define('user', {
   },
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: false,
     unique: true,
     validate: {
       isEmail: true,
@@ -29,7 +27,6 @@ const User = db.define('user', {
   },
   lastLogin: {
     type: Sequelize.DATE,
-    allowNull: true,
   },
   isAdmin: {
     type: Sequelize.BOOLEAN
