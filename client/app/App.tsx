@@ -33,8 +33,7 @@ const [zoom, setZoom] = useState(12);
         },
         trackUserLocation: true,
         showUserHeading: true,
-        position:'top-left',
-        showUserLocation:true,
+        position:"bottom-right",
       })
     );
 
