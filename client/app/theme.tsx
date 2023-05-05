@@ -1,6 +1,13 @@
 import { createTheme, responsiveFontSizes } from "@mui/material/styles";
 
 let crAppTheme = createTheme({
+  overrides: {
+    MuiContainer: {
+      styleOverrides: {
+        maxWidth: false,
+      },
+    },
+  },
   palette: {
     primary: {
       main: "#FEFAE0",

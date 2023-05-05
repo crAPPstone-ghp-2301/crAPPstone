@@ -4,7 +4,6 @@ import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import {
   ThemeProvider,
   Container,
-  Button,
   Box,
   Dialog,
   DialogTitle,
@@ -111,7 +110,7 @@ const Profile = () => {
             )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={toggleDialog}>Close</Button>
+            <TertiaryButton onClick={toggleDialog}>Close</TertiaryButton>
           </DialogActions>
         </Dialog>
       </Container>
