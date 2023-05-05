@@ -2,20 +2,23 @@ body {
   font-family: sans-serif;
 }
 
-a {
-  text-decoration: none;
+/* Styles for screens smaller than 600px */
+@media (max-width: 600px) {
+  body {
+    font-size: 16px;
+  }
 }
 
-label {
-  display: block;
+/* Styles for screens between 600px and 900px */
+@media (min-width: 600px) and (max-width: 900px) {
+  body {
+    font-size: 18px;
+  }
 }
 
-nav a {
-  display: inline-block;
-  margin: 1em;
-}
-
-form div {
-  margin: 1em;
-  display: inline-block;
+/* Styles for screens larger than 900px */
+@media (min-width: 900px) {
+  body {
+    font-size: 20px;
+  }
 }
