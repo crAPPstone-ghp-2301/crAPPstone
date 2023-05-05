@@ -1,12 +1,15 @@
 import React from "react";
-
-import Navbar from "../features/navbar/Navbar";
+import { ThemeProvider } from "@mui/material/styles";
+import { CssBaseline, Container } from "@mui/material";
+import crAppTheme from "./theme";
 import AppRoutes from "./AppRoutes";
+import NavBar from "../features/navigation/Navbar";
 import mapboxgl from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlZXNvbyIsImEiOiJjbGhhcDdjamMwamk5M2hvZ3NmeGlxeW16In0.yFqw0jGTNTtzqqcESkJlWA'
+
 
 const App = () => {
   const mapContainer = useRef(null);
@@ -34,11 +37,13 @@ const App = () => {
   //   });
   // });
   return (
-    <div>
-      <Navbar />
+    <ThemeProvider theme={crAppTheme}>
+      <CssBaseline />
+      <NavBar />
       <AppRoutes />
       <div ref={mapContainer} className="map-container" />
-    </div>
+      </div>
+    </ThemeProvider>
   );
 };
 

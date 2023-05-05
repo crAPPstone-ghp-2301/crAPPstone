@@ -1,23 +1,42 @@
+html,
 body {
-  font-family: sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #fefae0;
+  overflow: "hidden";
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
 }
-
 a {
   text-decoration: none;
 }
 
-label {
-  display: block;
+.MuiContainer-root {
+  width: 100%;
+  padding-left: 0;
+  padding-right: 0;
 }
 
-nav a {
-  display: inline-block;
-  margin: 1em;
+#app {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #fefae0;
+  overflow: "hidden";
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
 }
 
-form div {
-  margin: 1em;
-  display: inline-block;
+@media only screen and (max-width: 600px) {
+  body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #fefae0;
+    overflow: "hidden";
+  }
+  #app {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #fefae0;
+    overflow: "hidden";
+  }
 }
 
 
