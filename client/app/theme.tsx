@@ -33,46 +33,39 @@ let crAppTheme = createTheme({
   typography: {
     fontFamily: "Helvetica",
     h1: {
-      fontSize: "42pt",
+      fontSize: "2.625rem",
       fontWeight: 700,
       lineHeight: 1.2,
-      marginBottom: "1.5rem",
     },
     h2: {
-      fontSize: "36pt",
+      fontSize: "2.25rem",
       fontWeight: 700,
       lineHeight: 1.2,
-      marginBottom: "1.25rem",
     },
     h3: {
-      fontSize: "32pt",
+      fontSize: "2rem",
       fontWeight: 700,
       lineHeight: 1.2,
-      marginBottom: "1rem",
     },
     h4: {
-      fontSize: "28pt",
+      fontSize: "1.75rem",
       fontWeight: 700,
       lineHeight: 1.2,
-      marginBottom: "1rem",
     },
     h5: {
-      fontSize: "24pt",
+      fontSize: "1.5rem",
       fontWeight: 700,
       lineHeight: 1.2,
-      marginBottom: "0.75rem",
     },
     body1: {
-      fontSize: "20pt",
+      fontSize: "1.25rem",
       fontWeight: 400,
       lineHeight: 1.5,
-      marginBottom: "1.25rem",
     },
     body2: {
-      fontSize: "16pt",
+      fontSize: "1rem",
       fontWeight: 400,
       lineHeight: 1.5,
-      marginBottom: "1rem",
     },
   },
   shape: {

@@ -1,8 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "@mui/material/styles";
-import { CssBaseline } from "@mui/material";
+import { CssBaseline, Container } from "@mui/material";
 import crAppTheme from "./theme";
-import { MainContainer } from "../features/styles/StyleGuide";
 import Profile from "../features/navigation/Profile";
 import AppRoutes from "./AppRoutes";
 
@@ -10,10 +9,15 @@ const App = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      <MainContainer>
+      <Container
+        sx={{
+          backgroundColor: `${crAppTheme.palette.primary.main}`,
+          color: `${crAppTheme.palette.text.primary}`,
+        }}
+      >
         <Profile />
         <AppRoutes />
-      </MainContainer>
+      </Container>
     </ThemeProvider>
   );
 };
