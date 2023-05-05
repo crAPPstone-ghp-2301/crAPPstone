@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   ThemeProvider,
   CssBaseline,
@@ -6,15 +6,33 @@ import {
   Container,
   Box,
   Button,
+  Paper,
+  InputBase,
+  Divider,
+  IconButton,
+  TextField,
+  MenuItem,
+  Input,
+  InputLabel,
+  FormControl,
+  InputAdornment,
+  Rating,
 } from "@mui/material";
+import MyLocationIcon from "@mui/icons-material/MyLocation";
+import SearchIcon from "@mui/icons-material/Search";
+import DirectionsIcon from "@mui/icons-material/Directions";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import PropTypes from "prop-types";
+
 import { styled } from "@mui/material/styles";
 import crAppTheme from "../../app/theme";
 
 // Primary button
-const PrimaryButton = styled(Button)({
-  border: `1px solid ${crAppTheme.palette.primary.dark}`,
-  backgroundColor: `${crAppTheme.palette.primary.dark}`,
-  color: `${crAppTheme.palette.primary.main}`,
+const PrimaryButton = styled(Button)(({ theme }) => ({
+  border: `1px solid ${theme.palette.primary.dark}`,
+  backgroundColor: `${theme.palette.primary.dark}`,
+  color: `${theme.palette.primary.main}`,
   borderRadius: 20,
   fontWeight: 600,
   textTransform: "capitalize",
@@ -22,19 +40,19 @@ const PrimaryButton = styled(Button)({
   padding: "10px 40px",
   "&:hover": {
     boxShadow: "1px 1px 2.5px rgba(0, 0, 0, 0.5)",
-    backgroundColor: `${crAppTheme.palette.primary.dark}`,
-    color: `${crAppTheme.palette.primary.main}`,
+    backgroundColor: `${theme.palette.primary.dark}`,
+    color: `${theme.palette.primary.main}`,
   },
   "&:disabled": {
     opacity: 0.5,
     cursor: "not-allowed",
   },
-});
+}));
 
 // Secondary button
-const SecondaryButton = styled(Button)({
-  border: `1px solid ${crAppTheme.palette.primary.dark}`,
-  color: `${crAppTheme.palette.primary.dark}`,
+const SecondaryButton = styled(Button)(({ theme }) => ({
+  border: `1px solid ${theme.palette.primary.dark}`,
+  color: `${theme.palette.primary.dark}`,
   borderRadius: 20,
   fontWeight: 500,
   textTransform: "capitalize",
@@ -42,31 +60,68 @@ const SecondaryButton = styled(Button)({
   padding: "5px 20px",
   "&:hover": {
     boxShadow: "1px 1px 2.5px rgba(0, 0, 0, 0.5)",
-    backgroundColor: `${crAppTheme.palette.primary.light}`,
-    color: `${crAppTheme.palette.primary.dark}`,
+    backgroundColor: `${theme.palette.primary.light}`,
+    color: `${theme.palette.primary.dark}`,
   },
   "&:disabled": {
     opacity: 0.5,
     cursor: "not-allowed",
   },
-});
+}));
 
 // Tertiary button
-const TertiaryButton = styled(Button)({
-  color: `${crAppTheme.palette.primary.dark}`,
+const TertiaryButton = styled(Button)(({ theme }) => ({
+  color: `${theme.palette.primary.dark}`,
   fontWeight: 400,
   textTransform: "capitalize",
   margin: 4,
   padding: "5px 10px",
   "&:hover": {
-    backgroundColor: `${crAppTheme.palette.primary.light}`,
-    color: `${crAppTheme.palette.primary.dark}`,
+    backgroundColor: `${theme.palette.primary.light}`,
+    color: `${theme.palette.primary.dark}`,
   },
   "&:disabled": {
     opacity: 0.5,
     cursor: "not-allowed",
   },
-});
+}));
+
+const CustomizedInputBase = styled(Paper)(({ theme }) => ({
+  padding: "2px 4px",
+  display: "flex",
+  alignItems: "center",
+  width: 400,
+  border: `1px solid ${theme.palette.primary.dark}`,
+  borderRadius: 20,
+  margin: 4,
+  "&:hover": {
+    boxShadow: "1px 1px 2.5px rgba(0, 0, 0, 0.5)",
+  },
+}));
+
+const CustomizedInput = styled(InputBase)(({ theme }) => ({
+  marginLeft: theme.spacing(1),
+  flex: 1,
+}));
+
+const CustomizedIconButton = styled(IconButton)(({ theme }) => ({
+  padding: "10px",
+  color: `${theme.palette.primary.dark}`,
+}));
+
+const CustomizedTextField = styled(TextField)(({ theme }) => ({
+  color: `${theme.palette.primary.dark}`,
+  margin: 10,
+  "& .MuiInputBase-input:focus": {
+    color: `${theme.palette.primary.dark}`,
+  },
+  "& .MuiInputLabel-root.Mui-focused": {
+    color: `${theme.palette.primary.dark}`,
+  },
+  "& .MuiInputLabel-root": {
+    color: `${theme.palette.primary.dark}`,
+  },
+}));
 
 const PaletteBox = styled(Box)({
   display: "flex",
@@ -79,6 +134,44 @@ const PaletteBox = styled(Box)({
   textTransform: "uppercase",
 });
 
+const StyledRating = styled(Rating)(({ theme }) => ({
+  "& .MuiRating-iconEmpty .MuiSvgIcon-root": {
+    color: theme.palette.action.disabled,
+  },
+}));
+
+const customIcons = {
+  1: {
+    icon: <EmojiEmotionsIcon color="error" />,
+    label: "Very Dissatisfied",
+  },
+  2: {
+    icon: <EmojiEmotionsIcon color="error" />,
+    label: "Dissatisfied",
+  },
+  3: {
+    icon: <EmojiEmotionsIcon color="warning" />,
+    label: "Neutral",
+  },
+  4: {
+    icon: <EmojiEmotionsIcon color="success" />,
+    label: "Satisfied",
+  },
+  5: {
+    icon: <EmojiEmotionsIcon color="success" />,
+    label: "Very Satisfied",
+  },
+};
+
+function IconContainer(props) {
+  const { value, ...other } = props;
+  return <span {...other}>{customIcons[value].icon}</span>;
+}
+
+IconContainer.propTypes = {
+  value: PropTypes.number.isRequired,
+};
+
 const StyleGuide = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -89,6 +182,7 @@ const StyleGuide = () => {
           alignContent: "center",
           backgroundColor: `${crAppTheme.palette.primary.main}`,
           color: `${crAppTheme.palette.text.primary}`,
+          marginBottom: 10,
         }}
       >
         <Typography variant="h1" sx={{ textAlign: "center" }}>
@@ -379,18 +473,6 @@ const StyleGuide = () => {
           </Container>
         </Container>
         <Typography variant="h5" sx={{ textAlign: "center", margin: 2 }}>
-          Avatars
-        </Typography>
-        <Container
-          sx={{
-            width: "70%",
-            padding: 3,
-            border: `1px dashed ${crAppTheme.palette.primary.light}`,
-          }}
-        >
-          Testing...
-        </Container>
-        <Typography variant="h5" sx={{ textAlign: "center", margin: 2 }}>
           Forms
         </Typography>
         <Container
@@ -400,11 +482,118 @@ const StyleGuide = () => {
             border: `1px dashed ${crAppTheme.palette.primary.light}`,
           }}
         >
-          Testing...{" "}
+          <Typography sx={{ textAlign: "center", margin: 1 }}>
+            Search Bar
+          </Typography>
+          <Container>
+            <CustomizedInputBase component="form">
+              <CustomizedIconButton aria-label="my-location">
+                <MyLocationIcon />
+              </CustomizedIconButton>
+              <CustomizedInput
+                placeholder="Search Google Maps"
+                inputProps={{ "aria-label": "search google maps" }}
+              />
+              <CustomizedIconButton type="button" aria-label="search">
+                <SearchIcon />
+              </CustomizedIconButton>
+              <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" />
+              <CustomizedIconButton color="primary" aria-label="directions">
+                <DirectionsIcon />
+              </CustomizedIconButton>
+            </CustomizedInputBase>
+          </Container>
+          <Typography sx={{ textAlign: "center", margin: 1 }}>
+            Standard Form Types
+          </Typography>
+          <Container>
+            <CustomizedTextField
+              required
+              id="outlined-required"
+              label="Required"
+              defaultValue="Hello World"
+            />
+            <CustomizedTextField
+              disabled
+              id="outlined-disabled"
+              label="Disabled"
+              defaultValue="Hello World"
+            />
+            <CustomizedTextField
+              id="outlined-password-input"
+              label="Password"
+              type="password"
+              autoComplete="current-password"
+            />
+            <CustomizedTextField
+              id="outlined-read-only-input"
+              label="Read Only"
+              defaultValue="Hello World"
+              InputProps={{
+                readOnly: true,
+              }}
+            />
+            <CustomizedTextField
+              id="outlined-number"
+              label="Number"
+              type="number"
+              InputLabelProps={{
+                shrink: true,
+              }}
+            />
+            <CustomizedTextField
+              id="outlined-search"
+              label="Search field"
+              type="search"
+            />
+            <CustomizedTextField
+              id="outlined-helperText"
+              label="Helper text"
+              defaultValue="Default Value"
+              helperText="Some important text"
+            />
+            <CustomizedTextField
+              id="outlined-select-currency"
+              select
+              label="Select"
+              defaultValue="EUR"
+              helperText="Please select your currency"
+            >
+              <MenuItem>Options</MenuItem>
+              <MenuItem>Options</MenuItem>
+              <MenuItem>Options</MenuItem>
+            </CustomizedTextField>
+            <FormControl variant="standard">
+              <InputLabel htmlFor="input-with-icon-adornment">
+                With a start adornment
+              </InputLabel>
+              <Input
+                id="input-with-icon-adornment"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                }
+              />
+            </FormControl>
+            <CustomizedTextField
+              id="outlined-helperText"
+              label="Helper text"
+              defaultValue="Default Value"
+              helperText="Some important text"
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircle />
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Container>
         </Container>
 
         <Typography variant="h5" sx={{ textAlign: "center", margin: 2 }}>
-          Dialogs
+          Ratings
         </Typography>
         <Container
           sx={{
@@ -413,7 +602,33 @@ const StyleGuide = () => {
             border: `1px dashed ${crAppTheme.palette.primary.light}`,
           }}
         >
-          testing
+          <Typography sx={{ margin: 1 }}>Half Ratings</Typography>
+          <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
+          <Typography sx={{ margin: 1 }}>Read Only</Typography>
+          <Rating name="read-only" readOnly />
+          <Typography sx={{ margin: 1 }}>Disabled</Typography>
+          <Rating name="disabled" disabled />
+          <Typography sx={{ margin: 1 }}>No Ratings Given</Typography>
+          <Rating name="no-value" value={null} />
+          <Typography sx={{ margin: 1 }}>Custom Rating</Typography>
+          <StyledRating
+            name="customized-icons"
+            defaultValue={3}
+            getLabelText={(value) => customIcons[value].label}
+            IconContainerComponent={IconContainer}
+          />
+        </Container>
+        <Typography variant="h5" sx={{ textAlign: "center", margin: 2 }}>
+          Pop Up
+        </Typography>
+        <Container
+          sx={{
+            width: "70%",
+            padding: 3,
+            border: `1px dashed ${crAppTheme.palette.primary.light}`,
+          }}
+        >
+          Drawers, Dialogs
         </Container>
       </Container>
     </ThemeProvider>
@@ -421,3 +636,13 @@ const StyleGuide = () => {
 };
 
 export default StyleGuide;
+
+export {
+  PrimaryButton,
+  SecondaryButton,
+  TertiaryButton,
+  CustomizedInputBase,
+  CustomizedInput,
+  CustomizedIconButton,
+  CustomizedTextField,
+};
