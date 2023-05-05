@@ -98,4 +98,8 @@ export const selectSingleComment = (state) => {
   return state.comments.singleComment;
 };
 
+export const selectCommentsByReviewId = (reviewId) => (state) =>
+  state.comments.allComments.filter((comment) => comment.reviewId === reviewId);
+
+
 export default commentsSlice.reducer;
