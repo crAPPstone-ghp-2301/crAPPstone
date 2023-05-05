@@ -1,24 +1,12 @@
+html,
 body {
-  font-family: sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background-color: #fefae0;
 }
 
-/* Styles for screens smaller than 600px */
-@media (max-width: 600px) {
+@media only screen and (max-width: 600px) {
   body {
-    font-size: 16px;
-  }
-}
-
-/* Styles for screens between 600px and 900px */
-@media (min-width: 600px) and (max-width: 900px) {
-  body {
-    font-size: 18px;
-  }
-}
-
-/* Styles for screens larger than 900px */
-@media (min-width: 900px) {
-  body {
-    font-size: 20px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #fefae0;
   }
 }
