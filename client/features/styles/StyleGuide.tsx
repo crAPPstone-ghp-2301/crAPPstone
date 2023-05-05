@@ -17,14 +17,26 @@ import {
   FormControl,
   InputAdornment,
   Rating,
+  Drawer,
+  List,
+  ListItemButton,
+  ListItemText,
+  ListItem,
+  ListItemIcon,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
 import MyLocationIcon from "@mui/icons-material/MyLocation";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import EmojiEmotionsIcon from "@mui/icons-material/EmojiEmotions";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
 import PropTypes from "prop-types";
-
 import { styled } from "@mui/material/styles";
 import crAppTheme from "../../app/theme";
 
@@ -173,6 +185,25 @@ IconContainer.propTypes = {
 };
 
 const StyleGuide = () => {
+  const [open, setOpen] = React.useState(false);
+  const [openDialog, setOpenDialog] = React.useState(false);
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+  };
+
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
@@ -625,10 +656,62 @@ const StyleGuide = () => {
           sx={{
             width: "70%",
             padding: 3,
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
             border: `1px dashed ${crAppTheme.palette.primary.light}`,
           }}
         >
-          Drawers, Dialogs
+          <PrimaryButton onClick={handleDrawerOpen}>Open Drawer</PrimaryButton>
+          <Drawer variant="persistent" anchor="left" open={open}>
+            <div>
+              <List>
+                {["Inbox", "Starred", "Send email", "Drafts"].map(
+                  (text, index) => (
+                    <ListItem key={text} disablePadding>
+                      <ListItemButton>
+                        <ListItemIcon>
+                          {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                        </ListItemIcon>
+                        <ListItemText primary={text} />
+                      </ListItemButton>
+                    </ListItem>
+                  )
+                )}
+              </List>
+              <Divider />
+              <List>
+                {["All mail", "Trash", "Spam"].map((text, index) => (
+                  <ListItem key={text} disablePadding>
+                    <ListItemButton>
+                      <ListItemIcon>
+                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      </ListItemIcon>
+                      <ListItemText primary={text} />
+                    </ListItemButton>
+                  </ListItem>
+                ))}
+              </List>
+              <SecondaryButton onClick={handleDrawerClose}>
+                Close Drawer
+              </SecondaryButton>
+            </div>
+          </Drawer>
+          <PrimaryButton onClick={handleDialogOpen}>Open Dialog</PrimaryButton>
+          <Dialog open={openDialog} onClose={handleDialogClose}>
+            <DialogTitle>Dialog Title</DialogTitle>
+            <DialogContent>
+              <DialogContentText>
+                This is the content of the dialog.
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleDialogClose}>Cancel</Button>
+              <Button onClick={handleDialogClose} autoFocus>
+                OK
+              </Button>
+            </DialogActions>
+          </Dialog>
         </Container>
       </Container>
     </ThemeProvider>
@@ -645,4 +728,6 @@ export {
   CustomizedInput,
   CustomizedIconButton,
   CustomizedTextField,
+  StyledRating,
+  customIcons,
 };
