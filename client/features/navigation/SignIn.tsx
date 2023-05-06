@@ -42,7 +42,9 @@ const SignIn = () => {
     <ThemeProvider theme={crAppTheme}>
       <Container>
         <PrimaryButton onClick={toggleDialog} sx={{ px: 2, py: 1 }}>
-          <Typography variant="overline">Sign In</Typography>
+          <Typography variant="overline">
+            {isLoggedIn ? username.charAt(0).toUpperCase() : "Sign In"}
+          </Typography>
         </PrimaryButton>
         <Dialog open={isOpen} onClose={toggleDialog}>
           <DialogTitle>
@@ -71,6 +73,14 @@ const SignIn = () => {
                     {username}
                   </Typography>
                   <Typography variant="body1">🎉🎉🎉</Typography>
+                  <Box sx={{ marginTop: 5 }}>
+                    <PrimaryButton
+                      type="button"
+                      onClick={logoutAndRedirectHome}
+                    >
+                      Logout
+                    </PrimaryButton>
+                  </Box>
                 </Container>
               ) : (
                 <Container
