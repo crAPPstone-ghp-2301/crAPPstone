@@ -34,7 +34,7 @@ const SideBar = () => {
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Drawer
-        variant="persistent"
+        variant={isMobile ? "temporary" : "persistent"}
         anchor="left"
         open={isMobile ? drawerOpen : true}
         onClose={handleDrawerToggle}
@@ -84,26 +84,28 @@ const SideBar = () => {
         <Container
           sx={{
             position: "absolute",
-            top: 0,
-            left: 0,
+            top: 20,
+            left: 10,
             display: "flex",
             flexDirection: "row",
             justifyContent: "space-between",
+            alignItems: "center",
             zIndex: 1,
+            width: "92%",
           }}
         >
           <IconButton
             onClick={handleDrawerToggle}
             sx={{
-              borderRadius: 50,
-              p: 1,
+              borderRadius: "50%",
+              width: 35,
+              height: 35,
               backgroundColor: crAppTheme.palette.primary.main,
               color: crAppTheme.palette.text.secondary,
             }}
           >
             <MenuRoundedIcon />
           </IconButton>
-          <SignIn />
         </Container>
       )}
     </ThemeProvider>

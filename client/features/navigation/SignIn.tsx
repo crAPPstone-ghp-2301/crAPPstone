@@ -12,7 +12,8 @@ import {
   Typography,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate, Route, Routes } from "react-router-dom";
+import { useNavigate, Route, Routes } from "react-router-dom";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { logout } from "../../app/store";
 import AuthForm from "../auth/AuthForm";
 
@@ -36,72 +37,39 @@ const SignIn = () => {
         <Typography variant="overline">Sign In</Typography>
       </PrimaryButton>
       <Dialog open={isOpen} onClose={toggleDialog}>
-        <DialogTitle>
-          {isLoggedIn ? "Welcome Back!" : "Create an Account"}
-        </DialogTitle>
         <DialogContent>
-          {isLoggedIn ? (
-            <Container
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              {/* The Profile will show these links after you log in */}
-              <Box sx={{ mr: 2 }}>
-                <Link to="/home">Home</Link>
-              </Box>
-              <Box>
-                <TertiaryButton type="button" onClick={logoutAndRedirectHome}>
-                  Logout
-                </TertiaryButton>
-              </Box>
-            </Container>
-          ) : (
-            <Container
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              {/* The Profile will show these links before you log in */}
-              <Box
-                sx={{
-                  mr: 2,
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "center",
-                }}
-              >
-                <Link to="/login">
-                  <TertiaryButton>Login</TertiaryButton>
-                </Link>
-              </Box>
-              <Box>
-                <Link to="/signup">
-                  <TertiaryButton>Sign Up</TertiaryButton>
-                </Link>
-              </Box>
-            </Container>
-          )}
-
           {!isLoggedIn && (
             <Routes>
               <Route
                 path="/login"
-                element={<AuthForm name="login" displayName="Login" />}
+                element={
+                  <AuthForm
+                    name="login"
+                    displayName="Log In"
+                    oppositeName="Create Account"
+                  />
+                }
               />
               <Route
                 path="/signup"
-                element={<AuthForm name="signup" displayName="Sign Up" />}
+                element={
+                  <AuthForm
+                    name="signup"
+                    displayName="Create Account"
+                    oppositeName="Log In"
+                  />
+                }
               />
             </Routes>
           )}
         </DialogContent>
         <DialogActions>
-          <TertiaryButton onClick={toggleDialog}>Close</TertiaryButton>
+          <TertiaryButton
+            onClick={toggleDialog}
+            sx={{ position: "absolute", top: 0, right: 0 }}
+          >
+            <CloseRoundedIcon />
+          </TertiaryButton>
         </DialogActions>
       </Dialog>
     </ThemeProvider>
