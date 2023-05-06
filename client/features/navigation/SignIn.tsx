@@ -19,6 +19,7 @@ import AuthForm from "../auth/AuthForm";
 
 const SignIn = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
+  const { username } = useSelector((state) => state.auth.me);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const logoutAndRedirectHome = () => {
@@ -34,9 +35,61 @@ const SignIn = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <PrimaryButton onClick={toggleDialog} sx={{ px: 1, py: 0.5 }}>
-        <Typography variant="overline">Sign In</Typography>
+        <Typography variant="overline">
+          {isLoggedIn ? "Sign Out" : "Sign In"}
+        </Typography>
       </PrimaryButton>
       <Dialog open={isOpen} onClose={toggleDialog}>
+        <Typography sx={{ alignItem: "center" }}>
+          {isLoggedIn ? (
+            <Container
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                p: 10,
+              }}
+            >
+              <Typography variant="body1">🎉🎉🎉</Typography>
+              <Typography
+                variant="body1"
+                sx={{ color: crAppTheme.palette.primary.dark }}
+              >
+                Welcome Back!
+              </Typography>
+              <Typography
+                variant="h5"
+                sx={{ m: 4, color: crAppTheme.palette.primary.dark }}
+              >
+                {username}
+              </Typography>
+              <Typography variant="body1">🎉🎉🎉</Typography>
+              <Box sx={{ marginTop: 5 }}>
+                <PrimaryButton type="button" onClick={logoutAndRedirectHome}>
+                  Logout
+                </PrimaryButton>
+              </Box>
+            </Container>
+          ) : (
+            <Container
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                marginTop: 5,
+              }}
+            >
+              <Typography
+                variant="h4"
+                sx={{ color: crAppTheme.palette.primary.dark }}
+              >
+                We're excited to have you join us.
+              </Typography>
+            </Container>
+          )}
+        </Typography>
         <DialogContent>
           {!isLoggedIn && (
             <Routes>
