@@ -33,7 +33,54 @@ const SideBar = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      {isMobile ? (
+      <Drawer
+        variant="persistent"
+        anchor="left"
+        open={isMobile ? drawerOpen : true}
+        onClose={handleDrawerToggle}
+      >
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <ListItem sx={{ justifyContent: "center", my: 1 }}>
+            <MenuRoundedIcon fontSize="large" />
+          </ListItem>
+          <ListItem
+            sx={{
+              justifyContent: "center",
+              my: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <BookmarkBorderRoundedIcon fontSize="large" />
+            <Typography variant="overline" sx={{ textTransform: "capitalize" }}>
+              Saved
+            </Typography>
+          </ListItem>
+          <ListItem
+            sx={{
+              justifyContent: "center",
+              my: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <HistoryRoundedIcon fontSize="large" />
+            <Typography variant="overline" sx={{ textTransform: "capitalize" }}>
+              History
+            </Typography>
+          </ListItem>
+          <Divider />
+          <ListItem sx={{ justifyContent: "center", my: 1 }}>
+            <SignIn />
+          </ListItem>
+        </List>
+      </Drawer>
+      {isMobile && (
         <Container
           sx={{
             position: "absolute",
@@ -52,55 +99,6 @@ const SideBar = () => {
             <MenuRoundedIcon />
           </IconButton>
         </Container>
-      ) : (
-        <Drawer variant="persistent" anchor="left" open={true}>
-          <List
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <ListItem sx={{ justifyContent: "center", my: 1 }}>
-              <MenuRoundedIcon fontSize="large" />
-            </ListItem>
-            <ListItem
-              sx={{
-                justifyContent: "center",
-                my: 1,
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <BookmarkBorderRoundedIcon fontSize="large" />
-              <Typography
-                variant="overline"
-                sx={{ textTransform: "capitalize" }}
-              >
-                Saved
-              </Typography>
-            </ListItem>
-            <ListItem
-              sx={{
-                justifyContent: "center",
-                my: 1,
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <HistoryRoundedIcon fontSize="large" />
-              <Typography
-                variant="overline"
-                sx={{ textTransform: "capitalize" }}
-              >
-                History
-              </Typography>
-            </ListItem>
-            <Divider />
-            <ListItem sx={{ justifyContent: "center", my: 1 }}>
-              <SignIn />
-            </ListItem>
-          </List>
-        </Drawer>
       )}
     </ThemeProvider>
   );

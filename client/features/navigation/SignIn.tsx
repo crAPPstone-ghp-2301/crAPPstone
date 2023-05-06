@@ -42,7 +42,7 @@ const SignIn = () => {
     <ThemeProvider theme={crAppTheme}>
       <PrimaryButton onClick={toggleDialog} sx={{ px: 2, py: 1 }}>
         <Typography variant="overline">
-          {isLoggedIn ? username.charAt(0).toUpperCase() : "Sign In"}
+          {isLoggedIn ? "Sign Out" : "Sign In"}
         </Typography>
       </PrimaryButton>
       <Dialog open={isOpen} onClose={toggleDialog}>
