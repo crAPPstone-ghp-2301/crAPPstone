@@ -121,16 +121,29 @@ const CustomizedIconButton = styled(IconButton)(({ theme }) => ({
 }));
 
 const CustomizedTextField = styled(TextField)(({ theme }) => ({
-  color: `${theme.palette.primary.dark}`,
   margin: 10,
-  "& .MuiInputBase-input:focus": {
+  "&:focus": {
+    borderColor: `${theme.palette.primary.dark}`,
+  },
+  "& label.Mui-focused": {
     color: `${theme.palette.primary.dark}`,
   },
-  "& .MuiInputLabel-root.Mui-focused": {
-    color: `${theme.palette.primary.dark}`,
+  "& .MuiInput-underline:after": {
+    borderBottomColor: `${theme.palette.primary.dark}`,
   },
-  "& .MuiInputLabel-root": {
-    color: `${theme.palette.primary.dark}`,
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: `${theme.palette.primary.dark}`,
+    },
+    "&:hover fieldset": {
+      borderColor: `${theme.palette.primary.dark}`,
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: `${theme.palette.primary.dark}`,
+    },
+  },
+  "& .MuiInputBase-input": {
+    color: "black",
   },
 }));
 

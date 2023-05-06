@@ -6,7 +6,6 @@ import {
   Drawer,
   List,
   ListItem,
-  ListItemIcon,
   IconButton,
   useMediaQuery,
   CssBaseline,
@@ -14,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import SignIn from "./SignIn";
-import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
@@ -39,29 +37,25 @@ const SideBar = () => {
         sx={{
           display: "flex",
           flexDirection: "row",
-          backgroundColor: "transparent",
         }}
       >
         {isMobile ? (
-          <>
-            <IconButton onClick={handleDrawerToggle}>
+          <Container
+            sx={{
+              position: "absolute",
+              top: 10,
+              left: 0,
+            }}
+          >
+            <IconButton
+              onClick={handleDrawerToggle}
+              sx={{
+                borderRadius: 20,
+              }}
+            >
               <MenuRoundedIcon />
             </IconButton>
-            <Drawer
-              anchor="left"
-              open={drawerOpen}
-              onClose={handleDrawerToggle}
-            >
-              <List>
-                <ListItem>
-                  <ListItemIcon>test </ListItemIcon>
-                </ListItem>
-                <ListItem>
-                  <ListItemIcon>test</ListItemIcon>
-                </ListItem>
-              </List>
-            </Drawer>
-          </>
+          </Container>
         ) : (
           <Drawer variant="persistent" anchor="left" open={true}>
             <List
@@ -112,7 +106,6 @@ const SideBar = () => {
             </List>
           </Drawer>
         )}
-        <SignIn />
       </Container>
     </ThemeProvider>
   );

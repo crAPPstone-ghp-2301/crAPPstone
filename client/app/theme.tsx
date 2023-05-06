@@ -61,7 +61,7 @@ let crAppTheme = createTheme({
     },
     text: {
       primary: "#000",
-      secondary: "#D4A373",
+      secondary: "#60495a",
       disabled: "#838282",
     },
     background: {

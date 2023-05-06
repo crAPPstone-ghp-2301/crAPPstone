@@ -1,10 +1,20 @@
 import React from "react";
 import crAppTheme from "../../app/theme";
-import { ThemeProvider, Container, Typography } from "@mui/material";
+import {
+  ThemeProvider,
+  Box,
+  Typography,
+  CssBaseline,
+  Container,
+} from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { authenticate } from "../../app/store";
-import { useNavigate } from "react-router-dom";
-import { PrimaryButton, CustomizedTextField } from "../styles/StyleGuide";
+import {
+  PrimaryButton,
+  CustomizedTextField,
+  TertiaryButton,
+} from "../styles/StyleGuide";
 
 /**
   The AuthForm component can be used for Login or Sign Up.
@@ -12,10 +22,9 @@ import { PrimaryButton, CustomizedTextField } from "../styles/StyleGuide";
   Props for Sign up: name="signup", displayName="Sign Up"
 **/
 
-const AuthForm = ({ name, displayName }) => {
+const AuthForm = ({ name, displayName, oppositeName }) => {
   const { error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -23,57 +32,84 @@ const AuthForm = ({ name, displayName }) => {
     const username = evt.target.username.value;
     const password = evt.target.password.value;
     dispatch(authenticate({ username, password, method: formName }));
-    navigate("/");
   };
 
   return (
     <ThemeProvider theme={crAppTheme}>
+      <CssBaseline />
       <Container
         sx={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
           justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <form onSubmit={handleSubmit} name={name} style={{ padding: 4 }}>
-          <Container>
-            <CustomizedTextField label="Username" name="username" required />
-          </Container>
-          <Container>
-            <CustomizedTextField label="Name" name="name" />
-          </Container>
-          <Container>
-            <CustomizedTextField label="Email" name="email" type="email" />
-          </Container>
-          <Container>
+        <form onSubmit={handleSubmit} name={name}>
+          <Typography
+            variant="h4"
+            sx={{
+              textAlign: "center",
+              padding: 4,
+              color: crAppTheme.palette.text.secondary,
+            }}
+          >
+            {displayName}
+          </Typography>
+          <Box>
+            <CustomizedTextField
+              label="Username"
+              name="username"
+              required
+              fullWidth
+            />
+          </Box>
+          <Box>
             <CustomizedTextField
               label="Password"
               name="password"
               type="password"
               required
+              fullWidth
             />
-          </Container>
+          </Box>
           <Container
             sx={{
               display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              my: 2,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              padding: 3,
             }}
           >
-            <PrimaryButton type="submit">{displayName}</PrimaryButton>
+            <Box>
+              <Link to={name === "login" ? "/signup" : "/login"}>
+                <TertiaryButton
+                  sx={{
+                    backgroundColor: "transparent",
+                    border: "none",
+                  }}
+                >
+                  <Typography variant="overline">{oppositeName}</Typography>
+                </TertiaryButton>
+              </Link>
+            </Box>
+            <Box>
+              <PrimaryButton type="submit" sx={{ px: 2, py: 1 }}>
+                <Typography variant="subtitle1">Submit</Typography>
+              </PrimaryButton>
+            </Box>
           </Container>
-          <Typography
-            variant="overline"
-            sx={{
-              color: crAppTheme.palette.error.main,
-              fontWeight: 600,
-            }}
-          >
-            {error && <Container> {error} </Container>}
-          </Typography>
+
+          <Box>
+            {error && (
+              <Typography
+                variant="overline"
+                sx={{ color: crAppTheme.palette.error.main }}
+              >
+                {error}
+              </Typography>
+            )}
+          </Box>
         </form>
       </Container>
     </ThemeProvider>
