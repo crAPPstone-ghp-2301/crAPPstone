@@ -35,66 +35,54 @@ const SignIn = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      <Container
+      <PrimaryButton
+        onClick={toggleDialog}
         sx={{
-          position: "absolute",
-          top: 0,
-          right: 0,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "flex-end",
-          zIndex: 1,
+          py: 1,
+          px: 2,
         }}
       >
-        <PrimaryButton
-          onClick={toggleDialog}
-          sx={{
-            py: 1,
-            px: 2,
-          }}
-        >
-          <Typography variant="overline" sx={{ fontWeight: 700 }}>
-            Sign In
-          </Typography>
-        </PrimaryButton>
-        <Dialog open={isOpen} onClose={toggleDialog}>
-          <Container sx={{ py: 4 }}>
-            <DialogTitle sx={{ textAlign: "center" }}>
-              <Typography variant="h3">
-                {isLoggedIn ? "Welcome Back" : "Create Account"}
-              </Typography>
-            </DialogTitle>
-            <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
-              to continue to crApp the Map
+        <Typography variant="overline" sx={{ fontWeight: 700 }}>
+          Sign In
+        </Typography>
+      </PrimaryButton>
+      <Dialog open={isOpen} onClose={toggleDialog}>
+        <Container sx={{ py: 4 }}>
+          <DialogTitle sx={{ textAlign: "center" }}>
+            <Typography variant="h3">
+              {isLoggedIn ? "Welcome Back" : "Create Account"}
             </Typography>
-            <DialogContent>
-              {!isLoggedIn && (
-                <Routes>
-                  <Route
-                    path="/login"
-                    element={<AuthForm name="login" displayName="Login" />}
-                  />
-                  <Route
-                    path="/signup"
-                    element={<AuthForm name="signup" displayName="Sign Up" />}
-                  />
-                </Routes>
-              )}
-            </DialogContent>
-            <DialogActions
-              sx={{
-                position: "absolute",
-                top: 0,
-                right: 0,
-              }}
-            >
-              <IconButton onClick={toggleDialog}>
-                <Close />
-              </IconButton>
-            </DialogActions>
-          </Container>
-        </Dialog>
-      </Container>
+          </DialogTitle>
+          <Typography variant="subtitle1" sx={{ textAlign: "center" }}>
+            to continue to crApp the Map
+          </Typography>
+          <DialogContent>
+            {!isLoggedIn && (
+              <Routes>
+                <Route
+                  path="/login"
+                  element={<AuthForm name="login" displayName="Login" />}
+                />
+                <Route
+                  path="/signup"
+                  element={<AuthForm name="signup" displayName="Sign Up" />}
+                />
+              </Routes>
+            )}
+          </DialogContent>
+          <DialogActions
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+            }}
+          >
+            <IconButton onClick={toggleDialog}>
+              <Close />
+            </IconButton>
+          </DialogActions>
+        </Container>
+      </Dialog>
     </ThemeProvider>
   );
 };

@@ -12,9 +12,7 @@ const NavBar = () => {
           flexDirection: "row",
           backgroundColor: "transparent",
         }}
-      >
-        <SignIn />
-      </Container>
+      ></Container>
     </ThemeProvider>
   );
 };

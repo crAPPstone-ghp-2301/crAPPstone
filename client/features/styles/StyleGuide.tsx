@@ -29,7 +29,6 @@ import {
   DialogContentText,
   DialogActions,
 } from "@mui/material";
-import MyLocationIcon from "@mui/icons-material/MyLocation";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -518,11 +517,8 @@ const StyleGuide = () => {
           </Typography>
           <Container>
             <CustomizedInputBase component="form">
-              <CustomizedIconButton aria-label="my-location">
-                <MyLocationIcon />
-              </CustomizedIconButton>
               <CustomizedInput
-                placeholder="Search Google Maps"
+                placeholder="Search crApp the Maps"
                 inputProps={{ "aria-label": "search google maps" }}
               />
               <CustomizedIconButton type="button" aria-label="search">

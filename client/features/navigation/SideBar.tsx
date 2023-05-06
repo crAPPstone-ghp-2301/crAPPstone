@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import crAppTheme from "../../app/theme";
 import {
   ThemeProvider,
@@ -10,14 +10,24 @@ import {
   IconButton,
   useMediaQuery,
   CssBaseline,
+  Divider,
+  Typography,
 } from "@mui/material";
 import SignIn from "./SignIn";
-import MenuIcon from "@mui/icons-material/Menu";
+import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
+import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 
 const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
+
   const isMobile = useMediaQuery("(max-width:600px)");
 
+  const toggleDialog = () => {
+    setIsOpen(!isOpen);
+  };
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };
@@ -35,7 +45,7 @@ const SideBar = () => {
         {isMobile ? (
           <>
             <IconButton onClick={handleDrawerToggle}>
-              <MenuIcon />
+              <MenuRoundedIcon />
             </IconButton>
             <Drawer
               anchor="left"
@@ -54,12 +64,50 @@ const SideBar = () => {
           </>
         ) : (
           <Drawer variant="persistent" anchor="left" open={true}>
-            <List>
-              <ListItem>
-                <ListItemIcon>test </ListItemIcon>
+            <List
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <ListItem sx={{ justifyContent: "center", my: 1 }}>
+                <MenuRoundedIcon fontSize="large" />
               </ListItem>
-              <ListItem>
-                <ListItemIcon>test </ListItemIcon>
+              <ListItem
+                sx={{
+                  justifyContent: "center",
+                  my: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <BookmarkBorderRoundedIcon fontSize="large" />
+                <Typography
+                  variant="overline"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  Saved
+                </Typography>
+              </ListItem>
+              <ListItem
+                sx={{
+                  justifyContent: "center",
+                  my: 1,
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <HistoryRoundedIcon fontSize="large" />
+                <Typography
+                  variant="overline"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  History
+                </Typography>
+              </ListItem>
+              <Divider />
+              <ListItem sx={{ justifyContent: "center", my: 1 }}>
+                <SignIn />
               </ListItem>
             </List>
           </Drawer>
