@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import authReducer from "../features/auth/authSlice";
-import commentsSlice from "../features/Comments/commentsSlice";
+import commentsSlice from "../features/comments/commentsSlice";
 
 const store = configureStore({
   reducer: {

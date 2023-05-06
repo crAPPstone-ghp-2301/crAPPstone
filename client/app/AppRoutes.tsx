@@ -5,6 +5,8 @@ import { Route, Routes } from "react-router-dom";
 import Home from "../features/home/Home";
 import StyleGuide from "../features/styles/StyleGuide";
 import Profile from "../features/navigation/Profile";
+import AddComment from "../features/comments/AddComment";
+import AddReply from "../features/comments/AddReply";
 
 /**
  * COMPONENT
@@ -18,6 +20,8 @@ const AppRoutes = () => {
         <Route to="/home" element={<Home />} /> */}
         <Route path="/styleguide" element={<StyleGuide />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/addcomment" element={<AddComment />} />
+        <Route path="/addreply" element={<AddReply />} />
       </Routes>
     </ThemeProvider>
   );
