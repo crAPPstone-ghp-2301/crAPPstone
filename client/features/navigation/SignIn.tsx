@@ -40,102 +40,97 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={crAppTheme}>
-      <Container>
-        <PrimaryButton onClick={toggleDialog} sx={{ px: 2, py: 1 }}>
-          <Typography variant="overline">
-            {isLoggedIn ? username.charAt(0).toUpperCase() : "Sign In"}
-          </Typography>
-        </PrimaryButton>
-        <Dialog open={isOpen} onClose={toggleDialog}>
-          <DialogTitle>
-            <Typography sx={{ alignItem: "center" }}>
-              {isLoggedIn ? (
-                <Container
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    p: 10,
-                  }}
+      <PrimaryButton onClick={toggleDialog} sx={{ px: 2, py: 1 }}>
+        <Typography variant="overline">
+          {isLoggedIn ? username.charAt(0).toUpperCase() : "Sign In"}
+        </Typography>
+      </PrimaryButton>
+      <Dialog open={isOpen} onClose={toggleDialog}>
+        <DialogTitle>
+          <Typography sx={{ alignItem: "center" }}>
+            {isLoggedIn ? (
+              <Container
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  p: 10,
+                }}
+              >
+                <Typography variant="body1">🎉🎉🎉</Typography>
+                <Typography
+                  variant="body1"
+                  sx={{ color: crAppTheme.palette.primary.dark }}
                 >
-                  <Typography variant="body1">🎉🎉🎉</Typography>
-                  <Typography
-                    variant="body1"
-                    sx={{ color: crAppTheme.palette.primary.dark }}
-                  >
-                    Welcome Back!
-                  </Typography>
-                  <Typography
-                    variant="h5"
-                    sx={{ m: 4, color: crAppTheme.palette.primary.dark }}
-                  >
-                    {username}
-                  </Typography>
-                  <Typography variant="body1">🎉🎉🎉</Typography>
-                  <Box sx={{ marginTop: 5 }}>
-                    <PrimaryButton
-                      type="button"
-                      onClick={logoutAndRedirectHome}
-                    >
-                      Logout
-                    </PrimaryButton>
-                  </Box>
-                </Container>
-              ) : (
-                <Container
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    marginTop: 5,
-                  }}
+                  Welcome Back!
+                </Typography>
+                <Typography
+                  variant="h5"
+                  sx={{ m: 4, color: crAppTheme.palette.primary.dark }}
                 >
-                  <Typography
-                    variant="h4"
-                    sx={{ color: crAppTheme.palette.primary.dark }}
-                  >
-                    We're excited to have you join us.
-                  </Typography>
-                </Container>
-              )}
-            </Typography>
-          </DialogTitle>
-          <DialogContent>
-            {!isLoggedIn && (
-              <Routes>
-                <Route
-                  path="/login"
-                  element={
-                    <AuthForm
-                      name="login"
-                      displayName="Log In"
-                      oppositeName="Create Account"
-                    />
-                  }
-                />
-                <Route
-                  path="/signup"
-                  element={
-                    <AuthForm
-                      name="signup"
-                      displayName="Create Account"
-                      oppositeName="Log In"
-                    />
-                  }
-                />
-              </Routes>
+                  {username}
+                </Typography>
+                <Typography variant="body1">🎉🎉🎉</Typography>
+                <Box sx={{ marginTop: 5 }}>
+                  <PrimaryButton type="button" onClick={logoutAndRedirectHome}>
+                    Logout
+                  </PrimaryButton>
+                </Box>
+              </Container>
+            ) : (
+              <Container
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginTop: 5,
+                }}
+              >
+                <Typography
+                  variant="h4"
+                  sx={{ color: crAppTheme.palette.primary.dark }}
+                >
+                  We're excited to have you join us.
+                </Typography>
+              </Container>
             )}
-          </DialogContent>
-          <DialogActions>
-            <CloseRoundedIcon
-              onClick={toggleDialog}
-              sx={{ position: "absolute", top: 0, right: 0, mx: 2, my: 1 }}
-            />
-          </DialogActions>
-        </Dialog>
-      </Container>
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          {!isLoggedIn && (
+            <Routes>
+              <Route
+                path="/login"
+                element={
+                  <AuthForm
+                    name="login"
+                    displayName="Log In"
+                    oppositeName="Create Account"
+                  />
+                }
+              />
+              <Route
+                path="/signup"
+                element={
+                  <AuthForm
+                    name="signup"
+                    displayName="Create Account"
+                    oppositeName="Log In"
+                  />
+                }
+              />
+            </Routes>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <CloseRoundedIcon
+            onClick={toggleDialog}
+            sx={{ position: "absolute", top: 0, right: 0, mx: 2, my: 1 }}
+          />
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 };

@@ -33,80 +33,75 @@ const SideBar = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      <Container
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        {isMobile ? (
-          <Container
+      {isMobile ? (
+        <Container
+          sx={{
+            position: "absolute",
+            top: 10,
+            left: 0,
+          }}
+        >
+          <IconButton
+            onClick={handleDrawerToggle}
             sx={{
-              position: "absolute",
-              top: 10,
-              left: 0,
+              borderRadius: 20,
+              backgroundColor: crAppTheme.palette.primary.main,
+              color: crAppTheme.palette.text.secondary,
             }}
           >
-            <IconButton
-              onClick={handleDrawerToggle}
+            <MenuRoundedIcon />
+          </IconButton>
+        </Container>
+      ) : (
+        <Drawer variant="persistent" anchor="left" open={true}>
+          <List
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <ListItem sx={{ justifyContent: "center", my: 1 }}>
+              <MenuRoundedIcon fontSize="large" />
+            </ListItem>
+            <ListItem
               sx={{
-                borderRadius: 20,
-              }}
-            >
-              <MenuRoundedIcon />
-            </IconButton>
-          </Container>
-        ) : (
-          <Drawer variant="persistent" anchor="left" open={true}>
-            <List
-              sx={{
+                justifyContent: "center",
+                my: 1,
                 display: "flex",
                 flexDirection: "column",
               }}
             >
-              <ListItem sx={{ justifyContent: "center", my: 1 }}>
-                <MenuRoundedIcon fontSize="large" />
-              </ListItem>
-              <ListItem
-                sx={{
-                  justifyContent: "center",
-                  my: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                }}
+              <BookmarkBorderRoundedIcon fontSize="large" />
+              <Typography
+                variant="overline"
+                sx={{ textTransform: "capitalize" }}
               >
-                <BookmarkBorderRoundedIcon fontSize="large" />
-                <Typography
-                  variant="overline"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  Saved
-                </Typography>
-              </ListItem>
-              <ListItem
-                sx={{
-                  justifyContent: "center",
-                  my: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                }}
+                Saved
+              </Typography>
+            </ListItem>
+            <ListItem
+              sx={{
+                justifyContent: "center",
+                my: 1,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <HistoryRoundedIcon fontSize="large" />
+              <Typography
+                variant="overline"
+                sx={{ textTransform: "capitalize" }}
               >
-                <HistoryRoundedIcon fontSize="large" />
-                <Typography
-                  variant="overline"
-                  sx={{ textTransform: "capitalize" }}
-                >
-                  History
-                </Typography>
-              </ListItem>
-              <Divider />
-              <ListItem sx={{ justifyContent: "center", my: 1 }}>
-                <SignIn />
-              </ListItem>
-            </List>
-          </Drawer>
-        )}
-      </Container>
+                History
+              </Typography>
+            </ListItem>
+            <Divider />
+            <ListItem sx={{ justifyContent: "center", my: 1 }}>
+              <SignIn />
+            </ListItem>
+          </List>
+        </Drawer>
+      )}
     </ThemeProvider>
   );
 };

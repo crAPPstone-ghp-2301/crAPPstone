@@ -10,7 +10,7 @@ const App = () => {
       <AppRoutes />
       <Map />
       <SideBar />
-      <Search />
+      {/* <Search /> */}
     </>
   );
 };
