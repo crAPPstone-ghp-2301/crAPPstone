@@ -45,6 +45,9 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
           alignItems: "center",
         }}
       >
+        <Typography variant="h3" sx={{ marginTop: 4 }}>
+          Welcome to crAPP
+        </Typography>
         <form onSubmit={handleSubmit} name={name}>
           <Typography
             variant="h4"
