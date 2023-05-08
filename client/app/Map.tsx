@@ -4,7 +4,6 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 import { enableMapSet } from 'immer';
-
 const restrooms = [
   {
     id: 1,
@@ -89,23 +88,22 @@ const restrooms = [
 ]
 
 
-mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlZXNvbyIsImEiOiJjbGhhcDdjamMwamk5M2hvZ3NmeGlxeW16In0.yFqw0jGTNTtzqqcESkJlWA'
-
+mapboxgl.accessToken = 'pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw'
 const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const [lng, setLng] = useState(-73.98);
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
-  const [newPlace, setNewPlace] = useState(null)
+  const [newPlace, setNewPlace] = useState(null);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
-    container: mapContainer.current,
-    style: 'mapbox://styles/mapbox/streets-v12',
-    center: [-74.006, 40.7128], //center is ny
-    zoom: zoom
+      container: mapContainer.current,
+      style: 'mapbox://styles/fxu2023/clhfcen9i02bg01qncp8vg9d1',
+      center: [-74.006, 40.7128], //center is ny
+      zoom: zoom
     });
 
     map.current.addControl(
@@ -118,59 +116,63 @@ const Map = () => {
         position: "bottom-right",
       })
     );
-    restrooms.forEach(function(restroom) {
-      var marker = new mapboxgl.Marker()
-        .setLngLat([parseInt(restroom.longitude), parseInt(restroom.latitude)])
-        .setPopup(new mapboxgl.Popup({ offset: 25 })
-          .setHTML('<h3>' + restroom.name + '</h3>'))
+
+    const geoJSONFeatures = restrooms.map(restroom => ({
+      type: 'Feature',
+      properties: {
+        description: `<strong>${restroom.name}</strong><p>${restroom.description}</p>`,
+        icon: 'toilet-1'
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [parseFloat(restroom.longitude), parseFloat(restroom.latitude)]
+      }
+    }));
+
+    
+    map.current.on('click', (event) => {
+        const features = map.current.queryRenderedFeatures(event.point, {
+        layers: ['restroom-1']
+        });
+        if (!features.length) {
+        return;
+        }
+        const feature = features[0];
+        
+        const popup = new mapboxgl.Popup({ offset: [0, -15] })
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(
+        `<h3>${feature.properties.name}</h3><p>${feature.properties.description}</p>`
+        )
         .addTo(map.current);
-    });
-  
+        });
 
-  // don't really think i need this right now but will keep just in case something might happen? unsure
-  // useEffect(() => {
-  //   if (!map.current) return; // wait for map to initialize
-  //   map.current.on('move', () => {
-  //   setLng(map.current.getCenter().lng.toFixed(4));
-  //   setLat(map.current.getCenter().lat.toFixed(4));
-  //   setZoom(map.current.getZoom().toFixed(2));
-  //   // restrooms.forEach(function(restroom) {
-  //   //   var marker = new mapboxgl.Marker()
-  //   //     .setLngLat([parseInt(restroom.longitude), parseInt(restroom.latitude)])
-  //   //     .setPopup(new mapboxgl.Popup({ offset: 25 })
-  //   //       .setHTML('<h3>' + restroom.name + '</h3>'))
-  //   //     .addTo(map.current);
-  //   // });
-  //   });
-  // });
+      map.current.addControl(
+        new mapboxgl.NavigationControl( {showCompass: false}),"bottom-right"
+      );
 
-    map.current.addControl(
-      new mapboxgl.NavigationControl({
-        showCompass: false,
-        position: "top-right",
-      })
-    );
-    
-    const geocoder = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      countries: 'us',
-      language: 'en',
-      position:"top-left",
-      mapboxgl: mapboxgl
+      const geocoder = new MapboxGeocoder({
+        accessToken: mapboxgl.accessToken,
+        countries: 'us',
+        language: 'en',
+        position:"top-left",
+        mapboxgl: mapboxgl
+      });
+      
+      geocoder.on('result', (event) => {
+        const searchText = event.result.text;
+        console.log(searchText);
+      });
+
+      map.current.addControl(geocoder,"top-left");
+      
+      map.current.on("move", () => {
+        setLng(map.current.getCenter().lng.toFixed(4));
+        setLat(map.current.getCenter().lat.toFixed(4));
+        setZoom(map.current.getZoom().toFixed(2));
     });
-  
-    geocoder.on('result', (event) => {
-      const searchText = event.result.text;
-      console.log(searchText);
-    });
+
     
-    map.current.addControl(geocoder);
-    
-    map.current.on("move", () => {
-      setLng(map.current.getCenter().lng.toFixed(4));
-      setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(2));
-    });
   },[]);
   
   return (
@@ -179,10 +181,6 @@ const Map = () => {
   )
 }
 
+
+
 export default Map
-
-
-
-
-
-

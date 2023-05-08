@@ -1,0 +1,6 @@
+"id","name","openingHours","description","address","placeType","latitude","longitude","capacity","isLocked","code","isBusy","lastUpdate","createdAt"
+1,"Central Park Restroom","8:00am-10:00pm","A clean public restroom located in Central Park.","Central Park, New York, NY, USA","Park","40.7829","-73.9654",10,false,"1234",false,"2022-01-01T10:00:00.000Z","2022-01-01T10:00:00.000Z"
+2,"Starbucks Restroom","7:00am-9:00pm","A restroom located inside a Starbucks coffee shop.","123 Main St, Seattle, WA, USA","Coffee Shop","47.6062","-122.3321",5,true,"4321",true,"2022-01-02T10:00:00.000Z","2022-01-02T10:00:00.000Z"
+3,"Mall Restroom","10:00am-8:00pm","A public restroom located inside a shopping mall.","456 Oak St, Los Angeles, CA, USA","Shopping Mall","34.0522","-118.2437",15,false,"2468",false,"2022-01-03T10:00:00.000Z","2022-01-03T10:00:00.000Z"
+4,"Airport Restroom","24/7","A restroom located inside an airport.","789 International Blvd, Atlanta, GA, USA","Airport","33.6367","-84.4281",20,true,"1357",true,"2022-01-04T10:00:00.000Z","2022-01-04T10:00:00.000Z"
+5,"Hotel Restroom","24/7","A clean restroom located inside a hotel.","987 Broadway, San Francisco, CA, USA","Hotel","37.7749","-122.4194",8,false,"8642",false,"2022-01-05T10:00:00.000Z","2022-01-04T10:00:00.000Z"
