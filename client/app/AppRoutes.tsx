@@ -7,6 +7,8 @@ import StyleGuide from "../features/styles/StyleGuide";
 import Profile from "../features/navigation/Profile";
 import AddComment from "../features/comments/AddComment";
 import AddReply from "../features/comments/AddReply";
+import Comments from "../features/comments/Comments";
+import SingleComment from "../features/comments/SingleComment";
 
 /**
  * COMPONENT
@@ -22,6 +24,8 @@ const AppRoutes = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/addcomment" element={<AddComment />} />
         <Route path="/addreply" element={<AddReply />} />
+        <Route path="/comments" element={<Comments />} />
+        <Route path="/comments/:id" element={<SingleComment />} />
       </Routes>
     </ThemeProvider>
   );

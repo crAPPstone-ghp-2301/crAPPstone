@@ -4,21 +4,35 @@ import { fetchAllComments, selectCommentsByReviewId } from "./commentsSlice";
 import AddComment from "./AddComment";
 import AddReply from "./AddReply";
 
-/*
+/* will delete when finished
 goal here is to have a
-- list of all the comments for the same reviewId, 
-- ability to add a comment to review, and 
-- ability to add a reply to existing "parent" comment
+- display list of all the comments for the same reviewId
 
-TODO 
-- import updateComment, deleteComment thunk 
-- add like button 
-- add edit button 
-- add delete button
-- rewrite in proper typescript
+brain dump
+a restroom has many reviews 
+a review has an imageUrl, reportStatus, reviewText.
+a review can have many comments of that reviewId, and each comment can have many replies.
+we want this comment list to be a list of comments of that reviewId, and each comment can have many replies with the same parentCommentId.
+
+Review.hasMany(Comments);
+Comments.belongsTo(Review);
+
+Review.belongsTo(User);
+User.hasMany(Review);
+
+Review.belongsTo(Restroom);
+Restroom.hasMany(Review);
+
+User.hasMany(Comments, { foreignKey: 'userId' });
+Comments.belongsTo(User, { foreignKey: 'userId' });
+
+Comments.hasMany(Comments, { as: 'replies', foreignKey: 'parentCommentId' });
+Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId' });
+
 */
 
 
+//need to redo this - import AddComment form as first component that shows up and and map out SingleComment
 const Comments = ({ reviewId }) => {
   const dispatch = useDispatch();
   const comments = useSelector(selectCommentsByReviewId(reviewId));
@@ -29,6 +43,7 @@ const Comments = ({ reviewId }) => {
 
   useEffect(() => {
     dispatch(fetchAllComments());
+    console.log(comments);
   }, [dispatch]);
 
   // to handle adding comment to review
@@ -45,7 +60,8 @@ const Comments = ({ reviewId }) => {
 
   return (
     <div className="comments">
-      {comments.map((comment) => (
+      
+      {/* {comments.map((comment) => (
         <div key={comment.id} className="comment">
           <p>{comment.content}</p>
           <button onClick={() => handleAddReply(comment.id)}>Reply</button>
@@ -64,7 +80,7 @@ const Comments = ({ reviewId }) => {
           parentCommentId={parentCommentId}
           onClose={() => setShowAddReply(false)}
         />
-      )}
+      )} */}
     </div>
   );
 };
