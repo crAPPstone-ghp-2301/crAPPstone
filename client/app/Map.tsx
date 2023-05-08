@@ -1,6 +1,5 @@
 import React from 'react'
 import mapboxgl from 'mapbox-gl';
-import { Marker } from 'react-map-gl'
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 import { enableMapSet } from 'immer';
@@ -93,9 +92,9 @@ mapboxgl.accessToken = 'pk.eyJ1IjoiY2hlZXNvbyIsImEiOiJjbGhhcDdjamMwamk5M2hvZ3Nme
 const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
-  const [zoom, setZoom] = useState(9);
+  const [lng, setLng] = useState(-73.98);
+  const [lat, setLat] = useState(40.76);
+  const [zoom, setZoom] = useState(12);
   const [newPlace, setNewPlace] = useState(null)
 
   useEffect(() => {
@@ -106,6 +105,7 @@ const Map = () => {
     center: [-74.006, 40.7128], //center is ny
     zoom: zoom
     });
+  
     map.current.addControl(
       new mapboxgl.GeolocateControl({
         positionOptions: {
@@ -142,6 +142,20 @@ const Map = () => {
   //   });
   // });
 
+    map.current.addControl(
+      new mapboxgl.NavigationControl({
+        showCompass: false,
+        position: "bottom-right",
+      })
+    );
+  
+    map.current.on("move", () => {
+      setLng(map.current.getCenter().lng.toFixed(4));
+      setLat(map.current.getCenter().lat.toFixed(4));
+      setZoom(map.current.getZoom().toFixed(2));
+    });
+  },[]);
+  
   return (
     <div ref={mapContainer} className="map-container">
 
@@ -151,3 +165,9 @@ const Map = () => {
 }
 
 export default Map
+
+
+
+
+
+

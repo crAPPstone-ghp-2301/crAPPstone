@@ -3,16 +3,14 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, Container } from "@mui/material";
 import crAppTheme from "./theme";
 import AppRoutes from "./AppRoutes";
-import NavBar from "../features/navigation/Navbar";
+import SideBar from "../features/navigation/SideBar";
 import Map from "./Map";
 
-
 const App = () => {
-
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      <NavBar />
+      <SideBar />
       <AppRoutes />
       <Map />
     </ThemeProvider>
