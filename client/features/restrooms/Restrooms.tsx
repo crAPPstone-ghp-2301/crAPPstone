@@ -12,6 +12,7 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
+import { SecondaryButton } from "../styles/StyleGuide";
 
 const AllRestrooms = () => {
   const dispatch = useDispatch();
@@ -83,7 +84,6 @@ const AllRestrooms = () => {
                       >
                         <Typography
                           gutterBottom
-                          variant="body"
                           component="div"
                           color="primary.light"
                           sx={{ fontWeight: "900" }}
@@ -97,7 +97,6 @@ const AllRestrooms = () => {
                     </Card>
                   </Link>
                   <SecondaryButton
-                    variant="contained"
                     size="small"
                     sx={{
                       position: "absolute",

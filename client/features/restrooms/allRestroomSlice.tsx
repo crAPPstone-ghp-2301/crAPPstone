@@ -26,7 +26,6 @@ export const allRestroomsSlice = createSlice({
       })
       .addCase(getAllRestrooms.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message;
       });
   },
 });
