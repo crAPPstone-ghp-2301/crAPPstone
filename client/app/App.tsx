@@ -3,7 +3,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline, Container } from "@mui/material";
 import crAppTheme from "./theme";
 import AppRoutes from "./AppRoutes";
-import NavBar from "../features/navigation/NavBar";
 import SideBar from "../features/navigation/SideBar";
 import Map from "./Map";
 

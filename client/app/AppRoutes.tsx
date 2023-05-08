@@ -3,7 +3,7 @@ import crAppTheme from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import StyleGuide from "../features/styles/StyleGuide";
-import Profile from "../features/navigation/Profile";
+import Profile from "../features/navigation/SignIn";
 import AddComment from "../features/comments/AddComment";
 import AddReply from "../features/comments/AddReply";
 import Comments from "../features/comments/Comments";
