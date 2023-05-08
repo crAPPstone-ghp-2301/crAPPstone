@@ -6,7 +6,6 @@ import AppRoutes from "./AppRoutes";
 import NavBar from "../features/navigation/Navbar";
 import Map from "./Map";
 
-
 const App = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
