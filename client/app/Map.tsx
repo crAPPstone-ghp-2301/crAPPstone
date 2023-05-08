@@ -112,9 +112,8 @@ const Map = () => {
           enableHighAccuracy: true,
         },
         trackUserLocation: true,
-        showUserHeading: true,
-        position: "bottom-right",
-      })
+        showUserHeading: true
+      }), "bottom-right"
     );
 
     const geoJSONFeatures = restrooms.map(restroom => ({
@@ -155,7 +154,6 @@ const Map = () => {
         accessToken: mapboxgl.accessToken,
         countries: 'us',
         language: 'en',
-        position:"top-left",
         mapboxgl: mapboxgl
       });
       
@@ -164,7 +162,7 @@ const Map = () => {
         console.log(searchText);
       });
 
-      map.current.addControl(geocoder,"top-left");
+      map.current.addControl(geocoder,"top-right");
       
       map.current.on("move", () => {
         setLng(map.current.getCenter().lng.toFixed(4));
