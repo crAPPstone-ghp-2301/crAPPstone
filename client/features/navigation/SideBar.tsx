@@ -48,8 +48,20 @@ const SideBar = () => {
             alignItems: "flex-start",
           }}
         >
-          <ListItem sx={{ justifyContent: "center", my: 1 }}>
-            <MenuRoundedIcon fontSize="large" />
+          <ListItem
+            sx={{
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <img
+              src="https://em-content.zobj.net/source/animated-noto-color-emoji/356/pile-of-poo_1f4a9.gif"
+              width="50px"
+            />
+            <Typography variant="overline" sx={{ textTransform: "none" }}>
+              crAPP
+            </Typography>
           </ListItem>
           <ListItem
             sx={{
