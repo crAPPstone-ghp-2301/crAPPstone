@@ -16,13 +16,14 @@ seconday goal
 */
 
 //not working yet - work in progress since id is still undefined 
-const SingleComment = ({ id }) => {
+
+const SingleComment = ({ commentId }) => {
   const dispatch = useDispatch();
   const comment = useSelector((state)=> state.comments.singleComment);
 
   useEffect(() => {
-    console.log("commentId ------->", id);
-    dispatch(fetchSingleComment(id));
+    console.log("commentId ------->", commentId);
+    dispatch(fetchSingleComment(commentId));
   }, [dispatch]);
 
   return (
@@ -34,3 +35,4 @@ const SingleComment = ({ id }) => {
 };
 
 export default SingleComment;
+
