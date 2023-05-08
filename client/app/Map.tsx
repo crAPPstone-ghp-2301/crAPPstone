@@ -125,6 +125,7 @@ const Map = () => {
     });
   });
 
+  // don't really think i need this right now but will keep just in case something might happen? unsure
   // useEffect(() => {
   //   if (!map.current) return; // wait for map to initialize
   //   map.current.on('move', () => {
@@ -143,9 +144,7 @@ const Map = () => {
 
   return (
     <div ref={mapContainer} className="map-container">
-      {
 
-      }
 
     </div>
   )
