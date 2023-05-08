@@ -125,7 +125,7 @@ const Map = () => {
           .setHTML('<h3>' + restroom.name + '</h3>'))
         .addTo(map.current);
     });
-  
+
 
   // don't really think i need this right now but will keep just in case something might happen? unsure
   // useEffect(() => {
@@ -150,7 +150,7 @@ const Map = () => {
         position: "top-right",
       })
     );
-    
+
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       countries: 'us',
@@ -158,21 +158,21 @@ const Map = () => {
       position:"top-left",
       mapboxgl: mapboxgl
     });
-  
+
     geocoder.on('result', (event) => {
       const searchText = event.result.text;
       console.log(searchText);
     });
-    
+
     map.current.addControl(geocoder);
-    
+
     map.current.on("move", () => {
       setLng(map.current.getCenter().lng.toFixed(4));
       setLat(map.current.getCenter().lat.toFixed(4));
       setZoom(map.current.getZoom().toFixed(2));
     });
   },[]);
-  
+
   return (
     <div ref={mapContainer} className="map-container">
     </div>
