@@ -8,16 +8,14 @@ const SALT_ROUNDS = 5;
 const User = db.define('user', {
   username: {
     type: Sequelize.STRING,
-    unique: true,
     allowNull: false,
+    unique: true,
   },
   name: {
     type: Sequelize.STRING,
-    allowNull: false,
   },
   email: {
     type: Sequelize.STRING,
-    allowNull: false,
     unique: true,
     validate: {
       isEmail: true,
@@ -29,7 +27,6 @@ const User = db.define('user', {
   },
   lastLogin: {
     type: Sequelize.DATE,
-    allowNull: true,
   },
   isAdmin: {
     type: Sequelize.BOOLEAN
