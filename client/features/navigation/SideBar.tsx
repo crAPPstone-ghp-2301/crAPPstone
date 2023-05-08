@@ -12,6 +12,7 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import SignIn from "./SignIn";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
@@ -25,9 +26,6 @@ const SideBar = () => {
 
   const isMobile = useMediaQuery("(max-width:700px)");
 
-  const toggleDialog = () => {
-    setIsOpen(!isOpen);
-  };
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
   };

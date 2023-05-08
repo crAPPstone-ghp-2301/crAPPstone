@@ -40,7 +40,7 @@ const SignIn = () => {
           </Typography>
         </PrimaryButton>
       </Link>
-      <Dialog open={isOpen} onClose={toggleDialog}>
+      <Dialog open={isOpen} onClose={toggleDialog} sx={{ p: 4 }}>
         <Typography sx={{ alignItem: "center" }}>
           {isLoggedIn ? (
             <Container
@@ -50,9 +50,10 @@ const SignIn = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 p: 10,
+                width: 300,
               }}
             >
-              <Typography variant="body1">🎉🎉🎉</Typography>
+              <Typography variant="body1">🎉</Typography>
               <Typography
                 variant="body1"
                 sx={{ color: crAppTheme.palette.primary.dark }}
@@ -65,7 +66,7 @@ const SignIn = () => {
               >
                 {username}
               </Typography>
-              <Typography variant="body1">🎉🎉🎉</Typography>
+              <Typography variant="body1">🎉</Typography>
               <Box sx={{ marginTop: 5 }}>
                 <PrimaryButton type="button" onClick={logoutAndRedirectHome}>
                   Logout
@@ -82,12 +83,10 @@ const SignIn = () => {
                 marginTop: 5,
               }}
             >
-              <Typography
-                variant="h4"
-                sx={{ color: crAppTheme.palette.primary.dark }}
-              >
-                We're excited to have you join us.
-              </Typography>
+              <img
+                src="https://em-content.zobj.net/source/animated-noto-color-emoji/356/pile-of-poo_1f4a9.gif"
+                width="50px"
+              />
             </Container>
           )}
         </Typography>

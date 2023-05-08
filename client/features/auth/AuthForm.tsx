@@ -106,7 +106,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
               </Box>
               <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                 <PrimaryButton type="submit" sx={{ px: 2, py: 1 }}>
-                  <Typography variant="subtitle1">Submit</Typography>
+                  <Typography variant="subtitle1">{name}</Typography>
                 </PrimaryButton>
               </Box>
             </Box>
