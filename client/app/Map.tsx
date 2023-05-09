@@ -4,6 +4,8 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 import { enableMapSet } from 'immer';
+import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
+
 const restrooms = [
   {
     id: 1,
@@ -105,6 +107,14 @@ const Map = () => {
       center: [-74.006, 40.7128], //center is ny
       zoom: zoom
     });
+
+   
+    map.current.addControl(
+      new MapboxDirections({
+      accessToken: mapboxgl.accessToken
+      }),
+      'top-right'
+      );
 
     map.current.addControl(
       new mapboxgl.GeolocateControl({
