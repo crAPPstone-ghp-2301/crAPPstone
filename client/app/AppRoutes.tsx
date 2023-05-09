@@ -3,6 +3,7 @@ import crAppTheme from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import StyleGuide from "../features/styles/StyleGuide";
+import SignIn from "../features/navigation/SignIn";
 import AddComment from "../features/comments/AddComment";
 import AddReply from "../features/comments/AddReply";
 import Comments from "../features/comments/Comments";
@@ -17,6 +18,7 @@ const AppRoutes = () => {
     <ThemeProvider theme={crAppTheme}>
       <Routes>
         <Route path="/styleguide" element={<StyleGuide />} />
+        <Route path="/profile" element={<SignIn />} />
         <Route path="/addcomment" element={<AddComment />} />
         <Route path="/addreply" element={<AddReply />} />
         <Route path="/comments" element={<Comments />} />
