@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { fetchSingleReview } from "./reviewSlice";
 //import AllComments here to see all comments of reviewId
+import AllComments from "../Comments/AllComments";
 
 const SingleReview = () => {
   const dispatch = useDispatch();
@@ -21,9 +22,13 @@ const SingleReview = () => {
       <img src={imageURL} alt={imageURL} />
       <p>{reviewText}</p>
           <p>Report: {reportStatus}</p>
-          {/* render out AllComments here to see all comments of reviewId */}
+      {/* render out AllComments here to see all comments of reviewId */}
+      <AllComments reviewId={reviewId} />
     </div>
   );
 };
 
 export default SingleReview;
+
+
+

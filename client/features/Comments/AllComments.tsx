@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 // import { fetchAllComments } from "../review/reviewSlice";
 import { fetchAllComments } from "./commentsSlice";
+import AddComment from "./AddComment";
 
 
 /* will delete when finished
@@ -50,13 +51,21 @@ const AllComments = () => {
 
   return (
     <div>
+      <div>
+        
+        <AddComment reviewId={reviewId} />
+      </div>
+      <div>
+        <h3>Comments</h3>
       {comments.map((comment) => (
         <div key={comment.id}>
           <p>{comment.content}</p>
           <p>{comment.likes}</p>
         </div>
       ))}
-    </div>
+      </div>
+      </div>
+
   );
 }
 

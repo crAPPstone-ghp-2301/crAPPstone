@@ -19,7 +19,7 @@ const AddComment = ({ reviewId }) => {
     dispatch(createComment({ content, reviewId })).then(() => {
       dispatch(fetchAllComments(reviewId));
       setContent("");
-      navigate(`/reviews/${reviewId}/comments`);
+      navigate(`/reviews/${reviewId}`);
      })
   };
 
