@@ -125,7 +125,7 @@ const Map = () => {
           .setHTML('<h3>' + restroom.name + '</h3>'))
         .addTo(map.current);
     });
-  });
+  
 
   // don't really think i need this right now but will keep just in case something might happen? unsure
   // useEffect(() => {

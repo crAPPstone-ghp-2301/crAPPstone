@@ -16,6 +16,8 @@ import SignIn from "./SignIn";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
+import AddLocationAltRoundedIcon from "@mui/icons-material/AddLocationAltRounded";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 
 const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -43,6 +45,7 @@ const SideBar = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "flex-start",
           }}
         >
           <ListItem sx={{ justifyContent: "center", my: 1 }}>
@@ -74,9 +77,59 @@ const SideBar = () => {
               History
             </Typography>
           </ListItem>
-          <Divider />
-          <ListItem sx={{ justifyContent: "center", my: 1 }}>
+        </List>
+        <Divider />
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
+        >
+          <ListItem
+            sx={{
+              justifyContent: "center",
+              my: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <AddLocationAltRoundedIcon fontSize="large" />
+            <Typography variant="overline" sx={{ textTransform: "capitalize" }}>
+              Add Restroom
+            </Typography>
+          </ListItem>
+        </List>
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            mt: "auto",
+            mb: 2,
+          }}
+        >
+          <ListItem
+            sx={{
+              justifyContent: "center",
+              my: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
             <SignIn />
+          </ListItem>
+          <ListItem
+            sx={{
+              justifyContent: "center",
+              my: 1,
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <SettingsRoundedIcon fontSize="large" />
+            <Typography variant="overline" sx={{ textTransform: "capitalize" }}>
+              Settings
+            </Typography>
           </ListItem>
         </List>
       </Drawer>

@@ -6,13 +6,12 @@ import {
   Container,
   Box,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogActions,
   Typography,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Route, Routes } from "react-router-dom";
+import { Link, useNavigate, Route, Routes } from "react-router-dom";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { logout } from "../../app/store";
 import AuthForm from "../auth/AuthForm";
@@ -34,11 +33,13 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={crAppTheme}>
-      <PrimaryButton onClick={toggleDialog} sx={{ px: 1, py: 0.5 }}>
-        <Typography variant="overline">
-          {isLoggedIn ? "Sign Out" : "Sign In"}
-        </Typography>
-      </PrimaryButton>
+      <Link to="/login">
+        <PrimaryButton onClick={toggleDialog} sx={{ px: 1, py: 0.5 }}>
+          <Typography variant="overline">
+            {isLoggedIn ? "Sign Out" : "Sign In"}
+          </Typography>
+        </PrimaryButton>
+      </Link>
       <Dialog open={isOpen} onClose={toggleDialog}>
         <Typography sx={{ alignItem: "center" }}>
           {isLoggedIn ? (
