@@ -5,7 +5,6 @@ import { Link, useParams } from "react-router-dom";
 import { fetchAllComments } from "./commentsSlice";
 import AddComment from "./AddComment";
 
-
 /* will delete when finished
 goal here is to have a
 - display list of all the comments for the same reviewId (x)
@@ -39,34 +38,39 @@ Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId
 
 */
 
-const AllComments = () => { 
+const AllComments = () => {
   const dispatch = useDispatch();
   const { reviewId } = useParams();
+  const [showAddComment, setShowAddComment] = useState(false);
+  const comments = useSelector((state) => state.comments.allComments);
 
   useEffect(() => {
     dispatch(fetchAllComments(reviewId));
   }, [dispatch, reviewId]);
 
-  const comments = useSelector((state) => state.comments.allComments);
+  const handleAddComment = () => {
+    setShowAddComment(!showAddComment);
+  };
 
   return (
-    <div>
-      <div>
-        
+    <div className="testing">
+      {showAddComment ? (
         <AddComment reviewId={reviewId} />
-      </div>
+      ) : (
+        <button onClick={handleAddComment}>Add Comment</button>
+      )}
+
       <div>
         <h3>Comments</h3>
-      {comments.map((comment) => (
-        <div key={comment.id}>
-          <p>{comment.content}</p>
-          <p>{comment.likes}</p>
-        </div>
-      ))}
+        {comments.map((comment) => (
+          <div key={comment.id}>
+            <p>{comment.content}</p>
+            <p>{comment.likes}</p>
+          </div>
+        ))}
       </div>
-      </div>
-
+    </div>
   );
-}
+};
 
 export default AllComments;
