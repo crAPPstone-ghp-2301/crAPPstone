@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { fetchSingleComment, fetchAllComments } from "./commentsSlice"
 import AddReply from "./AddReply";
+import AddComment from "./AddComment";
 
 /* goal here is to display a single comment
 primary display goal
@@ -14,6 +15,9 @@ primary display goal
 seconday goal
 - edit button if user is logged in and comment belongs to current user
 - delete button if user is logged in and comment belongs to current user
+
+FIX: 
+- AddReply component so that it will update database and toggle visibility
 */
 
 const SingleComment = () => {
@@ -31,7 +35,8 @@ const SingleComment = () => {
         <h2>Comment</h2>
         <p>{content}</p>
         <p>Likes: {likes}</p>
-        <AddReply reviewId={reviewId} commentId={commentId} />
+            <AddReply reviewId={reviewId} commentId={commentId} /> 
+            <AddComment reviewId={reviewId} />
       </div>
     );
 };
