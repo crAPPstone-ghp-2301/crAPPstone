@@ -31,14 +31,6 @@ a {
   width: 100vw;
 }
 
-.marker {
-  background-image: url('toilet-marker.png');
-  background-size: cover;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
-}
 
 .mapboxgl-popup {
   max-width: 200px;
@@ -48,6 +40,13 @@ a {
   text-align: center;
 }
 
+.mapbox-directions-instructions {
+  overflow: auto !important;
+}
+
+div#geocoder-search {
+  width: 25em;
+}
 
 
 @media only screen and (max-width: 600px) {

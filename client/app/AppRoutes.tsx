@@ -8,7 +8,7 @@ import AddComment from "../features/comments/AddComment";
 import AddReply from "../features/comments/AddReply";
 import Comments from "../features/comments/Comments";
 import SingleComment from "../features/comments/SingleComment";
-
+import Home from "../features/home/Home"
 /**
  * COMPONENT
  */
@@ -23,6 +23,7 @@ const AppRoutes = () => {
         <Route path="/addreply" element={<AddReply />} />
         <Route path="/comments" element={<Comments />} />
         <Route path="/comments/:id" element={<SingleComment />} />
+        <Route path="/" element ={<Home/>} />
       </Routes>
     </ThemeProvider>
   );

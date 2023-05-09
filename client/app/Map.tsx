@@ -5,6 +5,9 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 import { enableMapSet } from 'immer';
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
+import {Button} from "@mui/material";
+import {CustomizedIconButton} from "../features/styles/StyleGuide"
+import DirectionsIcon from "@mui/icons-material/Directions";
 
 const restrooms = [
   {
@@ -108,13 +111,10 @@ const Map = () => {
       zoom: zoom
     });
 
-   
-    map.current.addControl(
-      new MapboxDirections({
+
+    const directions = new MapboxDirections({
       accessToken: mapboxgl.accessToken
-      }),
-      'top-right'
-      );
+  })
 
     map.current.addControl(
       new mapboxgl.GeolocateControl({
@@ -138,7 +138,6 @@ const Map = () => {
       }
     }));
 
-    
     map.current.on('click', (event) => {
         const features = map.current.queryRenderedFeatures(event.point, {
         layers: ['restroom-1']
@@ -162,10 +161,8 @@ const Map = () => {
 
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
-        countries: 'us',
-        language: 'en',
-        mapboxgl: mapboxgl
-      });
+        marker: true,
+    });
       
       geocoder.on('result', (event) => {
         const searchText = event.result.text;
@@ -180,12 +177,78 @@ const Map = () => {
         setZoom(map.current.getZoom().toFixed(2));
     });
 
+    map.current.on('load', function() {
+
+      // Search Places Result Event
+      geocoder.on('result', function(event) {
+          console.log(event.result);
+          new Promise(function(resolve) {
+              // Removing Previous Search Result Marker
+              $('.marker').remove()
+              resolve()
+          }).then(() => {
+              // Adding Marker to the place
+              new mapboxgl.Marker($('<div class="marker"><i class="fa fa-map-marker-alt"></i></div>')[0])
+                  .setLngLat(event.result.geometry.coordinates)
+                  .setPopup(
+                      new mapboxgl.Popup({ offset: 25 }) // add popups
+                      .setHTML(
+                          `<div>${event.result.place_name}</div><small class='text-muted'>${parseFloat(event.result.center[0]).toLocaleString('en-US')}, ${parseFloat(event.result.center[1]).toLocaleString('en-US')}</small>`
+                      )
+                  )
+                  .addTo(map.current)
+          }).then(() => {
+              $('.marker').click()
+          })
+  
+      });
+      geocoder.container.setAttribute('id', 'geocoder-search')
+  });
+
+  function direction_reset() {
+    directions.actions.clearOrigin()
+    directions.actions.clearDestination()
+    directions.container.querySelector('input').value = ''
+}
+$(function() {
+    $('#get-direction').click(function() {
+        // Adding Direction form and instructions on map
+        map.current.addControl(directions, 'top-right');
+        directions.container.setAttribute('id', 'direction-container')
+        $(geocoder.container).hide()
+        $(this).hide()
+        $('#end-direction').removeClass('d-none')
+        $('.marker').remove()
+
+    })
+    $('#end-direction').click(function() {
+        direction_reset()
+        $(this).addClass('d-none')
+        $('#get-direction').show()
+        $(geocoder.container).show()
+        map.current.removeControl(directions)
+    })
+
+})
     
   },[]);
+
+
   
   return (
-    <div ref={mapContainer} className="map-container">
-    </div>
+    <div>
+    <div ref={mapContainer} className="map-container"></div>
+    <div className="position-absolute top-0 start-50 translate-middle-x">
+  <div className="d-flex justify-content-center">
+    <button className="btn btn-lg btn-light bg-gradient bg-light border mt-3 mx-auto" id="get-direction">
+      <i className="fa fa-directions"></i> Direction
+    </button>
+    <button className="btn btn-lg btn-light bg-gradient bg-light border mx-auto d-none" id="end-direction">
+      <i className="fa fa-times"></i> End Direction
+    </button>
+  </div>
+</div>
+  </div>
   )
 }
 
