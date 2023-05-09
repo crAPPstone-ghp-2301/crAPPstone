@@ -5,8 +5,10 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 import { enableMapSet } from 'immer';
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
-import {Button, Typography} from "@mui/material";
+import {Button, Typography,Divider} from "@mui/material";
+import DirectionsIcon from "@mui/icons-material/Directions";
 import { PrimaryButton} from "../features/styles/StyleGuide"
+import {CustomizedIconButton} from "../features/styles/StyleGuide"
 
 
 const restrooms = [
@@ -114,6 +116,7 @@ const Map = () => {
 
     const directions = new MapboxDirections({
       accessToken: mapboxgl.accessToken
+
   })
 
     map.current.addControl(
@@ -150,7 +153,7 @@ const Map = () => {
         const popup = new mapboxgl.Popup({ offset: [0, -15] })
         .setLngLat(feature.geometry.coordinates)
         .setHTML(
-        `<h3>${feature.properties.name}</h3>
+        `<p>${feature.properties.name}</p>
         <p>${feature.properties.description}</p>`
         )
         .addTo(map.current);
@@ -174,6 +177,7 @@ const Map = () => {
         setLat(map.current.getCenter().lat.toFixed(4));
         setZoom(map.current.getZoom().toFixed(2));
     });
+
     map.current.on('load', function() {
       geocoder.container.setAttribute('id', 'geocoder-search')
   });
@@ -212,7 +216,7 @@ $(function() {
   return (
     <div>
     <div ref={mapContainer} className="map-container"></div>
-    <div className="position-absolute top-0 start-6 ">
+    <div className="position-absolute top-0 start-50 translate-middle-x" style={{ left: '-10%' }}>
     <PrimaryButton variant="outlined" sx={{ mr: 2, mt: 3 }} id="get-direction">
       <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
         Direction
