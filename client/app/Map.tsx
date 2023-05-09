@@ -112,7 +112,7 @@ const Map = () => {
           enableHighAccuracy: true,
         },
         trackUserLocation: true,
-        showUserHeading: true
+        showUserHeading: true,
       }), "bottom-right"
     );
 
@@ -147,7 +147,7 @@ const Map = () => {
         });
 
       map.current.addControl(
-        new mapboxgl.NavigationControl( {showCompass: false}),"bottom-right"
+        new mapboxgl.NavigationControl(),"bottom-right"
       );
 
       const geocoder = new MapboxGeocoder({
