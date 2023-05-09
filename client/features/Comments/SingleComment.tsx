@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { fetchSingleComment, fetchAllComments } from "./commentsSlice"
+import { fetchSingleComment } from "./commentsSlice"
 import AddReply from "./AddReply";
 import AddComment from "./AddComment";
 
