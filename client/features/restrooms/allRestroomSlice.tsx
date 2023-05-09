@@ -1,15 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const getAllRestrooms = createAsyncThunk("restrooms/getAll", async () => {
-  try {
-    console.log("ALL restrooms AXIOS WORKING");
-    const { data } = await axios.get(`/api/restrooms`);
-    return data;
-  } catch (error) {
-    return error.message;
+export const getAllRestrooms = createAsyncThunk(
+  "restrooms/getAll",
+  async () => {
+    try {
+      console.log("ALL restrooms AXIOS WORKING");
+      const { data } = await axios.get(`/api/restrooms`);
+      return data;
+    } catch (error) {
+      return error.message;
+    }
   }
-});
+);
 
 export const allRestroomsSlice = createSlice({
   name: "restrooms",

@@ -9,7 +9,6 @@ import AddReply from "../features/comments/AddReply";
 import Comments from "../features/comments/Comments";
 import SingleComment from "../features/comments/SingleComment";
 
-
 /**
  * COMPONENT
  */
