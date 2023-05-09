@@ -1,5 +1,6 @@
 import * as React from "react";
 import crAppTheme from "../../app/theme";
+import { TertiaryButton } from "../styles/StyleGuide";
 import {
   ThemeProvider,
   Container,
@@ -12,22 +13,41 @@ import {
   Divider,
   Typography,
 } from "@mui/material";
+import { useSelector } from "react-redux";
 import SignIn from "./SignIn";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
+import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
+import Settings from "../settings/Settings";
 
 const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
-
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
   const isMobile = useMediaQuery("(max-width:700px)");
 
-  const toggleDialog = () => {
-    setIsOpen(!isOpen);
-  };
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [isLoggedIn, user]);
+
   const handleDrawerToggle = () => {
     setDrawerOpen(!drawerOpen);
+  };
+
+  const handleSettingsOpen = () => {
+    if (!settingsOpen) {
+      setSettingsOpen(true);
+    }
+  };
+
+  const handleSettingsClose = () => {
+    setSettingsOpen(false);
   };
 
   return (
@@ -43,11 +63,77 @@ const SideBar = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
+            alignItems: "flex-start",
           }}
         >
-          <ListItem sx={{ justifyContent: "center", my: 1 }}>
-            <MenuRoundedIcon fontSize="large" />
+          <ListItem
+            sx={{
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+            }}
+          >
+            <img
+              src="https://em-content.zobj.net/source/animated-noto-color-emoji/356/pile-of-poo_1f4a9.gif"
+              width="50px"
+            />
+            <Typography variant="overline" sx={{ textTransform: "none" }}>
+              crAPP
+            </Typography>
           </ListItem>
+          <ListItem>
+            <TertiaryButton
+              sx={{
+                justifyContent: "center",
+                my: 1,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <BookmarkBorderRoundedIcon fontSize="large" />
+              <Typography
+                variant="overline"
+                sx={{ textTransform: "capitalize" }}
+              >
+                Saved
+              </Typography>
+            </TertiaryButton>
+          </ListItem>
+          <ListItem>
+            <TertiaryButton
+              sx={{
+                justifyContent: "center",
+                my: 1,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <HistoryRoundedIcon fontSize="large" />
+              <Typography
+                variant="overline"
+                sx={{ textTransform: "capitalize" }}
+              >
+                History
+              </Typography>
+            </TertiaryButton>
+          </ListItem>
+        </List>
+        <Divider />
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
+        ></List>
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            mt: "auto",
+            mb: 2,
+          }}
+        >
           <ListItem
             sx={{
               justifyContent: "center",
@@ -56,28 +142,30 @@ const SideBar = () => {
               flexDirection: "column",
             }}
           >
-            <BookmarkBorderRoundedIcon fontSize="large" />
-            <Typography variant="overline" sx={{ textTransform: "capitalize" }}>
-              Saved
-            </Typography>
-          </ListItem>
-          <ListItem
-            sx={{
-              justifyContent: "center",
-              my: 1,
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <HistoryRoundedIcon fontSize="large" />
-            <Typography variant="overline" sx={{ textTransform: "capitalize" }}>
-              History
-            </Typography>
-          </ListItem>
-          <Divider />
-          <ListItem sx={{ justifyContent: "center", my: 1 }}>
             <SignIn />
           </ListItem>
+          {/* <TertiaryButton onClick={handleSettingsOpen}>
+            <ListItem
+              sx={{
+                justifyContent: "center",
+                my: 1,
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <SettingsRoundedIcon fontSize="large" />
+              <Typography
+                variant="overline"
+                sx={{ textTransform: "capitalize" }}
+              >
+                Settings
+              </Typography>
+              <Settings
+                open={handleSettingsOpen}
+                onClose={handleSettingsClose}
+              />
+            </ListItem>
+          </TertiaryButton> */}
         </List>
       </Drawer>
       {isMobile && (

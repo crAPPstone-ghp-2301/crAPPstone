@@ -7,8 +7,9 @@ import Profile from "../features/navigation/SignIn";
 import SingleReview from "../features/review/SingleReview";
 import AllComments from "../features/Comments/AllComments";
 import SingleComment from "../features/comments/SingleComment"
+import SignIn from "../features/navigation/SignIn";
+import AddComment from "../features/comments/AddComment";
 import AddReply from "../features/comments/AddReply";
-
 
 
 const AppRoutes = () => {
@@ -16,7 +17,7 @@ const AppRoutes = () => {
     <ThemeProvider theme={crAppTheme}>
       <Routes>
         <Route path="/styleguide" element={<StyleGuide />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<SignIn />} />
         <Route path="/reviews/:reviewId" element={<SingleReview />} />
         <Route path="/reviews/:reviewId/comments" element={<AllComments />} />
         <Route path="/reviews/:reviewId/comments/:commentId" element={<SingleComment />} />

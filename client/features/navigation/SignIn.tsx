@@ -6,27 +6,46 @@ import {
   Container,
   Box,
   Dialog,
-  DialogTitle,
   DialogContent,
   DialogActions,
   Typography,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Route, Routes } from "react-router-dom";
+import { Link, useNavigate, Route, Routes } from "react-router-dom";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { logout } from "../../app/store";
 import AuthForm from "../auth/AuthForm";
 
 const SignIn = () => {
-  const isLoggedIn = useSelector((state) => !!state.auth.me.id);
+  const [isOpen, setIsOpen] = useState(false);
   const { username } = useSelector((state) => state.auth.me);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isLoggedIn = useSelector((state) => {
+    const { me, authToken } = state.auth;
+    const storedAuthToken = localStorage.getItem("authToken");
+    const storedUserId = sessionStorage.getItem("userId");
+    return (
+      me.id ||
+      (authToken && storedAuthToken === authToken) ||
+      (storedUserId && me.id === storedUserId)
+    );
+  });
+
   const logoutAndRedirectHome = () => {
     dispatch(logout());
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("userId");
     navigate("/login");
   };
-  const [isOpen, setIsOpen] = useState(false);
+
+  const handleLogin = async (data) => {
+    await dispatch(login(data));
+    localStorage.setItem("authToken", data.authToken);
+    sessionStorage.setItem("userId", data.me.id);
+    toggleDialog();
+  };
 
   const toggleDialog = () => {
     setIsOpen(!isOpen);
@@ -34,12 +53,14 @@ const SignIn = () => {
 
   return (
     <ThemeProvider theme={crAppTheme}>
-      <PrimaryButton onClick={toggleDialog} sx={{ px: 1, py: 0.5 }}>
-        <Typography variant="overline">
-          {isLoggedIn ? "Sign Out" : "Sign In"}
-        </Typography>
-      </PrimaryButton>
-      <Dialog open={isOpen} onClose={toggleDialog}>
+      <Link to="/login">
+        <PrimaryButton onClick={toggleDialog} sx={{ px: 1, py: 0.5 }}>
+          <Typography variant="overline">
+            {isLoggedIn ? "Sign Out" : "Sign In"}
+          </Typography>
+        </PrimaryButton>
+      </Link>
+      <Dialog open={isOpen} onClose={toggleDialog} sx={{ p: 4 }}>
         <Typography sx={{ alignItem: "center" }}>
           {isLoggedIn ? (
             <Container
@@ -49,9 +70,10 @@ const SignIn = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 p: 10,
+                width: 300,
               }}
             >
-              <Typography variant="body1">🎉🎉🎉</Typography>
+              <Typography variant="body1">🎉</Typography>
               <Typography
                 variant="body1"
                 sx={{ color: crAppTheme.palette.primary.dark }}
@@ -60,15 +82,22 @@ const SignIn = () => {
               </Typography>
               <Typography
                 variant="h5"
-                sx={{ m: 4, color: crAppTheme.palette.primary.dark }}
+                sx={{ m: 4, color: crAppTheme.palette.primary.dark, mb: 6 }}
               >
                 {username}
               </Typography>
-              <Typography variant="body1">🎉🎉🎉</Typography>
+              <Box>
+                <TertiaryButton onClick={toggleDialog}>
+                  Start Exploring
+                </TertiaryButton>
+              </Box>
               <Box sx={{ marginTop: 5 }}>
-                <PrimaryButton type="button" onClick={logoutAndRedirectHome}>
+                <PrimaryButton>Manage Account</PrimaryButton>
+              </Box>
+              <Box sx={{ marginTop: 2 }}>
+                <TertiaryButton type="button" onClick={logoutAndRedirectHome}>
                   Logout
-                </PrimaryButton>
+                </TertiaryButton>
               </Box>
             </Container>
           ) : (
@@ -81,12 +110,10 @@ const SignIn = () => {
                 marginTop: 5,
               }}
             >
-              <Typography
-                variant="h4"
-                sx={{ color: crAppTheme.palette.primary.dark }}
-              >
-                We're excited to have you join us.
-              </Typography>
+              <img
+                src="https://em-content.zobj.net/source/animated-noto-color-emoji/356/pile-of-poo_1f4a9.gif"
+                width="50px"
+              />
             </Container>
           )}
         </Typography>
