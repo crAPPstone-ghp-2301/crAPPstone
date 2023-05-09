@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { fetchSingleReview } from "./reviewSlice";
 import AllComments from "../Comments/AllComments";
 import crAppTheme from "../../app/theme";
-import { Card, Box, Typography, CardMedia, ThemeProvider} from "@mui/material";
+import { Card, Box, Typography, CardMedia, ThemeProvider, Divider } from "@mui/material";
 
 const SingleReview = () => {
   const dispatch = useDispatch();
@@ -12,7 +12,6 @@ const SingleReview = () => {
 
   const singleReview = useSelector((state) => state.review.singleReview);
   const { reviewText, imageURL, reportStatus } = singleReview;
-
 
   useEffect(() => {
     dispatch(fetchSingleReview(reviewId));
@@ -33,8 +32,12 @@ const SingleReview = () => {
                 paddingLeft: "100px",
                 zIndex: 1,
               }}
-              image={imageURL}
-              alt={imageURL}
+              src={imageURL}
+              alt="Picture unavailable!"
+              onError={(e) => {
+                e.target.src =
+                  "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
+              }}
             />
             <Typography variant="subtitle1" paddingLeft="22%">
               {reviewText}
@@ -42,7 +45,7 @@ const SingleReview = () => {
             <Typography variant="subtitle1" paddingLeft="22%">
               Report: {reportStatus}
             </Typography>
-            {/* render out AllComments here to see all comments of reviewId */}
+            <Divider />
             <AllComments reviewId={reviewId} />
           </Card>
         </Box>

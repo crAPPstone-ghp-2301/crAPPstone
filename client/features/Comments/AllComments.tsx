@@ -59,13 +59,21 @@ const AllComments = () => {
       ) : (
         <button onClick={handleAddComment}>Add Comment</button>
       )}
-
-      <div>
+  
+      <div style={{ height: "270px", overflowY: "scroll" }}>
         <h3>Comments</h3>
         {comments.map((comment) => (
-          <div key={comment.id}>
-            <p>{comment.content}</p>
-            <p>{comment.likes}</p>
+          <div key={comment.id} >
+            <div>
+              {comment.user ? <p>{comment.user.username}</p> : <p>Anonymous</p>}
+            </div>
+            <div>
+              <p>{comment.content}</p>
+              <p>Likes: {comment.likes}</p>
+              {/* like button increment component here */}
+              {/* reply button component here when it works */}
+            </div>
+            <br />
           </div>
         ))}
       </div>
