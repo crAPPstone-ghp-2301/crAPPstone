@@ -1,11 +1,13 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+//fetch all comments of review
 export const fetchAllComments = createAsyncThunk(
   "comments/fetchAll",
-  async () => {
+  async (reviewId) => {
     try {
-      const { data } = await axios.get("/api/comments");
+      const { data } = await axios.get(`/api/reviews/${reviewId}/comments`);
+      console.log(reviewId, data);
       return data;
     } catch (err) {
       return err.message;
@@ -13,11 +15,14 @@ export const fetchAllComments = createAsyncThunk(
   }
 );
 
+//fetch a single comment of a reviewId and its replies
 export const fetchSingleComment = createAsyncThunk(
-  "comments/fetchSingle",
-  async (id) => {
+  "comments/fetchSingleComment",
+  async ({reviewId, commentId}) => {
     try {
-      const { data } = await axios.get(`/api/comments/${id}`);
+      const { data } = await axios.get(
+        `/api/reviews/${reviewId}/comments/${commentId}`
+      );
       return data;
     } catch (err) {
       return err.message;
@@ -25,41 +30,84 @@ export const fetchSingleComment = createAsyncThunk(
   }
 );
 
+//create new comment of review
 export const createComment = createAsyncThunk(
-  "comments/create",
-  async (comment) => {
-    try {
-      const { data } = await axios.post("/api/comments", comment);
-      return data;
-    } catch (err) {
-      return err.message;
-    }
+  "comments/createComment",
+  async ({ reviewId, content, userId }) => {
+    const { data } = await axios.post(`/api/reviews/${reviewId}/comments`, {
+      content,
+      userId,
+    });
+    return data;
   }
 );
 
+//update a comment of review
 export const updateComment = createAsyncThunk(
-  "comments/update",
-  async ({ id, content, likes }) => {
-    try {
-      const { data } = await axios.put(`/api/comments/${id}`, {
+  "comments/updateComment",
+  async ({ reviewId, commentId, content, likes }) => {
+    const { data } = await axios.put(
+      `/api/reviews/${reviewId}/comments/${commentId}`,
+      {
         content,
         likes,
-      });
-      return data;
-    } catch (err) {
-      return err.message;
-    }
+      }
+    );
+    return data;
   }
 );
 
-export const deleteComment = createAsyncThunk("comments/delete", async (id) => {
-  try {
-    const { data } = await axios.delete(`/api/comments/${id}`);
+//delete a comment of review
+export const deleteComment = createAsyncThunk(
+  "comments/deleteComment",
+  async ({ reviewId, commentId }) => {
+    const { data } = await axios.delete(
+      `/api/reviews/${reviewId}/comments/${commentId}`
+    );
     return data;
-  } catch (err) {
-    return err.message;
   }
-});
+);
+
+//thunks pertaining to replies of parentCommentId
+//create a new reply of parentCommentId
+export const createReply = createAsyncThunk(
+  "comments/createReply",
+  async ({ reviewId, commentId, content }) => {
+    const { data } = await axios.post(
+      `/api/reviews/${reviewId}/comments/${commentId}/replies`,
+      {
+        content,
+      }
+    );
+    return data;
+  }
+);
+
+//update a reply of parentCommentId
+export const updateReply = createAsyncThunk(
+  "comments/updateReply",
+  async ({ reviewId, parentCommentId, commentId, content, likes }) => {
+    const { data } = await axios.put(
+      `/api/reviews/${reviewId}/comments/${parentCommentId}/replies/${commentId}`,
+      {
+        content,
+        likes,
+      }
+    );
+    return data;
+  }
+);
+
+//delete a reply of parentCommentId
+export const deleteReply = createAsyncThunk(
+  "comments/deleteReply",
+  async ({ reviewId, parentCommentId, commentId }) => {
+    const { data } = await axios.delete(
+      `/api/reviews/${reviewId}/comments/${parentCommentId}/replies/${commentId}`
+    );
+    return data;
+  }
+);
 
 const initialState = {
   allComments: [],
@@ -88,18 +136,18 @@ export const commentsSlice = createSlice({
         (comment) => comment.id !== action.payload
       );
     });
+    builder.addCase(createReply.fulfilled, (state, action) => {
+      state.allComments.push(action.payload);
+    });
+    builder.addCase(updateReply.fulfilled, (state, action) => {
+      state.singleComment = action.payload;
+    });
+    builder.addCase(deleteReply.fulfilled, (state, action) => {
+      state.allComments = state.allComments.filter(
+        (comment) => comment.id !== action.payload
+      );
+    });
   },
 });
-
-export const selectAllComments = (state) => {
-  return state.comments.allComments;
-};
-export const selectSingleComment = (state) => {
-  return state.comments.singleComment;
-};
-
-export const selectCommentsByReviewId = (reviewId) => (state) =>
-  state.comments.allComments.filter((comment) => comment.reviewId === reviewId);
-
 
 export default commentsSlice.reducer;

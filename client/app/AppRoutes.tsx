@@ -4,15 +4,12 @@ import { ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import StyleGuide from "../features/styles/StyleGuide";
 import Profile from "../features/navigation/SignIn";
-import AddComment from "../features/comments/AddComment";
+import SingleReview from "../features/review/SingleReview";
+import AllComments from "../features/Comments/AllComments";
+import SingleComment from "../features/comments/SingleComment"
 import AddReply from "../features/comments/AddReply";
-import Comments from "../features/comments/Comments";
-import SingleComment from "../features/comments/SingleComment";
 
 
-/**
- * COMPONENT
- */
 
 const AppRoutes = () => {
   return (
@@ -20,10 +17,10 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/styleguide" element={<StyleGuide />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/addcomment" element={<AddComment />} />
-        <Route path="/addreply" element={<AddReply />} />
-        <Route path="/comments" element={<Comments />} />
-        <Route path="/comments/:id" element={<SingleComment />} />
+        <Route path="/reviews/:reviewId" element={<SingleReview />} />
+        <Route path="/reviews/:reviewId/comments" element={<AllComments />} />
+        <Route path="/reviews/:reviewId/comments/:commentId" element={<SingleComment />} />
+        <Route path="/reviews/:reviewId/comments/:commentId/addreply" element={<AddReply />} />
       </Routes>
     </ThemeProvider>
   );
