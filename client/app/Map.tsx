@@ -23,9 +23,9 @@ const Map = () => {
   const dispatch = useDispatch();
 
   const restrooms = useSelector(selectRestroom);
-  useEffect(() => {
-    dispatch(getAllRestrooms());
-  }, [dispatch]); 
+  // useEffect(() => {
+  //   dispatch(getAllRestrooms());
+  // }, [dispatch]); 
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -67,6 +67,38 @@ const Map = () => {
 
       map.current.addControl(geocoder,"top-right");
       
+      let popup = new mapboxgl.Popup({ offset: [0, -15] });
+
+    map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
+      const feature = event.features[0];
+      const popupContent =
+        `<h3>${feature.properties.Name}</h3>
+        <p>${feature.properties.Location}</p>`
+        // + `${ReactDOMServer.renderToString(<SaveButton />)}`
+      popup.setLngLat(feature.geometry.coordinates)
+        .setHTML(popupContent)
+        .addTo(map.current);
+    });
+
+    map.current.on('mouseleave', 'public-restroom-nyc', () => {
+      popup.remove();
+    });
+
+    map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
+      const feature = event.features[0];
+      const popupContent =
+        `<h3>${feature.properties.Name}</h3>
+        <p>${feature.properties.Location}</p>`
+        // + `${ReactDOMServer.renderToString(<SaveButton />)}`
+      popup.setLngLat(feature.geometry.coordinates)
+        .setHTML(popupContent)
+        .addTo(map.current);
+    });
+
+    map.current.on('mouseleave', 'restroom-hotel-nyc', () => {
+      popup.remove();
+    });
+
       map.current.on("move", () => {
         setLng(map.current.getCenter().lng.toFixed(4));
         setLat(map.current.getCenter().lat.toFixed(4));
