@@ -17,15 +17,35 @@ import { logout } from "../../app/store";
 import AuthForm from "../auth/AuthForm";
 
 const SignIn = () => {
-  const isLoggedIn = useSelector((state) => !!state.auth.me.id);
+  const [isOpen, setIsOpen] = useState(false);
   const { username } = useSelector((state) => state.auth.me);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isLoggedIn = useSelector((state) => {
+    const { me, authToken } = state.auth;
+    const storedAuthToken = localStorage.getItem("authToken");
+    const storedUserId = sessionStorage.getItem("userId");
+    return (
+      me.id ||
+      (authToken && storedAuthToken === authToken) ||
+      (storedUserId && me.id === storedUserId)
+    );
+  });
+
   const logoutAndRedirectHome = () => {
     dispatch(logout());
+    localStorage.removeItem("authToken");
+    sessionStorage.removeItem("userId");
     navigate("/login");
   };
-  const [isOpen, setIsOpen] = useState(false);
+
+  const handleLogin = async (data) => {
+    await dispatch(login(data));
+    localStorage.setItem("authToken", data.authToken);
+    sessionStorage.setItem("userId", data.me.id);
+    toggleDialog();
+  };
 
   const toggleDialog = () => {
     setIsOpen(!isOpen);
@@ -62,15 +82,22 @@ const SignIn = () => {
               </Typography>
               <Typography
                 variant="h5"
-                sx={{ m: 4, color: crAppTheme.palette.primary.dark }}
+                sx={{ m: 4, color: crAppTheme.palette.primary.dark, mb: 6 }}
               >
                 {username}
               </Typography>
-              <Typography variant="body1">🎉</Typography>
+              <Box>
+                <TertiaryButton onClick={toggleDialog}>
+                  Start Exploring
+                </TertiaryButton>
+              </Box>
               <Box sx={{ marginTop: 5 }}>
-                <PrimaryButton type="button" onClick={logoutAndRedirectHome}>
+                <PrimaryButton>Manage Account</PrimaryButton>
+              </Box>
+              <Box sx={{ marginTop: 2 }}>
+                <TertiaryButton type="button" onClick={logoutAndRedirectHome}>
                   Logout
-                </PrimaryButton>
+                </TertiaryButton>
               </Box>
             </Container>
           ) : (
