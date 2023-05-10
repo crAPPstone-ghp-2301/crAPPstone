@@ -9,10 +9,16 @@ router.get('/:reviewId/comments', async (req, res, next) => {
     const review = await Review.findByPk(req.params.reviewId, {
       include: {
         model: Comments,
-        include: {
-          model: Comments,
-          as: 'replies',
-        },
+        include: [
+          {
+            model: Comments,
+            as: 'replies',
+          },
+          {
+            model: User,
+            attributes: ['username']
+          }
+        ],
       },
     });
     res.json(review.comments);
