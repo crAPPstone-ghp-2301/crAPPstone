@@ -1,5 +1,5 @@
+import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { getAllRestrooms, selectRestroom } from "./allRestroomSlice";
@@ -7,6 +7,7 @@ import crAppTheme from "../../app/theme";
 import {
   Typography,
   Container,
+  Button,
   Box,
   Card,
   CardMedia,
@@ -33,8 +34,6 @@ const AllRestrooms = () => {
           gutterBottom
           sx={{
             marginBottom: 5,
-            background:
-              "#FEFAE0",
             textAlign: "center",
           }}
         >
@@ -71,9 +70,6 @@ const AllRestrooms = () => {
                         border: "none",
                         "&:hover": {
                           border: "2px solid",
-                          borderImage:
-                            "linear-gradient(45deg, #7F00FF, #00bfff, #ff00ff) 1",
-                          boxShadow: "0 0px 20px #7F00FF",
                         },
                       }}
                     >
@@ -83,7 +79,7 @@ const AllRestrooms = () => {
                         sx={{ height: 300, objectFit: "cover" }}
                       />
                       <CardContent
-                        sx={{ backgroundColor: "#200040", height: 150 }}
+                        sx={{ height: 150 }}
                       >
                         <Typography
                           gutterBottom
@@ -100,7 +96,7 @@ const AllRestrooms = () => {
                       </CardContent>
                     </Card>
                   </Link>
-                  <SecondaryButton
+                  <Button
                     variant="contained"
                     size="small"
                     sx={{
@@ -110,7 +106,7 @@ const AllRestrooms = () => {
                     }}
                   >
                     Add a Review
-                  </SecondaryButton>
+                  </Button>
                 </Box>
               );
             })}
