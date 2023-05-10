@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
+=======
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+>>>>>>> d6ef03b86789fdc461a33bba2c90351c368dd35e
 import { Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { getAllRestrooms, selectRestroom } from "./allRestroomSlice";
@@ -14,11 +19,19 @@ import {
 } from "@mui/material";
 
 const AllRestrooms = () => {
-  const dispatch = useDispatch();
   const restrooms = useSelector(selectRestroom);
+<<<<<<< HEAD
   useEffect(() => {
     dispatch(getAllRestrooms());
   }, [dispatch]);
+=======
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllRestrooms());
+  }, [dispatch]);
+
+>>>>>>> d6ef03b86789fdc461a33bba2c90351c368dd35e
   
   return (
     <>
