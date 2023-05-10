@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 // import { fetchAllComments } from "../review/reviewSlice";
 import { fetchAllComments } from "./commentsSlice";
 import AddComment from "./AddComment";
+import LikeButton from "./LikeButton";
 
 /* will delete when finished
 goal here is to have a
@@ -69,8 +70,9 @@ const AllComments = () => {
             </div>
             <div>
               <p>{comment.content}</p>
-              <p>Likes: {comment.likes}</p>
+              {/* <p>Likes: {comment.likes}</p> */}
               {/* like button increment component here */}
+              <LikeButton commentId={comment.id} likes={comment.likes} />
               {/* reply button component here when it works */}
             </div>
             <br />
