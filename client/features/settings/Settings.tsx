@@ -6,30 +6,111 @@ import {
   Drawer,
   CssBaseline,
   ListItem,
+  ListItemAvatar,
+  Avatar,
   Typography,
-  IconButton,
+  Divider,
+  Container,
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import AddLocationAltRoundedIcon from "@mui/icons-material/AddLocationAltRounded";
+import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
+import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
+import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
+import ReviewsRoundedIcon from "@mui/icons-material/ReviewsRounded";
+import LinkRoundedIcon from "@mui/icons-material/LinkRounded";
+import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 
 const Settings = ({ open, onClose }) => {
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
         <CssBaseline />
-        <Drawer anchor="left" open={open} onClose={onClose}>
-          <ListItem sx={{ justifyContent: "flex-end" }}>
-            <IconButton onClick={onClose}>
-              <CloseRoundedIcon />
-            </IconButton>
-          </ListItem>
-          <ListItem>
-            <Typography variant="h5">Settings</Typography>
-          </ListItem>
-          <ListItem>
-            <AddLocationAltRoundedIcon />
-            <Typography variant="subtitle1">Add Location</Typography>
-          </ListItem>
+        <Drawer
+          open={open}
+          onClose={onClose}
+          ModalProps={{
+            BackdropProps: {
+              onClick: () => {},
+            },
+          }}
+        >
+          <TertiaryButton
+            onClick={onClose}
+            sx={{ position: "absolute", top: 0, right: 0 }}
+          >
+            <CloseRoundedIcon />
+          </TertiaryButton>
+          <Container sx={{ px: 0.5 }}>
+            <ListItem>
+              <Typography variant="h5">Settings</Typography>
+            </ListItem>
+          </Container>
+          <Divider />
+          <Container sx={{ py: 2 }}>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <BookmarkBorderRoundedIcon fontSize="small" />
+                </Avatar>
+              </ListItemAvatar>
+              <Typography variant="subtitle1">Saved</Typography>
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <HistoryRoundedIcon fontSize="small" />
+                </Avatar>
+              </ListItemAvatar>
+              <Typography variant="subtitle1">History</Typography>
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <ReviewsRoundedIcon fontSize="small" />
+                </Avatar>
+              </ListItemAvatar>
+              <Typography variant="subtitle1">Your Reviews</Typography>
+            </ListItem>
+          </Container>
+          <Divider />
+          <Container sx={{ py: 2 }}>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <LinkRoundedIcon fontSize="small" />
+                </Avatar>
+              </ListItemAvatar>
+              <Typography variant="subtitle1">Share Map</Typography>
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <AddLocationAltRoundedIcon fontSize="small" />
+                </Avatar>
+              </ListItemAvatar>
+              <Typography variant="subtitle1">Add Location</Typography>
+            </ListItem>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <AccountCircleRoundedIcon fontSize="small" />
+                </Avatar>
+              </ListItemAvatar>
+              <Typography variant="subtitle1">Edit Profile</Typography>
+            </ListItem>
+          </Container>
+          <Divider />
+          <Container sx={{ py: 2 }}>
+            <ListItem>
+              <ListItemAvatar>
+                <Avatar>
+                  <InfoRoundedIcon fontSize="small" />
+                </Avatar>
+              </ListItemAvatar>
+              <Typography variant="subtitle1">Help</Typography>
+            </ListItem>
+          </Container>
         </Drawer>
       </ThemeProvider>
     </>
