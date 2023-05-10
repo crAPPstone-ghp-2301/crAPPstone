@@ -10,6 +10,11 @@ import SingleReview from "../features/review/SingleReview";
 import AllComments from "../features/Comments/AllComments";
 import SingleComment from "../features/Comments/SingleComment"
 import SignIn from "../features/navigation/SignIn";
+import AddComment from "../features/comments/AddComment";
+import AddReply from "../features/comments/AddReply";
+import Comments from "../features/comments/Comments";
+import SingleComment from "../features/comments/SingleComment";
+import Home from "../features/home/Home"
 import AddComment from "../features/Comments/AddComment";
 import AddReply from "../features/Comments/AddReply";
 
@@ -20,6 +25,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/styleguide" element={<StyleGuide />} />
         <Route path="/profile" element={<SignIn />} />
+        <Route path="/" element ={<Home/>} />
         <Route path="/restrooms" element={<AllRestrooms />} />
         <Route path="/restrooms/:id" element={<SingleRestroom />} />
         <Route path="/reviews/:reviewId" element={<SingleReview />} />

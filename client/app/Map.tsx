@@ -6,9 +6,11 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 import { enableMapSet } from 'immer';
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
+import {Button, Typography,Divider} from "@mui/material";
+import DirectionsIcon from "@mui/icons-material/Directions";
+import { PrimaryButton} from "../features/styles/StyleGuide"
+import {CustomizedIconButton} from "../features/styles/StyleGuide"
 import { getAllRestrooms, selectRestroom } from '../features/restrooms/allRestroomSlice';
-
-
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw'
 const Map = () => {
@@ -34,13 +36,11 @@ const Map = () => {
       zoom: zoom
     });
 
-   
-    map.current.addControl(
-      new MapboxDirections({
+
+    const directions = new MapboxDirections({
       accessToken: mapboxgl.accessToken
-      }),
-      'top-right'
-      );
+
+  })
 
     map.current.addControl(
       new mapboxgl.GeolocateControl({
@@ -52,35 +52,7 @@ const Map = () => {
       }), "bottom-right"
     );
 
-    const geoJSONFeatures = Array.isArray(restrooms) && restrooms.map(restroom => ({
-      type: 'Feature',
-      properties: {
-        description: `<strong>${restroom.name}</strong><p>${restroom.description}</p>`,
-        icon: 'toilet-1'
-      },
-      geometry: {
-        type: 'Point',
-        coordinates: [parseFloat(restroom.longitude), parseFloat(restroom.latitude)]
-      }
-    }));
 
-    
-    map.current.on('click', (event) => {
-        const features = map.current.queryRenderedFeatures(event.point, {
-        layers: ['restroom-1']
-        });
-        if (!features.length) {
-        return;
-        }
-        const feature = features[0];
-        
-        const popup = new mapboxgl.Popup({ offset: [0, -15] })
-        .setLngLat(feature.geometry.coordinates)
-        .setHTML(
-        `<h3>${feature.properties.name}</h3><p>${feature.properties.description}</p>`
-        )
-        .addTo(map.current);
-        });
 
       map.current.addControl(
         new mapboxgl.NavigationControl(),"bottom-right"
@@ -88,15 +60,10 @@ const Map = () => {
 
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
-        countries: 'us',
-        language: 'en',
-        mapboxgl: mapboxgl
-      });
+        mapboxgl: mapboxgl,
+        marker:true, 
+    });
       
-      geocoder.on('result', (event) => {
-        const searchText = event.result.text;
-        console.log(searchText);
-      });
 
       map.current.addControl(geocoder,"top-right");
       
@@ -106,12 +73,59 @@ const Map = () => {
         setZoom(map.current.getZoom().toFixed(2));
     });
 
+    map.current.on('load', function() {
+      geocoder.container.setAttribute('id', 'geocoder-search')
+  });
+  
+
+  function direction_reset() {
+    directions.actions.clearOrigin()
+    directions.actions.clearDestination()
+    directions.container.querySelector('input').value = ''
+}
+$(function() {
+    $('#get-direction').click(function() {
+        // Adding Direction form and instructions on map
+        map.current.addControl(directions, 'top-right');
+        directions.container.setAttribute('id', 'direction-container')
+        $(geocoder.container).hide()
+        $(this).hide()
+        $('#end-direction').removeClass('d-none')
+        $('.marker').remove()
+
+    })
+    $('#end-direction').click(function() {
+        direction_reset()
+        $(this).addClass('d-none')
+        $('#get-direction').show()
+        $(geocoder.container).show()
+        map.current.removeControl(directions)
+    })
+
+})
     
   },[]);
+
+
   
   return (
-    <div ref={mapContainer} className="map-container">
-    </div>
+    <div>
+    <div ref={mapContainer} className="map-container"></div>
+    <div className="position-absolute top-0 start-50 translate-middle-x" style={{ left: '-10%' }}>
+    <PrimaryButton variant="outlined" sx={{ mr: 2, mt: 3 }} id="get-direction">
+      <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
+        Direction
+      </Typography>
+      <i className="fa fa-directions"></i>
+    </PrimaryButton>
+    <PrimaryButton variant="outlined" sx={{ mt: 3 }} className="d-none" id="end-direction">
+      <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
+        End Direction
+      </Typography>
+      <i className="fa fa-times"></i>
+    </PrimaryButton>
+  </div>
+</div>
   )
 }
 
