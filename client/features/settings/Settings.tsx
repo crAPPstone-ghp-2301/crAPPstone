@@ -17,7 +17,7 @@ const Settings = ({ open, onClose }) => {
     <>
       <ThemeProvider theme={crAppTheme}>
         <CssBaseline />
-        <Drawer anchor="left" open={open} onClose={onClose}>
+        <Drawer open={open} onClose={onClose} sx={{ left: "100px" }}>
           <ListItem sx={{ justifyContent: "flex-end" }}>
             <IconButton onClick={onClose}>
               <CloseRoundedIcon />

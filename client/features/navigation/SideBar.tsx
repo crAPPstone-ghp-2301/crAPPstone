@@ -40,14 +40,8 @@ const SideBar = () => {
     setDrawerOpen(!drawerOpen);
   };
 
-  const handleSettingsOpen = () => {
-    if (!settingsOpen) {
-      setSettingsOpen(true);
-    }
-  };
-
-  const handleSettingsClose = () => {
-    setSettingsOpen(false);
+  const toggleSettings = () => {
+    setSettingsOpen(!settingsOpen);
   };
 
   return (
@@ -85,7 +79,6 @@ const SideBar = () => {
             <TertiaryButton
               sx={{
                 justifyContent: "center",
-                my: 1,
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -103,7 +96,6 @@ const SideBar = () => {
             <TertiaryButton
               sx={{
                 justifyContent: "center",
-                my: 1,
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -144,11 +136,10 @@ const SideBar = () => {
           >
             <SignIn />
           </ListItem>
-          {/* <TertiaryButton onClick={handleSettingsOpen}>
+          <TertiaryButton onClick={toggleSettings}>
             <ListItem
               sx={{
                 justifyContent: "center",
-                my: 1,
                 display: "flex",
                 flexDirection: "column",
               }}
@@ -161,11 +152,11 @@ const SideBar = () => {
                 Settings
               </Typography>
               <Settings
-                open={handleSettingsOpen}
-                onClose={handleSettingsClose}
+                open={settingsOpen}
+                onClose={() => setSettingsOpen(false)}
               />
             </ListItem>
-          </TertiaryButton> */}
+          </TertiaryButton>
         </List>
       </Drawer>
       {isMobile && (
