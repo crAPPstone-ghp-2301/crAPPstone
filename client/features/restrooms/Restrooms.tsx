@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from "react-redux";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { getAllRestrooms, selectRestroom } from "./allRestroomSlice";
@@ -14,8 +14,12 @@ import {
 } from "@mui/material";
 
 const AllRestrooms = () => {
-  const dispatch = useDispatch();
   const restrooms = useSelector(selectRestroom);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllRestrooms());
+  }, [dispatch]);
 
   
   return (
