@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { fetchAllReviews } from "./reviewSlice";
+import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
 
 /* this component should 
 - fetch all reviews of a restroom id
@@ -25,13 +25,13 @@ const AllReviews = () => {
   const { restroomId } = useParams();
 
   useEffect(() => {
-    dispatch(fetchAllReviews(restroomId));
+    dispatch(fetchAllReviewsOfRestroomId(restroomId));
   }, [dispatch, restroomId]);
 
   const reviews = useSelector((state) => state.review.allReviews);
 
   const handleReviewClick = (id) => {
-    navigate(`/restrooms/${restroomId}/reviews/${id}`);
+    navigate(`/reviews/${id}`);
   };
 
   return (

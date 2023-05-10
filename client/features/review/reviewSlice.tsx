@@ -14,6 +14,15 @@ export const fetchAllReviews = createAsyncThunk(
   }
 );
 
+//fetch all reviews of a restroomId
+export const fetchAllReviewsOfRestroomId = createAsyncThunk(
+  "reviews/fetchReviewsOfRestroomId",
+  async (restroomId) => {
+    const response = await axios.get(`/api/restrooms/${restroomId}/reviews`);
+    return response.data;
+  }
+);
+
 //fetch single review
 export const fetchSingleReview = createAsyncThunk(
   "reviews/fetchSingle",
@@ -64,6 +73,9 @@ export const reviewSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchAllReviews.fulfilled, (state, action) => {
+      state.allReviews = action.payload;
+    });
+    builder.addCase(fetchAllReviewsOfRestroomId.fulfilled, (state, action) => {
       state.allReviews = action.payload;
     });
     builder.addCase(fetchSingleReview.fulfilled, (state, action) => {

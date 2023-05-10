@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-// import { fetchAllComments } from "../review/reviewSlice";
 import { fetchAllComments } from "./commentsSlice";
 import AddComment from "./AddComment";
 import LikeButton from "./LikeButton";
+import { Box, Button, Divider, Typography } from "@mui/material";
+import { PrimaryButton } from "../styles/StyleGuide";
 
 /* will delete when finished
 goal here is to have a
@@ -42,44 +43,38 @@ Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId
 const AllComments = () => {
   const dispatch = useDispatch();
   const { reviewId } = useParams();
-  const [showAddComment, setShowAddComment] = useState(false);
   const comments = useSelector((state) => state.comments.allComments);
 
   useEffect(() => {
     dispatch(fetchAllComments(reviewId));
   }, [dispatch, reviewId]);
 
-  const handleAddComment = () => {
-    setShowAddComment(!showAddComment);
-  };
-
   return (
-    <div className="testing">
-      {showAddComment ? (
+    <Box paddingLeft="35%">
+      <Box paddingRight="20%">
         <AddComment reviewId={reviewId} />
-      ) : (
-        <button onClick={handleAddComment}>Add Comment</button>
-      )}
-  
-      <div style={{ height: "290px", overflowY: "scroll" }}>
+      </Box>
+      <Box style={{ height: "310px", overflowY: "scroll", paddingRight:"20px", }}>
         <h3>Comments</h3>
         {comments.map((comment) => (
-          <div key={comment.id} >
-            <div>
-              {comment.user ? <p>{comment.user.username}</p> : <p>Anonymous</p>}
-            </div>
-            <div>
-              <p>{comment.content}</p>
-              {/* <p>Likes: {comment.likes}</p> */}
-              {/* like button increment component here */}
+          <Box key={comment.id}>
+            <Box>
+              {comment.user ? (
+                <Typography>{comment.user.username}</Typography>
+              ) : (
+                <Typography>Anonymous</Typography>
+              )}
+            </Box>
+            <Box>
+              <Typography variant="subtitle2">{comment.content}</Typography>
               <LikeButton commentId={comment.id} likes={comment.likes} />
               {/* reply button component here when it works */}
-            </div>
-            <br />
-          </div>
+            </Box>
+            <Divider />
+          </Box>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

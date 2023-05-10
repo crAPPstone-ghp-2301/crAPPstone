@@ -5,6 +5,7 @@ import { createComment, fetchAllComments } from "./commentsSlice";
 import crAppTheme from "../../app/theme";
 import { PrimaryButton } from "../styles/StyleGuide";
 import { ThemeProvider, Box, Container, TextField, Typography } from "@mui/material";
+import { WidthFull } from "@mui/icons-material";
 const AddComment = ({ reviewId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ const AddComment = ({ reviewId }) => {
           display: "flex",
           flexDirection: "column",
           alignItems: "flex-start",
-          width: "50%",
+          width: "100%",
           margin: "0 auto",
         }}
       >
@@ -51,7 +52,7 @@ const AddComment = ({ reviewId }) => {
           color="primary"
           disabled={!content.trim()}
           onClick={handleSubmit}
-          style={{ marginTop: "10px" }}
+            style={{ marginTop: "10px", width: "100px" }}
         >
           <Typography variant="subtitle1" sx={{ textTranform: "capitalize" }}>
             Submit
@@ -59,6 +60,7 @@ const AddComment = ({ reviewId }) => {
           </PrimaryButton>
         </Container>  
       </Box>
+
     </ThemeProvider>
   );
 };
