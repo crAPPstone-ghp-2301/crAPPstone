@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDispatch, useSelector } from "react-redux";
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -9,6 +10,7 @@ import {Button, Typography,Divider} from "@mui/material";
 import DirectionsIcon from "@mui/icons-material/Directions";
 import { PrimaryButton} from "../features/styles/StyleGuide"
 import {CustomizedIconButton} from "../features/styles/StyleGuide"
+import { getAllRestrooms, selectRestroom } from '../features/restrooms/allRestroomSlice';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw'
 const Map = () => {
@@ -18,6 +20,12 @@ const Map = () => {
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
   const [newPlace, setNewPlace] = useState(null);
+  const dispatch = useDispatch();
+
+  const restrooms = useSelector(selectRestroom);
+  useEffect(() => {
+    dispatch(getAllRestrooms());
+  }, [dispatch]); 
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -45,22 +53,6 @@ const Map = () => {
     );
 
 
-    // map.current.on('click', (event) => {
-    //     const features = map.current.queryRenderedFeatures(event.point, {
-    //     layers: ['restroom-nyc-all']
-    //     });
-    //     if (!features.length) {
-    //     return;
-    //     }
-    //     const feature = features[0];
-        
-    //     const popup = new mapboxgl.Popup({ offset: [0, -15] })
-    //     .setLngLat(feature.geometry.coordinates)
-    //     .setHTML(
-    //     `<p>${feature.properties.name}</p>`
-    //     )
-    //     .addTo(map.current);
-    //     });
 
       map.current.addControl(
         new mapboxgl.NavigationControl(),"bottom-right"

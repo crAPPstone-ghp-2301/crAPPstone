@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createComment } from "./commentsSlice";
+import { useParams } from "react-router-dom";
+import { createReply } from "./commentsSlice"
 import crAppTheme from "../../app/theme";
 import { SecondaryButton } from "../styles/StyleGuide";
 import {
@@ -11,8 +12,9 @@ import {
   Typography,
 } from "@mui/material";
 
-const AddReply = ({ parentCommentId, onClose }) => {
+const AddReply = ({ reviewId, commentId }) => {
   const dispatch = useDispatch();
+
   const [content, setContent] = useState("");
 
   const handleChange = (event) => {
@@ -21,10 +23,14 @@ const AddReply = ({ parentCommentId, onClose }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(createComment({ content, parentCommentId }));
+    dispatch(createReply({ reviewId, commentId, content }));
     setContent("");
-    onClose();
   };
+
+  const handleReset = (event) => { 
+    event.preventDefault();
+    setContent("");
+  }
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -65,8 +71,9 @@ const AddReply = ({ parentCommentId, onClose }) => {
             type="button"
             variant="contained"
             disabled={!content.trim()}
-            onClick={onClose}
+            onClick={handleReset}
             style={{ marginTop: "10px" }}
+
           >
             <Typography variant="subtitle1" sx={{ textTranform: "capitalize" }}>
               Cancel
@@ -79,3 +86,4 @@ const AddReply = ({ parentCommentId, onClose }) => {
 };
 
 export default AddReply;
+

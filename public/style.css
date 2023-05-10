@@ -32,6 +32,13 @@ a {
 }
 
 
+.testing {
+  margin-left: 20%;
+  margin-bottom: 20%;
+}
+
+
+
 .mapboxgl-popup {
   max-width: 200px;
 }

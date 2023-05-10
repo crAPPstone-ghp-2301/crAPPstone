@@ -2,91 +2,116 @@ const router = require('express').Router()
 const { models: { Comments, User, Review } } = require('../db')
 module.exports = router
 
-//fetching all comments - WORKS
-router.get('/', async (req, res, next) => {
+//Routes to include comments for a single review below 
+//fetch all comments for a single reviewId
+router.get('/:reviewId/comments', async (req, res, next) => {
   try {
-    const comments = await Comments.findAll({
-      include: [
-        { model: User },
-        { model: Review },
-        { model: Comments, as: 'replies' },
-        { model: Comments, as: 'parentComment' }
-      ]
+    const review = await Review.findByPk(req.params.reviewId, {
+      include: {
+        model: Comments,
+        include: {
+          model: Comments,
+          as: 'replies',
+        },
+      },
     });
-    res.json(comments);
-  } catch (err) {
-    next(err);
+    res.json(review.comments);
+  } catch (error) {
+    next(error);
   }
 });
 
-//fetching a single comment - WORKS
-router.get('/:id', async (req, res, next) => {
+//fetch a single comment of a reviewId and its replies 
+router.get('/:reviewId/comments/:commentId', async (req, res, next) => {
   try {
-    const comment = await Comments.findByPk(req.params.id, {
-      include: [
-        { model: User },
-        { model: Review },
-        { model: Comments, as: 'replies' },
-        { model: Comments, as: 'parentComment' }
-      ]
+    const comment = await Comments.findByPk(req.params.commentId, {
+      include: {
+        model: Comments,
+        as: 'replies',
+      },
     });
-
-    if (comment) {
-    console.log("data", req.body)
-
-      res.json(comment);
-    } else {
-      res.status(404).json({ error: 'Comment not found!' });
-    }
-
-  } catch (err) {
-    next(err);
-  }
-});
-
-//combined put routes for likes and content without using instance method - WORKS
-router.put('/:id', async (req, res, next) => {
-  try {
-    const comment = await Comments.findByPk(req.params.id);
-
-    if (comment) {
-      const { content, likes } = req.body;
-      await comment.update({ content, likes });
-      res.json(comment);
-    } else {
-      res.status(404).json({ error: 'Comment not found' });
-    }
-
-  } catch (err) {
-    next(err);
-  }
-});
-
-//delete comments - WORKS
-router.delete('/:id', async (req, res, next) => {
-  try {
-    const comment = await Comments.findByPk(req.params.id);
-
-    if (comment) {
-      await comment.destroy();
-      res.status(204).json({ message: 'Comment deleted' });
-    } else {
-      res.status(404).json({ error: 'Comment not found' });
-    }
-
-  } catch (err) {
-    next(err);
-  }
-});
-
-//create new comments within review - WORKS
-router.post("/", async (req, res, next) => {
-  try {
-    const comment = await Comments.create(req.body);
-    console.log(req.body)
     res.json(comment);
   } catch (error) {
     next(error);
   }
 });
 
+//create a new comment for a review 
+router.post('/:reviewId/comments', async (req, res, next) => {
+  try {
+    const { content, userId } = req.body;
+    const review = await Review.findByPk(req.params.reviewId);
+    const comment = await review.createComment({ content, userId });
+    res.json(comment);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//update a comment for a review
+router.put('/:reviewId/comments/:commentId', async (req, res, next) => {
+  try {
+    const { content, likes } = req.body;
+    const comment = await Comments.findByPk(req.params.commentId);
+    await comment.update({ content, likes });
+    res.json(comment);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//delete a comment for a review
+router.delete('/:reviewId/comments/:commentId', async (req, res, next) => {
+  try {
+    const comment = await Comments.findByPk(req.params.commentId);
+    await comment.destroy();
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//routes pertaining to replies to parentCommentId
+// create a new reply of a parentCommentId
+router.post('/:reviewId/comments/:commentId/replies', async (req, res, next) => {
+  try {
+    const { content, userId, reviewId } = req.body;
+    const parentComment = await Comments.findByPk(req.params.commentId);
+    const reply = await Comments.create({ content, userId, reviewId });
+    await reply.setParentComment(parentComment);
+    res.json(reply);
+  } catch (error) {
+    next(error);
+  }
+});
+
+//update a reply of parentCommentId
+router.put('/:reviewId/comments/:parentCommentId/replies/:commentId', async (req, res, next) => {
+  try {
+    const { content, likes } = req.body;
+    const reply = await Comments.findOne({
+      where: { id: req.params.commentId, parentCommentId: req.params.parentCommentId }
+    });
+
+    if (!reply) {
+      throw new Error('Reply not found');
+    }
+    await reply.update({ content, likes });
+
+    res.json(reply);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
+//delete an existing reply for a comment
+router.delete('/:reviewId/comments/:parentCommentId/replies/:commentId', async (req, res, next) => {
+  try {
+    const reply = await Comments.findByPk(req.params.commentId);
+    await reply.destroy();
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+});

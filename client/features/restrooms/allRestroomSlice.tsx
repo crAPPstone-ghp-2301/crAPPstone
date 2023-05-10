@@ -35,7 +35,7 @@ export const allRestroomsSlice = createSlice({
 });
 
 export const selectRestroom = (state) => {
-  return state.restrooms;
+  return state.allRestrooms;
 };
 
 export default allRestroomsSlice.reducer;
