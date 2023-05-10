@@ -61,7 +61,7 @@ const AllComments = () => {
         <button onClick={handleAddComment}>Add Comment</button>
       )}
   
-      <div style={{ height: "270px", overflowY: "scroll" }}>
+      <div style={{ height: "290px", overflowY: "scroll" }}>
         <h3>Comments</h3>
         {comments.map((comment) => (
           <div key={comment.id} >
