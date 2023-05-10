@@ -10,8 +10,8 @@ const App = () => {
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <SideBar />
-      <Map />
       <AppRoutes />
+      <Map />
     </ThemeProvider>
   );
 };
