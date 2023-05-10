@@ -15,18 +15,12 @@ import {
 
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
-<<<<<<< HEAD
-  useEffect(() => {
-    dispatch(getAllRestrooms());
-  }, [dispatch]);
-=======
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getAllRestrooms());
   }, [dispatch]);
 
->>>>>>> d6ef03b86789fdc461a33bba2c90351c368dd35e
   
   return (
     <>
