@@ -5,6 +5,7 @@ import { Route, Routes } from "react-router-dom";
 import StyleGuide from "../features/styles/StyleGuide";
 import Profile from "../features/navigation/SignIn";
 import AllRestrooms from "../features/restrooms/Restrooms";
+import SingleRestroom from "../features/restrooms/SingleRestroom";
 import SingleReview from "../features/review/SingleReview";
 import AllComments from "../features/Comments/AllComments";
 import SingleComment from "../features/Comments/SingleComment"
@@ -20,6 +21,7 @@ const AppRoutes = () => {
         <Route path="/styleguide" element={<StyleGuide />} />
         <Route path="/profile" element={<SignIn />} />
         <Route path="/restrooms" element={<AllRestrooms />} />
+        <Route path="/restrooms/:id" element={<SingleRestroom />} />
         <Route path="/reviews/:reviewId" element={<SingleReview />} />
         <Route path="/reviews/:reviewId/comments" element={<AllComments />} />
         <Route path="/reviews/:reviewId/comments/:commentId" element={<SingleComment />} />
