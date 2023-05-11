@@ -2,6 +2,15 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
+import crAppTheme from "../../app/theme";
+import {
+  Card,
+  Box,
+  Typography,
+  CardMedia,
+  ThemeProvider,
+  Divider,
+} from "@mui/material";
 
 /* this component should 
 - fetch all reviews of a restroom id
@@ -35,14 +44,59 @@ const AllReviews = () => {
   };
 
   return (
-    <div>
-      {reviews.map((review) => (
-        <div key={review.id} onClick={() => handleReviewClick(review.id)}>
-          <p>{review.reviewText}</p>
-          <p>Report: {review.reportStatus}</p>
-        </div>
-      ))}
-    </div>
+    <ThemeProvider theme={crAppTheme}>
+      <Box display="flex" flexDirection="column" width="50%" height="100%">
+        <Box flexGrow={1} sx={{ position: "absolute", zIndex: 1 }}>
+          <Card>
+            <Link
+              to={`/restroom/${restroomId}`}
+              sx={{
+                cursor: "pointer",
+                textDecoration: "none",
+                width: "100%",
+              }}
+            >
+              Back
+            </Link>
+            <Typography variant="h5" component="h2" paddingLeft="48%">
+              Reviews
+            </Typography>
+          </Card>
+          <Divider />
+          {reviews.map((review) => (
+            <Card
+              key={review.id}
+              onClick={() => handleReviewClick(review.id)}
+              sx={{
+                cursor: "pointer",
+              }}
+            >
+              <CardMedia
+                component="img"
+                sx={{
+                  maxWidth: 400,
+                  paddingLeft: "100px",
+                  zIndex: 1,
+                }}
+                src={review.imageURL}
+                alt="Picture unavailable!"
+                onError={(e) => {
+                  e.target.src =
+                    "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
+                }}
+              />
+              <Typography variant="subtitle1" paddingLeft="35%">
+                {review.reviewText}
+              </Typography>
+              <Typography variant="subtitle1" paddingLeft="35%">
+                Report: {review.reportStatus}
+              </Typography>
+              <Divider />
+            </Card>
+          ))}
+        </Box>
+      </Box>
+    </ThemeProvider>
   );
 };
 
