@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { createComment, fetchAllComments } from "./commentsSlice";
 import crAppTheme from "../../app/theme";
 import { PrimaryButton } from "../styles/StyleGuide";
 import { ThemeProvider, Box, Container, TextField, Typography } from "@mui/material";
-import { WidthFull } from "@mui/icons-material";
+
 const AddComment = ({ reviewId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [content, setContent] = useState("");
+  const user = useSelector((state) => state.auth.me);
 
   const handleChange = (event) => {
     setContent(event.target.value);
@@ -17,7 +18,8 @@ const AddComment = ({ reviewId }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    dispatch(createComment({ content, reviewId })).then(() => {
+    const userId = user ? user.userId : null;
+    dispatch(createComment({ content, reviewId, userId })).then(() => {
       dispatch(fetchAllComments(reviewId));
       setContent("");
       navigate(`/reviews/${reviewId}`);

@@ -48,15 +48,20 @@ const AllReviews = () => {
       <Box display="flex" flexDirection="column" width="50%" height="100%">
         <Box flexGrow={1} sx={{ position: "absolute", zIndex: 1 }}>
           <Card>
-            <Link
-              to={`/restroom/${restroomId}`}
-              sx={{
-                cursor: "pointer",
+            <Link to={`/restroom/${restroomId}`}>
+              <Typography
+                variant="h6"
+                sx={{
                 textDecoration: "none",
-                width: "100%",
-              }}
-            >
-              Back
+                  color: "brown",
+                  fontWeight: "bold",
+                  fontSize: "1.5rem",
+                  paddingLeft: "21rem",
+                }}
+
+              >
+                Back
+              </Typography>
             </Link>
             <Typography variant="h5" component="h2" paddingLeft="48%">
               Reviews
