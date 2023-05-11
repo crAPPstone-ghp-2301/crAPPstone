@@ -24,7 +24,7 @@ router.delete("/:restroomId", async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    const response = await Favorites.create(req.body)
+    const response = await Favorites.findOrCreate(req.body)
     res.json(response)
   } catch (error) {
     next(error)

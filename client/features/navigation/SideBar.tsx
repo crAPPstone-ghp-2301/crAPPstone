@@ -20,6 +20,7 @@ import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import Settings from "../settings/Settings";
+import { Link } from "react-router-dom";
 import { handleSavedButtonClick } from '../save/Saved'
 
 const SideBar = () => {
@@ -77,22 +78,24 @@ const SideBar = () => {
             </Typography>
           </ListItem>
           <ListItem>
-            <TertiaryButton
-              sx={{
-                justifyContent: "center",
-                display: "flex",
-                flexDirection: "column",
-              }}
-              onClick={handleSavedButtonClick}
-            >
-              <BookmarkBorderRoundedIcon fontSize="large" />
-              <Typography
-                variant="overline"
-                sx={{ textTransform: "capitalize" }}
+            <Link to='/saved'>
+              <TertiaryButton
+                sx={{
+                  justifyContent: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+                onClick={handleSavedButtonClick}
               >
-                Saved
-              </Typography>
-            </TertiaryButton>
+                <BookmarkBorderRoundedIcon fontSize="large" />
+                <Typography
+                  variant="overline"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  Saved
+                </Typography>
+              </TertiaryButton>
+            </Link>
           </ListItem>
           <ListItem>
             <TertiaryButton

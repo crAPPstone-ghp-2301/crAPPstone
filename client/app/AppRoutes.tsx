@@ -11,7 +11,7 @@ import SingleReview from "../features/review/SingleReview";
 import AllComments from "../features/Comments/AllComments";
 import SignIn from "../features/navigation/SignIn";
 import Home from "../features/home/Home"
-
+import Saved from "../features/save/Saved";
 
 const AppRoutes = () => {
   return (
@@ -25,6 +25,7 @@ const AppRoutes = () => {
         <Route path="/restrooms/:restroomId/reviews" element={<AllReviews />} />
         <Route path="/reviews/:reviewId" element={<SingleReview />} />
         <Route path="/reviews/:reviewId/comments" element={<AllComments />} />
+        <Route path='saved' element={<Saved />}/>
       </Routes>
     </ThemeProvider>
   );
