@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
 import crAppTheme from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
@@ -86,7 +85,6 @@ const AppRoutes = () => {
               }
             />
             <Route path="/styleguide" element={<StyleGuide />} />
-            <Route path="/signin" element={<SignIn />} />
             <Route path="/restrooms" element={<AllRestrooms />} />
             <Route path="/restrooms/:id" element={<SingleRestroom />} />
             <Route
