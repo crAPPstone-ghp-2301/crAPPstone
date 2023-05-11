@@ -116,7 +116,7 @@ const Map = () => {
 $(function() {
     $('#get-direction').click(function() {
         // Adding Direction form and instructions on map
-        map.current.addControl(directions, 'top-left');
+        map.current.addControl(directions, 'top-right');
         directions.container.setAttribute('id', 'direction-container')
         $(geocoder.container).hide()
         $(this).hide()
