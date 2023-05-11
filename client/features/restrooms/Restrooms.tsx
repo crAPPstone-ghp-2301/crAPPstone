@@ -13,6 +13,7 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
+import { handleAddSavedRestroom } from "../save/Saved";
 
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
@@ -22,7 +23,7 @@ const AllRestrooms = () => {
     dispatch(getAllRestrooms());
   }, [dispatch]);
 
-  
+
   return (
     <>
     <ThemeProvider theme={crAppTheme}>
@@ -106,6 +107,18 @@ const AllRestrooms = () => {
                     }}
                   >
                     Add a Review
+                  </Button>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      position: "absolute",
+                      top: "50px",
+                      right: "10px",
+                    }}
+                    onClick = {handleAddSavedRestroom}
+                  >
+                    Save Restroom
                   </Button>
                 </Box>
               );

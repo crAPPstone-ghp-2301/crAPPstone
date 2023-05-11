@@ -5,6 +5,8 @@ import commentsSlice from "../features/Comments/commentsSlice";
 import reviewSlice from "../features/review/reviewSlice";
 import allRestroomSlice from "../features/restrooms/allRestroomSlice";
 import restroomSliceReducer from "../features/restrooms/singleRestroomSlice";
+import savedSlice from '../features/save/saveSlice'
+
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -12,6 +14,7 @@ const store = configureStore({
     review: reviewSlice,
     allRestrooms: allRestroomSlice,
     singleRestroom: restroomSliceReducer,
+    saved: savedSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
