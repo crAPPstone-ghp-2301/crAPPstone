@@ -1,11 +1,8 @@
 import React from "react";
-import crAppTheme from "../../app/theme";
-import { ThemeProvider, Typography, Container } from "@mui/material";
-import Map from "../../app/Map"
+import Map from "../../app/Map";
+
 const Home = () => {
-  return (
-        <Map/>
-  );
+  return <Map />;
 };
 
 export default Home;
