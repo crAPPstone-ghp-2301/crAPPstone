@@ -136,13 +136,13 @@ $(function() {
 
 map.current.on('idle', () => {
   // If these two layers were not added to the map, abort
-  if (!map.current.getLayer('restroom-mall-nyc') || !map.current.getLayer('restroom-hotel-nyc')) {
+  if (!map.current.getLayer('restroom-mall-nyc') || !map.current.getLayer('restroom-hotel-nyc') ||!map.current.getLayer('public-restroom-nyc') ) {
     console.log("not found")
   return;
   }
    
   // Enumerate ids of the layers.
-  const toggleableLayerIds = ['restroom-mall-nyc', 'restroom-hotel-nyc'];
+  const toggleableLayerIds = ['restroom-mall-nyc', 'restroom-hotel-nyc','public-restroom-nyc'];
    
   // Set up the corresponding toggle button for each layer.
   for (const id of toggleableLayerIds) {
