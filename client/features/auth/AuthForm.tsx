@@ -11,6 +11,7 @@ import {
   Container,
   Box,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -29,6 +30,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
   const navigate = useNavigate();
   const { username } = useSelector((state) => state.auth.me);
   const { error } = useSelector((state) => state.auth);
+  const isMobile = useMediaQuery("(max-width:700px)");
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
@@ -72,7 +74,8 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
           alignItems: "center",
           backgroundColor: "#FFF",
           p: 4,
-          width: "30%",
+          width: isMobile ? "100%" : "30%",
+          height: "550px",
           textAlign: "center",
         }}
       >

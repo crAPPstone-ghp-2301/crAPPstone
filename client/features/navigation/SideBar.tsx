@@ -158,12 +158,15 @@ const SideBar = () => {
             }}
           >
             <Link to="/login">
-              <PrimaryButton sx={{ px: 1, py: 0.5 }}>
+              <PrimaryButton
+                onClick={isMobile ? drawerOpen : false}
+                sx={{ px: 1, py: 0.5 }}
+              >
                 <Typography variant="overline">
                   {isLoggedIn ? "Sign Out" : "Sign In"}
                 </Typography>
               </PrimaryButton>
-            </Link>{" "}
+            </Link>
           </ListItem>
           <TertiaryButton onClick={toggleSettings}>
             <ListItem
@@ -199,7 +202,7 @@ const SideBar = () => {
             flexDirection: "row",
             justifyContent: "space-between",
             alignItems: "center",
-            zIndex: 2,
+            zIndex: 1,
             width: "92%",
           }}
         >
