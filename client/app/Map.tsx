@@ -188,8 +188,7 @@ map.current.on('idle', () => {
   }
   });
 
-
-    
+  
   },[]);
 
 
@@ -210,15 +209,9 @@ map.current.on('idle', () => {
     </PrimaryButton> 
       </div>
     <div ref={mapContainer} className="map-container"></div>
-    {/* <div className="position-absolute top-0 start-5 ">
-            <button className="btn btn-lg btn-light bg-gradient bg-light border me-2 mt-3" id="get-direction"> Direction</button>
-            <button className="btn btn-lg btn-light bg-gradient bg-light border me-2 mt-3 d-none" id="end-direction"> End Direction</button>
-        </div> */}
-    
 </div>
   )
 }
-
 
 
 export default Map
