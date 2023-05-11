@@ -11,6 +11,7 @@ import {
   ThemeProvider,
   Divider,
 } from "@mui/material";
+import AddReview from "./AddReview";
 
 /* this component should 
 - fetch all reviews of a restroom id
@@ -23,9 +24,9 @@ similarly to google maps, we access all reviews of a restroom id by first clicki
 
 
 brain dump
-- how would it know which restroom id is being fetched 
-- possible plan 
-1) change API routes for reviews and comments to show restroom/:restroomId/reviews and thunks so that we can detect the restroom id
+-fixing addreview component 
+  - make sure proper restroom id is passed to review component when post
+  - test api route
 */
 
 const AllReviews = () => {
@@ -66,6 +67,7 @@ const AllReviews = () => {
             <Typography variant="h5" component="h2" paddingLeft="48%">
               Reviews
             </Typography>
+            {/* <AddReview restroomId={restroomId} /> */}
           </Card>
           <Divider />
           {reviews.map((review) => (
