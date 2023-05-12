@@ -61,8 +61,8 @@ export const createComment = createAsyncThunk(
         return data;
 
       }
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      return err.message;
     }
   }
 );

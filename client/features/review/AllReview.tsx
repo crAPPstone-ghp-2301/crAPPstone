@@ -67,7 +67,7 @@ const AllReviews = () => {
             <Typography variant="h5" component="h2" paddingLeft="48%">
               Reviews
             </Typography>
-            {/* <AddReview restroomId={restroomId} /> */}
+            <AddReview restroomId={restroomId} />
           </Card>
           <Divider />
           {reviews.map((review) => (

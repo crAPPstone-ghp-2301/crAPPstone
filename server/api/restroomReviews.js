@@ -22,57 +22,29 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
     }
 });
 
-// router.patch('/:restroomId/reviews/:reviewId', async (req, res, next) => {
-//     try {
-//       const { imageURL, reviewText, reportStatus, userId } = req.body;
-  
-//       const [review, created] = await Review.findOrCreate({
-//         where: { id: req.params.reviewId },
-//         defaults: { imageURL, reviewText, reportStatus }
-//       });
-  
-//       if (!created) {
-//         await review.update({ imageURL, reviewText, reportStatus });
-//       }
-  
-//       res.json(review);
-//     } catch (error) {
-//       next(error)
-//     }
-// });
-  
-// router.post('/:restroomId/reviews', async (req, res, next) => {
-//     try {
-//       const { imageURL, reviewText, reportStatus, userId } = req.body;
-//       const restroom = await Restroom.findByPk(req.params.restroomId);
-//       const review = await restroom.createReview({ imageURL, reviewText, reportStatus, userId });
-//       res.json(review);
-//     } catch (error) {
-//       next(error);
-//     }
-// });
   
 router.post('/:restroomId/reviews', async (req, res, next) => {
-    try {
-      const currentUser = await User.findByToken(req.headers.authorization);
-      const { imageURL, reviewText, reportStatus } = req.body;
-  
-      const restroom = await Restroom.findByPk(req.params.restroomId);
-  
-      if (!restroom) {
-        return res.status(404).json({ error: 'Restroom not found' });
-      }
-  
-      const review = await restroom.createReview({
-        imageURL,
-        reviewText,
-        reportStatus,
-        userId: currentUser.id
-      });
-  
-      res.json(review);
-    } catch (error) {
-      next(error);
+  try {
+    const { imageURL, reviewText, reportStatus } = req.body;
+    const restroom = await Restroom.findByPk(req.params.restroomId);
+    let userId = null;
+
+    if (req.headers.authorization) {
+      const user = await User.findByToken(req.headers.authorization);
+      userId = user.dataValues.id;
     }
-  });
+
+    const review = await restroom.createReview({
+      imageURL,
+      reviewText,
+      reportStatus,
+      userId,
+    });
+
+    res.json(review);
+  } catch (error) {
+    next(error);
+  }
+});
+
   
