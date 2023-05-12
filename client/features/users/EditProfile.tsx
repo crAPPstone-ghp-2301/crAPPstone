@@ -12,11 +12,14 @@ import {
   Typography,
   Box,
 } from "@mui/material";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUser } from "../auth/authSlice";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const EditProfile = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { me } = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -31,6 +34,20 @@ const EditProfile = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleEdit = (event) => {
+    event.preventDefault();
+    const { username, name, email, password } = event.target;
+    dispatch(
+      updateUser({
+        id: me.id,
+        username: username.value,
+        name: name.value,
+        email: email.value,
+      })
+    );
+    window.location.reload();
+  };
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -67,37 +84,44 @@ const EditProfile = () => {
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
-          <Box sx={{ py: 2 }}>
-            <Box sx={{ py: 2 }}>
-              <Typography variant="h5">Basic Info</Typography>
-            </Box>
-          </Box>
-          <Box sx={{ py: 2 }}>
-            <Box sx={{ py: 2 }}>
-              <Typography variant="h5">Password</Typography>
-            </Box>
-          </Box>
         </Container>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around",
-          }}
-        >
-          <PrimaryButton>
-            <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
-              Save
-            </Typography>
-          </PrimaryButton>
-          <Link to="/profile">
-            <TertiaryButton sx={{ mx: 2, py: 2 }}>
-              <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
-                Cancel
-              </Typography>
-            </TertiaryButton>
-          </Link>
-        </Box>
+        <Container>
+          <form onSubmit={handleEdit}>
+            <Box sx={{ py: 2 }}>
+              <Box sx={{ py: 2 }}>
+                <Typography variant="h5">Basic Info</Typography>
+              </Box>
+            </Box>
+            <Box sx={{ py: 2 }}>
+              <Box sx={{ py: 2 }}>
+                <Typography variant="h5">Password</Typography>
+              </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-around",
+              }}
+            >
+              <PrimaryButton>
+                <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
+                  Save
+                </Typography>
+              </PrimaryButton>
+              <Link to="/profile">
+                <TertiaryButton sx={{ mx: 2, py: 2 }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: 800, px: 2 }}
+                  >
+                    Cancel
+                  </Typography>
+                </TertiaryButton>
+              </Link>
+            </Box>
+          </form>
+        </Container>
       </Container>
     </ThemeProvider>
   );

@@ -65,6 +65,22 @@ export const signup = createAsyncThunk(
   }
 );
 
+export const updateUser = createAsyncThunk(
+  "users/update",
+  async ({ id, username, password, name, email }) => {
+    try {
+      const { data } = await axios.put(`/api/users/${id}`, {
+        username,
+        name,
+        email,
+      });
+      return data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
 /*
   SLICE
 */

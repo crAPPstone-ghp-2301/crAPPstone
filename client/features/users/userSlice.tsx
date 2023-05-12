@@ -24,23 +24,6 @@ export const fetchSingleUser = createAsyncThunk(
   }
 );
 
-// update user
-export const updateUser = createAsyncThunk(
-  "users/update",
-  async ({ id, username, password, name, email }) => {
-    try {
-      const { data } = await axios.put(`/api/users/${id}`, {
-        username,
-        name,
-        email,
-      });
-      return data;
-    } catch (err) {
-      return err.message;
-    }
-  }
-);
-
 // delete user
 export const deleteUser = createAsyncThunk("users/delete", async (id) => {
   try {
