@@ -53,13 +53,12 @@ const AllReviews = () => {
               <Typography
                 variant="h6"
                 sx={{
-                textDecoration: "none",
+                  textDecoration: "none",
                   color: "brown",
                   fontWeight: "bold",
                   fontSize: "1.5rem",
                   paddingLeft: "21rem",
                 }}
-
               >
                 Back
               </Typography>
@@ -92,6 +91,9 @@ const AllReviews = () => {
                     "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
                 }}
               />
+              <Typography variant="h5" paddingLeft="35%">
+                {review.user ? review.user.username : "Anonymous"}
+              </Typography>
               <Typography variant="subtitle1" paddingLeft="35%">
                 {review.reviewText}
               </Typography>

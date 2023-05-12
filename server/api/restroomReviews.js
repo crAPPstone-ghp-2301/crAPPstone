@@ -22,7 +22,7 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
     }
 });
 
-  
+//create a new review of restroomId
 router.post('/:restroomId/reviews', async (req, res, next) => {
   try {
     const { imageURL, reviewText, reportStatus } = req.body;
