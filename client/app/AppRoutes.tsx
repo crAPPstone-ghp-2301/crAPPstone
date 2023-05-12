@@ -13,8 +13,8 @@ import AllReviews from "../features/review/AllReview";
 import SingleReview from "../features/review/SingleReview";
 import AllComments from "../features/Comments/AllComments";
 import Home from "../features/home/Home";
-import Profile from "../features/settings/Profile";
-import EditProfile from "../features/settings/EditProfile";
+import Profile from "../features/users/Profile";
+import EditProfile from "../features/users/EditProfile";
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
