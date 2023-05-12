@@ -23,8 +23,8 @@ const AddComment = ({ reviewId }) => {
       dispatch(fetchAllComments(reviewId));
       setContent("");
       navigate(`/reviews/${reviewId}`);
-     })
-  };
+    })
+  };  
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -54,7 +54,7 @@ const AddComment = ({ reviewId }) => {
           color="primary"
           disabled={!content.trim()}
           onClick={handleSubmit}
-            style={{ marginTop: "10px", width: "100px" }}
+            style={{ marginTop: "1px", width: "100px" }}
         >
           <Typography variant="subtitle1" sx={{ textTranform: "capitalize" }}>
             Submit
