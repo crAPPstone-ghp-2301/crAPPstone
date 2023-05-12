@@ -21,7 +21,6 @@ import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 import Settings from "../settings/Settings";
 import { Link } from "react-router-dom";
-import { handleSavedButtonClick } from '../save/Saved'
 
 const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
@@ -85,7 +84,6 @@ const SideBar = () => {
                   display: "flex",
                   flexDirection: "column",
                 }}
-                onClick={handleSavedButtonClick}
               >
                 <BookmarkBorderRoundedIcon fontSize="large" />
                 <Typography

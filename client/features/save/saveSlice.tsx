@@ -17,13 +17,14 @@ export const getSavedRestrooms = createAsyncThunk(
 
 export const addSavedRestroom = createAsyncThunk(
   'saved/addSavedRestroom',
-  async () => {
+  async (restroomId) => {
     try {
-      console.log("saved slice addsavedrestroom")
-      const { data } = await axios.post('/api/saved')
+      // console.log("saved slice addsavedrestroom")
+      console.log('saved slice, restroom id', restroomId)
+      const { data } = await axios.post('/api/saved', {restroomId})
       return data
     } catch (error) {
-      return error.message
+      throw error
     }
 })
 
@@ -45,7 +46,7 @@ export const savedSlice = createSlice({
 });
 
 export const selectSaved = (state) => {
-  return state.savedRestrooms;
+  return state.savedRestrooms
 };
 
 export default savedSlice.reducer

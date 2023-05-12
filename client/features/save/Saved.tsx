@@ -1,24 +1,54 @@
 //save component
 
 import { useDispatch, useSelector } from "react-redux";
-import React, { useEffect } from "react";
-import { selectSaved, addSavedRestroom } from "./saveSlice";
+import React, { useState, useEffect } from "react";
+import { selectSaved, addSavedRestroom, getSavedRestrooms } from "./saveSlice";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import crAppTheme from "../../app/theme";
 import { Link } from "react-router-dom";
 import {
-  ThemeProvider,
-  CssBaseline,
-  Container,
   Typography,
+  Container,
+  Button,
   Box,
+  Card,
+  CardMedia,
+  CardContent,
+  ThemeProvider,
+  CssBaseline
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Saved = () => {
-  const dispatch = useDispatch()
-  const savedRestrooms = useSelector(selectSaved)
+  const [savedRestrooms, setSavedRestrooms] = useState([])
 
+  useEffect(() => {
+    async function fetchSavedRestrooms() {
+      try {
+        const [savedRestroomsResponse, restroomsResponse] = await Promise.all([
+          fetch("/api/saved"),
+          fetch("/api/restrooms")
+        ]);
+        const savedRestrooms = await savedRestroomsResponse.json();
+        const restrooms = await restroomsResponse.json();
+
+        const restroomsById = {};
+        restrooms.forEach(restroom => {
+          restroomsById[restroom.id] = restroom;
+        });
+
+        const savedRestroomsWithDetails = savedRestrooms.map(savedRestroom => ({
+          ...savedRestroom,
+          restroom: restroomsById[savedRestroom.restroomId]
+        }));
+
+        setSavedRestrooms(savedRestroomsWithDetails);
+      } catch (error) {
+        console.log("Error fetching saved restrooms:", error);
+      }
+    }
+    fetchSavedRestrooms();
+  }, []);
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -50,7 +80,9 @@ const Saved = () => {
             </Typography>
             {
               Array.isArray(savedRestrooms) && savedRestrooms.map((restroom) => {
-                <Link to={`/restrooms/${restroom.id}`}/>
+                return <Link key={restroom.restroomId} to={`/restrooms/${restroom.restroomId}`}>
+                  <Typography key={restroom.restroom.name}variant="subtitle1">{restroom.restroom.name}</Typography>
+                </Link>
               })
             }
           </Box>

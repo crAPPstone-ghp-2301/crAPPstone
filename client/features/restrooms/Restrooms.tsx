@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { getAllRestrooms, selectRestroom } from "./allRestroomSlice";
 import crAppTheme from "../../app/theme";
+import { addSavedRestroom } from "../save/saveSlice";
 import {
   Typography,
   Container,
@@ -13,7 +14,6 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
-import { handleAddSavedRestroom } from "../save/Saved";
 
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
@@ -22,6 +22,11 @@ const AllRestrooms = () => {
   useEffect(() => {
     dispatch(getAllRestrooms());
   }, [dispatch]);
+
+  const handleAddSavedRestroom = async (restroomId) => {
+    console.log('restroom id', restroomId)
+    await dispatch(addSavedRestroom(restroomId))
+  }
 
 
   return (
@@ -116,7 +121,7 @@ const AllRestrooms = () => {
                       top: "50px",
                       right: "10px",
                     }}
-                    onClick = {handleAddSavedRestroom}
+                    onClick={() => handleAddSavedRestroom(restroom.id)}
                   >
                     Save Restroom
                   </Button>

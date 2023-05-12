@@ -12,6 +12,7 @@ import {
   Divider,
   Container,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import AddLocationAltRoundedIcon from "@mui/icons-material/AddLocationAltRounded";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
@@ -20,6 +21,7 @@ import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import ReviewsRoundedIcon from "@mui/icons-material/ReviewsRounded";
 import LinkRoundedIcon from "@mui/icons-material/LinkRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+import Saved from "../save/Saved";
 
 const Settings = ({ open, onClose }) => {
   return (
@@ -51,7 +53,9 @@ const Settings = ({ open, onClose }) => {
             <ListItem>
               <ListItemAvatar>
                 <Avatar>
-                  <BookmarkBorderRoundedIcon fontSize="small" />
+                  <Link to='/saved'>
+                    <BookmarkBorderRoundedIcon fontSize="small" />
+                  </Link>
                 </Avatar>
               </ListItemAvatar>
               <Typography variant="subtitle1">Saved</Typography>
