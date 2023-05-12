@@ -32,25 +32,34 @@ const isUserOrAdmin = async (req, res, next) => {
     }
 };
 
-//fetch all reviews of a restroomId
-router.get('/:restroomId/reviews', isAdmin, async (req, res, next) => {
-    try {
-        const reviews = await Review.findAll({
-            where: {
-                restroomId: req.params.restroomId
-            },
-            include: [
-                {
-                    model: User,
-                    attributes: ['username']
-                }
-            ]
-        });
-        res.json(reviews);
-    } catch (error) {
-        next(error);
-    }
+router.get('/:restroomId/reviews', async (req, res, next) => {
+  try {
+    const reviews = await Review.findAll({
+      where: {
+        restroomId: req.params.restroomId
+      },
+      include: [
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
+    });
+
+    const reviewsWithUsername = reviews.map(review => {
+      const { username } = review.user;
+      return {
+        ...review.toJSON(),
+        username
+      };
+    });
+
+    res.json(reviewsWithUsername);
+  } catch (error) {
+    next(error);
+  }
 });
+
 
 //create a new review of restroomId
 router.post('/:restroomId/reviews', async (req, res, next) => {
@@ -73,6 +82,7 @@ router.post('/:restroomId/reviews', async (req, res, next) => {
 
     res.json(review);
   } catch (error) {
+    console.log(error)
     next(error);
   }
 });
