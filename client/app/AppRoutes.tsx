@@ -13,6 +13,7 @@ import AllComments from "../features/Comments/AllComments";
 import Home from "../features/home/Home";
 import EditProfile from "../features/settings/EditProfile";
 import AuthForm from "../features/auth/AuthForm";
+import Saved from "../features/save/Saved";
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
