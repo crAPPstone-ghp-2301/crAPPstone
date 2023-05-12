@@ -4,7 +4,6 @@ import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
-import { enableMapSet } from 'immer';
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import {Button, Typography,Divider} from "@mui/material";
 import DirectionsIcon from "@mui/icons-material/Directions";
@@ -13,6 +12,7 @@ import {CustomizedIconButton} from "../features/styles/StyleGuide"
 import { getAllRestrooms, selectRestroom } from '../features/restrooms/allRestroomSlice';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw'
+
 const Map = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);
@@ -21,13 +21,14 @@ const Map = () => {
   const [zoom, setZoom] = useState(12);
   const [newPlace, setNewPlace] = useState(null);
   const dispatch = useDispatch();
-
-  const restrooms = useSelector(selectRestroom);
+  
+  // const restrooms = useSelector(selectRestroom);
   // useEffect(() => {
   //   dispatch(getAllRestrooms());
   // }, [dispatch]); 
 
   useEffect(() => {
+    
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
@@ -36,11 +37,6 @@ const Map = () => {
       zoom: zoom
     });
 
-
-    const directions = new MapboxDirections({
-      accessToken: mapboxgl.accessToken
-
-  })
 
     map.current.addControl(
       new mapboxgl.GeolocateControl({
@@ -52,9 +48,7 @@ const Map = () => {
       }), "bottom-right"
     );
 
-
-
-      map.current.addControl(
+     map.current.addControl(
         new mapboxgl.NavigationControl(),"bottom-right"
       );
 
@@ -66,7 +60,7 @@ const Map = () => {
       
 
       map.current.addControl(geocoder,"top-right");
-      
+
       let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
     map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
@@ -109,6 +103,10 @@ const Map = () => {
       geocoder.container.setAttribute('id', 'geocoder-search')
   });
   
+  const directions = new MapboxDirections({
+      accessToken: mapboxgl.accessToken
+
+  })
 
   function direction_reset() {
     directions.actions.clearOrigin()
@@ -135,32 +133,86 @@ $(function() {
     })
 
 })
-    
+
+map.current.on('idle', () => {
+  // If these two layers were not added to the map, abort
+  if (!map.current.getLayer('restroom-mall-nyc') || !map.current.getLayer('restroom-hotel-nyc') ||!map.current.getLayer('public-restroom-nyc') ) {
+    console.log("not found")
+  return;
+  }
+   
+  // Enumerate ids of the layers.
+  const toggleableLayerIds = ['restroom-mall-nyc', 'restroom-hotel-nyc','public-restroom-nyc'];
+   
+  // Set up the corresponding toggle button for each layer.
+  for (const id of toggleableLayerIds) {
+  // Skip layers that already have a button set up.
+  if (document.getElementById(id)) {
+  continue;
+  }
+   
+  // Create a link.
+  const link = document.createElement('a');
+  link.id = id;
+  link.href = '#';
+  link.textContent = id;
+  link.className = 'active';
+   
+  // Show or hide layer when the toggle is clicked.
+  link.onclick = function (e) {
+  const clickedLayer = this.textContent;
+  e.preventDefault();
+  e.stopPropagation();
+   
+  const visibility = map.current.getLayoutProperty(
+  clickedLayer,
+  'visibility'
+  );
+   
+  // Toggle layer visibility by changing the layout object's visibility property.
+  if (visibility === 'visible') {
+  map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
+  this.className = '';
+  } else {
+  this.className = 'active';
+  map.current.setLayoutProperty(
+  clickedLayer,
+  'visibility',
+  'visible'
+  );
+  }
+  };
+   
+  const layers = document.getElementById('menu');
+  layers.appendChild(link);
+  }
+  });
+
+  
   },[]);
 
 
   
   return (
     <div>
-    <div ref={mapContainer} className="map-container"></div>
-    <div className="position-absolute top-0 start-50 translate-middle-x" style={{ left: '-10%' }}>
-    <PrimaryButton variant="outlined" sx={{ mr: 2, mt: 3 }} id="get-direction">
+      <nav id="menu"></nav>
+      <div>
+      <PrimaryButton variant="outlined" sx={{ mr: 2, mt: 3 }} id="get-direction">
       <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
         Direction
       </Typography>
-      <i className="fa fa-directions"></i>
     </PrimaryButton>
     <PrimaryButton variant="outlined" sx={{ mt: 3 }} className="d-none" id="end-direction">
       <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
         End Direction
       </Typography>
-      <i className="fa fa-times"></i>
-    </PrimaryButton>
-  </div>
+    </PrimaryButton> 
+      </div>
+    <div ref={mapContainer} className="map-container"></div>
 </div>
   )
 }
 
 
-
 export default Map
+
