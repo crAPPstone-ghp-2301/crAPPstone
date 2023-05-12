@@ -41,11 +41,35 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
 //     }
 // });
   
+// router.post('/:restroomId/reviews', async (req, res, next) => {
+//     try {
+//       const { imageURL, reviewText, reportStatus, userId } = req.body;
+//       const restroom = await Restroom.findByPk(req.params.restroomId);
+//       const review = await restroom.createReview({ imageURL, reviewText, reportStatus, userId });
+//       res.json(review);
+//     } catch (error) {
+//       next(error);
+//     }
+// });
+  
 router.post('/:restroomId/reviews', async (req, res, next) => {
     try {
-      const { imageURL, reviewText, reportStatus, userId } = req.body;
+      const currentUser = await User.findByToken(req.headers.authorization);
+      const { imageURL, reviewText, reportStatus } = req.body;
+  
       const restroom = await Restroom.findByPk(req.params.restroomId);
-      const review = await restroom.createReview({ imageURL, reviewText, reportStatus, userId });
+  
+      if (!restroom) {
+        return res.status(404).json({ error: 'Restroom not found' });
+      }
+  
+      const review = await restroom.createReview({
+        imageURL,
+        reviewText,
+        reportStatus,
+        userId: currentUser.id
+      });
+  
       res.json(review);
     } catch (error) {
       next(error);

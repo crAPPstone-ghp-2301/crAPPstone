@@ -23,8 +23,8 @@ const AddComment = ({ reviewId }) => {
       dispatch(fetchAllComments(reviewId));
       setContent("");
       navigate(`/reviews/${reviewId}`);
-     })
-  };
+    })
+  };  
 
   return (
     <ThemeProvider theme={crAppTheme}>
