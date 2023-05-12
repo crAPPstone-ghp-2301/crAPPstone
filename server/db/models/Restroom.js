@@ -8,27 +8,27 @@ const Restroom = db.define("restroom", {
     allowNull: false,
   },
   openingHours: {
-    allowNull: false,
+    allowNull: true,
     type: Sequelize.TEXT,
   },
   description: {
     type: Sequelize.TEXT,
   },
-  address: {
-    allowNull: false,
+  city: {
+    allowNull: true,
     type: Sequelize.TEXT,
   },
-  placeType: {
-    allowNull: false,
+  location: {
+    allowNull: true,
     type: Sequelize.TEXT,
   },
   latitude: {
     type: Sequelize.FLOAT,
-    allowNull: false,
+    allowNull: true,
   },
   longitude: {
     type: Sequelize.FLOAT,
-    allowNull: false,
+    allowNull: true,
   },
   capacity: {
     type: Sequelize.INTEGER,
