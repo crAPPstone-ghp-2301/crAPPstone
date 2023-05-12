@@ -47,7 +47,8 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
     });
 
     const reviewsWithUsername = reviews.map(review => {
-      const { username } = review.user;
+      const username = review.user ? review.user.username : 'Anonymous';
+      console.log(username);
       return {
         ...review.toJSON(),
         username
