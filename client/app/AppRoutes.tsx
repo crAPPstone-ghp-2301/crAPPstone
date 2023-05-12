@@ -15,7 +15,6 @@ import AllComments from "../features/Comments/AllComments";
 import Home from "../features/home/Home";
 import Profile from "../features/users/Profile";
 import EditProfile from "../features/users/EditProfile";
-import AuthForm from "../features/auth/AuthForm";
 import Saved from "../features/save/Saved";
 
 const AppRoutes = () => {
@@ -65,7 +64,7 @@ const AppRoutes = () => {
             />
             <Route path="/profile" element={<Profile />} />
             <Route path="/editprofile" element={<EditProfile />} />
-            <Route path='saved' element={<Saved />}/>
+            <Route path="saved" element={<Saved />} />
           </>
         ) : (
           <>
