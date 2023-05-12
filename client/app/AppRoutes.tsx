@@ -60,6 +60,7 @@ const AppRoutes = () => {
               element={<AllComments />}
             />
             <Route path="/editprofile" element={<EditProfile />} />
+            <Route path='saved' element={<Saved />}/>
           </>
         ) : (
           <>

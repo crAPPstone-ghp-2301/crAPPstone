@@ -22,6 +22,7 @@ import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import ReviewsRoundedIcon from "@mui/icons-material/ReviewsRounded";
 import LinkRoundedIcon from "@mui/icons-material/LinkRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+import Saved from "../save/Saved";
 
 const Settings = ({ open, onClose }) => {
   const navigate = useNavigate();
@@ -80,7 +81,9 @@ const Settings = ({ open, onClose }) => {
             >
               <ListItemAvatar>
                 <Avatar>
-                  <BookmarkBorderRoundedIcon fontSize="small" />
+                  <Link to='/saved'>
+                    <BookmarkBorderRoundedIcon fontSize="small" />
+                  </Link>
                 </Avatar>
               </ListItemAvatar>
               <Typography variant="subtitle1">Saved</Typography>
