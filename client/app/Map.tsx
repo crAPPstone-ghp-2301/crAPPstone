@@ -84,9 +84,8 @@ const Map = () => {
     map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
       const feature = event.features[0];
       const popupContent =
-        `<h3>${feature.properties.Name}</h3>
+        `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>`
-        // + `${ReactDOMServer.renderToString(<SaveButton />)}`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -99,9 +98,8 @@ const Map = () => {
     map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
       const feature = event.features[0];
       const popupContent =
-        `<h3>${feature.properties.Name}</h3>
+        `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>`
-        // + `${ReactDOMServer.renderToString(<SaveButton />)}`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -110,6 +108,21 @@ const Map = () => {
     map.current.on('mouseleave', 'restroom-hotel-nyc', () => {
       popup.remove();
     });
+
+    map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
+      const feature = event.features[0];
+      const popupContent =
+        `<p><strong>${feature.properties.Name}</strong></p>
+        <p>${feature.properties.Location}</p>`
+      popup.setLngLat(feature.geometry.coordinates)
+        .setHTML(popupContent)
+        .addTo(map.current);
+    });
+
+    map.current.on('mouseleave', 'restroom-mall-nyc', () => {
+      popup.remove();
+    });
+
 
      
 
@@ -184,11 +197,11 @@ const Map = () => {
         properties.Latitude
         );
        
-        const content = `<h3>${properties.STORE_NAME}</h3><h4>${
+        const content = `<p><strong>${properties.STORE_NAME}</strong></p><p>${
         properties.Placetype
-        }</h4><p>${properties.STORE_LOCATION}</p><p>${(
+        }</p><p>${properties.STORE_LOCATION}</p><p><strong>${(
         obj.distance / 1609.344
-        ).toFixed(2)} mi. from location</p>`;
+        ).toFixed(2)}</strong> mi. from location</p>`;
          
         popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
         });

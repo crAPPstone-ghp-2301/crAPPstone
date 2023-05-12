@@ -27,7 +27,11 @@ a {
 }
 
 .map-container {
-  position: absolute; top: 0; bottom: 0; width: 100%;
+  position: absolute;
+   top: 0; 
+   bottom: 0; 
+   width: 100%;
+   z-index:0
 }
 
 .testing {
@@ -41,6 +45,12 @@ a {
 
 .mapboxgl-popup-content {
   text-align: center;
+  font-family:Arial, Helvetica, sans-serif;
+ font-size: "1.5rem";
+ font-weight: 400;
+ line-height: 1.5;
+ background-color:#FEFAE0;
+ color:#D4A373
 }
 
 .mapbox-directions-instructions {
