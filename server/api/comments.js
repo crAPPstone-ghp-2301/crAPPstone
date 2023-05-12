@@ -46,7 +46,7 @@ router.get('/:reviewId/comments', isAdmin, async (req, res, next) => {
           },
           {
             model: User,
-            attributes: ['username']
+            attributes: ['id', 'username']
           }
         ],
       },
@@ -75,9 +75,21 @@ router.get('/:reviewId/comments/:commentId', isUserOrAdmin, async (req, res, nex
 //create a new comment for a review 
 router.post('/:reviewId/comments', async (req, res, next) => {
   try {
-    const { content, userId } = req.body;
+    const { content } = req.body;
     const review = await Review.findByPk(req.params.reviewId);
-    const comment = await review.createComment({ content, userId });
+    let userId = null;
+
+    // this will check if user is logged in and will pull userId
+    if (req.headers.authorization) {
+      const user = await User.findByToken(req.headers.authorization);
+      userId = user.dataValues.id;
+    }
+
+    const comment = await review.createComment({
+      content,
+      userId,
+    });
+
     res.json(comment);
   } catch (error) {
     next(error);
@@ -87,6 +99,7 @@ router.post('/:reviewId/comments', async (req, res, next) => {
 //update a comment for a review
 router.put('/:reviewId/comments/:commentId', async (req, res, next) => {
   try {
+    
     const { content, likes } = req.body;
     const comment = await Comments.findByPk(req.params.commentId);
     await comment.update({ content, likes });

@@ -100,21 +100,23 @@ const SideBar = () => {
             </Link>
           </ListItem>
           <ListItem>
-            <TertiaryButton
-              sx={{
-                justifyContent: "center",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <BookmarkBorderRoundedIcon fontSize="large" />
-              <Typography
-                variant="overline"
-                sx={{ textTransform: "capitalize" }}
+            <Link to='/saved'>
+              <TertiaryButton
+                sx={{
+                  justifyContent: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
               >
-                Saved
-              </Typography>
-            </TertiaryButton>
+                <BookmarkBorderRoundedIcon fontSize="large" />
+                <Typography
+                  variant="overline"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  Saved
+                </Typography>
+              </TertiaryButton>
+            </Link>
           </ListItem>
           <ListItem>
             <TertiaryButton

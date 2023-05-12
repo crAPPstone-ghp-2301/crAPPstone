@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { ThemeProvider } from "@mui/material/styles";
 import { getAllRestrooms, selectRestroom } from "./allRestroomSlice";
 import crAppTheme from "../../app/theme";
+import { addSavedRestroom } from "../save/saveSlice";
 import {
   Typography,
   Container,
@@ -22,7 +23,12 @@ const AllRestrooms = () => {
     dispatch(getAllRestrooms());
   }, [dispatch]);
 
-  
+  const handleAddSavedRestroom = async (restroomId) => {
+    console.log('restroom id', restroomId)
+    await dispatch(addSavedRestroom(restroomId))
+  }
+
+
   return (
     <>
     <ThemeProvider theme={crAppTheme}>
@@ -106,6 +112,18 @@ const AllRestrooms = () => {
                     }}
                   >
                     Add a Review
+                  </Button>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      position: "absolute",
+                      top: "50px",
+                      right: "10px",
+                    }}
+                    onClick={() => handleAddSavedRestroom(restroom.id)}
+                  >
+                    Save Restroom
                   </Button>
                 </Box>
               );
