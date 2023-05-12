@@ -19,8 +19,6 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import Settings from "../settings/Settings";
-import { Link } from "react-router-dom";
 
 const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
