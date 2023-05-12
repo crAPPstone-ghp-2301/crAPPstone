@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React from "react";
 import crAppTheme from "../../app/theme";
 import {
   PrimaryButton,
@@ -105,7 +105,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
               </Link>
             </Box>
             <Box sx={{ marginTop: 5 }}>
-              <Link to="/editprofile">
+              <Link to="/profile">
                 <PrimaryButton>Manage Account</PrimaryButton>
               </Link>
             </Box>

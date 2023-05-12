@@ -1,8 +1,37 @@
 const router = require('express').Router();
-const Restroom = require('../db/models/Restroom');
+const { models: { User, Restroom } } = require('../db')
 
+// middleware function to check if user isAdmin
+const isAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers.authorization);
+    if (!user.isAdmin) {
+      const error = new Error('Not authorized');
+      error.status = 401;
+      throw error;
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
 
-router.get('/', async (req, res, next) => {
+// middleware function to check if user is the same user or isAdmin
+const isUserOrAdmin = async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers.authorization);
+    if (!user.isAdmin && user.id !== Number(req.params.id)) {
+      const error = new Error('Not authorized');
+      error.status = 401;
+      throw error;
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+router.get('/', isAdmin, async (req, res, next) => {
   console.log("Restroom backend API is running")
   try {
     const restrooms = await Restroom.findAll();
@@ -11,7 +40,7 @@ router.get('/', async (req, res, next) => {
     next(error)
   }
 })
-router.get('/:id', async (req, res, next) => {
+router.get('/:id', isUserOrAdmin, async (req, res, next) => {
   try {
     console.log("SINGLE Restroom BACKEND WORKING")
     const singleRestroom = await Restroom.findByPk(req.params.id);

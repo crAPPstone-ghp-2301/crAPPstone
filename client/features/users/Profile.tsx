@@ -9,10 +9,11 @@ import {
   Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-const EditProfile = () => {
+const Profile = () => {
   const { id, name, email, isAdmin, username, password } = useSelector(
     (state) => state.auth.me
   );
@@ -65,32 +66,48 @@ const EditProfile = () => {
             </TertiaryButton>
           </Link>
           <Box sx={{ py: 2 }}>
-            <Typography variant="h5">Basic Info</Typography>
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "row", py: 2 }}>
-            <Typography variant="subtitle1">Username:</Typography>
-            <Typography variant="body1">{username}</Typography>
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "row", py: 2 }}>
-            <Typography variant="subtitle1">Name:</Typography>
-            <Typography variant="body1">{name}</Typography>
-          </Box>
-          <Box sx={{ display: "flex", flexDirection: "row", py: 2 }}>
-            <Typography variant="subtitle1">Email:</Typography>
-            <Typography variant="body1">{email}</Typography>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="h5">Basic Info</Typography>
+            </Box>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="subtitle1">Username:</Typography>
+              <Typography variant="body1">{username}</Typography>
+            </Box>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="subtitle1">Name:</Typography>
+              <Typography variant="body1">{name}</Typography>
+            </Box>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="subtitle1">Email:</Typography>
+              <Typography variant="body1">{email}</Typography>
+            </Box>
           </Box>
           <Box sx={{ py: 2 }}>
-            <Typography variant="h5">Password</Typography>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="h5">Password</Typography>
+            </Box>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="subtitle1">Your secure password</Typography>
+              <Typography variant="body1">*****</Typography>
+            </Box>
           </Box>
-          <Box sx={{ display: "flex", flexDirection: "row", py: 2 }}>
-            <Typography variant="subtitle1">Your secure password</Typography>
-            <Typography variant="body1">*****</Typography>
+          <Box sx={{ py: 2 }}>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="h5">Profile Image</Typography>
+            </Box>
           </Box>
-          <PrimaryButton sx={{ my: 4 }}>Edit Profile</PrimaryButton>
+          <Link to="/editprofile">
+            <PrimaryButton sx={{ my: 4 }}>
+              <EditRoundedIcon />
+              <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
+                Edit Profile
+              </Typography>
+            </PrimaryButton>
+          </Link>
         </Container>
       </Container>
     </ThemeProvider>
   );
 };
 
-export default EditProfile;
+export default Profile;
