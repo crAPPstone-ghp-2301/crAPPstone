@@ -82,46 +82,44 @@ const Map = () => {
       let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
     map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
+      map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
-        <p>${feature.properties.Location}</p>`
+        <p>${feature.properties.Location}</p>
+        <button onclick="console.log('Clicked!')">Click me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
-    });
-
-    map.current.on('mouseleave', 'public-restroom-nyc', () => {
-      popup.remove();
     });
 
     map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
+      map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
-        <p>${feature.properties.Location}</p>`
+        <p>${feature.properties.Location}</p>
+        <button onclick="console.log('Clicked!')">Click me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
     });
 
-    map.current.on('mouseleave', 'restroom-hotel-nyc', () => {
-      popup.remove();
-    });
+   
 
     map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
+      map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
-        <p>${feature.properties.Location}</p>`
+        <p>${feature.properties.Location}</p>
+        <button onclick="console.log('Clicked!')">Click me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
     });
 
-    map.current.on('mouseleave', 'restroom-mall-nyc', () => {
-      popup.remove();
-    });
+  
 
 
      

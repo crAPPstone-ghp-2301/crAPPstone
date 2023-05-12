@@ -65,8 +65,8 @@ div#geocoder-search {
   background: #FEFAE0;
   position: absolute;
   z-index: 1;
-  top: 90px;
-  left: 170px;
+  top: 150px;
+  right: 30px;
   border-radius: 3px;
   width: 120px;
   border: 1px solid #A5A58D;
@@ -106,15 +106,15 @@ div#geocoder-search {
 #get-direction{
   position: absolute;
   z-index: 1;
-  top: 0px;
-  left: 150px;
+  top: 320px;
+  right: 0px;
   }
 
   #end-direction{
     position: absolute;
     z-index: 1;
-    top: 0px;
-    left: 150px;
+    top: 320px;
+  right: 0px;
     }
 
 @media only screen and (max-width: 600px) {
