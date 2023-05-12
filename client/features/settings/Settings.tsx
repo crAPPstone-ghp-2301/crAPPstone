@@ -74,20 +74,16 @@ const Settings = ({ open, onClose }) => {
         <Divider />
         <Container>
           <ListItem>
-            <TertiaryButton
-              onClick={() =>
-                handleButtonClick(() => console.log("Saved button clicked"))
-              }
-            >
-              <ListItemAvatar>
-                <Avatar>
-                  <Link to='/saved'>
-                    <BookmarkBorderRoundedIcon fontSize="small" />
-                  </Link>
-                </Avatar>
-              </ListItemAvatar>
-              <Typography variant="subtitle1">Saved</Typography>
-            </TertiaryButton>
+            <Link to='/saved'>
+              <TertiaryButton>
+                <ListItemAvatar>
+                  <Avatar>
+                      <BookmarkBorderRoundedIcon fontSize="small" />
+                  </Avatar>
+                </ListItemAvatar>
+                <Typography variant="subtitle1">Saved</Typography>
+              </TertiaryButton>
+            </Link>
           </ListItem>
           <ListItem>
             <TertiaryButton>
