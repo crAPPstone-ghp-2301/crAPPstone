@@ -130,7 +130,7 @@ const Settings = ({ open, onClose }) => {
             </TertiaryButton>
           </ListItem>
           <ListItem>
-            <Link to="/editprofile">
+            <Link to={!isLoggedIn ? "/login" : "/profile"}>
               <TertiaryButton>
                 <ListItemAvatar>
                   <Avatar>

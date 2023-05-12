@@ -1,10 +1,6 @@
 import React, { useEffect } from "react";
 import crAppTheme from "../../app/theme";
-import {
-  PrimaryButton,
-  SecondaryButton,
-  TertiaryButton,
-} from "../styles/StyleGuide";
+import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import {
   ThemeProvider,
   CssBaseline,
@@ -13,11 +9,14 @@ import {
   Box,
 } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
-const EditProfile = () => {
-  const { me } = useSelector((state) => state.auth);
+const Profile = () => {
+  const { id, name, email, isAdmin, username, password } = useSelector(
+    (state) => state.auth.me
+  );
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -53,13 +52,12 @@ const EditProfile = () => {
             flexDirection: "column",
             justifyContent: "flex-start",
             py: 2,
-            marginBottom: 2,
           }}
         >
           <Box sx={{ py: 2 }}>
-            <Typography variant="h3">Edit Profile</Typography>
+            <Typography variant="h3">Personal Profile</Typography>
             <Typography variant="subtitle1">
-              Change your preferences on crAPP
+              Info about you and your preferences on crAPP
             </Typography>
           </Box>
           <Link to="/">
@@ -71,36 +69,45 @@ const EditProfile = () => {
             <Box sx={{ py: 2 }}>
               <Typography variant="h5">Basic Info</Typography>
             </Box>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="subtitle1">Username:</Typography>
+              <Typography variant="body1">{username}</Typography>
+            </Box>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="subtitle1">Name:</Typography>
+              <Typography variant="body1">{name}</Typography>
+            </Box>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="subtitle1">Email:</Typography>
+              <Typography variant="body1">{email}</Typography>
+            </Box>
           </Box>
           <Box sx={{ py: 2 }}>
             <Box sx={{ py: 2 }}>
               <Typography variant="h5">Password</Typography>
             </Box>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="subtitle1">Your secure password</Typography>
+              <Typography variant="body1">*****</Typography>
+            </Box>
           </Box>
-        </Container>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-around",
-          }}
-        >
-          <PrimaryButton>
-            <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
-              Save
-            </Typography>
-          </PrimaryButton>
-          <Link to="/profile">
-            <TertiaryButton sx={{ mx: 2, py: 2 }}>
+          <Box sx={{ py: 2 }}>
+            <Box sx={{ py: 2 }}>
+              <Typography variant="h5">Profile Image</Typography>
+            </Box>
+          </Box>
+          <Link to="/editprofile">
+            <PrimaryButton sx={{ my: 4 }}>
+              <EditRoundedIcon />
               <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
-                Cancel
+                Edit Profile
               </Typography>
-            </TertiaryButton>
+            </PrimaryButton>
           </Link>
-        </Box>
+        </Container>
       </Container>
     </ThemeProvider>
   );
 };
 
-export default EditProfile;
+export default Profile;
