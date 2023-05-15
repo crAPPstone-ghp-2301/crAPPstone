@@ -15,7 +15,6 @@ const Restroom = db.define("restroom", {
   },
   name: {
     type: Sequelize.STRING,
-    unique: true,
     allowNull: false,
   },
   openingHours: {

@@ -1,16 +1,17 @@
 'use strict'
 const fs = require('fs');
-const parse = require('csv-parse');
-
+const csv = require('csvtojson');
 const path = require('path');
+const { promisify } = require('util');
+const { db, models: { User, Restroom, Ratings, Review, Comments } } = require('../server/db');
 
 const filePath = path.join(__dirname, 'Restroom-in-Hotel-NYC.csv');
 const csvFilePath = './script/Restroom-in-Hotel-NYC.csv';
+
 if (!fs.existsSync(csvFilePath)) {
   console.error(`File not found: ${path.resolve(csvFilePath)}`);
 }
 
-const { db, models: { User, Restroom, Ratings, Review, Comments } } = require('../server/db')
 
 async function seed() {
   await db.sync({ force: true }); // clears db and matches models to tables
@@ -67,31 +68,7 @@ async function seed() {
 
 
 //creating restrooms arrray from csv
-const csv = require('csv-parser');
-
-const delimiter = ';'; // a delimiter that won't appear in your data
-const regex = new RegExp(`(?:^|${delimiter})("([^"]*(?:""[^"]*)*)"|([^${delimiter}]*))`, 'gi');
-
-const restrooms = [];
-fs.createReadStream('./script/Restroom-in-Hotel-NYC.csv')
-  .pipe(csv())
-  .on('data', async (row) => {
-    const restroom = {};
-
-    // Iterate over each property in the row
-    for (const [key, value] of Object.entries(row)) {
-      // Replace any commas inside quotes with the delimiter
-      const newValue = value.replace(regex, (match, p1, p2, p3) => {
-        const text = p2 || p3;
-        return text ? text.replace(/,/g, delimiter) : '';
-      });
-
-      // Set the property value in the restroom object
-      restroom[key] = newValue;
-    }
-
-    restrooms.push(restroom);
-  })
+const restrooms = await csv().fromFile(csvFilePath);
 
 
   //creating ratings
@@ -240,53 +217,74 @@ fs.createReadStream('./script/Restroom-in-Hotel-NYC.csv')
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
   ]
 
-  await Promise.all(restrooms.map(restroom => {
-    return Restroom.create(restroom);
-  }));
-  // await Promise.all(ratings.map(rating => {
-  //   return Ratings.create(rating);
-  // }));
-  // await Promise.all(reviews.map(review => {
-  //   return Review.create(review);
-  // }));
-  const parentComments = comments.filter(comment => {
-    return comment.parentCommentId === null;
-  });
-  const childComments = comments.filter(comment => {
-    return comment.parentCommentId !== null;
-  });
-  await Promise.all(parentComments.map(comment => {
-    return Comments.create(comment);
-  }));
-  await Promise.all(childComments.map(comment => {
-    return Comments.create(comment);
-  }));
 
-  console.log(`seeded ${users.length} users`)
-  console.log(`seeded ${restrooms.length} restrooms`)
-  console.log(`seeded ${comments.length} comments`)
-  console.log(`seeded ${reviews.length} reviews`)
-  console.log(`seeded ${ratings.length} ratings`)
-  console.log(`seeded successfully`)
-}
+    const restroomPromises = restrooms.map(restroom => {
+      return Restroom.create(restroom);
+    });
+    const ratingPromises = ratings.map(rating => {
+      return Ratings.create(rating);
+    });
+    const reviewPromises = reviews.map(review => {
+      return Review.create(review);
+    });
+    const parentComments = comments.filter(comment => {
+      return comment.parentCommentId === null;
+    });
+    const childComments = comments.filter(comment => {
+      return comment.parentCommentId !== null;
+    });
+    const parentCommentPromises = parentComments.map(comment => {
+      return Comments.create(comment);
+    });
+    const childCommentPromises = childComments.map(comment => {
+      return Comments.create(comment);
+    });
+    
+    try {
+      await Promise.all([
+        ...restroomPromises,
+        ...ratingPromises,
+        ...reviewPromises,
+        ...childComments,
+        ...parentComments,
+        ...parentCommentPromises,
+        ...childCommentPromises,
+      ]);
+    
+      console.log('Data successfully inserted.');
+    
+    } catch (error) {
+      console.error('Error inserting data:', error);
+    }
+    
+    await db.close();
+    
 
-async function runSeed() {
-  console.log("seeding...");
-  try {
-    await seed()
-  } catch (err) {
-    console.error(err)
-    process.exitCode = 1
-  } finally {
-    console.log("closing db connection")
-    await db.close()
-    console.log("db connection closed")
+    console.log(`seeded ${users.length} users`)
+    console.log(`seeded ${restrooms.length} restrooms`)
+    console.log(`seeded ${comments.length} comments`)
+    console.log(`seeded ${reviews.length} reviews`)
+    console.log(`seeded ${ratings.length} ratings`)
+    console.log(`seeded successfully`)
   }
-}
 
-if (module === require.main) {
-  runSeed()
-}
+  async function runSeed() {
+    console.log("seeding...");
+    try {
+      await seed();
+      console.log("closing db connection");
+      // await db.close();
+      console.log("db connection closed");
+    } catch (err) {
+      console.error(err);
+      process.exitCode = 1;
+    }
+  }
 
-// we export the seed function for testing purposes (see `./seed.spec.js`)
-module.exports = seed
+
+  if (module === require.main) {
+    runSeed()
+  }
+
+  // we export the seed function for testing purposes (see `./seed.spec.js`)
+  module.exports = seed

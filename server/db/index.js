@@ -10,29 +10,29 @@ const Comments = require('./models/Comments')
 const Restroom = require('./models/Restroom')
 
 //associations could go here!
-// User.belongsToMany(Restroom, { through: Favorites });
-// Restroom.belongsToMany(User, { through: Favorites });
+User.belongsToMany(Restroom, { through: Favorites });
+Restroom.belongsToMany(User, { through: Favorites });
 
-// Restroom.hasMany(Ratings, { foreignKey: 'restroomId' });
-// // Ratings.belongsTo(Restroom);
+Restroom.hasMany(Ratings, { foreignKey: 'restroomId' });
+// Ratings.belongsTo(Restroom);
 
-// User.hasMany(Ratings)
-// Ratings.belongsTo(User)
+User.hasMany(Ratings)
+Ratings.belongsTo(User)
 
-// Review.hasMany(Comments);
-// Comments.belongsTo(Review);
+Review.hasMany(Comments);
+Comments.belongsTo(Review);
 
-// Review.belongsTo(User);
-// User.hasMany(Review);
+Review.belongsTo(User);
+User.hasMany(Review);
 
-// Review.belongsTo(Restroom);
-// Restroom.hasMany(Review);
+Review.belongsTo(Restroom);
+Restroom.hasMany(Review);
 
-// User.hasMany(Comments, { foreignKey: 'userId' });
-// Comments.belongsTo(User, { foreignKey: 'userId' });
+User.hasMany(Comments, { foreignKey: 'userId' });
+Comments.belongsTo(User, { foreignKey: 'userId' });
 
-// Comments.hasMany(Comments, { as: 'replies', foreignKey: 'parentCommentId' });
-// Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId' });
+Comments.hasMany(Comments, { as: 'replies', foreignKey: 'parentCommentId' });
+Comments.belongsTo(Comments, { as: 'parentComment', foreignKey: 'parentCommentId' });
 
 module.exports = {
   db,
