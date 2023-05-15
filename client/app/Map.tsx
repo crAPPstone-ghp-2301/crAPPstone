@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
@@ -23,9 +23,9 @@ const Map = () => {
   const dispatch = useDispatch();
 
   const restrooms = useSelector(selectRestroom);
-  // useEffect(() => {
-  //   dispatch(getAllRestrooms());
-  // }, [dispatch]); 
+  useEffect(() => {
+    dispatch(getAllRestrooms());
+  }, [dispatch]); 
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -105,10 +105,15 @@ const Map = () => {
         setZoom(map.current.getZoom().toFixed(2));
     });
 
-    map.current.on('load', function() {
-      geocoder.container.setAttribute('id', 'geocoder-search')
-  });
-  
+    map.current.on('load', function () {
+      // Add restroom markers to the map
+      Array.isArray(restrooms) && restrooms.forEach(restroom => {
+        const { latitude, longitude } = restroom;
+        const marker = new mapboxgl.Marker()
+          .setLngLat([longitude, latitude])
+          .addTo(map.current);
+      });
+    });
 
   function direction_reset() {
     directions.actions.clearOrigin()
