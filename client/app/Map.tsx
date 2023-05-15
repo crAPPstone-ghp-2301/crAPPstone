@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import mapboxgl from 'mapbox-gl';
-import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
-import 'mapbox-gl/dist/mapbox-gl.css';
+import mapboxgl from "mapbox-gl";
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
+import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useState, useEffect } from "react";
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import {Button, Typography,Divider} from "@mui/material";
@@ -14,8 +14,8 @@ import {CustomizedTextField} from "../features/styles/StyleGuide"
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import crAppTheme from "./theme";
 
-
-mapboxgl.accessToken = 'pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw'
+mapboxgl.accessToken =
+  "pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw";
 
 const Map = () => {
   const mapContainer = useRef(null);
@@ -31,25 +31,24 @@ const Map = () => {
   };
 
   const dispatch = useDispatch();
+
   const restrooms = useSelector(selectRestroom);
   useEffect(() => {
     dispatch(getAllRestrooms());
-  }, [dispatch]); 
+  }, [dispatch]);
 
   useEffect(() => {
-    
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/fxu2023/clhfcen9i02bg01qncp8vg9d1',
+      style: "mapbox://styles/fxu2023/clhfcen9i02bg01qncp8vg9d1",
       center: [-74.006, 40.7128], //center is ny
-      zoom: zoom
+      zoom: zoom,
     });
 
     const directions = new MapboxDirections({
-      accessToken: mapboxgl.accessToken
-
-  })
+      accessToken: mapboxgl.accessToken,
+    });
 
     map.current.addControl(
       new mapboxgl.GeolocateControl({
@@ -58,42 +57,35 @@ const Map = () => {
         },
         trackUserLocation: true,
         showUserHeading: true,
-      }), "bottom-right"
+      }),
+      "bottom-right"
     );
 
-     map.current.addControl(
-        new mapboxgl.NavigationControl(),"bottom-right"
-      );
+    map.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
 
-      map.current.on("move", () => {
-        setLng(map.current.getCenter().lng.toFixed(4));
-        setLat(map.current.getCenter().lat.toFixed(4));
-        setZoom(map.current.getZoom().toFixed(2));
+    map.current.on("move", () => {
+      setLng(map.current.getCenter().lng.toFixed(4));
+      setLat(map.current.getCenter().lat.toFixed(4));
+      setZoom(map.current.getZoom().toFixed(2));
     });
-      
 
     const geocoder = new MapboxGeocoder({
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       zoom: 13,
-      placeholder: 'Enter an address or place name',
-      bbox: [
-        -74.0171, 
-        40.6983, 
-        -73.9949, 
-        40.7273 ]
-      });
-       
-      map.current.addControl(geocoder, 'top-right');
-      geocoder.container.setAttribute('id', 'geocoder-search')
+      placeholder: "Enter an address or place name",
+      bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
+    });
 
-      let popup = new mapboxgl.Popup({ offset: [0, -15] });
+    map.current.addControl(geocoder, "top-right");
+    geocoder.container.setAttribute("id", "geocoder-search");
 
-    map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
-      map.current.getCanvas().style.cursor = 'pointer';
+    let popup = new mapboxgl.Popup({ offset: [0, -15] });
+
+    map.current.on("mouseenter", "public-restroom-nyc", (event) => {
+      map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      const popupContent =
-        `<p><strong>${feature.properties.Name}</strong></p>
+      const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
@@ -101,11 +93,10 @@ const Map = () => {
         .addTo(map.current);
     });
 
-    map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
-      map.current.getCanvas().style.cursor = 'pointer';
+    map.current.on("mouseenter", "restroom-hotel-nyc", (event) => {
+      map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      const popupContent =
-        `<p><strong>${feature.properties.Name}</strong></p>
+      const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
@@ -113,13 +104,10 @@ const Map = () => {
         .addTo(map.current);
     });
 
-   
-
-    map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
-      map.current.getCanvas().style.cursor = 'pointer';
+    map.current.on("mouseenter", "restroom-mall-nyc", (event) => {
+      map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      const popupContent =
-        `<p><strong>${feature.properties.Name}</strong></p>
+      const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
@@ -131,96 +119,94 @@ const Map = () => {
       setIsModalOpen(true);
     });
 
-
-     
-
     map.current.on('load', () => {
       const marker = new mapboxgl.Marker({
-      'color': ' #CB997E'
+        color: " #CB997E",
       });
-       
-      geocoder.on('result', async (event) => {
-      const point = event.result.center;
-      console.log(point)
-      const tileset = 'fxu2023.509pfoqy';
-      const radius = 1609;
-      const limit = 50;
-      marker.setLngLat(point).addTo(map.current);
-      const query = await fetch(
-      `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
-      { method: 'GET' }
-      );
-      console.log(query)
-      const json = await query.json();
-      map.current.getSource('tilequery').setData(json);
+
+      geocoder.on("result", async (event) => {
+        const point = event.result.center;
+        console.log(point);
+        const tileset = "fxu2023.509pfoqy";
+        const radius = 1609;
+        const limit = 50;
+        marker.setLngLat(point).addTo(map.current);
+        const query = await fetch(
+          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
+          { method: "GET" }
+        );
+        console.log(query);
+        const json = await query.json();
+        map.current.getSource("tilequery").setData(json);
       });
-       
-      map.current.addSource('tilequery', {
-      type: 'geojson',
-      data: {
-      'type': 'FeatureCollection',
-      'features': []
-      }
+
+      map.current.addSource("tilequery", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
       });
-       
+
       map.current.addLayer({
-      id: 'tilequery-points',
-      type: 'circle',
-      source: 'tilequery',
-      paint: {
-      'circle-stroke-color': 'white',
-      'circle-stroke-width': {
-      stops: [
-      [0, 0.1],
-      [18, 3]
-      ],
-      base: 5
-      },
-      'circle-radius': {
-      stops: [
-      [12, 10],
-      [22, 200]
-      ],
-      base: 5
-      },
-      'circle-color': [
-      'match',
-      ['get', 'Placetype'],
-      'Mall', '#0BB000',
-      'hotel', '#F89446',
-      'restroom', '#EA0000',
-      '#FF0000' // default color if no match
-    ]
-      }
+        id: "tilequery-points",
+        type: "circle",
+        source: "tilequery",
+        paint: {
+          "circle-stroke-color": "white",
+          "circle-stroke-width": {
+            stops: [
+              [0, 0.1],
+              [18, 3],
+            ],
+            base: 5,
+          },
+          "circle-radius": {
+            stops: [
+              [12, 10],
+              [22, 200],
+            ],
+            base: 5,
+          },
+          "circle-color": [
+            "match",
+            ["get", "Placetype"],
+            "Mall",
+            "#0BB000",
+            "hotel",
+            "#F89446",
+            "restroom",
+            "#EA0000",
+            "#FF0000", // default color if no match
+          ],
+        },
       });
-       
+
       const popup = new mapboxgl.Popup();
-       
-      map.current.on('mouseenter', 'tilequery-points', (event) => {
-        map.current.getCanvas().style.cursor = 'pointer';
+
+      map.current.on("mouseenter", "tilequery-points", (event) => {
+        map.current.getCanvas().style.cursor = "pointer";
         const properties = event.features[0].properties;
         const obj = JSON.parse(properties.tilequery);
         const coordinates = new mapboxgl.LngLat(
-        properties.Longitude,
-        properties.Latitude
+          properties.Longitude,
+          properties.Latitude
         );
-       
+
         const content = `<p><strong>${properties.STORE_NAME}</strong></p><p>${
-        properties.Placetype
+          properties.Placetype
         }</p><p>${properties.STORE_LOCATION}</p><p><strong>${(
-        obj.distance / 1609.344
+          obj.distance / 1609.344
         ).toFixed(2)}</strong> mi. from location</p>`;
-         
+
         popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
-        });
       });
-    
-      
- 
+    });
+
     function direction_reset() {
       directions.actions.clearOrigin();
       directions.actions.clearDestination();
-      directions.container.querySelector('input').value = '';
+      directions.container.querySelector("input").value = "";
     }
     
     $(document).on('click', '#get-direction', function() {
@@ -239,58 +225,69 @@ const Map = () => {
       $(geocoder.container).show();
       map.current.removeControl(directions);
     });
-    
-    
-        
-    map.current.on('idle', () => {
+
+    map.current.on("idle", () => {
       // If these two layers were not added to the map, abort
-      if (!map.current.getLayer('restroom-mall-nyc') || !map.current.getLayer('restroom-hotel-nyc') || !map.current.getLayer('public-restroom-nyc')) {
+      if (
+        !map.current.getLayer("restroom-mall-nyc") ||
+        !map.current.getLayer("restroom-hotel-nyc") ||
+        !map.current.getLayer("public-restroom-nyc")
+      ) {
         console.log("not found");
         return;
       }
-    
-      
+
       // Enumerate ids of the layers.
-      const toggleableLayerIds = ['restroom-mall-nyc', 'restroom-hotel-nyc', 'public-restroom-nyc'];
-       
+      const toggleableLayerIds = [
+        "restroom-mall-nyc",
+        "restroom-hotel-nyc",
+        "public-restroom-nyc",
+      ];
+
       // Set up the corresponding toggle button for each layer.
       for (const id of toggleableLayerIds) {
         // Skip layers that already have a button set up.
         if (document.getElementById(id)) {
           continue;
         }
-       
+
         // Create a link.
-        const link = document.createElement('a');
+        const link = document.createElement("a");
         link.id = id;
-        link.href = '#';
+        link.href = "#";
         link.textContent = id;
-        link.className = 'active'; // Set the initial class to an empty string for "none" visibility.
-       
+        link.className = "active"; // Set the initial class to an empty string for "none" visibility.
+
         // Show or hide layer when the toggle is clicked.
         link.onclick = function (e) {
           const clickedLayer = this.textContent;
           e.preventDefault();
           e.stopPropagation();
-       
-          const visibility = map.current.getLayoutProperty(clickedLayer, 'visibility');
-       
+
+          const visibility = map.current.getLayoutProperty(
+            clickedLayer,
+            "visibility"
+          );
+
           // Toggle layer visibility by changing the layout object's visibility property.
-          if (visibility === 'visible') {
-            map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
-            this.className = ''; // Update the class to reflect the "none" visibility.
+          if (visibility === "visible") {
+            map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+            this.className = ""; // Update the class to reflect the "none" visibility.
           } else {
-            this.className = 'active';
-            map.current.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+            this.className = "active";
+            map.current.setLayoutProperty(
+              clickedLayer,
+              "visibility",
+              "visible"
+            );
           }
         };
-       
-        const layers = document.getElementById('menu');
+
+        const layers = document.getElementById("menu");
         layers.appendChild(link);
       }
     });
-    
-      },[]);
+  },[]);
     
 
 
@@ -327,11 +324,7 @@ const Map = () => {
 
         <div ref={mapContainer} className="map-container"></div>
     </div>
-      )
-    }
-    
-    
-    
-    export default Map
-    
+  );
+};
 
+export default Map;

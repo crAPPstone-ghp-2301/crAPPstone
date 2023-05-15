@@ -36,8 +36,9 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
     evt.preventDefault();
     const formName = evt.target.name;
     const username = evt.target.username.value;
+    const email = evt.target.username.value;
     const password = evt.target.password.value;
-    dispatch(authenticate({ username, password, method: formName }));
+    dispatch(authenticate({ username, email, password, method: formName }));
   };
 
   const isLoggedIn = useSelector((state) => {
@@ -75,7 +76,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
           backgroundColor: "#FFF",
           p: 4,
           width: isMobile ? "100%" : "30%",
-          height: "550px",
+          height: "650px",
           textAlign: "center",
         }}
       >
@@ -143,6 +144,20 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
                   fullWidth
                 />
               </Box>
+              {name === "login" ? (
+                ""
+              ) : (
+                <Box>
+                  <CustomizedTextField
+                    label="Email"
+                    name="email"
+                    type="email"
+                    required
+                    fullWidth
+                  />
+                </Box>
+              )}
+
               <Box>
                 <CustomizedTextField
                   label="Password"

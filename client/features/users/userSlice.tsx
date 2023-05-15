@@ -50,9 +50,6 @@ export const userSlice = createSlice({
     builder.addCase(fetchSingleUser.fulfilled, (state, action) => {
       state.singleUser = action.payload;
     });
-    builder.addCase(updateUser.fulfilled, (state, action) => {
-      state.singleUser = action.payload;
-    });
     builder.addCase(deleteUser.fulfilled, (state, action) => {
       state.allUsers = state.allUsers.filter(
         (user) => user.id !== action.payload
