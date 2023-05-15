@@ -43,7 +43,7 @@ router.get('/', isAdmin, async (req, res, next) => {
 })
 
 //get single review id
-router.get('/:reviewId', isUserOrAdmin, async (req, res, next) => {
+router.get('/:reviewId', async (req, res, next) => {
   try {
     const singleReview = await Review.findByPk(req.params.reviewId)
     res.json(singleReview)

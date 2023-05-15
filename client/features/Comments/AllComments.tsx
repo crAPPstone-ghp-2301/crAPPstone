@@ -45,7 +45,7 @@ const AllComments = () => {
             </Box>
             <Box>
               <Typography variant="subtitle2">{comment.content}</Typography>
-              <LikeButton commentId={comment.id} likes={comment.likes} />
+              <LikeButton commentId={comment.id} likes={comment.likes} reviewId={reviewId} />
               {/* reply button component here when it works */}
             </Box>
             <Divider />

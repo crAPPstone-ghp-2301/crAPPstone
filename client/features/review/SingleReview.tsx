@@ -37,7 +37,7 @@ const SingleReview = () => {
           position: "fixed",
           top: 0,
           left: "100px",
-          zIndex: 1,
+          zIndex: 2,
           backgroundColor: "white",
           height: "100%",
           width: 450,

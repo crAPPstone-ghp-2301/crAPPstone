@@ -4,7 +4,13 @@ const { models: { Favorites, User, Restroom }} = require('../db')
 
 router.get('/', async (req, res, next) => {
   try {
-    const savedRestrooms = await Favorites.findAll()
+    console.log('saved.tsx token', req.headers.authorization)
+    const currentUser = await User.findByToken(req.headers.authorization)
+    const savedRestrooms = await Favorites.findAll({
+      where: {
+        userId: currentUser.id
+      }
+    })
     console.log('savedrestrooms api', savedRestrooms)
     res.json(savedRestrooms)
   } catch (error) {
@@ -26,11 +32,11 @@ router.delete("/:restroomId", async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     console.log('req.body for saved.js', req.body)
+    const currentUser = await User.findByToken(req.headers.authorization)
     const response = await Favorites.findOrCreate({
       where: {
         restroomId : req.body.restroomId,
-        // userId: req.headers.authorization
-        userId: 1
+        userId: currentUser.id
       }
     })
     res.json(response)
