@@ -32,7 +32,11 @@ const AllRestrooms = () => {
   return (
     <>
     <ThemeProvider theme={crAppTheme}>
-      <Container maxWidth="lg" sx={{ marginTop: 10 }}>
+      <Container maxWidth="lg" sx={{
+         marginTop: 10,
+         position: 'fixed',
+         zIndex: 1,
+         }}>
         <Typography
           variant="h3"
           component="h1"
