@@ -32,13 +32,38 @@ export const fetchSingleComment = createAsyncThunk(
 
 //create new comment of review
 export const createComment = createAsyncThunk(
-  "comments/createComment",
+  'comments/createComment',
   async ({ reviewId, content, userId }) => {
-    const { data } = await axios.post(`/api/reviews/${reviewId}/comments`, {
-      content,
-      userId,
-    });
-    return data;
+    const token = window.localStorage.getItem('token');
+    try {
+      if (token) {
+        const { data } = await axios.post(
+          `/api/reviews/${reviewId}/comments`,
+          {
+            content,
+            userId,
+          },
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        return data;
+      } else {
+        const { data } = await axios.post(
+          `/api/reviews/${reviewId}/comments`,
+          {
+            content,
+            userId: null,
+          },
+        )
+        return data;
+
+      }
+    } catch (err) {
+      return err.message;
+    }
   }
 );
 

@@ -1,6 +1,6 @@
 import * as React from "react";
 import crAppTheme from "../../app/theme";
-import { TertiaryButton } from "../styles/StyleGuide";
+import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import {
   ThemeProvider,
   Container,
@@ -10,23 +10,33 @@ import {
   IconButton,
   useMediaQuery,
   CssBaseline,
-  Divider,
   Typography,
 } from "@mui/material";
 import { useSelector } from "react-redux";
-import SignIn from "./SignIn";
+import { Link } from "react-router-dom";
+import Settings from "../settings/Settings";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
-import Settings from "../settings/Settings";
 
 const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
-  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const user = useSelector((state) => state.auth.user);
   const isMobile = useMediaQuery("(max-width:700px)");
+
+  const isLoggedIn = useSelector((state) => {
+    const { me, authToken } = state.auth;
+    const storedAuthToken = localStorage.getItem("authToken");
+    const storedUserId = sessionStorage.getItem("userId");
+    return (
+      me.id ||
+      (authToken && storedAuthToken === authToken) ||
+      (storedUserId && me.id === storedUserId)
+    );
+  });
 
   React.useEffect(() => {
     if (isLoggedIn) {
@@ -42,6 +52,10 @@ const SideBar = () => {
 
   const toggleSettings = () => {
     setSettingsOpen(!settingsOpen);
+  };
+
+  const toggleDialog = () => {
+    setIsOpen(!isOpen);
   };
 
   return (
@@ -67,30 +81,42 @@ const SideBar = () => {
               flexDirection: "column",
             }}
           >
-            <img
-              src="https://em-content.zobj.net/source/animated-noto-color-emoji/356/pile-of-poo_1f4a9.gif"
-              width="50px"
-            />
-            <Typography variant="overline" sx={{ textTransform: "none" }}>
-              crAPP
-            </Typography>
-          </ListItem>
-          <ListItem>
-            <TertiaryButton
-              sx={{
-                justifyContent: "center",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <BookmarkBorderRoundedIcon fontSize="large" />
+            <Link to="/">
+              <img
+                src="https://em-content.zobj.net/source/animated-noto-color-emoji/356/pile-of-poo_1f4a9.gif"
+                width="50px"
+              />
+            </Link>
+            <Link to="/">
               <Typography
                 variant="overline"
-                sx={{ textTransform: "capitalize" }}
+                sx={{
+                  textTransform: "none",
+                  color: crAppTheme.palette.primary.dark,
+                }}
               >
-                Saved
+                crAPP
               </Typography>
-            </TertiaryButton>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link to='/saved'>
+              <TertiaryButton
+                sx={{
+                  justifyContent: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <BookmarkBorderRoundedIcon fontSize="large" />
+                <Typography
+                  variant="overline"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  Saved
+                </Typography>
+              </TertiaryButton>
+            </Link>
           </ListItem>
           <ListItem>
             <TertiaryButton
@@ -110,7 +136,6 @@ const SideBar = () => {
             </TertiaryButton>
           </ListItem>
         </List>
-        <Divider />
         <List
           sx={{
             display: "flex",
@@ -134,7 +159,16 @@ const SideBar = () => {
               flexDirection: "column",
             }}
           >
-            <SignIn />
+            <Link to="/login">
+              <PrimaryButton
+                onClick={isMobile ? drawerOpen : false}
+                sx={{ px: 1, py: 0.5 }}
+              >
+                <Typography variant="overline">
+                  {isLoggedIn ? "Sign Out" : "Sign In"}
+                </Typography>
+              </PrimaryButton>
+            </Link>
           </ListItem>
           <TertiaryButton onClick={toggleSettings}>
             <ListItem
@@ -161,6 +195,7 @@ const SideBar = () => {
       </Drawer>
       {isMobile && (
         <Container
+          id="sidebar"
           sx={{
             position: "absolute",
             top: 20,
