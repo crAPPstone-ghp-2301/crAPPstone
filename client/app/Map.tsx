@@ -57,7 +57,7 @@ const Map = () => {
       map.current.addControl(
         new mapboxgl.NavigationControl(),"bottom-right"
       );
-
+      
       const geocoder = new MapboxGeocoder({
         accessToken: mapboxgl.accessToken,
         mapboxgl: mapboxgl,
@@ -69,9 +69,19 @@ const Map = () => {
       
       let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
-    map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
-      const feature = event.features[0];
-      const popupContent =
+      
+          map.current.on('load', function () {
+            // Add restroom markers to the map
+            Array.isArray(restrooms) && restrooms.forEach(restroom => {
+              const { latitude, longitude } = restroom;
+              const marker = new mapboxgl.Marker()
+                .setLngLat([longitude, latitude])
+                .addTo(map.current);
+            });
+          });
+      map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
+        const feature = event.features[0];
+        const popupContent =
         `<h3>${feature.properties.Name}</h3>
         <p>${feature.properties.Location}</p>`
         // + `${ReactDOMServer.renderToString(<SaveButton />)}`
@@ -103,16 +113,6 @@ const Map = () => {
         setLng(map.current.getCenter().lng.toFixed(4));
         setLat(map.current.getCenter().lat.toFixed(4));
         setZoom(map.current.getZoom().toFixed(2));
-    });
-
-    map.current.on('load', function () {
-      // Add restroom markers to the map
-      Array.isArray(restrooms) && restrooms.forEach(restroom => {
-        const { latitude, longitude } = restroom;
-        const marker = new mapboxgl.Marker()
-          .setLngLat([longitude, latitude])
-          .addTo(map.current);
-      });
     });
 
   function direction_reset() {

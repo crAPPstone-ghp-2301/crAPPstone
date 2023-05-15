@@ -34,7 +34,7 @@ let crAppTheme = createTheme({
       lineHeight: 1.5,
     },
     body2: {
-      fontSize: "1rem",
+      fontSize: "0.75rem",
       fontWeight: 400,
       lineHeight: 1.5,
     },

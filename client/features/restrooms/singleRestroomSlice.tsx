@@ -84,4 +84,8 @@ export const restroomSlice = createSlice({
   },
 });
 
+export const selectSingleRestroom = (state) => {
+  return state.singleRestroom;
+};
+
 export default restroomSlice.reducer;
