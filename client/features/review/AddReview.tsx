@@ -9,6 +9,7 @@ import {
   MenuItem,
 } from "@mui/material";
 import { PrimaryButton } from "../styles/StyleGuide";
+import ImageUpload from "./ImageUpload";
 
 const AddReview = ({ restroomId }) => {
   const dispatch = useDispatch();
@@ -76,6 +77,7 @@ const AddReview = ({ restroomId }) => {
           <PrimaryButton type="submit" variant="contained" color="primary">
             Submit
           </PrimaryButton>
+          <ImageUpload restroomId={restroomId} />
         </Container>
       </form>
     </Box>
