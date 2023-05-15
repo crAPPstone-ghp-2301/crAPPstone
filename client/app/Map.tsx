@@ -6,11 +6,14 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import {Button, Typography,Divider} from "@mui/material";
-import DirectionsIcon from "@mui/icons-material/Directions";
 import { PrimaryButton} from "../features/styles/StyleGuide"
-import {CustomizedIconButton} from "../features/styles/StyleGuide"
 import { getAllRestrooms, selectRestroom } from '../features/restrooms/allRestroomSlice';
 import AssistantDirectionIcon from '@mui/icons-material/AssistantDirection';
+import { Dialog,DialogTitle,DialogContent,DialogContentText,Rating,DialogActions } from '@mui/material';
+import {CustomizedTextField} from "../features/styles/StyleGuide"
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import crAppTheme from "./theme";
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw'
 
@@ -21,8 +24,13 @@ const Map = () => {
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
   const [newPlace, setNewPlace] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   const dispatch = useDispatch();
-  
   const restrooms = useSelector(selectRestroom);
   useEffect(() => {
     dispatch(getAllRestrooms());
@@ -87,7 +95,7 @@ const Map = () => {
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button onclick="console.log('Clicked!')">Click me</button>`
+        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -99,7 +107,7 @@ const Map = () => {
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button onclick="console.log('Clicked!')">Click me</button>`
+        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -113,13 +121,15 @@ const Map = () => {
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button onclick="console.log('Clicked!')">Click me</button>`
+        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
     });
 
-  
+    $(document).on('click', '.rateBtn', function() {
+      setIsModalOpen(true);
+    });
 
 
      
@@ -213,24 +223,21 @@ const Map = () => {
       directions.container.querySelector('input').value = '';
     }
     
-    $(document).ready(function() {
-      $('#get-direction').click(function() {
-        // Adding Direction form and instructions on map
-        map.current.addControl(directions, 'top-right');
-        directions.container.setAttribute('id', 'direction-container');
-        $(geocoder.container).hide();
-        $(this).hide();
-        $('#end-direction').removeClass('d-none');
-        $('.marker').remove();
-      });
+    $(document).on('click', '#get-direction', function() {
+      // Adding Direction form and instructions on map
+      map.current.addControl(directions, 'top-right');
+      directions.container.setAttribute('id', 'direction-container');
+      $(geocoder.container).hide();
+      $(this).hide();
+      $('#end-direction').removeClass('d-none');
+    });
     
-      $('#end-direction').click(function() {
-        direction_reset();
-        $(this).addClass('d-none');
-        $('#get-direction').show();
-        $(geocoder.container).show();
-        map.current.removeControl(directions);
-      });
+    $(document).on('click', '#end-direction', function() {
+      direction_reset();
+      $(this).addClass('d-none');
+      $('#get-direction').show();
+      $(geocoder.container).show();
+      map.current.removeControl(directions);
     });
     
     
@@ -290,20 +297,34 @@ const Map = () => {
   
       return (
         <div>
-          <nav id="menu"></nav>
-          <div>
-          <PrimaryButton variant="outlined" sx={{ mr: 2, mt: 3 }} id="get-direction" >
-            <AssistantDirectionIcon/>
-          <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
-            Direction
-          </Typography>
-        </PrimaryButton>
-        <PrimaryButton variant="outlined" sx={{ mt: 3 }} className="d-none" id="end-direction">
-          <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
-            End Direction
-          </Typography>
-        </PrimaryButton> 
+         <nav id="menu" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}></nav>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="get-direction">
+              <AssistantDirectionIcon />
+            </PrimaryButton>
+            <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} className="d-none" id="end-direction">
+              <HighlightOffIcon />
+            </PrimaryButton>
           </div>
+
+          <Dialog open={isModalOpen} onClose={handleCloseModal} sx={{ p: 4, minHeight: '50vh' }}>
+            <DialogTitle variant="h4" sx={{textAlign: "center",  padding: 4, color: crAppTheme.palette.text.secondary}}>Share your Experience</DialogTitle >
+            <DialogContent style={{justifyContent: 'center'}} >
+            <DialogContentText variant="h5" sx={{textAlign: "center",  padding: 4, color: crAppTheme.palette.text.secondary}}>
+            How many star will you give?
+            </DialogContentText>
+              <CustomizedTextField
+                id="outlined-required"
+                label="Restroom#"
+                placeholder="Name"
+                sx={{ width: '200px' }}/>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
+              </div>
+            </DialogContent>
+
+          </Dialog>
+
         <div ref={mapContainer} className="map-container"></div>
     </div>
       )
