@@ -8,7 +8,6 @@ const filePath = path.join(__dirname, 'Restroom-in-Hotel-NYC.csv');
 const csvFilePath = './script/Restroom-in-Hotel-NYC.csv';
 if (!fs.existsSync(csvFilePath)) {
   console.error(`File not found: ${path.resolve(csvFilePath)}`);
-  process.exit(1);
 }
 
 const { db, models: { User, Restroom, Ratings, Review, Comments } } = require('../server/db')
@@ -65,39 +64,35 @@ async function seed() {
       lastLogin: new Date('2022-01-05T10:00:00.000Z')
     })
   ])
+
+
 //creating restrooms arrray from csv
+const csv = require('csv-parser');
 
-fs.readFile('./script/Restroom-in-Hotel-NYC.csv', 'utf-8', async (err, data) => {
-  if (err) {
-    console.error(err);
-    return;
-  }
+const delimiter = ';'; // a delimiter that won't appear in your data
+const regex = new RegExp(`(?:^|${delimiter})("([^"]*(?:""[^"]*)*)"|([^${delimiter}]*))`, 'gi');
 
-  const rows = data.split('\n');
+const restrooms = [];
+fs.createReadStream('./script/Restroom-in-Hotel-NYC.csv')
+  .pipe(csv())
+  .on('data', async (row) => {
+    const restroom = {};
 
-  // Loop through each row and split it into an array of values
-  const restrooms = rows.map(row => {
-    const values = row.split(',');
+    // Iterate over each property in the row
+    for (const [key, value] of Object.entries(row)) {
+      // Replace any commas inside quotes with the delimiter
+      const newValue = value.replace(regex, (match, p1, p2, p3) => {
+        const text = p2 || p3;
+        return text ? text.replace(/,/g, delimiter) : '';
+      });
 
-    // Return an object with the values mapped to keys
-    return {
-      name: values[0],
-      location: values[1],
-      city: values[2],
-      latitude: values[3],
-      longitude: values[4]
-    };
-  });
+      // Set the property value in the restroom object
+      restroom[key] = newValue;
+    }
 
-  // console.log('Restrooms:', restrooms);
+    restrooms.push(restroom);
+  })
 
-  // Create Restroom objects from the data and save them to the database
-  await Promise.all(restrooms.map(restroom => {
-    return Restroom.create(restroom);
-  }));
-
-  console.log('Restrooms added to the database');
-});
 
   //creating ratings
   const ratings = [
@@ -142,7 +137,7 @@ fs.readFile('./script/Restroom-in-Hotel-NYC.csv', 'utf-8', async (err, data) => 
       // userRatingsTotal: 30,
     }
   ]
-  //creating reviews
+  // //creating reviews
   const reviews = [
     {
       id: 1,
@@ -245,15 +240,15 @@ fs.readFile('./script/Restroom-in-Hotel-NYC.csv', 'utf-8', async (err, data) => 
     //Note that the parent_comment_id is null for top-level comments, but for replies, it contains the ID of the parent comment.
   ]
 
-  // await Promise.all(restrooms.map(restroom => {
-  //   return Restroom.create(restroom);
+  await Promise.all(restrooms.map(restroom => {
+    return Restroom.create(restroom);
+  }));
+  // await Promise.all(ratings.map(rating => {
+  //   return Ratings.create(rating);
   // }));
-  await Promise.all(ratings.map(rating => {
-    return Ratings.create(rating);
-  }));
-  await Promise.all(reviews.map(review => {
-    return Review.create(review);
-  }));
+  // await Promise.all(reviews.map(review => {
+  //   return Review.create(review);
+  // }));
   const parentComments = comments.filter(comment => {
     return comment.parentCommentId === null;
   });

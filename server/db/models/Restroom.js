@@ -1,7 +1,18 @@
 const Sequelize = require("sequelize");
 const db = require("../db");
+const Ratings = require("./Ratings")
 
 const Restroom = db.define("restroom", {
+  id: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    unique: true,
+    primaryKey: true,
+    // references: {
+    //   // model: Ratings,
+    //   // key: "restroomId"
+    // },
+  },
   name: {
     type: Sequelize.STRING,
     unique: true,
@@ -14,21 +25,17 @@ const Restroom = db.define("restroom", {
   description: {
     type: Sequelize.TEXT,
   },
-  city: {
-    allowNull: true,
+  address: {
     type: Sequelize.TEXT,
   },
-  location: {
-    allowNull: true,
+  placeType: {
     type: Sequelize.TEXT,
   },
   latitude: {
     type: Sequelize.FLOAT,
-    allowNull: true,
   },
   longitude: {
     type: Sequelize.FLOAT,
-    allowNull: true,
   },
   capacity: {
     type: Sequelize.INTEGER,
