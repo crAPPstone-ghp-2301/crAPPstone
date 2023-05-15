@@ -2,7 +2,6 @@ html,
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #fefae0;
-  /* overflow: "hidden"; */
   padding-left: 0;
   padding-right: 0;
   width: 100%;
@@ -60,33 +59,21 @@ div#geocoder-search {
   width: 25em;
 }
 
-/* #get-direction{
+#get-direction{
   position: absolute;
   z-index: 1;
-  top: 340px;
-  right: 50px;
+  top: 670px;
+  right: 0px;
   }
 
   #end-direction{
     position: absolute;
     z-index: 1;
-    top: 340px;
-    right: 50px;
-    } */
-
-    .infoBtn{
-      text-decoration:none;
-      font-family:Arial, Helvetica, sans-serif;
-      color:#FFFFFF;
-      text-shadow: 0 0.04em 0.04em rgba(0,0,0,0.35);
-      text-align:center;
-      transition: all 0.2s;
-      border-color: #A5A58D;
+    top: 670px;
+    right: 0px;
     }
 
-    .infoBtn:hover{
-      border-color: rgba(255,255,255,1);
-      }
+    
 
 @media only screen and (max-width: 600px) {
   body {

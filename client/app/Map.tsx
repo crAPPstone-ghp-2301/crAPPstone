@@ -24,7 +24,7 @@ const Map = () => {
   const dispatch = useDispatch();
   const popuprestroom = useSelector(state => state.searchoutput.output);
    console.log( popuprestroom)
-   
+
   useEffect(() => {
     
     if (map.current) return; // initialize map only once
@@ -74,56 +74,80 @@ const Map = () => {
       map.current.addControl(geocoder, 'top-right');
       geocoder.container.setAttribute('id', 'geocoder-search')
 
-      let popup = new mapboxgl.Popup({ offset: [0, -15] });
+    //   let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
-    map.current.on('mouseenter', 'public-restroom-nyc', async(event) => {
-      map.current.getCanvas().style.cursor = 'pointer';
-      const feature = event.features[0];
-      await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
-      const popupContent =
-        `<p><strong>${feature.properties.Name}</strong></p>
-        <p>${feature.properties.Location}</p>
-        console.log(popuprestroom)
-        <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
-      popup.setLngLat(feature.geometry.coordinates)
-        .setHTML(popupContent)
-        .addTo(map.current);
-    });
+    // map.current.on('mouseenter', 'public-restroom-nyc', async(event) => {
+    //   map.current.getCanvas().style.cursor = 'pointer';
+    //   const feature = event.features[0];
+    //   await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
+    //   const popupContent =
+    //     `<p><strong>${feature.properties.Name}</strong></p>
+    //     <p>${feature.properties.Location}</p>
+    //     console.log(popuprestroom)
+    //     <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
+    //   popup.setLngLat(feature.geometry.coordinates)
+    //     .setHTML(popupContent)
+    //     .addTo(map.current);
+    // });
 
-    map.current.on('mouseenter', 'restroom-hotel-nyc', async(event) => {
-      map.current.getCanvas().style.cursor = 'pointer';
-      const feature = event.features[0];
-      await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
-      console.log(popuprestroom)
-      const popupContent =
-        `<p><strong>${feature.properties.Name}</strong></p>
-        <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
-      popup.setLngLat(feature.geometry.coordinates)
-        .setHTML(popupContent)
-        .addTo(map.current);
-    });
+    // map.current.on('mouseenter', 'restroom-hotel-nyc', async(event) => {
+    //   map.current.getCanvas().style.cursor = 'pointer';
+    //   const feature = event.features[0];
+    //   await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
+      
+    //   const popupContent =
+    //     `<p><strong>${feature.properties.Name}</strong></p>
+    //     <p>${feature.properties.Location}</p>
+    //     <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
+    //   popup.setLngLat(feature.geometry.coordinates)
+    //     .setHTML(popupContent)
+    //     .addTo(map.current);
+    // });
 
    
 
-    map.current.on('mouseenter', 'restroom-mall-nyc', async(event) => {
+    // map.current.on('mouseenter', 'restroom-mall-nyc', async(event) => {
+    //   map.current.getCanvas().style.cursor = 'pointer';
+    //   const feature = event.features[0];
+    //   await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
+     
+    //   const popupContent =
+    //     `<p><strong>${feature.properties.Name}</strong></p>
+    //     <p>${feature.properties.Location}</p>
+    //     <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
+    //   popup.setLngLat(feature.geometry.coordinates)
+    //     .setHTML(popupContent)
+    //     .addTo(map.current);
+    // });
+
+    
+
+    const popup = new mapboxgl.Popup({ offset: [0, -15] });
+    const handleMouseEnter = async (event, layer) => {
       map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
-      await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
-      console.log(popuprestroom)
-      const popupContent =
-        `<p><strong>${feature.properties.Name}</strong></p>
+      await dispatch(SearchByName({ name: feature.properties.Name.toString() }));  
+      const popupContent = `
+        <p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
+        <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>
+      `;
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
+    };
+  
+    map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
+      handleMouseEnter(event, 'public-restroom-nyc');
     });
-
-    // $(document).on('click', '.infoBtn', function() {
-      
-    // });
-
+  
+    map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
+      handleMouseEnter(event, 'restroom-hotel-nyc');
+    });
+  
+    map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
+      handleMouseEnter(event, 'restroom-mall-nyc');
+    });
      
 
     map.current.on('load', () => {
@@ -206,35 +230,7 @@ const Map = () => {
         popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
         });
       });
-    
       
- 
-      function direction_reset() {
-        directions.actions.clearOrigin();
-        directions.actions.clearDestination();
-        directions.container.querySelector("input").value = "";
-      }
-      
-      $(document).on('click', '#get-direction', function() {
-        // Adding Direction form and instructions on map
-        map.current.addControl(directions, 'top-right');
-        directions.container.setAttribute('id', 'direction-container');
-        $(geocoder.container).hide();
-        $(this).hide();
-        $('#end-direction').removeClass('d-none');
-      });
-      
-      $(document).on('click', '#end-direction', function() {
-        direction_reset();
-        $(this).addClass('d-none');
-        $('#get-direction').show();
-        $(geocoder.container).show();
-        map.current.removeControl(directions);
-      });
-  
-    
-    
-        
     $(document).on('click', '#restroom-mall-nyc', (e) => {
       const clickedLayer = e.target.id;
       e.preventDefault();
@@ -287,6 +283,29 @@ const Map = () => {
       }
     });
     
+    function direction_reset() {
+      directions.actions.clearOrigin();
+      directions.actions.clearDestination();
+      directions.container.querySelector("input").value = "";
+    }
+    
+    $(document).on('click', '#get-direction', function() {
+      // Adding Direction form and instructions on map
+      map.current.addControl(directions, 'top-right');
+      directions.container.setAttribute('id', 'direction-container');
+      $(geocoder.container).hide();
+      $(this).hide();
+      $('#end-direction').removeClass('d-none');
+    });
+    
+    $(document).on('click', '#end-direction', function() {
+      direction_reset();
+      $(this).addClass('d-none');
+      $('#get-direction').show();
+      $(geocoder.container).show();
+      map.current.removeControl(directions);
+    });
+
       },[dispatch]);
     
 
@@ -294,32 +313,25 @@ const Map = () => {
   
       return (
         <div>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, display: 'flex', justifyContent: 'center', marginTop: '1rem',flexDirection: 'row', alignItems: 'center',zIndex: 1 }}>
-              <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="get-direction">
-                    <AssistantDirectionIcon />
-                  </PrimaryButton>
-                  <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} className="d-none" id="end-direction">
-                    <HighlightOffIcon />
-                  </PrimaryButton>
-                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="restroom-mall-nyc">
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, display: 'flex', justifyContent: 'center', marginTop: '1rem', flexDirection: 'row', alignItems: 'center', zIndex: 1 }}>
+                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5, mr: 2 }} id="restroom-mall-nyc">
                   Restroom in Mall
                 </PrimaryButton>
-                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="restroom-hotel-nyc">
+                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5, mr: 2 }} id="restroom-hotel-nyc">
                   Restroom in Hotel
                 </PrimaryButton>
-                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="public-restroom-nyc">
+                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5, mr: 2 }} id="public-restroom-nyc">
                   Public Restroom NYC
                 </PrimaryButton>
-                </div>
-
-                {/* <div>
+              </div>
+                <div>
                   <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="get-direction">
                     <AssistantDirectionIcon />
                   </PrimaryButton>
                   <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} className="d-none" id="end-direction">
-                    <HighlightOffIcon />
+                    <HighlightOffIcon  />
                   </PrimaryButton>
-                 </div> */}
+                 </div>
 
 
         <div ref={mapContainer} className="map-container"></div>
