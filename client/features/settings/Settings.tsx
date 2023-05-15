@@ -81,7 +81,7 @@ const Settings = ({ open, onClose }) => {
             >
               <ListItemAvatar>
                 <Avatar>
-                  <Link to='/saved'>
+                  <Link to="/saved">
                     <BookmarkBorderRoundedIcon fontSize="small" />
                   </Link>
                 </Avatar>

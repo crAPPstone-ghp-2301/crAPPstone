@@ -22,7 +22,6 @@ import SettingsRoundedIcon from "@mui/icons-material/SettingsRounded";
 
 const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
-  const [isOpen, setIsOpen] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
   const user = useSelector((state) => state.auth.user);
   const isMobile = useMediaQuery("(max-width:700px)");
@@ -52,10 +51,6 @@ const SideBar = () => {
 
   const toggleSettings = () => {
     setSettingsOpen(!settingsOpen);
-  };
-
-  const toggleDialog = () => {
-    setIsOpen(!isOpen);
   };
 
   return (
@@ -100,7 +95,7 @@ const SideBar = () => {
             </Link>
           </ListItem>
           <ListItem>
-            <Link to='/saved'>
+            <Link to="/saved">
               <TertiaryButton
                 sx={{
                   justifyContent: "center",

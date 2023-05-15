@@ -77,6 +77,7 @@ export const updateUser = createAsyncThunk(
         username,
         name,
         email,
+        password,
       });
       return data;
     } catch (err) {
