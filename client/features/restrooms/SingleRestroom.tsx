@@ -26,7 +26,7 @@ const SingleRestroom = () => {
     dispatch(getSingleRestroom(id));
     dispatch(getAllRestrooms());
   }, [id, dispatch]);
-
+//merge
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
@@ -56,6 +56,7 @@ const SingleRestroom = () => {
             >
               {restroom.name}
             </Typography>
+            
             <Typography variant="body3" color="secondary.light">
               {restroom.openingHours}
             </Typography>
