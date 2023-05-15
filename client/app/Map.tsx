@@ -23,9 +23,10 @@ const Map = () => {
   
   const dispatch = useDispatch();
   const popuprestroom = useSelector(state => state.searchoutput.output);
-   console.log( popuprestroom)
 
-  useEffect(() => {
+
+
+   useEffect(() => {
     
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -74,80 +75,54 @@ const Map = () => {
       map.current.addControl(geocoder, 'top-right');
       geocoder.container.setAttribute('id', 'geocoder-search')
 
-    //   let popup = new mapboxgl.Popup({ offset: [0, -15] });
+      let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
-    // map.current.on('mouseenter', 'public-restroom-nyc', async(event) => {
-    //   map.current.getCanvas().style.cursor = 'pointer';
-    //   const feature = event.features[0];
-    //   await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
-    //   const popupContent =
-    //     `<p><strong>${feature.properties.Name}</strong></p>
-    //     <p>${feature.properties.Location}</p>
-    //     console.log(popuprestroom)
-    //     <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
-    //   popup.setLngLat(feature.geometry.coordinates)
-    //     .setHTML(popupContent)
-    //     .addTo(map.current);
-    // });
+      map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
+        map.current.getCanvas().style.cursor = 'pointer';
+        const feature = event.features[0];
+        console.log(feature)
+        console.log(feature.properties.id)
+        const popupContent =
+        `<p><strong>${feature.properties.Name}</strong></p>
+        <p>${feature.properties.Location}</p>
+        <a href="http://localhost:8080/restrooms/${feature.properties.id}">More info</a>`
+      popup.setLngLat(feature.geometry.coordinates)
+          .setHTML(popupContent)
+          .addTo(map.current);
+      });
 
-    // map.current.on('mouseenter', 'restroom-hotel-nyc', async(event) => {
-    //   map.current.getCanvas().style.cursor = 'pointer';
-    //   const feature = event.features[0];
-    //   await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
-      
-    //   const popupContent =
-    //     `<p><strong>${feature.properties.Name}</strong></p>
-    //     <p>${feature.properties.Location}</p>
-    //     <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
-    //   popup.setLngLat(feature.geometry.coordinates)
-    //     .setHTML(popupContent)
-    //     .addTo(map.current);
-    // });
+      map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
+        map.current.getCanvas().style.cursor = 'pointer';
+        const feature = event.features[0];
+        console.log(feature)
+       console.log(feature.properties.id_restroom)
+        const popupContent =
+        `<p><strong>${feature.properties.Name}</strong></p>
+        <p>${feature.properties.Location}</p>
+        <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`
+      popup.setLngLat(feature.geometry.coordinates)
+          .setHTML(popupContent)
+          .addTo(map.current);
+      });
 
    
 
-    // map.current.on('mouseenter', 'restroom-mall-nyc', async(event) => {
-    //   map.current.getCanvas().style.cursor = 'pointer';
-    //   const feature = event.features[0];
-    //   await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
-     
-    //   const popupContent =
-    //     `<p><strong>${feature.properties.Name}</strong></p>
-    //     <p>${feature.properties.Location}</p>
-    //     <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
-    //   popup.setLngLat(feature.geometry.coordinates)
-    //     .setHTML(popupContent)
-    //     .addTo(map.current);
-    // });
+    map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
+      map.current.getCanvas().style.cursor = 'pointer';
+      const feature = event.features[0];
+      console.log(feature)
+      console.log(feature.properties.id_restroom)
+      const popupContent =
+      `<p><strong>${feature.properties.Name}</strong></p>
+      <p>${feature.properties.Location}</p>
+      <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`
+    popup.setLngLat(feature.geometry.coordinates)
+        .setHTML(popupContent)
+        .addTo(map.current);
+    });
 
     
 
-    const popup = new mapboxgl.Popup({ offset: [0, -15] });
-    const handleMouseEnter = async (event, layer) => {
-      map.current.getCanvas().style.cursor = 'pointer';
-      const feature = event.features[0];
-      await dispatch(SearchByName({ name: feature.properties.Name.toString() }));  
-      const popupContent = `
-        <p><strong>${feature.properties.Name}</strong></p>
-        <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>
-      `;
-      popup.setLngLat(feature.geometry.coordinates)
-        .setHTML(popupContent)
-        .addTo(map.current);
-    };
-  
-    map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
-      handleMouseEnter(event, 'public-restroom-nyc');
-    });
-  
-    map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
-      handleMouseEnter(event, 'restroom-hotel-nyc');
-    });
-  
-    map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
-      handleMouseEnter(event, 'restroom-mall-nyc');
-    });
      
 
     map.current.on('load', () => {
@@ -306,7 +281,7 @@ const Map = () => {
       map.current.removeControl(directions);
     });
 
-      },[dispatch]);
+      },[dispatch,popuprestroom]);
     
 
 
