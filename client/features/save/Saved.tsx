@@ -21,12 +21,20 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Saved = () => {
   const [savedRestrooms, setSavedRestrooms] = useState([])
+  const { id } = useSelector((state) => state.auth.me);
+  const token = window.localStorage.getItem('token')
+
 
   useEffect(() => {
+    console.log('token in saved.tsx', token)
     async function fetchSavedRestrooms() {
       try {
         const [savedRestroomsResponse, restroomsResponse] = await Promise.all([
-          fetch("/api/saved"),
+          fetch(`/api/saved?userId=${id}`, {
+            headers: {
+              Authorization: `${token}`,
+            },
+          }),
           fetch("/api/restrooms")
         ]);
         const savedRestrooms = await savedRestroomsResponse.json();
