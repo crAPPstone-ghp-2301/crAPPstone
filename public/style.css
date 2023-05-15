@@ -20,7 +20,6 @@ a {
 #app {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   background-color: #fefae0;
-  /* overflow: "hidden"; */
   padding-left: 0;
   padding-right: 0;
   width: 100%;
@@ -61,50 +60,7 @@ div#geocoder-search {
   width: 25em;
 }
 
-#menu {
-  background: #FEFAE0;
-  position: absolute;
-  z-index: 1;
-  top: 150px;
-  right: 30px;
-  border-radius: 3px;
-  width: 120px;
-  border: 1px solid #A5A58D;
-  font-family:Arial, Helvetica, sans-serif;
-  border-color: #FFFFFF;
-  }
-   
-  #menu a {
-  font-size: 13px;
-  color: #D4A373;
-  display: block;
-  margin: 0;
-  padding: 0;
-  padding: 10px;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-  text-align: center;
-  }
-   
-  #menu a:last-child {
-  border: none;
-  }
-   
-  #menu a:hover {
-  background-color: #FEFAE0;
-  color: #D4A373;
-  }
-   
-  #menu a.active {
-  background-color:  #D4A373;
-  color: #ffffff;
-  }
-   
-  #menu a.active:hover {
-  background: #CB997E;
-  }
-
-#get-direction{
+/* #get-direction{
   position: absolute;
   z-index: 1;
   top: 340px;
@@ -116,9 +72,9 @@ div#geocoder-search {
     z-index: 1;
     top: 340px;
     right: 50px;
-    }
+    } */
 
-    .rateBtn{
+    .infoBtn{
       text-decoration:none;
       font-family:Arial, Helvetica, sans-serif;
       color:#FFFFFF;
@@ -128,7 +84,7 @@ div#geocoder-search {
       border-color: #A5A58D;
     }
 
-    .rateBtn:hover{
+    .infoBtn:hover{
       border-color: rgba(255,255,255,1);
       }
 

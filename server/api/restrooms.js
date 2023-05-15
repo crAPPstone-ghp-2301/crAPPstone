@@ -31,7 +31,7 @@ const isUserOrAdmin = async (req, res, next) => {
   }
 };
 
-router.get('/', isAdmin, async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   console.log("Restroom backend API is running")
   try {
     const restrooms = await Restroom.findAll();
@@ -40,6 +40,7 @@ router.get('/', isAdmin, async (req, res, next) => {
     next(error)
   }
 })
+
 router.get('/:id', async (req, res, next) => {
   try {
     console.log("SINGLE Restroom BACKEND WORKING")
@@ -84,5 +85,7 @@ router.put("/:id", async (req, res, next) => {
     next(err);
   }
 });
+
+
 
 module.exports = router;

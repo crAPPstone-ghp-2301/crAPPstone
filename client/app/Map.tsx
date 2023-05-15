@@ -5,14 +5,11 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { useRef, useState, useEffect } from "react";
 import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
-import {Button, Typography,Divider} from "@mui/material";
 import { PrimaryButton} from "../features/styles/StyleGuide"
 import { getAllRestrooms, selectRestroom } from '../features/restrooms/allRestroomSlice';
-import AssistantDirectionIcon from '@mui/icons-material/AssistantDirection';
-import { Dialog,DialogTitle,DialogContent,DialogContentText,Rating,DialogActions } from '@mui/material';
-import {CustomizedTextField} from "../features/styles/StyleGuide"
+import AssistantDirectionIcon from '@mui/icons-material/AssistantDirection'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import crAppTheme from "./theme";
+import {fetchByName} from "../features/restrooms/singleRestroomSlice"
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw'
@@ -23,18 +20,9 @@ const Map = () => {
   const [lng, setLng] = useState(-73.98);
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
-  const [newPlace, setNewPlace] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
+  
   const dispatch = useDispatch();
-  const restrooms = useSelector(selectRestroom);
-  useEffect(() => {
-    dispatch(getAllRestrooms());
-  }, [dispatch]); 
+  const popuprestroom = useSelector(state=> state.singleRestroom.searchbyname)
 
   useEffect(() => {
     
@@ -47,9 +35,7 @@ const Map = () => {
     });
 
     const directions = new MapboxDirections({
-      accessToken: mapboxgl.accessToken
-
-  })
+      accessToken: mapboxgl.accessToken })
 
     map.current.addControl(
       new mapboxgl.GeolocateControl({
@@ -92,10 +78,14 @@ const Map = () => {
     map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
       map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
+      console.log(feature)
+      dispatch(fetchByName({ name: feature.properties.Name.toString()}))
+      console.log('Dispatching fetchByName action');
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
+        console.log(popuprestroom)
+        <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -104,10 +94,14 @@ const Map = () => {
     map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
       map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
+      console.log(feature)
+      dispatch(fetchByName({ name: feature.properties.Name.toString()}))
+      console.log('Dispatching fetchByName action');
+      console.log(popuprestroom.id)
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
+        <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -118,19 +112,20 @@ const Map = () => {
     map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
       map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
+      dispatch(fetchByName({ name: feature.properties.Name.toString()}))
+      console.log(popuprestroom.id)
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
+        <a href="http://localhost:8080/restrooms/${popuprestroom.id}">More info</a>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
     });
 
-    $(document).on('click', '.rateBtn', function() {
-      setIsModalOpen(true);
-    });
-
+    // $(document).on('click', '.infoBtn', function() {
+      
+    // });
 
      
 
@@ -217,113 +212,118 @@ const Map = () => {
     
       
  
-    function direction_reset() {
-      directions.actions.clearOrigin();
-      directions.actions.clearDestination();
-      directions.container.querySelector('input').value = '';
-    }
-    
-    $(document).on('click', '#get-direction', function() {
-      // Adding Direction form and instructions on map
-      map.current.addControl(directions, 'top-right');
-      directions.container.setAttribute('id', 'direction-container');
-      $(geocoder.container).hide();
-      $(this).hide();
-      $('#end-direction').removeClass('d-none');
-    });
-    
-    $(document).on('click', '#end-direction', function() {
-      direction_reset();
-      $(this).addClass('d-none');
-      $('#get-direction').show();
-      $(geocoder.container).show();
-      map.current.removeControl(directions);
-    });
+      function direction_reset() {
+        directions.actions.clearOrigin();
+        directions.actions.clearDestination();
+        directions.container.querySelector("input").value = "";
+      }
+      
+      $(document).on('click', '#get-direction', function() {
+        // Adding Direction form and instructions on map
+        map.current.addControl(directions, 'top-right');
+        directions.container.setAttribute('id', 'direction-container');
+        $(geocoder.container).hide();
+        $(this).hide();
+        $('#end-direction').removeClass('d-none');
+      });
+      
+      $(document).on('click', '#end-direction', function() {
+        direction_reset();
+        $(this).addClass('d-none');
+        $('#get-direction').show();
+        $(geocoder.container).show();
+        map.current.removeControl(directions);
+      });
+  
     
     
         
-    map.current.on('idle', () => {
-      // If these two layers were not added to the map, abort
-      if (!map.current.getLayer('restroom-mall-nyc') || !map.current.getLayer('restroom-hotel-nyc') || !map.current.getLayer('public-restroom-nyc')) {
-        console.log("not found");
-        return;
-      }
+    $(document).on('click', '#restroom-mall-nyc', (e) => {
+      const clickedLayer = e.target.id;
+      e.preventDefault();
+      e.stopPropagation();
     
-      
-      // Enumerate ids of the layers.
-      const toggleableLayerIds = ['restroom-mall-nyc', 'restroom-hotel-nyc', 'public-restroom-nyc'];
-       
-      // Set up the corresponding toggle button for each layer.
-      for (const id of toggleableLayerIds) {
-        // Skip layers that already have a button set up.
-        if (document.getElementById(id)) {
-          continue;
-        }
-       
-        // Create a link.
-        const link = document.createElement('a');
-        link.id = id;
-        link.href = '#';
-        link.textContent = id;
-        link.className = 'active'; // Set the initial class to an empty string for "none" visibility.
-       
-        // Show or hide layer when the toggle is clicked.
-        link.onclick = function (e) {
-          const clickedLayer = this.textContent;
-          e.preventDefault();
-          e.stopPropagation();
-       
-          const visibility = map.current.getLayoutProperty(clickedLayer, 'visibility');
-       
-          // Toggle layer visibility by changing the layout object's visibility property.
-          if (visibility === 'visible') {
-            map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
-            this.className = ''; // Update the class to reflect the "none" visibility.
-          } else {
-            this.className = 'active';
-            map.current.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-          }
-        };
-       
-        const layers = document.getElementById('menu');
-        layers.appendChild(link);
+      const visibility = map.current.getLayoutProperty(clickedLayer, 'visibility');
+    
+      if (visibility === 'visible') {
+        map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
+      } else {
+        map.current.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        map.current.setLayoutProperty("restroom-hotel-nyc", 'visibility', 'none');
+        map.current.setLayoutProperty("public-restroom-nyc", 'visibility', 'none');
+        
       }
     });
     
-      },[]);
+    $(document).on('click', '#restroom-hotel-nyc', (e) => {
+      const clickedLayer = e.target.id;
+      e.preventDefault();
+      e.stopPropagation();
+    
+      const visibility = map.current.getLayoutProperty(clickedLayer, 'visibility');
+    
+      // Toggle layer visibility by changing the layout object's visibility property.
+      if (visibility === 'visible') {
+        map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
+      } else {
+        map.current.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        map.current.setLayoutProperty("restroom-mall-nyc", 'visibility', 'none');
+        map.current.setLayoutProperty("public-restroom-nyc", 'visibility', 'none');
+        
+      }
+    });
+    
+    $(document).on('click', '#public-restroom-nyc', (e) => {
+      const clickedLayer = e.target.id;
+      e.preventDefault();
+      e.stopPropagation();
+    
+      const visibility = map.current.getLayoutProperty(clickedLayer, 'visibility');
+    
+      // Toggle layer visibility by changing the layout object's visibility property.
+      if (visibility === 'visible') {
+        map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
+      } else {
+        map.current.setLayoutProperty(clickedLayer, 'visibility', 'visible');
+        map.current.setLayoutProperty("restroom-mall-nyc", 'visibility', 'none');
+        map.current.setLayoutProperty("restroom-hotel-nyc", 'visibility', 'none');
+      }
+    });
+    
+      },[dispatch]);
     
 
 
   
       return (
         <div>
-         <nav id="menu" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}></nav>
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-            <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="get-direction">
-              <AssistantDirectionIcon />
-            </PrimaryButton>
-            <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} className="d-none" id="end-direction">
-              <HighlightOffIcon />
-            </PrimaryButton>
-          </div>
+              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, display: 'flex', justifyContent: 'center', marginTop: '1rem',flexDirection: 'row', alignItems: 'center',zIndex: 1 }}>
+              <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="get-direction">
+                    <AssistantDirectionIcon />
+                  </PrimaryButton>
+                  <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} className="d-none" id="end-direction">
+                    <HighlightOffIcon />
+                  </PrimaryButton>
+                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="restroom-mall-nyc">
+                  Restroom in Mall
+                </PrimaryButton>
+                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="restroom-hotel-nyc">
+                  Restroom in Hotel
+                </PrimaryButton>
+                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="public-restroom-nyc">
+                  Public Restroom NYC
+                </PrimaryButton>
+                </div>
 
-          <Dialog open={isModalOpen} onClose={handleCloseModal} sx={{ p: 4, minHeight: '50vh' }}>
-            <DialogTitle variant="h4" sx={{textAlign: "center",  padding: 4, color: crAppTheme.palette.text.secondary}}>Share your Experience</DialogTitle >
-            <DialogContent style={{justifyContent: 'center'}} >
-            <DialogContentText variant="h5" sx={{textAlign: "center",  padding: 4, color: crAppTheme.palette.text.secondary}}>
-            How many star will you give?
-            </DialogContentText>
-              <CustomizedTextField
-                id="outlined-required"
-                label="Restroom#"
-                placeholder="Name"
-                sx={{ width: '200px' }}/>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
-              </div>
-            </DialogContent>
+                {/* <div>
+                  <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="get-direction">
+                    <AssistantDirectionIcon />
+                  </PrimaryButton>
+                  <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} className="d-none" id="end-direction">
+                    <HighlightOffIcon />
+                  </PrimaryButton>
+                 </div> */}
 
-          </Dialog>
 
         <div ref={mapContainer} className="map-container"></div>
     </div>
