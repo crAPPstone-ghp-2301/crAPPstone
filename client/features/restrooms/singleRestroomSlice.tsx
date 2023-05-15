@@ -53,22 +53,11 @@ export const createOrUpdateRestroom = createAsyncThunk(
   }
 );
 
-export const fetchByName = createAsyncThunk(
-  "restrooms/getByName",
-  async ({name}) => {
-    try {
-      const { data } = await axios.get(`/api/search?name=${name}`);
-      return data;
-    } catch (error) {
-      throw new Error(error.message);
-    }
-  }
-);
+
 
 const initialState = {
   allRestrooms: [],
   singleRestroom: {},
-  searchbyname:{},
 };
 
 export const restroomSlice = createSlice({
@@ -84,9 +73,6 @@ export const restroomSlice = createSlice({
         (restroom) => restroom.id !== action.payload
       );
     });
-    builder.addCase(fetchByName.fulfilled,(state,action)=>{
-      state.searchbyname=action.payload
-    })
     builder.addCase(createOrUpdateRestroom.fulfilled, (state, action) => {
       const restroomIndex = state.allRestrooms.findIndex(
         (restroom) => restroom.id === action.payload.id

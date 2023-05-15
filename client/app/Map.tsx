@@ -9,7 +9,7 @@ import { PrimaryButton} from "../features/styles/StyleGuide"
 import { getAllRestrooms, selectRestroom } from '../features/restrooms/allRestroomSlice';
 import AssistantDirectionIcon from '@mui/icons-material/AssistantDirection'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import {fetchByName} from "../features/restrooms/singleRestroomSlice"
+import {SearchByName} from "../features/search/SearchSlice"
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw'
@@ -22,8 +22,9 @@ const Map = () => {
   const [zoom, setZoom] = useState(12);
   
   const dispatch = useDispatch();
-  const popuprestroom = useSelector(state=> state.singleRestroom.searchbyname)
-
+  const popuprestroom = useSelector(state => state.searchoutput.output);
+   console.log( popuprestroom)
+   
   useEffect(() => {
     
     if (map.current) return; // initialize map only once
@@ -75,12 +76,10 @@ const Map = () => {
 
       let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
-    map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
+    map.current.on('mouseenter', 'public-restroom-nyc', async(event) => {
       map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
-      console.log(feature)
-      dispatch(fetchByName({ name: feature.properties.Name.toString()}))
-      console.log('Dispatching fetchByName action');
+      await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
@@ -91,13 +90,11 @@ const Map = () => {
         .addTo(map.current);
     });
 
-    map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
+    map.current.on('mouseenter', 'restroom-hotel-nyc', async(event) => {
       map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
-      console.log(feature)
-      dispatch(fetchByName({ name: feature.properties.Name.toString()}))
-      console.log('Dispatching fetchByName action');
-      console.log(popuprestroom.id)
+      await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
+      console.log(popuprestroom)
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
@@ -109,11 +106,11 @@ const Map = () => {
 
    
 
-    map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
+    map.current.on('mouseenter', 'restroom-mall-nyc', async(event) => {
       map.current.getCanvas().style.cursor = 'pointer';
       const feature = event.features[0];
-      dispatch(fetchByName({ name: feature.properties.Name.toString()}))
-      console.log(popuprestroom.id)
+      await dispatch(SearchByName({ name: feature.properties.Name.toString()}))
+      console.log(popuprestroom)
       const popupContent =
         `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
