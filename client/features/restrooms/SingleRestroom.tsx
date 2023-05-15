@@ -5,6 +5,7 @@ import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
 import { getAllRestrooms } from "./allRestroomSlice";
 import { ThemeProvider } from "@mui/material/styles";
 import crAppTheme from "../../app/theme";
+import Rating from "../rating/Rating"
 import {
   Typography,
   Container,
@@ -127,9 +128,13 @@ const SingleRestroom = () => {
                 <PrimaryButton>Reviews</PrimaryButton>
               </Link>
               <PrimaryButton
-              onClick={() => handleAddSavedRestroom(restroom.id)}
-            >Save
+              onClick={() => handleAddSavedRestroom(restroom.id)} >Save
               </PrimaryButton>
+
+              <Container style={{ marginTop: '3rem' }}>
+                <Rating/>
+              </Container>
+             
             </Container>
 
             <Box
