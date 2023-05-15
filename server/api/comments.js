@@ -2,36 +2,6 @@ const router = require('express').Router()
 const { models: { Comments, User, Review } } = require('../db')
 module.exports = router
 
-// middleware function to check if user isAdmin
-const isAdmin = async (req, res, next) => {
-  try {
-    const user = await User.findByToken(req.headers.authorization);
-    if (!user.isAdmin) {
-      const error = new Error('Not authorized');
-      error.status = 401;
-      throw error;
-    }
-    next();
-  } catch (err) {
-    next(err);
-  }
-};
-
-// middleware function to check if user is the same user or isAdmin
-const isUserOrAdmin = async (req, res, next) => {
-  try {
-    const user = await User.findByToken(req.headers.authorization);
-    if (!user.isAdmin && user.id !== Number(req.params.id)) {
-      const error = new Error('Not authorized');
-      error.status = 401;
-      throw error;
-    }
-    next();
-  } catch (err) {
-    next(err);
-  }
-};
-
 //Routes to include comments for a single review below 
 //fetch all comments for a single reviewId
 router.get('/:reviewId/comments', async (req, res, next) => {
@@ -99,7 +69,7 @@ router.post('/:reviewId/comments', async (req, res, next) => {
 //update a comment for a review
 router.put('/:reviewId/comments/:commentId', async (req, res, next) => {
   try {
-    
+
     const { content, likes } = req.body;
     const comment = await Comments.findByPk(req.params.commentId);
     await comment.update({ content, likes });
