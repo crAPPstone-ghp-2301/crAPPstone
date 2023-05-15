@@ -76,11 +76,10 @@ const Map = () => {
     map.current.on("mouseenter", "restroom-mall-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature);
-      console.log(feature.properties.id);
+      console.log(feature)
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${feature.properties.id}">More info</a>`;
+        <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
       popup
         .setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
@@ -90,8 +89,7 @@ const Map = () => {
     map.current.on("mouseenter", "restroom-hotel-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature);
-      console.log(feature.properties.id_restroom);
+      console.log(feature)
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -104,8 +102,7 @@ const Map = () => {
     map.current.on("mouseenter", "public-restroom-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature);
-      console.log(feature.properties.id_restroom);
+      console.log(feature)
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
       <p>${feature.properties.Location}</p>
       <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
