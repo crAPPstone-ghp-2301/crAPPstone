@@ -13,8 +13,8 @@ const Restroom = require('./models/Restroom')
 User.belongsToMany(Restroom, { through: Favorites });
 Restroom.belongsToMany(User, { through: Favorites });
 
-Restroom.hasMany(Ratings)
-Ratings.belongsTo(Restroom)
+Restroom.hasMany(Ratings, { foreignKey: 'restroomId' });
+// Ratings.belongsTo(Restroom);
 
 User.hasMany(Ratings)
 Ratings.belongsTo(User)

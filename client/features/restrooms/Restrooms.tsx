@@ -32,7 +32,11 @@ const AllRestrooms = () => {
   return (
     <>
     <ThemeProvider theme={crAppTheme}>
-      <Container maxWidth="lg" sx={{ marginTop: 10 }}>
+      <Container maxWidth="lg" sx={{
+         marginTop: 10,
+         position: 'fixed',
+         zIndex: 1,
+         }}>
         <Typography
           variant="h3"
           component="h1"
@@ -82,22 +86,31 @@ const AllRestrooms = () => {
                       <CardMedia
                         component="img"
                         image={restroom.imageUrl}
-                        sx={{ height: 300, objectFit: "cover" }}
+                        sx={{ height: 200, objectFit: "cover" }}
                       />
                       <CardContent
-                        sx={{ height: 150 }}
+                        sx={{ height: 150, overflow: 'auto' }}
                       >
                         <Typography
                           gutterBottom
                           variant="body"
                           component="div"
-                          color="primary.light"
+                          color="secondary.light"
                           sx={{ fontWeight: "900" }}
                         >
                           {restroom.name}
                         </Typography>
-                        <Typography variant="body2">
+                        <Typography 
+                        variant="body3"
+                        color="secondary.light">
                           {restroom.openingHours}
+                        </Typography>
+                        <br/>
+                        <Typography 
+                        variant="body2"
+                        color="secondary.light">
+                          <br/>
+                          {restroom.description}
                         </Typography>
                       </CardContent>
                     </Card>

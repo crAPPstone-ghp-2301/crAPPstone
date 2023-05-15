@@ -6,122 +6,80 @@ import { getAllRestrooms } from "./allRestroomSlice";
 import { ThemeProvider } from "@mui/material/styles";
 import crAppTheme from "../../app/theme";
 import {
-    Typography,
-    Container,
-    Button,
-    Box,
-    Card,
-    CardMedia,
-    CardContent,
+  Typography,
+  Container,
+  Button,
+  Box,
+  Card,
+  CardMedia,
+  CardContent,
 } from "@mui/material";
 
 const SingleRestroom = () => {
-    const dispatch = useDispatch();
-    const { id } = useParams();
+  const dispatch = useDispatch();
+  const { id } = useParams();
 
-    const singleRestroom = useSelector((state) => state.singleRestroom.singleRestroom);
-    console.log("SINGLE RESTROOM===============>", singleRestroom)
+  const restroom = useSelector((state) => state.singleRestroom.singleRestroom);
+  console.log("SINGLE RESTROOM===============>", restroom);
 
-    useEffect(() => {
-        dispatch(getSingleRestroom(id))
-        dispatch(getAllRestrooms())
-    }, [dispatch, id]);
-
-    return (
-        <>
-            <ThemeProvider theme={crAppTheme}>
-                <Container maxWidth="lg" sx={{ marginTop: 10 }}>
-                    <Typography
-                        variant="h3"
-                        component="h1"
-                        align="center"
-                        gutterBottom
-                        sx={{
-                            marginBottom: 5,
-                            textAlign: "center",
-                        }}
-                    >
-                        {singleRestroom.name}
-                    </Typography>
-                    <Container
-                        sx={{
-                            display: "grid",
-                            gridTemplateColumns: "repeat(4, 1fr)",
-                            gap: "20px",
-                        }}
-                    >
-                        <Box
-                            sx={{
-                                display: "flex",
-                                flexDirection: "row",
-                                justifyContent: "space-evenly",
-                                margin: "5px",
-                                height: "100%",
-                                position: "relative",
-                            }}
-                            key={singleRestroom.id}
-                        >
-                                <Card
-                                    sx={{
-                                        maxWidth: 600,
-                                        border: "none",
-                                        "&:hover": {
-                                            border: "2px solid",
-                                        },
-                                    }}
-                                >
-                                    <CardMedia
-                                        component="img"
-                                        image={singleRestroom.imageUrl}
-                                            sx={{ height: 300, objectFit: "cover" }}
-                                    />
-                                    <CardContent
-                                        sx={{ height: 350 }}
-                                    >
-                                        <Typography
-                                            gutterBottom
-                                            variant="body"
-                                            component="div"
-                                            color="secondary.light"
-                                            sx={{ fontWeight: "900" }}
-                                        >
-                                            {singleRestroom.name}
-                                        </Typography>
-                                        <Typography 
-                                            gutterBottom
-                                            variant="body"
-                                            component="div"
-                                            color="tertiary.light"
-                                            sx={{ fontWeight: "900" }}>
-                                            {singleRestroom.openingHours}
-                                        </Typography>
-                                        <Typography 
-                                            gutterBottom
-                                            variant="body"
-                                            component="div"
-                                            color="tertiary.light"
-                                            sx={{ fontWeight: "900" }}>
-                                            {singleRestroom.description}
-                                        </Typography>
-                                    </CardContent>
-                                </Card>
-                            <Button
-                                variant="contained"
-                                size="small"
-                                sx={{
-                                    position: "absolute",
-                                    top: "10px",
-                                    right: "10px",
-                                }}
-                            >
-                                Add a Review
-                            </Button>
-                        </Box>
-                    </Container>
-                </Container>
-            </ThemeProvider>
-        </>
-    );
+  useEffect(() => {
+    dispatch(getSingleRestroom(id));
+    dispatch(getAllRestrooms());
+  }, [id, dispatch]);
+//merge
+  return (
+    <>
+      <ThemeProvider theme={crAppTheme}>
+        <Card
+          sx={{
+            maxWidth: 600,
+            maxHeight: 500,
+            margin: 10,
+            border: "none",
+            "&:hover": {
+              border: "2px solid",
+            },
+          }}
+        >
+          <CardMedia
+            component="img"
+            image={restroom.imageUrl}
+            sx={{ height: 200, objectFit: "cover" }}
+          />
+          <CardContent sx={{ height: 150, overflow: "auto" }}>
+            <Typography
+              gutterBottom
+              variant="body"
+              component="div"
+              color="secondary.light"
+              sx={{ fontWeight: "900" }}
+            >
+              {restroom.name}
+            </Typography>
+            
+            <Typography variant="body3" color="secondary.light">
+              {restroom.openingHours}
+            </Typography>
+            <br />
+            <Typography variant="body2" color="secondary.light">
+              <br />
+              {restroom.description}
+            </Typography>
+            <Button
+              sx={{
+                marginTop: "auto", 
+                color: "primary.light",
+                bgcolor: "secondary.light", 
+              }}
+              size="small"
+            >
+              Add a Review
+            </Button>
+          </CardContent>
+        </Card>
+      </ThemeProvider>
+    </>
+  );
 };
 
 export default SingleRestroom;

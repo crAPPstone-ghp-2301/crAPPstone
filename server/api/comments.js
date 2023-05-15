@@ -34,7 +34,7 @@ const isUserOrAdmin = async (req, res, next) => {
 
 //Routes to include comments for a single review below 
 //fetch all comments for a single reviewId
-router.get('/:reviewId/comments', isAdmin, async (req, res, next) => {
+router.get('/:reviewId/comments', async (req, res, next) => {
   try {
     const review = await Review.findByPk(req.params.reviewId, {
       include: {
@@ -58,7 +58,7 @@ router.get('/:reviewId/comments', isAdmin, async (req, res, next) => {
 });
 
 //fetch a single comment of a reviewId and its replies 
-router.get('/:reviewId/comments/:commentId', isUserOrAdmin, async (req, res, next) => {
+router.get('/:reviewId/comments/:commentId', async (req, res, next) => {
   try {
     const comment = await Comments.findByPk(req.params.commentId, {
       include: {
