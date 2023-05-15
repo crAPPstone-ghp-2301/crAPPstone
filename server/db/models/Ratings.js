@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+// const Restroom = require('./Restroom')
 
 const Ratings=db.define("ratings", {
     userId:{
@@ -8,6 +9,12 @@ const Ratings=db.define("ratings", {
     
       restroomId: {
         type: Sequelize.INTEGER,
+        // references: {
+        //   model: Restroom,
+        //   key: 'id'
+        // },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
       },
 
       userRating:{
