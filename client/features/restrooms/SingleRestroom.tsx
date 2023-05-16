@@ -180,7 +180,6 @@ const SingleRestroom = () => {
                 <AddRating/>
               </Container>
              
-             <PastRating/>
             </Container>
 
             <Box
