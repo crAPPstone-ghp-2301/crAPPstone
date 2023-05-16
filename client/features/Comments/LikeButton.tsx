@@ -5,8 +5,11 @@ import { IconButton } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import crAppTheme from "../../app/theme";
 import { PrimaryButton } from "../styles/StyleGuide";
-import { ThemeProvider, Box, Container, TextField, Typography, Grid} from "@mui/material";
-
+import {
+  ThemeProvider,
+  Typography,
+  Grid,
+} from "@mui/material";
 
 const LikeButton = ({ commentId, likes, reviewId }) => {
   const dispatch = useDispatch();
@@ -19,6 +22,7 @@ const LikeButton = ({ commentId, likes, reviewId }) => {
   };
 
   return (
+    <ThemeProvider theme={crAppTheme}>
     <Grid container alignItems="center">
       <Grid item>
         <IconButton color="secondary" onClick={handleLike}>
@@ -26,9 +30,12 @@ const LikeButton = ({ commentId, likes, reviewId }) => {
         </IconButton>
       </Grid>
       <Grid item>
-        <Typography>{currentLikes}</Typography>
+        <Typography variant="subtitle1" color="secondary.light">
+          {currentLikes}
+        </Typography>
       </Grid>
-    </Grid>
+      </Grid>
+      </ThemeProvider>
   );
 };
 
