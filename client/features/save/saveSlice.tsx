@@ -28,6 +28,15 @@ export const addSavedRestroom = createAsyncThunk(
     }
 })
 
+export const deleteSavedRestroom = createAsyncThunk('saved/deleteSaveRestroom', async (restroomId) => {
+  try {
+    await axios.delete(`/api/saved/${restroomId}`)
+    return restroomId
+  } catch (error) {
+    throw error
+  }
+})
+
 export const savedSlice = createSlice({
   name: "saved",
   initialState: {
@@ -41,6 +50,9 @@ export const savedSlice = createSlice({
       })
       .addCase(addSavedRestroom.fulfilled, (state, action) => {
         state.savedRestrooms.push(action.payload)
+      })
+      .addCase(deleteSavedRestroom.fulfilled, (state, action) => {
+        return action.payload
       })
   },
 });

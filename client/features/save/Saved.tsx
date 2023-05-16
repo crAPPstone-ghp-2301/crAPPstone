@@ -2,7 +2,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
-import { selectSaved, addSavedRestroom, getSavedRestrooms } from "./saveSlice";
+import { selectSaved, addSavedRestroom, getSavedRestrooms, deleteSavedRestroom } from "./saveSlice";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import crAppTheme from "../../app/theme";
 import { Link } from "react-router-dom";
@@ -18,15 +18,14 @@ import {
   CssBaseline
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import axios from "axios";
 
 const Saved = () => {
   const [savedRestrooms, setSavedRestrooms] = useState([])
   const { id } = useSelector((state) => state.auth.me);
   const token = window.localStorage.getItem('token')
 
-
   useEffect(() => {
-    console.log('token in saved.tsx', token)
     async function fetchSavedRestrooms() {
       try {
         const [savedRestroomsResponse, restroomsResponse] = await Promise.all([
@@ -58,6 +57,15 @@ const Saved = () => {
     fetchSavedRestrooms();
   }, []);
 
+    const dispatch = useDispatch()
+
+    const handleDeleteSavedRestroom = async (restroomId) => {
+      await dispatch(deleteSavedRestroom(restroomId))
+      setSavedRestrooms((prevSavedRestrooms) =>
+        prevSavedRestrooms.filter((restroom) => restroom.restroomId !== restroomId)
+      );
+    }
+
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
@@ -88,9 +96,14 @@ const Saved = () => {
             </Typography>
             {
               Array.isArray(savedRestrooms) && savedRestrooms.map((restroom) => {
-                return <Link key={restroom.restroomId} to={`/restrooms/${restroom.restroomId}`}>
-                  <Typography key={restroom.restroom.name}variant="subtitle1">{restroom.restroom.name}</Typography>
-                </Link>
+                return (
+                  <div key={restroom.restroomId}>
+                    <Link key={restroom.restroomId} to={`/restrooms/${restroom.restroomId}`}>
+                      <Typography key={restroom.restroom.name}variant="subtitle1">{restroom.restroom.name}</Typography>
+                    </Link>
+                    <TertiaryButton onClick={()=>{handleDeleteSavedRestroom(restroom.restroomId)}}>Delete</TertiaryButton>
+                  </div>
+                )
               })
             }
           </Box>
@@ -99,6 +112,7 @@ const Saved = () => {
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
+
         </Container>
       </Container>
     </ThemeProvider>

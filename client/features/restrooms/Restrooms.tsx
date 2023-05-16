@@ -8,12 +8,16 @@ import { addSavedRestroom } from "../save/saveSlice";
 import {
   Typography,
   Container,
-  Button,
   Box,
   Card,
   CardMedia,
   CardContent,
+  CssBaseline,
 } from "@mui/material";
+import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
+import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
+import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
@@ -24,137 +28,150 @@ const AllRestrooms = () => {
   }, [dispatch]);
 
   const handleAddSavedRestroom = async (restroomId) => {
-    console.log('restroom id', restroomId)
-    await dispatch(addSavedRestroom(restroomId))
-  }
-
+    console.log("restroom id", restroomId);
+    await dispatch(addSavedRestroom(restroomId));
+  };
 
   return (
-    <>
     <ThemeProvider theme={crAppTheme}>
-     
+      <CssBaseline />
+      <Container
+        id="restroom-container"
+        sx={{
+          position: "fixed",
+          top: 0,
+          left: "100px",
+          zIndex: 1,
+          backgroundColor: "white",
+          width: 450,
+          height: "100%",
+          overflowY: "scroll",
+          paddingBottom: 10,
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
+          "@media (max-width: 700px)": {
+            left: "0",
+            width: "90%",
+          },
+        }}
+      >
         <Container
-          maxWidth="lg"
           sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
             marginTop: 10,
-            marginLeft:15,
-            position: 'absolute',
-            zIndex: 2,
+            padding: 10,
           }}
         >
-        <Typography
-          variant="h3"
-          component="h1"
-          align="center"
-          gutterBottom
-          sx={{
-            marginBottom: 5,
-            textAlign: "center",
-          }}
-        >
-          All Restrooms
-        </Typography>
-        <Container
-          sx={{
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: "20px",
-          }}
-        >
-          {Array.isArray(restrooms) &&
-            restrooms.map((restroom) => {
-              return (
-                <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-evenly",
-                    margin: "5px",
-                    height: "100%",
-                    position: "relative",
-                  }}
-                  key={restroom.id}
-                >
-                  <Link
-                    to={`/restrooms/${restroom.id}`}
+          <Typography
+            variant="h3"
+            align="center"
+            gutterBottom
+            backgroundColor="secondary.light"
+            color="primary.light"
+            sx={{
+              marginBottom: 5,
+              textAlign: "center",
+            }}
+          >
+            Restrooms Nearby
+          </Typography>
+          <Link to="/">
+            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
+              <CloseRoundedIcon />
+            </TertiaryButton>
+          </Link>
+          <Box>
+            {Array.isArray(restrooms) &&
+              restrooms.map((restroom) => {
+                return (
+                  <Card
+                    sx={{
+                      display: "flex",
+                      my: 2,
+                      width: 380,
+                    }}
+                    key={restroom.id}
                   >
-                    <Card
-                      sx={{
-                        maxWidth: 600,
-                        border: "none",
-                        "&:hover": {
-                          border: "2px solid",
-                        },
-                      }}
+                    <Link
+                      to={`/restrooms/${restroom.id}`}
+                      style={{ display: "flex" }}
                     >
-                      <CardMedia
-                        component="img"
-                        image={restroom.imageUrl}
-                        sx={{ height: 200, objectFit: "cover" }}
-                      />
-                      <CardContent
-                        sx={{ height: 150, 
-                          overflow: 'auto', 
-                          "&::-webkit-scrollbar": {
-                          display: "none",
-                        }, 
-                      }}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "column",
+                        }}
                       >
-                        <Typography
-                          gutterBottom
-                          variant="body"
-                          component="div"
-                          color="secondary.light"
-                          sx={{ fontWeight: "900" }}
+                        <CardContent sx={{ flex: "1 0 auto" }}>
+                          <Typography
+                            variant="subtitle1"
+                            sx={{
+                              fontWeight: "900",
+                              color: crAppTheme.palette.primary.dark,
+                            }}
+                          >
+                            {restroom.name}
+                          </Typography>
+                          <Typography
+                            variant="caption"
+                            sx={{ color: crAppTheme.palette.primary.dark }}
+                          >
+                            <b>Opening Hours</b>: {restroom.openingHours}
+                          </Typography>
+                          <br />
+                          <Typography
+                            variant="caption"
+                            sx={{ color: crAppTheme.palette.primary.dark }}
+                          >
+                            <b>Description</b>: {restroom.description}
+                          </Typography>
+                        </CardContent>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            pl: 1,
+                            pb: 1,
+                          }}
                         >
-                          {restroom.name}
-                        </Typography>
-                        <Typography 
-                        variant="body3"
-                        color="secondary.light">
-                          {restroom.openingHours}
-                        </Typography>
-                        <br/>
-                        <Typography 
-                        variant="body2"
-                        color="secondary.light">
-                          <br/>
-                          {restroom.description}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      position: "absolute",
-                      top: "10px",
-                      right: "10px",
-                    }}
-                  >
-                    Add a Review
-                  </Button>
-                  <Button
-                    variant="contained"
-                    size="small"
-                    sx={{
-                      position: "absolute",
-                      top: "50px",
-                      right: "10px",
-                    }}
-                    onClick={() => handleAddSavedRestroom(restroom.id)}
-                  >
-                    Save Restroom
-                  </Button>
-                </Box>
-              );
-            })}
+                          <SecondaryButton>
+                            <NoteAddRoundedIcon /> Review
+                          </SecondaryButton>
+                          <TertiaryButton
+                            variant="contained"
+                            size="small"
+                            onClick={() => handleAddSavedRestroom(restroom.id)}
+                          >
+                            <BookmarkAddRoundedIcon />
+                            Save
+                          </TertiaryButton>
+                        </Box>
+                      </Box>
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "flex-end",
+                          flexGrow: 1,
+                        }}
+                      >
+                        <CardMedia
+                          component="img"
+                          src={restroom.imageUrl}
+                          alt="Restroom"
+                          sx={{ width: 80, height: 80 }}
+                        />
+                      </Box>
+                    </Link>
+                  </Card>
+                );
+              })}
+          </Box>
         </Container>
       </Container>
-      
     </ThemeProvider>
-    </>
   );
 };
 

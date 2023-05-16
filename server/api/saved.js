@@ -4,14 +4,12 @@ const { models: { Favorites, User, Restroom }} = require('../db')
 
 router.get('/', async (req, res, next) => {
   try {
-    console.log('saved.tsx token', req.headers.authorization)
     const currentUser = await User.findByToken(req.headers.authorization)
     const savedRestrooms = await Favorites.findAll({
       where: {
         userId: currentUser.id
       }
     })
-    console.log('savedrestrooms api', savedRestrooms)
     res.json(savedRestrooms)
   } catch (error) {
     next(error)
@@ -20,9 +18,17 @@ router.get('/', async (req, res, next) => {
 
 router.delete("/:restroomId", async (req, res, next) => {
   try {
-    console.log('endpoint' ,req.params.restroomId)
-    const restroomToDelete = await Favorites.findByPk(req.params.restroomId);
-    await restroomToDelete.destroy();
+    const currentUser = await User.findByToken(req.headers.authorization)
+    const favoriteToDelete = await Favorites.findOne({
+      where: {
+        restroomId: req.params.restroomId,
+        userId: currentUser.id
+      }
+    });
+    if (!favoriteToDelete) {
+      return res.status(404).json({ error: "Favorite not found" });
+    }
+    await favoriteToDelete.destroy();
     res.sendStatus(204);
   } catch (error) {
     next(error);
@@ -31,7 +37,6 @@ router.delete("/:restroomId", async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   try {
-    console.log('req.body for saved.js', req.body)
     const currentUser = await User.findByToken(req.headers.authorization)
     const response = await Favorites.findOrCreate({
       where: {
