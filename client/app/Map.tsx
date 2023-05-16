@@ -1,15 +1,18 @@
-import React from 'react';
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useState, useEffect } from "react";
-import MapboxDirections from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
-import { PrimaryButton} from "../features/styles/StyleGuide"
-import { getAllRestrooms, selectRestroom } from '../features/restrooms/allRestroomSlice';
-import AssistantDirectionIcon from '@mui/icons-material/AssistantDirection'
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import {SearchByName} from "../features/search/SearchSlice"
+import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
+import { PrimaryButton } from "../features/styles/StyleGuide";
+import {
+  getAllRestrooms,
+  selectRestroom,
+} from "../features/restrooms/allRestroomSlice";
+import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { SearchByName } from "../features/search/SearchSlice";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw";
@@ -20,18 +23,10 @@ const Map = () => {
   const [lng, setLng] = useState(-73.98);
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
-  
+
   const dispatch = useDispatch();
-  const popuprestroom = useSelector(state => state.searchoutput.output);
-
-
-
-
-   useEffect(() => {
+  const popuprestroom = useSelector((state) => state.searchoutput.output);
   const restrooms = useSelector(selectRestroom);
-  useEffect(() => {
-    dispatch(getAllRestrooms());
-  }, [dispatch]);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -43,8 +38,8 @@ const Map = () => {
     });
 
     const directions = new MapboxDirections({
-      accessToken: mapboxgl.accessToken })
-
+      accessToken: mapboxgl.accessToken,
+    });
 
     map.current.addControl(
       new mapboxgl.GeolocateControl({
@@ -78,246 +73,312 @@ const Map = () => {
 
     let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
-
-      map.current.on('mouseenter', 'restroom-mall-nyc', (event) => {
-        map.current.getCanvas().style.cursor = 'pointer';
-        const feature = event.features[0];
-        console.log(feature)
-        console.log(feature.properties.id)
-        const popupContent =
-        `<p><strong>${feature.properties.Name}</strong></p>
-        <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${feature.properties.id}">More info</a>`
-      popup.setLngLat(feature.geometry.coordinates)
-          .setHTML(popupContent)
-          .addTo(map.current);
-      });
-
-
-      map.current.on('mouseenter', 'restroom-hotel-nyc', (event) => {
-        map.current.getCanvas().style.cursor = 'pointer';
-        const feature = event.features[0];
-        console.log(feature)
-       console.log(feature.properties.id_restroom)
-        const popupContent =
-        `<p><strong>${feature.properties.Name}</strong></p>
-        <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`
-      popup.setLngLat(feature.geometry.coordinates)
-          .setHTML(popupContent)
-          .addTo(map.current);
-      });
-
-
-   
-
-    map.current.on('mouseenter', 'public-restroom-nyc', (event) => {
-      map.current.getCanvas().style.cursor = 'pointer';
+    map.current.on("mouseenter", "restroom-mall-nyc", (event) => {
+      map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature)
-      console.log(feature.properties.id_restroom)
-      const popupContent =
-      `<p><strong>${feature.properties.Name}</strong></p>
-      <p>${feature.properties.Location}</p>
-      <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`
-    popup.setLngLat(feature.geometry.coordinates)
+      console.log(feature);
+      console.log(feature.properties.id);
+      const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
+        <p>${feature.properties.Location}</p>
+        <a href="http://localhost:8080/restrooms/${feature.properties.id}">More info</a>`;
+      popup
+        .setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
     });
 
+    map.current.on("mouseenter", "restroom-hotel-nyc", (event) => {
+      map.current.getCanvas().style.cursor = "pointer";
+      const feature = event.features[0];
+      console.log(feature);
+      console.log(feature.properties.id_restroom);
+      const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
+        <p>${feature.properties.Location}</p>
+        <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
+      popup
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(popupContent)
+        .addTo(map.current);
+    });
 
-    map.current.on('load', () => {
-      const marker = new mapboxgl.Marker({
-        color: " #CB997E",
-      });
+    map.current.on("mouseenter", "public-restroom-nyc", (event) => {
+      map.current.getCanvas().style.cursor = "pointer";
+      const feature = event.features[0];
+      console.log(feature);
+      console.log(feature.properties.id_restroom);
+      const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
+      <p>${feature.properties.Location}</p>
+      <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
+      popup
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(popupContent)
+        .addTo(map.current);
+    });
 
-      geocoder.on("result", async (event) => {
-        const point = event.result.center;
-        console.log(point);
-        const tileset = "fxu2023.509pfoqy";
-        const radius = 1609;
-        const limit = 50;
-        marker.setLngLat(point).addTo(map.current);
-        const query = await fetch(
-          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
-          { method: "GET" }
-        );
-        console.log(query);
-        const json = await query.json();
-        map.current.getSource("tilequery").setData(json);
-      });
+    map.current.on(
+      "load",
+      () => {
+        const marker = new mapboxgl.Marker({
+          color: " #CB997E",
+        });
 
-      map.current.addSource("tilequery", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: [],
-        },
-      });
+        geocoder.on("result", async (event) => {
+          const point = event.result.center;
+          console.log(point);
+          const tileset = "fxu2023.509pfoqy";
+          const radius = 1609;
+          const limit = 50;
+          marker.setLngLat(point).addTo(map.current);
+          const query = await fetch(
+            `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
+            { method: "GET" }
+          );
+          console.log(query);
+          const json = await query.json();
+          map.current.getSource("tilequery").setData(json);
+        });
 
-      map.current.addLayer({
-        id: "tilequery-points",
-        type: "circle",
-        source: "tilequery",
-        paint: {
-          "circle-stroke-color": "white",
-          "circle-stroke-width": {
-            stops: [
-              [0, 0.1],
-              [18, 3],
-            ],
-            base: 5,
+        map.current.addSource("tilequery", {
+          type: "geojson",
+          data: {
+            type: "FeatureCollection",
+            features: [],
           },
-          "circle-radius": {
-            stops: [
-              [12, 10],
-              [22, 200],
+        });
+
+        map.current.addLayer({
+          id: "tilequery-points",
+          type: "circle",
+          source: "tilequery",
+          paint: {
+            "circle-stroke-color": "white",
+            "circle-stroke-width": {
+              stops: [
+                [0, 0.1],
+                [18, 3],
+              ],
+              base: 5,
+            },
+            "circle-radius": {
+              stops: [
+                [12, 10],
+                [22, 200],
+              ],
+              base: 5,
+            },
+            "circle-color": [
+              "match",
+              ["get", "Placetype"],
+              "Mall",
+              "#0BB000",
+              "hotel",
+              "#F89446",
+              "restroom",
+              "#EA0000",
+              "#FF0000", // default color if no match
             ],
-            base: 5,
           },
-          "circle-color": [
-            "match",
-            ["get", "Placetype"],
-            "Mall",
-            "#0BB000",
-            "hotel",
-            "#F89446",
-            "restroom",
-            "#EA0000",
-            "#FF0000", // default color if no match
-          ],
-        },
-      });
+        });
 
-      const popup = new mapboxgl.Popup();
+        const popup = new mapboxgl.Popup();
 
-      map.current.on("mouseenter", "tilequery-points", (event) => {
-        map.current.getCanvas().style.cursor = "pointer";
-        const properties = event.features[0].properties;
-        const obj = JSON.parse(properties.tilequery);
-        const coordinates = new mapboxgl.LngLat(
-          properties.Longitude,
-          properties.Latitude
-        );
+        map.current.on("mouseenter", "tilequery-points", (event) => {
+          map.current.getCanvas().style.cursor = "pointer";
+          const properties = event.features[0].properties;
+          const obj = JSON.parse(properties.tilequery);
+          const coordinates = new mapboxgl.LngLat(
+            properties.Longitude,
+            properties.Latitude
+          );
 
-        const content = `<p><strong>${properties.STORE_NAME}</strong></p><p>${
-          properties.Placetype
-        }</p><p>${properties.STORE_LOCATION}</p><p><strong>${(
-          obj.distance / 1609.344
-        ).toFixed(2)}</strong> mi. from location</p>`;
+          const content = `<p><strong>${properties.STORE_NAME}</strong></p><p>${
+            properties.Placetype
+          }</p><p>${properties.STORE_LOCATION}</p><p><strong>${(
+            obj.distance / 1609.344
+          ).toFixed(2)}</strong> mi. from location</p>`;
 
-        popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
-      });
+          popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
+        });
 
-      
-    $(document).on('click', '#restroom-mall-nyc', (e) => {
-      const clickedLayer = e.target.id;
-      e.preventDefault();
-      e.stopPropagation();
-    
-      const visibility = map.current.getLayoutProperty(clickedLayer, 'visibility');
-    
-      if (visibility === 'visible') {
-        map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
-      } else {
-        map.current.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        map.current.setLayoutProperty("restroom-hotel-nyc", 'visibility', 'none');
-        map.current.setLayoutProperty("public-restroom-nyc", 'visibility', 'none');
-        
-      }
-    });
-    
-    $(document).on('click', '#restroom-hotel-nyc', (e) => {
-      const clickedLayer = e.target.id;
-      e.preventDefault();
-      e.stopPropagation();
-    
-      const visibility = map.current.getLayoutProperty(clickedLayer, 'visibility');
-    
-      // Toggle layer visibility by changing the layout object's visibility property.
-      if (visibility === 'visible') {
-        map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
-      } else {
-        map.current.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        map.current.setLayoutProperty("restroom-mall-nyc", 'visibility', 'none');
-        map.current.setLayoutProperty("public-restroom-nyc", 'visibility', 'none');
-        
-      }
-    });
-    
-    $(document).on('click', '#public-restroom-nyc', (e) => {
-      const clickedLayer = e.target.id;
-      e.preventDefault();
-      e.stopPropagation();
-    
-      const visibility = map.current.getLayoutProperty(clickedLayer, 'visibility');
-    
-      // Toggle layer visibility by changing the layout object's visibility property.
-      if (visibility === 'visible') {
-        map.current.setLayoutProperty(clickedLayer, 'visibility', 'none');
-      } else {
-        map.current.setLayoutProperty(clickedLayer, 'visibility', 'visible');
-        map.current.setLayoutProperty("restroom-mall-nyc", 'visibility', 'none');
-        map.current.setLayoutProperty("restroom-hotel-nyc", 'visibility', 'none');
-      }
-    });
-    
+        $(document).on("click", "#restroom-mall-nyc", (e) => {
+          const clickedLayer = e.target.id;
+          e.preventDefault();
+          e.stopPropagation();
 
-    
+          const visibility = map.current.getLayoutProperty(
+            clickedLayer,
+            "visibility"
+          );
 
+          if (visibility === "visible") {
+            map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+          } else {
+            map.current.setLayoutProperty(
+              clickedLayer,
+              "visibility",
+              "visible"
+            );
+            map.current.setLayoutProperty(
+              "restroom-hotel-nyc",
+              "visibility",
+              "none"
+            );
+            map.current.setLayoutProperty(
+              "public-restroom-nyc",
+              "visibility",
+              "none"
+            );
+          }
+        });
 
-    function direction_reset() {
-      directions.actions.clearOrigin();
-      directions.actions.clearDestination();
-      directions.container.querySelector("input").value = "";
-    }
-    
-    $(document).on('click', '#get-direction', function() {
-      // Adding Direction form and instructions on map
-      map.current.addControl(directions, 'top-right');
-      directions.container.setAttribute('id', 'direction-container');
-      $(geocoder.container).hide();
-      $(this).hide();
-      $('#end-direction').removeClass('d-none');
-    });
-    
-    $(document).on('click', '#end-direction', function() {
-      direction_reset();
-      $(this).addClass('d-none');
-      $('#get-direction').show();
-      $(geocoder.container).show();
-      map.current.removeControl(directions);
-    });
- },[]);
+        $(document).on("click", "#restroom-hotel-nyc", (e) => {
+          const clickedLayer = e.target.id;
+          e.preventDefault();
+          e.stopPropagation();
 
-    
+          const visibility = map.current.getLayoutProperty(
+            clickedLayer,
+            "visibility"
+          );
 
+          // Toggle layer visibility by changing the layout object's visibility property.
+          if (visibility === "visible") {
+            map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+          } else {
+            map.current.setLayoutProperty(
+              clickedLayer,
+              "visibility",
+              "visible"
+            );
+            map.current.setLayoutProperty(
+              "restroom-mall-nyc",
+              "visibility",
+              "none"
+            );
+            map.current.setLayoutProperty(
+              "public-restroom-nyc",
+              "visibility",
+              "none"
+            );
+          }
+        });
 
-  
-      return (
-        <div>
-              <div style={{ position: 'absolute', top: 0, left: 0, right: 0, display: 'flex', justifyContent: 'center', marginTop: '1rem', flexDirection: 'row', alignItems: 'center', zIndex: 1 }}>
-                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5, mr: 2 }} id="restroom-mall-nyc">
-                  Restroom in Mall
-                </PrimaryButton>
-                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5, mr: 2 }} id="restroom-hotel-nyc">
-                  Restroom in Hotel
-                </PrimaryButton>
-                <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5, mr: 2 }} id="public-restroom-nyc">
-                  Public Restroom NYC
-                </PrimaryButton>
-              </div>
-                <div>
-                  <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} id="get-direction">
-                    <AssistantDirectionIcon />
-                  </PrimaryButton>
-                  <PrimaryButton variant="outlined" sx={{ px: 1, py: 0.5 }} className="d-none" id="end-direction">
-                    <HighlightOffIcon  />
-                  </PrimaryButton>
-                 </div>
+        $(document).on("click", "#public-restroom-nyc", (e) => {
+          const clickedLayer = e.target.id;
+          e.preventDefault();
+          e.stopPropagation();
 
+          const visibility = map.current.getLayoutProperty(
+            clickedLayer,
+            "visibility"
+          );
 
-        <div ref={mapContainer} className="map-container"></div>
+          // Toggle layer visibility by changing the layout object's visibility property.
+          if (visibility === "visible") {
+            map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+          } else {
+            map.current.setLayoutProperty(
+              clickedLayer,
+              "visibility",
+              "visible"
+            );
+            map.current.setLayoutProperty(
+              "restroom-mall-nyc",
+              "visibility",
+              "none"
+            );
+            map.current.setLayoutProperty(
+              "restroom-hotel-nyc",
+              "visibility",
+              "none"
+            );
+          }
+        });
+
+        function direction_reset() {
+          directions.actions.clearOrigin();
+          directions.actions.clearDestination();
+          directions.container.querySelector("input").value = "";
+        }
+
+        $(document).on("click", "#get-direction", function () {
+          // Adding Direction form and instructions on map
+          map.current.addControl(directions, "top-right");
+          directions.container.setAttribute("id", "direction-container");
+          $(geocoder.container).hide();
+          $(this).hide();
+          $("#end-direction").removeClass("d-none");
+        });
+
+        $(document).on("click", "#end-direction", function () {
+          direction_reset();
+          $(this).addClass("d-none");
+          $("#get-direction").show();
+          $(geocoder.container).show();
+          map.current.removeControl(directions);
+        });
+      },
+      []
+    );
+  });
+
+  return (
+    <div>
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "1rem",
+          flexDirection: "row",
+          alignItems: "center",
+          zIndex: 1,
+        }}
+      >
+        <PrimaryButton
+          variant="outlined"
+          sx={{ px: 1, py: 0.5, mr: 2 }}
+          id="restroom-mall-nyc"
+        >
+          Restroom in Mall
+        </PrimaryButton>
+        <PrimaryButton
+          variant="outlined"
+          sx={{ px: 1, py: 0.5, mr: 2 }}
+          id="restroom-hotel-nyc"
+        >
+          Restroom in Hotel
+        </PrimaryButton>
+        <PrimaryButton
+          variant="outlined"
+          sx={{ px: 1, py: 0.5, mr: 2 }}
+          id="public-restroom-nyc"
+        >
+          Public Restroom NYC
+        </PrimaryButton>
+      </div>
+      <div>
+        <PrimaryButton
+          variant="outlined"
+          sx={{ px: 1, py: 0.5 }}
+          id="get-direction"
+        >
+          <AssistantDirectionIcon />
+        </PrimaryButton>
+        <PrimaryButton
+          variant="outlined"
+          sx={{ px: 1, py: 0.5 }}
+          className="d-none"
+          id="end-direction"
+        >
+          <HighlightOffIcon />
+        </PrimaryButton>
+      </div>
+
+      <div ref={mapContainer} className="map-container"></div>
     </div>
   );
 };
