@@ -16,7 +16,6 @@ import Home from "../features/home/Home";
 import Profile from "../features/users/Profile";
 import EditProfile from "../features/users/EditProfile";
 import Saved from "../features/save/Saved";
-import ImageUpload from "../features/review/ImageUpload";
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
@@ -105,8 +104,6 @@ const AppRoutes = () => {
           </>
         )}
         <Route path="/styleguide" element={<StyleGuide />} />
-        <Route path="/upload" element={<ImageUpload />} />
-
       </Routes>
     </ThemeProvider>
   );

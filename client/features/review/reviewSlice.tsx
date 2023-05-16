@@ -63,63 +63,46 @@ export const createOrUpdateReview = createAsyncThunk(
 );
 
 //create review
-// export const createReview = createAsyncThunk(
-//   'reviews/createReview',
-//   async ({ restroomId, imageURL, reviewText, reportStatus, userId }) => {
-//     const token = localStorage.getItem("token");
-//     try {
-//       if (token) {
-//         const { data } = await axios.post(`/api/restrooms/${restroomId}/reviews`, {
-//           imageURL,
-//           reviewText,
-//           reportStatus,
-//           userId
-//         },
-//           {
-//             headers: {
-//               authorization: token,
-//             },
-//           }
-//         );
-//         return data;
-//       } else {
-//         const { data } = await axios.post(`/api/restrooms/${restroomId}/reviews`,
-//           {
-//           imageURL,
-//           reviewText,
-//           reportStatus,
-//           userId: null,
-//           },
-//         )
-//         return data;
-//       }
-//     } catch (err) {
-//       return err.message;
-//     }
-//   }
-// );
 export const createReview = createAsyncThunk(
-  'reviews/createReview',
-  async ({ restroomId, reviewText, reportStatus, imageURL }) => {
+  "reviews/createReview",
+  async ({ restroomId, imageURL, reviewText, reportStatus, userId }) => {
+    const token = localStorage.getItem("token");
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.post(
-        `/api/restrooms/${restroomId}/reviews`,
-        { reviewText, reportStatus, imageURL },
-        {
-          headers: {
-            Authorization: token,
+      if (token) {
+        const { data } = await axios.post(
+          `/api/restrooms/${restroomId}/reviews`,
+          {
+            imageURL,
+            reviewText,
+            reportStatus,
+            userId,
+            restroomId,
           },
-        }
-      );
-
-      return response.data;
-    } catch (error) {
-      return error.message;
+          {
+            headers: {
+              authorization: token,
+            },
+          }
+        );
+        return data;
+      } else {
+        const { data } = await axios.post(
+          `/api/restrooms/${restroomId}/reviews`,
+          {
+            imageURL,
+            reviewText,
+            reportStatus,
+            userId: null,
+            restroomId,
+          }
+        );
+        return data;
+      }
+    } catch (err) {
+      return err.message;
     }
   }
 );
-
 
 const initialState = {
   allReviews: [],
@@ -157,7 +140,7 @@ export const reviewSlice = createSlice({
     });
     builder.addCase(createReview.fulfilled, (state, action) => {
       state.allReviews.push(action.payload);
-     })
+    });
   },
 });
 

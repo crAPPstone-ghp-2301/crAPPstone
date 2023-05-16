@@ -32,31 +32,6 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
 
 
 //create a new review of restroomId
-// router.post('/:restroomId/reviews', async (req, res, next) => {
-//   try {
-//     const { imageURL, reviewText, reportStatus } = req.body;
-//     const restroom = await Restroom.findByPk(req.params.restroomId);
-//     let userId = null;
-
-//     if (req.headers.authorization) {
-//       const user = await User.findByToken(req.headers.authorization);
-//       userId = user.dataValues.id;
-//     }
-
-//     const review = await restroom.createReview({
-//       imageURL,
-//       reviewText,
-//       reportStatus,
-//       userId,
-//     });
-
-//     res.json(review);
-//   } catch (error) {
-//     console.log(error)
-//     next(error);
-//   }
-// });
-
 router.post('/:restroomId/reviews', async (req, res, next) => {
   try {
     const { imageURL, reviewText, reportStatus } = req.body;
@@ -73,7 +48,7 @@ router.post('/:restroomId/reviews', async (req, res, next) => {
       reviewText,
       reportStatus,
       userId,
-      RestroomId: req.params.restroomId, 
+      restroomId: req.params.restroomId,
     });
 
     res.json(review);
@@ -82,7 +57,5 @@ router.post('/:restroomId/reviews', async (req, res, next) => {
     next(error);
   }
 });
-
-
 
 module.exports = router

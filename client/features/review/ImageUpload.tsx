@@ -1,7 +1,7 @@
-// // Client-side (React)
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
+//This code works solo and is no longer needed since file handling is now implemented in AddReview. Might use as reference for user avatar.
 const ImageUpload = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -12,9 +12,12 @@ const ImageUpload = () => {
   const handleUpload = async () => {
     try {
       const formData = new FormData();
-      formData.append('image', selectedFile);
+      formData.append("image", selectedFile);
 
-      const response = await axios.post('http://localhost:8080/api/upload', formData);
+      const response = await axios.post(
+        "http://localhost:8080/api/upload",
+        formData
+      );
       console.log(response.data);
     } catch (error) {
       console.error(error);
@@ -22,7 +25,6 @@ const ImageUpload = () => {
   };
 
   return (
-    // <div className='testing'>
     <div>
       <input type="file" onChange={handleFileChange} />
       <button onClick={handleUpload} disabled={!selectedFile}>
@@ -33,4 +35,3 @@ const ImageUpload = () => {
 };
 
 export default ImageUpload;
-
