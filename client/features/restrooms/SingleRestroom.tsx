@@ -14,19 +14,21 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
+import { PrimaryButton } from "../styles/StyleGuide";
+import { fetchAllReviews } from "../review/reviewSlice";
 
 const SingleRestroom = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
-
-  const restroom = useSelector((state) => state.singleRestroom.singleRestroom);
+  console.log(id);
+  const restroom = useSelector(selectSingleRestroom);
   console.log("SINGLE RESTROOM===============>", restroom);
 
   useEffect(() => {
     dispatch(getSingleRestroom(id));
-    dispatch(getAllRestrooms());
-  }, [id, dispatch]);
-//merge
+    dispatch(fetchAllReviews());
+  }, [dispatch, id]);
+  //merge
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
@@ -39,6 +41,13 @@ const SingleRestroom = () => {
             "&:hover": {
               border: "2px solid",
             },
+            position: 'fixed',
+            zIndex: 1,
+            overflow: "auto",
+            scrollbarWidth: "none", 
+            "&::-webkit-scrollbar": {
+              display: "none", 
+              },
           }}
         >
           <CardMedia
@@ -46,7 +55,10 @@ const SingleRestroom = () => {
             image={restroom.imageUrl}
             sx={{ height: 200, objectFit: "cover" }}
           />
-          <CardContent sx={{ height: 150, overflow: "auto" }}>
+          <CardContent sx={{ 
+            height: 250,  
+            }}
+            >
             <Typography
               gutterBottom
               variant="body"
@@ -56,7 +68,7 @@ const SingleRestroom = () => {
             >
               {restroom.name}
             </Typography>
-            
+
             <Typography variant="body3" color="secondary.light">
               {restroom.openingHours}
             </Typography>
@@ -65,16 +77,11 @@ const SingleRestroom = () => {
               <br />
               {restroom.description}
             </Typography>
-            <Button
-              sx={{
-                marginTop: "auto", 
-                color: "primary.light",
-                bgcolor: "secondary.light", 
-              }}
-              size="small"
-            >
-              Add a Review
-            </Button>
+            <Link to={`/restrooms/${restroom.id}/reviews`}>
+              <PrimaryButton>
+                Reviews
+              </PrimaryButton>
+            </Link>
           </CardContent>
         </Card>
       </ThemeProvider>
