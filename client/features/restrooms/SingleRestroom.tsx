@@ -17,6 +17,8 @@ import {
 import { PrimaryButton } from "../styles/StyleGuide";
 import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
+import { addSavedRestroom } from "../save/saveSlice";
+
 
 const SingleRestroom = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,11 @@ const SingleRestroom = () => {
     dispatch(fetchAllReviewsOfRestroomId(id));
     dispatch(fetchAllReviews());
   }, [dispatch, id]);
+
+  const handleAddSavedRestroom = async (restroomId) => {
+    console.log('restroom id', restroomId)
+    await dispatch(addSavedRestroom(restroomId))
+  }
 
   return (
     <>
@@ -85,6 +92,12 @@ const SingleRestroom = () => {
             <Link to={`/restrooms/${restroom.id}/reviews`}>
               <PrimaryButton>Reviews</PrimaryButton>
             </Link>
+            {/* ADD HANDLE SAVED BUTTON BELOW */}
+            <PrimaryButton
+              onClick={() => handleAddSavedRestroom(restroom.id)}
+            >Save
+            </PrimaryButton>
+            {/* ADD HANDLE SAVED BUTTON ABOVE */}
           </CardContent>
         </Card>
 <Box
