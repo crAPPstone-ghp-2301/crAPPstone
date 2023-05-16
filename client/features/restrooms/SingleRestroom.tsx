@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
 import { ThemeProvider } from "@mui/material/styles";
 import crAppTheme from "../../app/theme";
-import Rating from "../rating/Rating"
+import Rating from "../rating/Rating";
 import {
   Typography,
   Container,
@@ -142,10 +142,9 @@ const SingleRestroom = () => {
                   )}
                 </SecondaryButton>
               </Box>
-              <Container style={{ marginTop: '3rem' }}>
-                <Rating/>
+              <Container style={{ marginTop: "3rem" }}>
+                <Rating />
               </Container>
-            </Container>
               <Typography variant="caption" color="secondary.light">
                 Hours of Operation: {restroom.openingHours}
               </Typography>
@@ -157,6 +156,7 @@ const SingleRestroom = () => {
               <Link to={`/restrooms/${restroom.id}/reviews`}>
                 <PrimaryButton>Reviews</PrimaryButton>
               </Link>
+            </Container>
             <Box
               style={{
                 height: "310px",
