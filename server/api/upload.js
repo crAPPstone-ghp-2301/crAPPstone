@@ -3,22 +3,24 @@ const router = express.Router();
 const axios = require('axios');
 const FormData = require('form-data');
 const multer = require('multer');
+require('dotenv').config();
 
-// Configure multer storage
-const storage = multer.memoryStorage(); // Use memory storage to handle file data in memory
+const imgurAccessToken = process.env.IMGUR_ACCESS_TOKEN;
+
+const storage = multer.memoryStorage(); 
 const upload = multer({ storage });
 
 router.post('/', upload.single('image'), async (req, res) => {
   try {
     const formData = new FormData();
-    formData.append('image', req.file.buffer); // Access file buffer using req.file.buffer
+    formData.append('image', req.file.buffer); 
 
     let config = {
       method: 'post',
       maxBodyLength: Infinity,
       url: 'https://api.imgur.com/3/image',
       headers: {
-        'Authorization': 'Bearer 7cc9f7db481f6f0ee6c96c5339fbdfafb35f1e10',
+        'Authorization': `Bearer ${imgurAccessToken}`,
         ...formData.getHeaders()
       },
       data: formData
