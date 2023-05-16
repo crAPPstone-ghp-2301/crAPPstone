@@ -9,6 +9,13 @@ const Restroom = db.define("restroom", {
     unique: true,
     primaryKey: true,
   },
+  imageUrl: {
+    type: Sequelize.STRING,
+    defaultValue: "https://images.unsplash.com/photo-1569597967185-cd6120712154?ixlib=rb-4.0.3&ixid=MnwxM[…]90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80",
+    validate: {
+      isURL: true,
+    }
+  },
   name: {
     type: Sequelize.STRING,
     allowNull: false,
@@ -35,19 +42,19 @@ const Restroom = db.define("restroom", {
   capacity: {
     type: Sequelize.INTEGER,
   },
-  isLocked:{
+  isLocked: {
     type: Sequelize.BOOLEAN,
   },
-  code:{
+  code: {
     type: Sequelize.STRING,
   },
-  isBusy:{
+  isBusy: {
     type: Sequelize.BOOLEAN
   },
-  lastUpdate:{
+  lastUpdate: {
     type: Sequelize.DATE,
   },
-  createdAt:{
+  createdAt: {
     type: Sequelize.DATE,
   }
 });

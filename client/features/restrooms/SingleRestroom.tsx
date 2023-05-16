@@ -2,19 +2,16 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
-import { getAllRestrooms } from "./allRestroomSlice";
 import { ThemeProvider } from "@mui/material/styles";
 import crAppTheme from "../../app/theme";
 import {
   Typography,
   Container,
-  Button,
   Tabs,
   Tab,
   Box,
   Card,
   CardMedia,
-  CardContent,
 } from "@mui/material";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import { fetchAllReviews } from "../review/reviewSlice";
@@ -42,14 +39,14 @@ const SingleRestroom = () => {
   }, [dispatch, id]);
 
   const handleAddSavedRestroom = async (restroomId) => {
-    console.log('restroom id', restroomId)
-    await dispatch(addSavedRestroom(restroomId))
-  }
+    console.log("restroom id", restroomId);
+    await dispatch(addSavedRestroom(restroomId));
+  };
 
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
-        <Container
+        <Box
           id="edit-profile-container"
           sx={{
             position: "fixed",
@@ -66,12 +63,11 @@ const SingleRestroom = () => {
             },
           }}
         >
-          <Container
+          <Box
             sx={{
               display: "flex",
               flexDirection: "column",
               justifyContent: "flex-start",
-              py: 2,
             }}
           >
             <Link to="/">
@@ -79,32 +75,25 @@ const SingleRestroom = () => {
                 <CloseRoundedIcon />
               </TertiaryButton>
             </Link>
-            <Box
-              component="img"
-              image={restroom.imageUrl}
-              sx={{ height: 200, objectFit: "cover" }}
-            />
-            <Container
-              sx={{
-                height: 250,
-              }}
-            >
-              <Tabs
-                value={activeTab}
-                onChange={handleTabChange}
-                variant="fullWidth"
-                textColor="primary"
-                indicatorColor="secondary"
-                sx={{
-                  "& .Mui-selected": {
-                    backgroundColor: crAppTheme.palette.primary.dark,
-                  },
-                  m: 4,
-                }}
-              >
-                <Tab label="Overview" />
-                <Tab label="Reviews" />
-              </Tabs>
+            <img src={restroom.imageUrl} style={{ width: "100%", top: 0 }} />
+            <Container>
+              <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
+                <Tabs
+                  value={activeTab}
+                  onChange={handleTabChange}
+                  variant="fullWidth"
+                  textColor="primary"
+                  indicatorColor="secondary"
+                  sx={{
+                    "& .Mui-selected": {
+                      backgroundColor: crAppTheme.palette.primary.dark,
+                    },
+                  }}
+                >
+                  <Tab label="Overview" />
+                  <Tab label="Reviews" />
+                </Tabs>
+              </Box>
               <Typography
                 gutterBottom
                 variant="body1"
@@ -115,20 +104,21 @@ const SingleRestroom = () => {
                 {restroom.name}
               </Typography>
 
-              <Typography variant="body3" color="secondary.light">
-                {restroom.openingHours}
+              <Typography variant="caption" color="secondary.light">
+                Hours of Operation: {restroom.openingHours}
               </Typography>
               <br />
               <Typography variant="body2" color="secondary.light">
                 <br />
-                {restroom.description}
+                Description: {restroom.description}
               </Typography>
               <Link to={`/restrooms/${restroom.id}/reviews`}>
                 <PrimaryButton>Reviews</PrimaryButton>
               </Link>
               <PrimaryButton
-              onClick={() => handleAddSavedRestroom(restroom.id)}
-            >Save
+                onClick={() => handleAddSavedRestroom(restroom.id)}
+              >
+                Save
               </PrimaryButton>
             </Container>
 
@@ -170,8 +160,8 @@ const SingleRestroom = () => {
                   </Card>
                 ))}
             </Box>
-          </Container>
-        </Container>
+          </Box>
+        </Box>
       </ThemeProvider>
     </>
   );
