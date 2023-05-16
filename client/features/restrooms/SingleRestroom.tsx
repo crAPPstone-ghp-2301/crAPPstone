@@ -32,13 +32,13 @@ const SingleRestroom = () => {
       <ThemeProvider theme={crAppTheme}>
         <Card
           sx={{
-            maxWidth: 600,
-            maxHeight: 500,
-            margin: 10,
-            border: "none",
-            "&:hover": {
-              border: "2px solid",
-            },
+            position: "fixed",
+            top: 0,
+            left: "100px",
+            zIndex: 1,
+            backgroundColor: "white",
+            height: "100%",
+            width: 450,
           }}
         >
           <CardMedia

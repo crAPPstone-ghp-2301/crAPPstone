@@ -1,21 +1,109 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { createOrUpdateReview, createReview } from "./reviewSlice";
+// import React, { useState } from "react";
+// import { useDispatch } from "react-redux";
+// import { createOrUpdateReview, createReview } from "./reviewSlice";
+// import {
+//   Box,
+//   Typography,
+//   Container,
+//   TextField,
+//   MenuItem,
+// } from "@mui/material";
+// import { PrimaryButton } from "../styles/StyleGuide";
+// import ImageUpload from "./ImageUpload";
+
+// const AddReview = ({ restroomId }) => {
+//   const dispatch = useDispatch();
+//   const [imageURL, setImageURL] = useState("");
+//   const [reviewText, setReviewText] = useState("");
+//   const [reportStatus, setReportStatus] = useState("none");
+
+//   const handleChange = (event) => {
+//     setReviewText(event.target.value);
+//   };
+
+//   const handleReportStatusChange = (event) => {
+//     setReportStatus(event.target.value);
+//   };
+
+//   const handleSubmit = (event) => {
+//     event.preventDefault();
+//     dispatch(createReview({ restroomId, imageURL, reviewText, reportStatus }));
+
+
+//     setReviewText("");
+//     setReportStatus("none");
+//     setImageURL("");
+//   };
+
+//   return (
+//     <Box>
+//       <Typography variant="h5" marginBottom="1rem">
+//         Add Review
+//       </Typography>
+//       <form onSubmit={handleSubmit}>
+//         <Container maxWidth="sm">
+//           <TextField
+//             label="Add Review"
+//             value={reviewText}
+//             onChange={handleChange}
+//             fullWidth
+//             multiline
+//             rows={4}
+//             variant="outlined"
+//             margin="normal"
+//           />
+//           <TextField
+//             select
+//             label="Report Status"
+//             value={reportStatus}
+//             onChange={handleReportStatusChange}
+//             fullWidth
+//             variant="outlined"
+//             margin="normal"
+//           >
+//             <MenuItem value="none">None</MenuItem>
+//             <MenuItem value="spam">Spam</MenuItem>
+//             <MenuItem value="closed">Closed</MenuItem>
+//             <MenuItem value="super dirty">Super Dirty</MenuItem>
+//           </TextField>
+//           <TextField
+//             label="Image URL"
+//             value={imageURL}
+//             onChange={(event) => setImageURL(event.target.value)}
+//             fullWidth
+//             variant="outlined"
+//             margin="normal"
+//           />
+//           <PrimaryButton type="submit" variant="contained" color="primary">
+//             Submit
+//           </PrimaryButton>
+//           <ImageUpload />
+//         </Container>
+//       </form>
+//     </Box>
+//   );
+// };
+
+// export default AddReview;
+
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { createReview } from './reviewSlice';
 import {
   Box,
   Typography,
   Container,
   TextField,
   MenuItem,
-} from "@mui/material";
-import { PrimaryButton } from "../styles/StyleGuide";
-import ImageUpload from "./ImageUpload";
+} from '@mui/material';
+import { PrimaryButton } from '../styles/StyleGuide';
+import axios from 'axios';
 
 const AddReview = ({ restroomId }) => {
   const dispatch = useDispatch();
-  const [imageURL, setImageURL] = useState("");
-  const [reviewText, setReviewText] = useState("");
-  const [reportStatus, setReportStatus] = useState("none");
+  const [reviewText, setReviewText] = useState('');
+  const [reportStatus, setReportStatus] = useState('none');
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleChange = (event) => {
     setReviewText(event.target.value);
@@ -25,15 +113,51 @@ const AddReview = ({ restroomId }) => {
     setReportStatus(event.target.value);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    dispatch(createReview({ restroomId, imageURL, reviewText, reportStatus }));
-
-
-    setReviewText("");
-    setReportStatus("none");
-    setImageURL("");
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
   };
+
+  // const handleSubmit = async (event) => {
+  //   event.preventDefault();
+
+  //   try {
+  //     const formData = new FormData();
+  //     formData.append('image', selectedFile);
+
+  //     const response = await axios.post('http://localhost:8080/api/upload', formData);
+  //     const imageURL = response.data.data.link;
+
+  //     dispatch(createReview({ restroomId, reviewText, reportStatus, imageURL }));
+
+  //     setReviewText('');
+  //     setReportStatus('none');
+  //     setSelectedFile(null);
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+  
+    try {
+      const formData = new FormData();
+      formData.append('image', selectedFile);
+      formData.append('reviewText', reviewText); // Make sure to include reviewText
+  
+      const response = await axios.post('http://localhost:8080/api/upload', formData);
+      const imageURL = response.data.data.link;
+  
+      dispatch(createReview({ restroomId, reviewText, reportStatus, imageURL }));
+  
+      setReviewText('');
+      setReportStatus('none');
+      setSelectedFile(null);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  
 
   return (
     <Box>
@@ -66,18 +190,10 @@ const AddReview = ({ restroomId }) => {
             <MenuItem value="closed">Closed</MenuItem>
             <MenuItem value="super dirty">Super Dirty</MenuItem>
           </TextField>
-          <TextField
-            label="Image URL"
-            value={imageURL}
-            onChange={(event) => setImageURL(event.target.value)}
-            fullWidth
-            variant="outlined"
-            margin="normal"
-          />
+          <input type="file" onChange={handleFileChange} />
           <PrimaryButton type="submit" variant="contained" color="primary">
             Submit
           </PrimaryButton>
-          <ImageUpload restroomId={restroomId} />
         </Container>
       </form>
     </Box>
@@ -85,3 +201,4 @@ const AddReview = ({ restroomId }) => {
 };
 
 export default AddReview;
+

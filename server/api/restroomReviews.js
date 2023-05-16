@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const { models: { Comments, User, Review, Restroom } } = require('../db')
-module.exports = router
 
 router.get('/:restroomId/reviews', async (req, res, next) => {
   try {
@@ -33,6 +32,31 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
 
 
 //create a new review of restroomId
+// router.post('/:restroomId/reviews', async (req, res, next) => {
+//   try {
+//     const { imageURL, reviewText, reportStatus } = req.body;
+//     const restroom = await Restroom.findByPk(req.params.restroomId);
+//     let userId = null;
+
+//     if (req.headers.authorization) {
+//       const user = await User.findByToken(req.headers.authorization);
+//       userId = user.dataValues.id;
+//     }
+
+//     const review = await restroom.createReview({
+//       imageURL,
+//       reviewText,
+//       reportStatus,
+//       userId,
+//     });
+
+//     res.json(review);
+//   } catch (error) {
+//     console.log(error)
+//     next(error);
+//   }
+// });
+
 router.post('/:restroomId/reviews', async (req, res, next) => {
   try {
     const { imageURL, reviewText, reportStatus } = req.body;
@@ -44,16 +68,21 @@ router.post('/:restroomId/reviews', async (req, res, next) => {
       userId = user.dataValues.id;
     }
 
-    const review = await restroom.createReview({
+    const review = await Review.create({
       imageURL,
       reviewText,
       reportStatus,
       userId,
+      RestroomId: req.params.restroomId, 
     });
 
     res.json(review);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 });
+
+
+
+module.exports = router
