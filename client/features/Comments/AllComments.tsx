@@ -13,7 +13,6 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 
 const AllComments = () => {
   const dispatch = useDispatch();
@@ -27,33 +26,43 @@ const AllComments = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-    <Container>
-      <Box>
-        <AddComment reviewId={reviewId} />
+      <Container>
+        <Box>
+          <AddComment reviewId={reviewId} />
         </Box>
-        
-      <Box style={{ height: "310px", overflowY: "scroll", paddingRight:"20px", }}>
-        <h3>Comments</h3>
-        {comments.map((comment) => (
-          <Box key={comment.id}>
-            <Box>
-              {comment.user ? (
-                <Typography>{comment.user.username}</Typography>
-              ) : (
-                <Typography>Anonymous</Typography>
-              )}
+
+        <Box
+          style={{ height: "310px", overflowY: "scroll", paddingRight: "20px" }}
+        >
+          {comments.map((comment) => (
+            <Box key={comment.id}>
+              <Box>
+                {comment.user ? (
+                  <Typography variant="h5" color="secondary.dark">
+                    {comment.user.username}
+                  </Typography>
+                ) : (
+                  <Typography variant="h5" color="secondary.dark">
+                    Anonymous
+                  </Typography>
+                )}
+              </Box>
+              <Box>
+                <Typography variant="subtitle1" color="secondary.light">
+                  {comment.content}
+                </Typography>
+                <LikeButton
+                  commentId={comment.id}
+                  likes={comment.likes}
+                  reviewId={reviewId}
+                />
+              </Box>
+              <Divider />
             </Box>
-            <Box>
-              <Typography variant="subtitle2">{comment.content}</Typography>
-              <LikeButton commentId={comment.id} likes={comment.likes} reviewId={reviewId} />
-              {/* reply button component here when it works */}
-            </Box>
-            <Divider />
-          </Box>
-        ))}
-      </Box>
+          ))}
+        </Box>
       </Container>
-      </ThemeProvider>
+    </ThemeProvider>
   );
 };
 

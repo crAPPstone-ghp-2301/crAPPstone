@@ -1,15 +1,12 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useState, useEffect } from "react";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import { PrimaryButton } from "../features/styles/StyleGuide";
-import { selectRestroom } from "../features/restrooms/allRestroomSlice";
+import { PrimaryButton,TertiaryButton } from "../features/styles/StyleGuide";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
-import { SearchByName } from "../features/search/SearchSlice";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw";
@@ -20,9 +17,6 @@ const Map = () => {
   const [lng, setLng] = useState(-73.98);
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
-
-  const dispatch = useDispatch();
-  const popuprestroom = useSelector((state) => state.searchoutput.output);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -60,7 +54,7 @@ const Map = () => {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       zoom: 13,
-      placeholder: "Enter an address or place name",
+      placeholder: "  Enter an address or place name",
       bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
     });
 
@@ -72,7 +66,6 @@ const Map = () => {
     map.current.on("mouseenter", "restroom-mall-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature);
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -85,7 +78,6 @@ const Map = () => {
     map.current.on("mouseenter", "restroom-hotel-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature);
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -98,7 +90,6 @@ const Map = () => {
     map.current.on("mouseenter", "public-restroom-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature);
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
       <p>${feature.properties.Location}</p>
       <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -192,7 +183,8 @@ const Map = () => {
 
           popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
         });
-
+      }); 
+        
         $(document).on("click", "#restroom-mall-nyc", (e) => {
           const clickedLayer = e.target.id;
           e.preventDefault();
@@ -222,8 +214,10 @@ const Map = () => {
               "none"
             );
           }
-        });
+        })
+    
 
+      
         $(document).on("click", "#restroom-hotel-nyc", (e) => {
           const clickedLayer = e.target.id;
           e.preventDefault();
@@ -255,7 +249,9 @@ const Map = () => {
             );
           }
         });
+     
 
+      
         $(document).on("click", "#public-restroom-nyc", (e) => {
           const clickedLayer = e.target.id;
           e.preventDefault();
@@ -288,32 +284,30 @@ const Map = () => {
           }
         });
 
-        function direction_reset() {
-          directions.actions.clearOrigin();
-          directions.actions.clearDestination();
-          directions.container.querySelector("input").value = "";
-        }
+      function direction_reset() {
+        directions.actions.clearOrigin();
+        directions.actions.clearDestination();
+        directions.container.querySelector('input').value = '';
+      }
+      
+      $(document).on('click', '#get-direction', function() {
+        // Adding Direction form and instructions on map
+        map.current.addControl(directions, 'top-right');
+        directions.container.setAttribute('id', 'direction-container');
+        $(geocoder.container).hide();
+        $(this).hide();
+        $('#end-direction').removeClass('d-none');
+      });
+      
+      $(document).on('click', '#end-direction', function() {
+        direction_reset();
+        $(this).addClass('d-none');
+        $('#get-direction').show();
+        $(geocoder.container).show();
+        map.current.removeControl(directions);
+      });
 
-        $(document).on("click", "#get-direction", function () {
-          // Adding Direction form and instructions on map
-          map.current.addControl(directions, "top-right");
-          directions.container.setAttribute("id", "direction-container");
-          $(geocoder.container).hide();
-          $(this).hide();
-          $("#end-direction").removeClass("d-none");
-        });
-
-        $(document).on("click", "#end-direction", function () {
-          direction_reset();
-          $(this).addClass("d-none");
-          $("#get-direction").show();
-          $(geocoder.container).show();
-          map.current.removeControl(directions);
-        });
-      },
-      []
-    );
-  });
+ },[]);
 
   return (
     <div>
@@ -354,21 +348,21 @@ const Map = () => {
         </PrimaryButton>
       </div>
       <div>
-        <PrimaryButton
+        <TertiaryButton
           variant="outlined"
           sx={{ px: 1, py: 0.5 }}
           id="get-direction"
         >
           <AssistantDirectionIcon />
-        </PrimaryButton>
-        <PrimaryButton
+        </TertiaryButton>
+        <TertiaryButton
           variant="outlined"
           sx={{ px: 1, py: 0.5 }}
           className="d-none"
           id="end-direction"
         >
           <HighlightOffIcon />
-        </PrimaryButton>
+        </TertiaryButton>
       </div>
 
       <div ref={mapContainer} className="map-container"></div>

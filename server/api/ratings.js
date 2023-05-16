@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { models: { User, Restroom, Favorites, Ratings, Reviews, Comments } } = require("../db/index")
+const { models: { User, Restroom,  Ratings,  } } = require("../db/index")
 
 //get ratings made by user
 router.get('/:userId', async (req, res) => {
@@ -23,7 +23,7 @@ router.get('/:userId', async (req, res) => {
 //get restroom rating 
 router.get('/:restroomId', async (req, res) => {
   try {
-    const restroom = await Restroom.findByPk(req.params.userId);
+    const restroom = await Restroom.findByPk(req.params.restroomId);
     if (!restroom) {
       return res.status(404).json({ message: 'User not found' });
     }

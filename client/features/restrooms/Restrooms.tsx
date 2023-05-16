@@ -50,6 +50,10 @@ const AllRestrooms = () => {
           "&::-webkit-scrollbar": {
             display: "none",
           },
+          "@media (max-width: 700px)": {
+            left: "0",
+            width: "90%",
+          },
         }}
       >
         <Container
@@ -64,10 +68,8 @@ const AllRestrooms = () => {
             variant="h3"
             align="center"
             gutterBottom
-            sx={{
-              marginBottom: 5,
-              textAlign: "center",
-            }}
+            backgroundColor="secondary.light"
+            color="primary.light"
           >
             All Restrooms
           </Typography>

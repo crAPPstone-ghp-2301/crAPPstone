@@ -58,9 +58,6 @@ const AddReview = ({ restroomId }) => {
 
   return (
     <Box>
-      <Typography variant="h5" marginBottom="1rem">
-        Add Review
-      </Typography>
       <form onSubmit={handleSubmit}>
         <Container maxWidth="sm">
           <TextField
