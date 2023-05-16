@@ -11,6 +11,8 @@ import {
   Container,
   Typography,
   Box,
+  Tabs,
+  Tab,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -26,6 +28,11 @@ const EditProfile = () => {
   );
   const token = window.localStorage.getItem("token");
   const [error, setError] = useState(null);
+  const [activeTab, setActiveTab] = useState(0);
+
+  const handleTabChange = (event, newValue) => {
+    setActiveTab(newValue);
+  };
 
   const handleInfoEdit = (event) => {
     event.preventDefault();
@@ -105,147 +112,179 @@ const EditProfile = () => {
           </Link>
         </Container>
         <Container>
-          <form onSubmit={handleInfoEdit}>
-            <Box sx={{ py: 1 }}>
-              <Box sx={{ py: 2 }}>
-                <Typography variant="h5">Basic Info</Typography>
+          <Tabs
+            value={activeTab}
+            onChange={handleTabChange}
+            variant="fullWidth"
+            textColor="primary"
+            indicatorColor="secondary"
+            centered
+            sx={{
+              "& .Mui-selected": {
+                backgroundColor: crAppTheme.palette.primary.dark,
+              },
+            }}
+          >
+            <Tab label="Basic Info" />
+            <Tab label="Password" />
+            <Tab label="Profile Image" />
+          </Tabs>
+          {activeTab === 0 && (
+            <form onSubmit={handleInfoEdit}>
+              <Box sx={{ py: 3 }}>
+                <Box sx={{ py: 2 }}>
+                  <Typography variant="h5">Basic Info</Typography>
+                </Box>
+                <CustomizedTextField
+                  label="Username"
+                  name="username"
+                  helperText="Required Input"
+                  defaultValue={username}
+                  required
+                  fullWidth
+                />
+                <CustomizedTextField
+                  label="Name"
+                  name="name"
+                  defaultValue={name}
+                  fullWidth
+                />
+                <CustomizedTextField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  helperText="Required Input"
+                  defaultValue={email}
+                  required
+                  fullWidth
+                />
               </Box>
-              <CustomizedTextField
-                label="Username"
-                name="username"
-                helperText="Required Input"
-                defaultValue={username}
-                required
-                fullWidth
-              />
-              <CustomizedTextField
-                label="Name"
-                name="name"
-                defaultValue={name}
-                fullWidth
-              />
-              <CustomizedTextField
-                label="Email"
-                name="email"
-                type="email"
-                helperText="Required Input"
-                defaultValue={email}
-                required
-                fullWidth
-              />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                paddingBottom: 4,
-              }}
-            >
-              <PrimaryButton type="submit">
-                <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
-                  Save
-                </Typography>
-              </PrimaryButton>
-              <Link to="/profile">
-                <TertiaryButton sx={{ mx: 2, py: 2 }}>
-                  <Typography
-                    variant="subtitle1"
-                    sx={{ fontWeight: 800, px: 2 }}
-                  >
-                    Cancel
-                  </Typography>
-                </TertiaryButton>
-              </Link>
-            </Box>
-          </form>
-          <form onSubmit={handlePasswordEdit}>
-            <Box sx={{ py: 1 }}>
-              <Box sx={{ py: 2 }}>
-                <Typography variant="h5">Update Password</Typography>
-              </Box>
-              <CustomizedTextField
-                label="New Password"
-                name="newPassword"
-                type="password"
-                helperText="Required Input"
-                required
-                fullWidth
-              />
-              <CustomizedTextField
-                label="Confirm Password"
-                name="confirmPassword"
-                type="password"
-                helperText="Required Input"
-                required
-                fullWidth
-              />
-            </Box>
-            {error && (
-              <Typography
-                variant="subtitle2"
-                color="error"
-                sx={{ textTransform: "capitalize" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  paddingBottom: 4,
+                }}
               >
-                {error}
-              </Typography>
-            )}
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                paddingBottom: 4,
-              }}
-            >
-              <PrimaryButton type="submit">
-                <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
-                  Save
-                </Typography>
-              </PrimaryButton>
-              <Link to="/profile">
-                <TertiaryButton sx={{ mx: 2, py: 2 }}>
+                <PrimaryButton type="submit">
                   <Typography
                     variant="subtitle1"
                     sx={{ fontWeight: 800, px: 2 }}
                   >
-                    Cancel
+                    Save
                   </Typography>
-                </TertiaryButton>
-              </Link>
-            </Box>
-          </form>
-          <form>
-            <Box sx={{ py: 1 }}>
-              <Box sx={{ py: 2 }}>
-                <Typography variant="h5">Update Profile Image</Typography>
+                </PrimaryButton>
+                <Link to="/profile">
+                  <TertiaryButton sx={{ mx: 2, py: 2 }}>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ fontWeight: 800, px: 2 }}
+                    >
+                      Cancel
+                    </Typography>
+                  </TertiaryButton>
+                </Link>
               </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-around",
-                paddingBottom: 4,
-              }}
-            >
-              <PrimaryButton type="submit">
-                <Typography variant="subtitle1" sx={{ fontWeight: 800, px: 2 }}>
-                  Save
+            </form>
+          )}
+          {activeTab === 1 && (
+            <form onSubmit={handlePasswordEdit}>
+              <Box sx={{ py: 3 }}>
+                <Box sx={{ py: 2 }}>
+                  <Typography variant="h5">Password</Typography>
+                </Box>
+                <CustomizedTextField
+                  label="New Password"
+                  name="newPassword"
+                  type="password"
+                  helperText="Required Input"
+                  required
+                  fullWidth
+                />
+                <CustomizedTextField
+                  label="Confirm Password"
+                  name="confirmPassword"
+                  type="password"
+                  helperText="Required Input"
+                  required
+                  fullWidth
+                />
+              </Box>
+              {error && (
+                <Typography
+                  variant="subtitle2"
+                  color="error"
+                  sx={{ textTransform: "capitalize" }}
+                >
+                  {error}
                 </Typography>
-              </PrimaryButton>
-              <Link to="/profile">
-                <TertiaryButton sx={{ mx: 2, py: 2 }}>
+              )}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  paddingBottom: 4,
+                }}
+              >
+                <PrimaryButton type="submit">
                   <Typography
                     variant="subtitle1"
                     sx={{ fontWeight: 800, px: 2 }}
                   >
-                    Cancel
+                    Save
                   </Typography>
-                </TertiaryButton>
-              </Link>
-            </Box>
-          </form>
+                </PrimaryButton>
+                <Link to="/profile">
+                  <TertiaryButton sx={{ mx: 2, py: 2 }}>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ fontWeight: 800, px: 2 }}
+                    >
+                      Cancel
+                    </Typography>
+                  </TertiaryButton>
+                </Link>
+              </Box>
+            </form>
+          )}
+          {activeTab === 2 && (
+            <form>
+              <Box sx={{ py: 3 }}>
+                <Box sx={{ py: 2 }}>
+                  <Typography variant="h5">Profile Image</Typography>
+                </Box>
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  paddingBottom: 4,
+                }}
+              >
+                <PrimaryButton type="submit">
+                  <Typography
+                    variant="subtitle1"
+                    sx={{ fontWeight: 800, px: 2 }}
+                  >
+                    Save
+                  </Typography>
+                </PrimaryButton>
+                <Link to="/profile">
+                  <TertiaryButton sx={{ mx: 2, py: 2 }}>
+                    <Typography
+                      variant="subtitle1"
+                      sx={{ fontWeight: 800, px: 2 }}
+                    >
+                      Cancel
+                    </Typography>
+                  </TertiaryButton>
+                </Link>
+              </Box>
+            </form>
+          )}
         </Container>
       </Container>
     </ThemeProvider>

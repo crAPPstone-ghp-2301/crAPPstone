@@ -74,11 +74,11 @@ const Settings = ({ open, onClose }) => {
         <Divider />
         <Container>
           <ListItem>
-            <Link to='/saved'>
+            <Link to="/saved">
               <TertiaryButton>
                 <ListItemAvatar>
                   <Avatar>
-                      <BookmarkBorderRoundedIcon fontSize="small" />
+                    <BookmarkBorderRoundedIcon fontSize="small" />
                   </Avatar>
                 </ListItemAvatar>
                 <Typography variant="subtitle1">Saved</Typography>
@@ -143,16 +143,18 @@ const Settings = ({ open, onClose }) => {
         </Container>
         <Divider />
         <Container>
-          <ListItem>
-            <TertiaryButton>
-              <ListItemAvatar>
-                <Avatar>
-                  <InfoRoundedIcon fontSize="small" />
-                </Avatar>
-              </ListItemAvatar>
-              <Typography variant="subtitle1">Help</Typography>
-            </TertiaryButton>
-          </ListItem>
+          <Link to="/help">
+            <ListItem>
+              <TertiaryButton>
+                <ListItemAvatar>
+                  <Avatar>
+                    <InfoRoundedIcon fontSize="small" />
+                  </Avatar>
+                </ListItemAvatar>
+                <Typography variant="subtitle1">Help</Typography>
+              </TertiaryButton>
+            </ListItem>
+          </Link>
         </Container>
       </Drawer>
     </ThemeProvider>
