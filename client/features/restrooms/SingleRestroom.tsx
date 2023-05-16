@@ -32,9 +32,7 @@ const SingleRestroom = () => {
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
   const [savedRestroomIds, setSavedRestroomIds] = useState([]);
-  console.log(reviews);
   const restroom = useSelector(selectSingleRestroom);
-  console.log("SINGLE RESTROOM===============>", restroom);
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -93,28 +91,14 @@ const SingleRestroom = () => {
             </Link>
             <img src={restroom.imageUrl} style={{ width: "100%", top: 0 }} />
             <Container>
-              <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
-                <Tabs
-                  value={activeTab}
-                  onChange={handleTabChange}
-                  variant="fullWidth"
-                  textColor="primary"
-                  indicatorColor="secondary"
-                  sx={{
-                    "& .Mui-selected": {
-                      backgroundColor: crAppTheme.palette.primary.dark,
-                    },
-                  }}
-                >
-                  <Tab label="Overview" />
-                  <Tab label="Reviews" />
-                </Tabs>
-              </Box>
               <Box
                 sx={{
                   display: "flex",
                   flexDirection: "row",
+                  alignContent: "center",
+                  alignItems: "center",
                   justifyContent: "space-between",
+                  my: 2,
                 }}
               >
                 <Typography
@@ -141,6 +125,23 @@ const SingleRestroom = () => {
                     </>
                   )}
                 </SecondaryButton>
+              </Box>
+              <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
+                <Tabs
+                  value={activeTab}
+                  onChange={handleTabChange}
+                  variant="fullWidth"
+                  textColor="primary"
+                  indicatorColor="secondary"
+                  sx={{
+                    "& .Mui-selected": {
+                      backgroundColor: crAppTheme.palette.primary.dark,
+                    },
+                  }}
+                >
+                  <Tab label="Overview" />
+                  <Tab label="Reviews" />
+                </Tabs>
               </Box>
               <Container style={{ marginTop: "3rem" }}>
                 <Rating />
