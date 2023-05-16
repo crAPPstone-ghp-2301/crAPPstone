@@ -183,7 +183,8 @@ const Map = () => {
 
           popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
         });
-        $(document).ready(function() {
+      }); 
+        
         $(document).on("click", "#restroom-mall-nyc", (e) => {
           const clickedLayer = e.target.id;
           e.preventDefault();
@@ -282,35 +283,31 @@ const Map = () => {
             );
           }
         });
-      })
 
-        function direction_reset() {
-          directions.actions.clearOrigin();
-          directions.actions.clearDestination();
-          directions.container.querySelector('input').value = '';
-        }
+      function direction_reset() {
+        directions.actions.clearOrigin();
+        directions.actions.clearDestination();
+        directions.container.querySelector('input').value = '';
+      }
+      
+      $(document).on('click', '#get-direction', function() {
+        // Adding Direction form and instructions on map
+        map.current.addControl(directions, 'top-right');
+        directions.container.setAttribute('id', 'direction-container');
+        $(geocoder.container).hide();
+        $(this).hide();
+        $('#end-direction').removeClass('d-none');
+      });
+      
+      $(document).on('click', '#end-direction', function() {
+        direction_reset();
+        $(this).addClass('d-none');
+        $('#get-direction').show();
+        $(geocoder.container).show();
+        map.current.removeControl(directions);
+      });
 
-        $(document).ready(function() {
-        $(document).on('click', '#get-direction', function() {
-          // Adding Direction form and instructions on map
-          map.current.addControl(directions, 'top-right');
-          directions.container.setAttribute('id', 'direction-container');
-          $(geocoder.container).hide();
-          $(this).hide();
-          $('#end-direction').removeClass('d-none');
-        });
-        
-        $(document).on('click', '#end-direction', function() {
-          direction_reset();
-          $(this).addClass('d-none');
-          $('#get-direction').show();
-          $(geocoder.container).show();
-          map.current.removeControl(directions);
-        })}); 
-      },
-      []
-    );
-  });
+ },[]);
 
   return (
     <div>
