@@ -30,17 +30,27 @@ const SingleRestroom = () => {
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
-        <Card
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: "100px",
-            zIndex: 1,
-            backgroundColor: "white",
-            height: "100%",
-            width: 450,
-          }}
-        >
+           <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}
+            >
+              <Card
+                sx={{
+                  maxWidth: 600,
+                  maxHeight: 500,
+                  margin: 10,
+                  border: "none",
+                  "&:hover": {
+                    border: "2px solid",
+                  },
+                  zIndex: 2,
+                  position: "absolute",
+                }}
+              >
           <CardMedia
             component="img"
             image={restroom.imageUrl}
@@ -77,6 +87,7 @@ const SingleRestroom = () => {
             </Button>
           </CardContent>
         </Card>
+        </div>
       </ThemeProvider>
     </>
   );

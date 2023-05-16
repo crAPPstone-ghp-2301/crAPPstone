@@ -8,10 +8,6 @@ const Restroom = db.define("restroom", {
     allowNull: false,
     unique: true,
     primaryKey: true,
-    // references: {
-    //   // model: Ratings,
-    //   // key: "restroomId"
-    // },
   },
   name: {
     type: Sequelize.STRING,

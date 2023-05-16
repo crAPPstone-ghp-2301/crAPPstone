@@ -6,7 +6,7 @@ import reviewSlice from "../features/review/reviewSlice";
 import allRestroomSlice from "../features/restrooms/allRestroomSlice";
 import restroomSliceReducer from "../features/restrooms/singleRestroomSlice";
 import savedSlice from '../features/save/saveSlice'
-
+import searchSlice from "../features/search/SearchSlice"
 const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -15,6 +15,7 @@ const store = configureStore({
     allRestrooms: allRestroomSlice,
     singleRestroom: restroomSliceReducer,
     saved: savedSlice,
+    searchoutput:searchSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
