@@ -4,7 +4,8 @@ import { Link, useParams } from "react-router-dom";
 import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
 import { ThemeProvider } from "@mui/material/styles";
 import crAppTheme from "../../app/theme";
-import Rating from "../rating/Rating"
+import AddRating from "../rating/Rating"
+import PastRating from "../rating/PastRating"
 import {
   Typography,
   Container,
@@ -13,6 +14,7 @@ import {
   Box,
   Card,
   CardMedia,
+  Rating,
 } from "@mui/material";
 import {
   PrimaryButton,
@@ -25,6 +27,7 @@ import { addSavedRestroom } from "../save/saveSlice";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
 import BookmarkAddedRoundedIcon from "@mui/icons-material/BookmarkAddedRounded";
+import {fetchRatings} from "../rating/RatingSlice"
 
 const SingleRestroom = () => {
   const dispatch = useDispatch();
@@ -32,9 +35,14 @@ const SingleRestroom = () => {
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
   const [savedRestroomIds, setSavedRestroomIds] = useState([]);
-  console.log(reviews);
   const restroom = useSelector(selectSingleRestroom);
-  console.log("SINGLE RESTROOM===============>", restroom);
+  const ratings=useSelector(state=>state.rating.pastRating)
+  const sumRatings = ratings && ratings.length ? ratings.reduce((sum, rating) => {
+    return sum + rating.userRating;
+  }, 0) : 0;
+  const averageRating = sumRatings>0 ? (sumRatings / ratings.length).toFixed(1) : 0 
+
+
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -44,7 +52,8 @@ const SingleRestroom = () => {
     dispatch(getSingleRestroom(id));
     dispatch(fetchAllReviewsOfRestroomId(id));
     dispatch(fetchAllReviews());
-  }, [dispatch, id]);
+    dispatch(fetchRatings(id))
+  }, [dispatch, id ]);
 
   const handleAddSavedRestroom = async (restroomId) => {
     console.log("restroom id", restroomId);
@@ -126,6 +135,7 @@ const SingleRestroom = () => {
                 >
                   {restroom.name}
                 </Typography>
+
                 <SecondaryButton
                   onClick={() => handleAddSavedRestroom(restroom.id)}
                 >
@@ -142,6 +152,14 @@ const SingleRestroom = () => {
                   )}
                 </SecondaryButton>
               </Box>
+              <Box>
+                <Rating size="small" value={averageRating} readOnly />
+              <Typography
+             variant="caption"
+             sx={{ color: crAppTheme.palette.primary.dark }}
+                >{`(${ratings.length})`}</Typography>
+             </Box>
+
               <Typography variant="caption" color="secondary.light">
                 Hours of Operation: {restroom.openingHours}
               </Typography>
@@ -159,9 +177,10 @@ const SingleRestroom = () => {
               </PrimaryButton>
 
               <Container style={{ marginTop: '3rem' }}>
-                <Rating/>
+                <AddRating/>
               </Container>
              
+             <PastRating/>
             </Container>
 
             <Box
