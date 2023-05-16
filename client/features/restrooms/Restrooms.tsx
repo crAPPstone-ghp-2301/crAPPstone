@@ -36,7 +36,7 @@ const AllRestrooms = () => {
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container
-        id="edit-profile-container"
+        id="restroom-container"
         sx={{
           position: "fixed",
           top: 0,
