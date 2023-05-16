@@ -45,6 +45,9 @@ const Profile = () => {
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
         }}
       >
         <Container
