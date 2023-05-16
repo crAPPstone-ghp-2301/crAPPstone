@@ -56,6 +56,7 @@ const Profile = () => {
             flexDirection: "column",
             justifyContent: "flex-start",
             py: 2,
+            marginTop: 10,
           }}
         >
           <Box sx={{ py: 2 }}>
@@ -65,7 +66,7 @@ const Profile = () => {
             </Typography>
           </Box>
           <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
