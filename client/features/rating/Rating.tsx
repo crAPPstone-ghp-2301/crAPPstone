@@ -9,7 +9,7 @@ import Checkbox from '@mui/material/Checkbox';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
-import {PrimaryButton} from "../styles/StyleGuide"
+import { SecondaryButton,TertiaryButton} from "../styles/StyleGuide"
 import crAppTheme from "../../app/theme"
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 const Rating=()=>{
@@ -80,7 +80,7 @@ const Rating=()=>{
                 </div>
               </div>
       
-              <PrimaryButton
+              < TertiaryButton
                 onClick={submithandel}
                 sx={{
                     display: 'flex',
@@ -89,7 +89,7 @@ const Rating=()=>{
                 }}
                 >
                 <CheckCircleIcon />
-                </PrimaryButton>
+                </ TertiaryButton>
             </>
           ) : (
             <Typography variant="subtitle1" sx={{ color: crAppTheme.palette.primary.dark, textAlign: 'center' }}>

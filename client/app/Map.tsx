@@ -4,7 +4,7 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useState, useEffect } from "react";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import { PrimaryButton } from "../features/styles/StyleGuide";
+import { PrimaryButton,TertiaryButton } from "../features/styles/StyleGuide";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 
@@ -54,7 +54,7 @@ const Map = () => {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       zoom: 13,
-      placeholder: "Enter an address or place name",
+      placeholder: "  Enter an address or place name",
       bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
     });
 
@@ -348,21 +348,21 @@ const Map = () => {
         </PrimaryButton>
       </div>
       <div>
-        <PrimaryButton
+        <TertiaryButton
           variant="outlined"
           sx={{ px: 1, py: 0.5 }}
           id="get-direction"
         >
           <AssistantDirectionIcon />
-        </PrimaryButton>
-        <PrimaryButton
+        </TertiaryButton>
+        <TertiaryButton
           variant="outlined"
           sx={{ px: 1, py: 0.5 }}
           className="d-none"
           id="end-direction"
         >
           <HighlightOffIcon />
-        </PrimaryButton>
+        </TertiaryButton>
       </div>
 
       <div ref={mapContainer} className="map-container"></div>
