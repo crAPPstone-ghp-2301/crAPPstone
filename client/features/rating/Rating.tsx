@@ -15,8 +15,13 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 const Rating=()=>{
 
     const dispatch = useDispatch();
-    const [userRating,setuserRating]=useState(0)
+    const initialRating = 3; // Initial rating value
+    const initialLikeChecked = false; // Initial checkbox value for "like"
+     const initialHateChecked = false; // In
+    const [userRating,setuserRating]=useState(initialRating)
     const [isClean,setisClean]=useState(false)
+    const [likeChecked, setLikeChecked] = useState(initialLikeChecked);
+    const [hateChecked, setHateChecked] = useState(initialHateChecked);
     const userId=useSelector(state=>state.auth.me.id)
     const restroomId=useSelector(state=>state.singleRestroom.singleRestroom.id)
 
@@ -33,16 +38,29 @@ const Rating=()=>{
         await dispatch(
         createRating({userId, restroomId, userRating, isClean})
         );
+        setuserRating(initialRating);
+        setLikeChecked(initialLikeChecked);
+        setHateChecked(initialHateChecked);
       };
 
       const handleRatingChange = (event, newValue) => {
-        console.log(newValue)
         setuserRating(newValue);
       };
       const handleCheckboxlike = (event) => {
+        const isChecked = event.target.checked;
+       setLikeChecked(isChecked);
+      if (isChecked) {
+    setHateChecked(false);
+     }
         setisClean(true);
       };
+
       const handleCheckboxhate=(event)=>{
+        const isChecked = event.target.checked;
+       setHateChecked(isChecked);
+       if (isChecked) {
+       setLikeChecked(false);
+        }
         setisClean(false);
       }
 
@@ -55,7 +73,7 @@ const Rating=()=>{
               </Typography>
               <StyledRating
                 name="customized-icons"
-                defaultValue={3}
+                value={userRating}
                 getLabelText={(value) => customIcons[value].label}
                 IconContainerComponent={IconContainer}
                 onChange={handleRatingChange}
@@ -71,11 +89,13 @@ const Rating=()=>{
                     icon={<ThumbUpOffAltIcon style={{ color: crAppTheme.palette.primary.dark }} />}
                     checkedIcon={<ThumbUpIcon style={{ color: crAppTheme.palette.success.main }} />}
                     onChange={handleCheckboxlike}
+                    checked={likeChecked}
                   />
                   <Checkbox
                     icon={<ThumbDownOffAltIcon style={{ color: crAppTheme.palette.primary.dark }} />}
                     checkedIcon={<ThumbDownIcon style={{ color: crAppTheme.palette.error.main }} />}
                     onChange={handleCheckboxhate}
+                    checked={hateChecked}
                   />
                 </div>
               </div>
