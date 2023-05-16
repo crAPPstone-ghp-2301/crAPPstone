@@ -13,6 +13,7 @@ import {
   Divider,
   Card,
   CardMedia,
+  useMediaQuery
 } from "@mui/material";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -20,6 +21,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 const SingleReview = () => {
   const dispatch = useDispatch();
   const { reviewId } = useParams();
+  const isMobile = useMediaQuery("(max-width: 600px)");
 
   const singleReview = useSelector((state) => state.review.singleReview);
   const { reviewText, imageURL, reportStatus } = singleReview;
@@ -37,10 +39,12 @@ const SingleReview = () => {
           position: "fixed",
           top: 0,
           left: "100px",
-          zIndex: 2,
+          zIndex: 1,
           backgroundColor: "white",
-          height: "100%",
-          width: 450,
+          height: "100vh",
+          width: isMobile ? "100%" : "450px", 
+          padding: isMobile ? "20px" : "0", 
+          overflowY: isMobile ? "auto" : "hidden",
         }}
       >
         <Container
@@ -56,31 +60,39 @@ const SingleReview = () => {
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
-      <Box >
-        <Box>
-          <Card>
-            <CardMedia
-              component="img"
-              src={imageURL}
-              alt="Picture unavailable!"
-              onError={(e) => {
-                e.target.src =
-                  "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
-              }}
+          <Box>
+            <Box>
+              <Card>
+                <CardMedia
+                  component="img"
+                  src={imageURL}
+                  alt="Picture unavailable!"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
+                  }}
                 />
-            <Typography variant="subtitle1" sx={{ px:2 }}>
-              {reviewText}
-            </Typography>
-            <Typography variant="subtitle1" sx={{ px:2 }} >
-              Report: {reportStatus}
-            </Typography>
-            <Divider />
-            <AllComments reviewId={reviewId} />
-          </Card>
-        </Box>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary.light"
+                  sx={{ px: 2 }}
+                >
+                  {reviewText}
+                </Typography>
+                <Typography
+                  variant="subtitle1"
+                  color="secondary.light"
+                  sx={{ px: 2 }}
+                >
+                  Report: {reportStatus}
+                </Typography>
+                <Divider />
+                <AllComments reviewId={reviewId} />
+              </Card>
+            </Box>
           </Box>
         </Container>
-        </Container>
+      </Container>
     </ThemeProvider>
   );
 };
