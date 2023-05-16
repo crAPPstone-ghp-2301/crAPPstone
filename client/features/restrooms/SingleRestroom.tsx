@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
 import { ThemeProvider } from "@mui/material/styles";
 import crAppTheme from "../../app/theme";
+import Rating from "../rating/Rating"
 import {
   Typography,
   Container,
@@ -152,6 +153,15 @@ const SingleRestroom = () => {
               <Link to={`/restrooms/${restroom.id}/reviews`}>
                 <PrimaryButton>Reviews</PrimaryButton>
               </Link>
+
+              <PrimaryButton
+              onClick={() => handleAddSavedRestroom(restroom.id)} >Save
+              </PrimaryButton>
+
+              <Container style={{ marginTop: '3rem' }}>
+                <Rating/>
+              </Container>
+             
             </Container>
 
             <Box

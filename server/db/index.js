@@ -17,7 +17,6 @@ Restroom.hasMany(Ratings, { foreignKey: 'restroomId' });
 // Ratings.belongsTo(Restroom);
 
 User.hasMany(Ratings)
-Ratings.belongsTo(User)
 
 Review.hasMany(Comments);
 Comments.belongsTo(Review);
