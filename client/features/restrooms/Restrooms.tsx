@@ -93,7 +93,12 @@ const AllRestrooms = () => {
                         sx={{ height: 200, objectFit: "cover" }}
                       />
                       <CardContent
-                        sx={{ height: 150, overflow: 'auto' }}
+                        sx={{ height: 150, 
+                          overflow: 'auto', 
+                          "&::-webkit-scrollbar": {
+                          display: "none",
+                        }, 
+                      }}
                       >
                         <Typography
                           gutterBottom
