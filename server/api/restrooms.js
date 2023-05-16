@@ -31,6 +31,7 @@ const isUserOrAdmin = async (req, res, next) => {
   }
 };
 
+
 router.get('/', async (req, res, next) => {
   console.log("Restroom backend API is running")
   try {
@@ -60,6 +61,7 @@ router.post("/", async (req, res, next) => {
     next(err);
   }
 });
+
 router.delete("/:id", async (req, res, next) => {
   try {
     const response = await Restroom.destroy({

@@ -1,38 +1,8 @@
 const router = require('express').Router();
 const { models: { User, Restroom, Favorites, Ratings, Reviews, Comments } } = require("../db/index")
 
-// middleware function to check if user isAdmin
-const isAdmin = async (req, res, next) => {
-  try {
-    const user = await User.findByToken(req.headers.authorization);
-    if (!user.isAdmin) {
-      const error = new Error('Not authorized');
-      error.status = 401;
-      throw error;
-    }
-    next();
-  } catch (err) {
-    next(err);
-  }
-};
-
-// middleware function to check if user is the same user or isAdmin
-const isUserOrAdmin = async (req, res, next) => {
-  try {
-    const user = await User.findByToken(req.headers.authorization);
-    if (!user.isAdmin && user.id !== Number(req.params.id)) {
-      const error = new Error('Not authorized');
-      error.status = 401;
-      throw error;
-    }
-    next();
-  } catch (err) {
-    next(err);
-  }
-};
-
 //find one user's favs
-router.get('/:userId', isUserOrAdmin, async (req, res) => {
+router.get('/:userId', async (req, res) => {
   try {
     const user = await User.findByPk(req.params.userId);
     if (!user) {
@@ -51,7 +21,7 @@ router.get('/:userId', isUserOrAdmin, async (req, res) => {
 });
 
 //find how many people like one restroom 
-router.get('/:restroomId', isAdmin, async (req, res) => {
+router.get('/:restroomId', async (req, res) => {
   try {
     const restroom = await Restroom.findByPk(req.params.userId);
     if (!restroom) {

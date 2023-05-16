@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import crAppTheme from "../../app/theme";
 import {
+  CustomizedTextField,
   PrimaryButton,
   SecondaryButton,
   TertiaryButton,
@@ -91,11 +92,15 @@ const EditProfile = () => {
               <Box sx={{ py: 2 }}>
                 <Typography variant="h5">Basic Info</Typography>
               </Box>
+              <CustomizedTextField label="Username" required />
+              <CustomizedTextField label="Name" />
+              <CustomizedTextField label="Email" type="email" required />
             </Box>
             <Box sx={{ py: 2 }}>
               <Box sx={{ py: 2 }}>
                 <Typography variant="h5">Password</Typography>
               </Box>
+              <CustomizedTextField label="Password" type="password" required />
             </Box>
             <Box
               sx={{

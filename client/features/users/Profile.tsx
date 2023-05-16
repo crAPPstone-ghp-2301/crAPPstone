@@ -14,9 +14,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 const Profile = () => {
-  const { id, name, email, isAdmin, username, password } = useSelector(
-    (state) => state.auth.me
-  );
+  const { id, name, email, username } = useSelector((state) => state.auth.me);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
