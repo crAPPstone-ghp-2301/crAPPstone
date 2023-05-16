@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createOrUpdateReview, createReview } from "./reviewSlice";
-import {
-  Box,
-  Typography,
-  Container,
-  TextField,
-  MenuItem,
-} from "@mui/material";
+import { createReview, fetchAllReviewsOfRestroomId } from "./reviewSlice";
+import { Box, Typography, Container, TextField, MenuItem } from "@mui/material";
 import { PrimaryButton } from "../styles/StyleGuide";
-import ImageUpload from "./ImageUpload";
+import axios from "axios";
 
 const AddReview = ({ restroomId }) => {
   const dispatch = useDispatch();
-  const [imageURL, setImageURL] = useState("");
   const [reviewText, setReviewText] = useState("");
   const [reportStatus, setReportStatus] = useState("none");
+  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleChange = (event) => {
     setReviewText(event.target.value);
@@ -25,14 +19,41 @@ const AddReview = ({ restroomId }) => {
     setReportStatus(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(createReview({ restroomId, imageURL, reviewText, reportStatus }));
 
+    try {
+      let imageURL =
+        "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
 
-    setReviewText("");
-    setReportStatus("none");
-    setImageURL("");
+      if (selectedFile) {
+        console.log("Uploading image!");
+        const formData = new FormData();
+        formData.append("image", selectedFile);
+
+        const response = await axios.post(
+          "http://localhost:8080/api/upload",
+          formData
+        );
+        imageURL = response.data.data.link;
+      }
+
+      dispatch(
+        createReview({ restroomId, reviewText, reportStatus, imageURL })
+      ).then(() => {
+        dispatch(fetchAllReviewsOfRestroomId(restroomId));
+      });
+
+      setReviewText("");
+      setReportStatus("none");
+      setSelectedFile(null);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -66,18 +87,10 @@ const AddReview = ({ restroomId }) => {
             <MenuItem value="closed">Closed</MenuItem>
             <MenuItem value="super dirty">Super Dirty</MenuItem>
           </TextField>
-          <TextField
-            label="Image URL"
-            value={imageURL}
-            onChange={(event) => setImageURL(event.target.value)}
-            fullWidth
-            variant="outlined"
-            margin="normal"
-          />
+          <input type="file" onChange={handleFileChange} />
           <PrimaryButton type="submit" variant="contained" color="primary">
             Submit
           </PrimaryButton>
-          <ImageUpload restroomId={restroomId} />
         </Container>
       </form>
     </Box>

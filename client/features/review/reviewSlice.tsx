@@ -64,17 +64,20 @@ export const createOrUpdateReview = createAsyncThunk(
 
 //create review
 export const createReview = createAsyncThunk(
-  'reviews/createReview',
+  "reviews/createReview",
   async ({ restroomId, imageURL, reviewText, reportStatus, userId }) => {
     const token = localStorage.getItem("token");
     try {
       if (token) {
-        const { data } = await axios.post(`/api/restrooms/${restroomId}/reviews`, {
-          imageURL,
-          reviewText,
-          reportStatus,
-          userId
-        },
+        const { data } = await axios.post(
+          `/api/restrooms/${restroomId}/reviews`,
+          {
+            imageURL,
+            reviewText,
+            reportStatus,
+            userId,
+            restroomId,
+          },
           {
             headers: {
               authorization: token,
@@ -83,14 +86,16 @@ export const createReview = createAsyncThunk(
         );
         return data;
       } else {
-        const { data } = await axios.post(`/api/restrooms/${restroomId}/reviews`,
+        const { data } = await axios.post(
+          `/api/restrooms/${restroomId}/reviews`,
           {
-          imageURL,
-          reviewText,
-          reportStatus,
-          userId: null,
-          },
-        )
+            imageURL,
+            reviewText,
+            reportStatus,
+            userId: null,
+            restroomId,
+          }
+        );
         return data;
       }
     } catch (err) {
@@ -98,7 +103,6 @@ export const createReview = createAsyncThunk(
     }
   }
 );
-
 
 const initialState = {
   allReviews: [],
@@ -136,7 +140,7 @@ export const reviewSlice = createSlice({
     });
     builder.addCase(createReview.fulfilled, (state, action) => {
       state.allReviews.push(action.payload);
-     })
+    });
   },
 });
 
