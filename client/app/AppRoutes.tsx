@@ -16,6 +16,7 @@ import Home from "../features/home/Home";
 import Profile from "../features/users/Profile";
 import EditProfile from "../features/users/EditProfile";
 import Saved from "../features/save/Saved";
+import Help from "../features/settings/Help";
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
@@ -65,6 +66,7 @@ const AppRoutes = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="saved" element={<Saved />} />
+            <Route path="/help" element={<Help />} />
           </>
         ) : (
           <>
@@ -101,6 +103,7 @@ const AppRoutes = () => {
               path="/reviews/:reviewId/comments"
               element={<AllComments />}
             />
+            <Route path="/help" element={<Help />} />
           </>
         )}
         <Route path="/styleguide" element={<StyleGuide />} />

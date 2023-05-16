@@ -13,7 +13,7 @@ export const me = createAsyncThunk("auth/me", async () => {
   const token = window.localStorage.getItem(TOKEN);
   try {
     if (token) {
-      axios.defaults.headers.authorization= token
+      axios.defaults.headers.authorization = token;
       const res = await axios.get("/auth/me", {
         headers: {
           authorization: token,
@@ -74,7 +74,7 @@ export const updateUser = createAsyncThunk(
   "users/update",
   async ({ id, username, password, name, email }) => {
     try {
-      const { data } = await axios.put(`/api/users/${id}`, {
+      const { data } = await axios.patch(`/api/users/${id}`, {
         username,
         name,
         email,

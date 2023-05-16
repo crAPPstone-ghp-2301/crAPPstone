@@ -15,6 +15,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 
 const Profile = () => {
   const { id, name, email, username } = useSelector((state) => state.auth.me);
+  const token = window.localStorage.getItem("token");
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -33,15 +34,20 @@ const Profile = () => {
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container
-        id="edit-profile-container"
+        id="profile-container"
         sx={{
           position: "fixed",
           top: 0,
           left: "100px",
           zIndex: 1,
           backgroundColor: "white",
-          height: "100%",
           width: 450,
+          height: "100%",
+          overflowY: "scroll",
+          paddingBottom: 10,
+          "&::-webkit-scrollbar": {
+            display: "none",
+          },
         }}
       >
         <Container
@@ -49,6 +55,7 @@ const Profile = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
+            marginTop: 10,
             py: 2,
           }}
         >
@@ -59,7 +66,7 @@ const Profile = () => {
             </Typography>
           </Box>
           <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
