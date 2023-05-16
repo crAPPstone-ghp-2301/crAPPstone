@@ -22,12 +22,15 @@ import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
 import { addSavedRestroom } from "../save/saveSlice";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
+import BookmarkAddedRoundedIcon from "@mui/icons-material/BookmarkAddedRounded";
 
 const SingleRestroom = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
+  const [savedRestroomIds, setSavedRestroomIds] = useState([]);
   console.log(reviews);
   const restroom = useSelector(selectSingleRestroom);
   console.log("SINGLE RESTROOM===============>", restroom);
@@ -45,6 +48,10 @@ const SingleRestroom = () => {
   const handleAddSavedRestroom = async (restroomId) => {
     console.log("restroom id", restroomId);
     await dispatch(addSavedRestroom(restroomId));
+  };
+
+  const isRestroomSaved = (restroomId) => {
+    return savedRestroomIds.includes(restroomId);
   };
 
   return (
@@ -98,16 +105,38 @@ const SingleRestroom = () => {
                   <Tab label="Reviews" />
                 </Tabs>
               </Box>
-              <Typography
-                gutterBottom
-                variant="body1"
-                component="div"
-                color="secondary.light"
-                sx={{ fontWeight: "900" }}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
               >
-                {restroom.name}
-              </Typography>
-
+                <Typography
+                  gutterBottom
+                  variant="body1"
+                  component="div"
+                  color="secondary.light"
+                  sx={{ fontWeight: "900" }}
+                >
+                  {restroom.name}
+                </Typography>
+                <SecondaryButton
+                  onClick={() => handleAddSavedRestroom(restroom.id)}
+                >
+                  {isRestroomSaved(restroom.id) ? (
+                    <>
+                      <BookmarkAddedRoundedIcon />
+                      <Typography variant="caption">Saved</Typography>
+                    </>
+                  ) : (
+                    <>
+                      <BookmarkAddRoundedIcon />
+                      <Typography variant="caption">Save</Typography>
+                    </>
+                  )}
+                </SecondaryButton>
+              </Box>
               <Typography variant="caption" color="secondary.light">
                 Hours of Operation: {restroom.openingHours}
               </Typography>
@@ -119,11 +148,6 @@ const SingleRestroom = () => {
               <Link to={`/restrooms/${restroom.id}/reviews`}>
                 <PrimaryButton>Reviews</PrimaryButton>
               </Link>
-              <PrimaryButton
-                onClick={() => handleAddSavedRestroom(restroom.id)}
-              >
-                Save
-              </PrimaryButton>
             </Container>
 
             <Box

@@ -112,13 +112,14 @@ const AllRestrooms = () => {
                             variant="caption"
                             sx={{ color: crAppTheme.palette.primary.dark }}
                           >
-                            {restroom.openingHours}
+                            <b>Opening Hours</b>: {restroom.openingHours}
                           </Typography>
+                          <br />
                           <Typography
                             variant="caption"
                             sx={{ color: crAppTheme.palette.primary.dark }}
                           >
-                            {restroom.description}
+                            <b>Description</b>: {restroom.description}
                           </Typography>
                         </CardContent>
                         <Box
@@ -153,7 +154,7 @@ const AllRestrooms = () => {
                           component="img"
                           src={restroom.imageUrl}
                           alt="Restroom"
-                          sx={{ width: 300 }}
+                          sx={{ width: 80, height: 80 }}
                         />
                       </Box>
                     </Link>
