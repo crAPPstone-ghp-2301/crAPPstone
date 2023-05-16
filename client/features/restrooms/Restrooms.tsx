@@ -72,6 +72,10 @@ const AllRestrooms = () => {
                     margin: "5px",
                     height: "100%",
                     position: "relative",
+                    overflow: 'auto', 
+                          "&::-webkit-scrollbar": {
+                          display: "none",
+                        }, 
                   }}
                   key={restroom.id}
                 >
@@ -105,7 +109,10 @@ const AllRestrooms = () => {
                           variant="body"
                           component="div"
                           color="secondary.light"
-                          sx={{ fontWeight: "900" }}
+                          sx={{ fontWeight: "900", overflow: 'auto', 
+                          "&::-webkit-scrollbar": {
+                          display: "none",
+                        },  }}
                         >
                           {restroom.name}
                         </Typography>
@@ -131,6 +138,7 @@ const AllRestrooms = () => {
                       position: "absolute",
                       top: "10px",
                       right: "10px",
+                    
                     }}
                   >
                     Add a Review

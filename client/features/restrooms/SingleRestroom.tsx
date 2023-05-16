@@ -50,7 +50,7 @@ const SingleRestroom = () => {
     <>
       <ThemeProvider theme={crAppTheme}>
         <Container
-          id="edit-profile-container"
+          id="restroom-container"
           sx={{
             position: "fixed",
             top: 0,
@@ -59,7 +59,7 @@ const SingleRestroom = () => {
             backgroundColor: "white",
             width: 450,
             height: "100%",
-            overflowY: "scroll",
+            overflow: "auto",
             paddingBottom: 10,
             "&::-webkit-scrollbar": {
               display: "none",
@@ -72,6 +72,7 @@ const SingleRestroom = () => {
               flexDirection: "column",
               justifyContent: "flex-start",
               py: 2,
+              
             }}
           >
             <Link to="/">
@@ -135,8 +136,11 @@ const SingleRestroom = () => {
             <Box
               style={{
                 height: "310px",
-                overflowY: "scroll",
                 paddingRight: "20px",
+                overflow: 'auto', 
+                          "&::-webkit-scrollbar": {
+                          display: "none",
+                        } 
               }}
             >
               {reviews
