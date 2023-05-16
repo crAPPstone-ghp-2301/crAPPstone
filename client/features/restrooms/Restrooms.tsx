@@ -77,7 +77,6 @@ const AllRestrooms = () => {
                 >
                   <Link
                     to={`/restrooms/${restroom.id}`}
-                    onClick={() => window.scrollTo(0, 0)}
                   >
                     <Card
                       sx={{
