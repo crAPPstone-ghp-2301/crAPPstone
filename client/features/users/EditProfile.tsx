@@ -98,7 +98,6 @@ const EditProfile = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            marginTop: 10,
             py: 2,
           }}
         >
@@ -109,7 +108,7 @@ const EditProfile = () => {
             </Typography>
           </Box>
           <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
