@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createReview } from "./reviewSlice";
+import { createReview, fetchAllReviewsOfRestroomId } from "./reviewSlice";
 import { Box, Typography, Container, TextField, MenuItem } from "@mui/material";
 import { PrimaryButton } from "../styles/StyleGuide";
 import axios from "axios";
@@ -25,13 +25,13 @@ const AddReview = ({ restroomId }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log("restroomId", restroomId);
 
     try {
       let imageURL =
         "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
 
       if (selectedFile) {
+        console.log("Uploading image!");
         const formData = new FormData();
         formData.append("image", selectedFile);
 
@@ -44,7 +44,9 @@ const AddReview = ({ restroomId }) => {
 
       dispatch(
         createReview({ restroomId, reviewText, reportStatus, imageURL })
-      );
+      ).then(() => {
+        dispatch(fetchAllReviewsOfRestroomId(restroomId));
+      });
 
       setReviewText("");
       setReportStatus("none");
