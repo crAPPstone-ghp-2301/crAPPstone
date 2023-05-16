@@ -76,7 +76,6 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
           backgroundColor: "#FFF",
           p: 4,
           width: isMobile ? "100%" : "30%",
-          height: "650px",
           textAlign: "center",
         }}
       >

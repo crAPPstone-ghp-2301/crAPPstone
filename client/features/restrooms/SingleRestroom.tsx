@@ -142,6 +142,10 @@ const SingleRestroom = () => {
                   )}
                 </SecondaryButton>
               </Box>
+              <Container style={{ marginTop: '3rem' }}>
+                <Rating/>
+              </Container>
+            </Container>
               <Typography variant="caption" color="secondary.light">
                 Hours of Operation: {restroom.openingHours}
               </Typography>
@@ -153,17 +157,6 @@ const SingleRestroom = () => {
               <Link to={`/restrooms/${restroom.id}/reviews`}>
                 <PrimaryButton>Reviews</PrimaryButton>
               </Link>
-
-              <PrimaryButton
-              onClick={() => handleAddSavedRestroom(restroom.id)} >Save
-              </PrimaryButton>
-
-              <Container style={{ marginTop: '3rem' }}>
-                <Rating/>
-              </Container>
-             
-            </Container>
-
             <Box
               style={{
                 height: "310px",

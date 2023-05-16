@@ -76,7 +76,7 @@ const EditProfile = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      <Container
+      <Box
         id="edit-profile-container"
         sx={{
           position: "fixed",
@@ -88,9 +88,6 @@ const EditProfile = () => {
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
         }}
       >
         <Container
@@ -115,23 +112,25 @@ const EditProfile = () => {
           </Link>
         </Container>
         <Container>
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            variant="fullWidth"
-            textColor="primary"
-            indicatorColor="secondary"
-            centered
-            sx={{
-              "& .Mui-selected": {
-                backgroundColor: crAppTheme.palette.primary.dark,
-              },
-            }}
-          >
-            <Tab label="Basic Info" />
-            <Tab label="Password" />
-            <Tab label="Profile Image" />
-          </Tabs>
+          <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
+              variant="fullWidth"
+              textColor="primary"
+              indicatorColor="secondary"
+              centered
+              sx={{
+                "& .Mui-selected": {
+                  backgroundColor: crAppTheme.palette.primary.dark,
+                },
+              }}
+            >
+              <Tab label="Basic Info" />
+              <Tab label="Password" />
+              <Tab label="Profile Image" />
+            </Tabs>
+          </Box>
           {activeTab === 0 && (
             <form onSubmit={handleInfoEdit}>
               <Box sx={{ py: 3 }}>
@@ -289,7 +288,7 @@ const EditProfile = () => {
             </form>
           )}
         </Container>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 };

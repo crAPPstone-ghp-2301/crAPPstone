@@ -11,6 +11,7 @@ import {
   Typography,
   Divider,
   Container,
+  Box,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -22,7 +23,6 @@ import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import ReviewsRoundedIcon from "@mui/icons-material/ReviewsRounded";
 import LinkRoundedIcon from "@mui/icons-material/LinkRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import Saved from "../save/Saved";
 
 const Settings = ({ open, onClose }) => {
   const navigate = useNavigate();
@@ -38,15 +38,6 @@ const Settings = ({ open, onClose }) => {
       (storedUserId && me.id === storedUserId)
     );
   });
-
-  const handleButtonClick = (buttonAction) => {
-    if (isLoggedIn) {
-      buttonAction();
-    } else {
-      navigate("/login");
-      setIsOpen(true);
-    }
-  };
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -66,96 +57,110 @@ const Settings = ({ open, onClose }) => {
         >
           <CloseRoundedIcon />
         </TertiaryButton>
-        <Container sx={{ px: 0.5 }}>
+        <Container>
           <ListItem>
             <Typography variant="h5">Settings</Typography>
           </ListItem>
         </Container>
         <Divider />
-        <Container>
+        <Box>
           <ListItem>
             <Link to="/saved">
               <TertiaryButton>
                 <ListItemAvatar>
-                  <Avatar>
+                  <Avatar
+                    sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
+                  >
                     <BookmarkBorderRoundedIcon fontSize="small" />
                   </Avatar>
                 </ListItemAvatar>
-                <Typography variant="subtitle1">Saved</Typography>
+                <Typography variant="subtitle2">Saved</Typography>
               </TertiaryButton>
             </Link>
           </ListItem>
           <ListItem>
             <TertiaryButton>
               <ListItemAvatar>
-                <Avatar>
+                <Avatar
+                  sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
+                >
                   <HistoryRoundedIcon fontSize="small" />
                 </Avatar>
               </ListItemAvatar>
-              <Typography variant="subtitle1">History</Typography>
+              <Typography variant="subtitle2">History</Typography>
             </TertiaryButton>
           </ListItem>
           <ListItem>
             <TertiaryButton>
               <ListItemAvatar>
-                <Avatar>
+                <Avatar
+                  sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
+                >
                   <ReviewsRoundedIcon fontSize="small" />
                 </Avatar>
               </ListItemAvatar>
-              <Typography variant="subtitle1">Your Reviews</Typography>
+              <Typography variant="subtitle2">Your Reviews</Typography>
             </TertiaryButton>
           </ListItem>
-        </Container>
+        </Box>
         <Divider />
-        <Container>
+        <Box>
           <ListItem>
             <TertiaryButton>
               <ListItemAvatar>
-                <Avatar>
+                <Avatar
+                  sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
+                >
                   <LinkRoundedIcon fontSize="small" />
                 </Avatar>
               </ListItemAvatar>
-              <Typography variant="subtitle1">Share Map</Typography>
+              <Typography variant="subtitle2">Share Map</Typography>
             </TertiaryButton>
           </ListItem>
           <ListItem>
             <TertiaryButton>
               <ListItemAvatar>
-                <Avatar>
+                <Avatar
+                  sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
+                >
                   <AddLocationAltRoundedIcon fontSize="small" />
                 </Avatar>
               </ListItemAvatar>
-              <Typography variant="subtitle1">Add Location</Typography>
+              <Typography variant="subtitle2">Add Location</Typography>
             </TertiaryButton>
           </ListItem>
           <ListItem>
             <Link to={!isLoggedIn ? "/login" : "/profile"}>
               <TertiaryButton>
                 <ListItemAvatar>
-                  <Avatar>
+                  <Avatar
+                    sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
+                  >
                     <AccountCircleRoundedIcon fontSize="small" />
                   </Avatar>
                 </ListItemAvatar>
-                <Typography variant="subtitle1">Edit Profile</Typography>
+                <Typography variant="subtitle2">Edit Profile</Typography>
               </TertiaryButton>
             </Link>
           </ListItem>
-        </Container>
+        </Box>
         <Divider />
-        <Container>
+        <Box>
           <Link to="/help">
             <ListItem>
               <TertiaryButton>
                 <ListItemAvatar>
-                  <Avatar>
+                  <Avatar
+                    sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
+                  >
                     <InfoRoundedIcon fontSize="small" />
                   </Avatar>
                 </ListItemAvatar>
-                <Typography variant="subtitle1">Help</Typography>
+                <Typography variant="subtitle2">Help</Typography>
               </TertiaryButton>
             </ListItem>
           </Link>
-        </Container>
+        </Box>
       </Drawer>
     </ThemeProvider>
   );
