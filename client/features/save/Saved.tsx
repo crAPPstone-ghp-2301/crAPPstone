@@ -26,7 +26,6 @@ const Saved = () => {
 
 
   useEffect(() => {
-    console.log('token in saved.tsx', token)
     async function fetchSavedRestrooms() {
       try {
         const [savedRestroomsResponse, restroomsResponse] = await Promise.all([
@@ -51,6 +50,7 @@ const Saved = () => {
         }));
 
         setSavedRestrooms(savedRestroomsWithDetails);
+
       } catch (error) {
         console.log("Error fetching saved restrooms:", error);
       }

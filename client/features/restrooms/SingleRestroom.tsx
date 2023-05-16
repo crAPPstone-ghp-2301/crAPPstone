@@ -32,13 +32,13 @@ const SingleRestroom = () => {
       <ThemeProvider theme={crAppTheme}>
         <Card
           sx={{
-            maxWidth: 600,
-            maxHeight: 500,
-            margin: 10,
-            border: "none",
-            "&:hover": {
-              border: "2px solid",
-            },
+            position: "fixed",
+            top: 0,
+            left: "100px",
+            zIndex: 1,
+            backgroundColor: "white",
+            height: "100%",
+            width: 450,
           }}
         >
           <CardMedia
@@ -56,7 +56,7 @@ const SingleRestroom = () => {
             >
               {restroom.name}
             </Typography>
-            
+
             <Typography variant="body3" color="secondary.light">
               {restroom.openingHours}
             </Typography>
@@ -67,9 +67,9 @@ const SingleRestroom = () => {
             </Typography>
             <Button
               sx={{
-                marginTop: "auto", 
+                marginTop: "auto",
                 color: "primary.light",
-                bgcolor: "secondary.light", 
+                bgcolor: "secondary.light",
               }}
               size="small"
             >
