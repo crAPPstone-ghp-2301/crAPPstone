@@ -69,14 +69,13 @@ export const createReview = createAsyncThunk(
     const token = localStorage.getItem("token");
     try {
       if (token) {
-        const { data } = await axios.post(
+        const { data } = await axios.patch(
           `/api/restrooms/${restroomId}/reviews`,
           {
             imageURL,
             reviewText,
             reportStatus,
             userId,
-            restroomId,
           },
           {
             headers: {
@@ -86,14 +85,13 @@ export const createReview = createAsyncThunk(
         );
         return data;
       } else {
-        const { data } = await axios.post(
+        const { data } = await axios.patch(
           `/api/restrooms/${restroomId}/reviews`,
           {
             imageURL,
             reviewText,
             reportStatus,
             userId: null,
-            restroomId,
           }
         );
         return data;
