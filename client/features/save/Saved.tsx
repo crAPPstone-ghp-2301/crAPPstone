@@ -12,7 +12,7 @@ import {
   TertiaryButton,
 } from "../styles/StyleGuide";
 import crAppTheme from "../../app/theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Typography,
   Container,
@@ -28,6 +28,7 @@ import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import axios from "axios";
 
 const Saved = () => {
+  const navigate = useNavigate();
   const [savedRestrooms, setSavedRestrooms] = useState([]);
   const { id } = useSelector((state) => state.auth.me);
   const token = window.localStorage.getItem("token");
@@ -75,6 +76,7 @@ const Saved = () => {
         (restroom) => restroom.restroomId !== restroomId
       )
     );
+    navigate("/saved");
   };
 
   return (
@@ -116,7 +118,7 @@ const Saved = () => {
           </Link>
         </Container>
         <Container>
-          {Array.isArray(savedRestrooms) &&
+          {Array.isArray(savedRestrooms) && savedRestrooms.length > 0 ? (
             savedRestrooms.map((restroom) => {
               return (
                 <Card
@@ -199,7 +201,28 @@ const Saved = () => {
                   </Link>
                 </Card>
               );
-            })}
+            })
+          ) : (
+            <Box sx={{ my: 15, textAlign: "center" }}>
+              <Link to="/">
+                <TertiaryButton>
+                  <Typography variant="subtitle1">
+                    No saved restrooms, begin exploring!
+                  </Typography>
+                </TertiaryButton>
+              </Link>
+              <Box sx={{ my: 5 }}>
+                <Typography variant="subtitle1">
+                  Not sure what to do?
+                </Typography>
+                <Link to="/help">
+                  <SecondaryButton>
+                    <Typography variant="subtitle1">Get Help</Typography>
+                  </SecondaryButton>
+                </Link>
+              </Box>
+            </Box>
+          )}
         </Container>
       </Box>
     </ThemeProvider>
