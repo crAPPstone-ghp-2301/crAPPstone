@@ -12,8 +12,6 @@ import AssistantDirectionIcon from '@mui/icons-material/AssistantDirection';
 import { Dialog,DialogTitle,DialogContent,DialogContentText,Rating,DialogActions } from '@mui/material';
 import {CustomizedTextField} from "../features/styles/StyleGuide"
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { Link } from 'react-router-dom';
-import { addSavedRestroom } from '../features/save/saveSlice';
 import crAppTheme from "./theme";
 
 mapboxgl.accessToken =
@@ -40,15 +38,6 @@ const Map = () => {
 
 
   useEffect(() => {
-    const handleAddSavedRestroom = async (event) => {
-      const feature = map.current.queryRenderedFeatures(event.point)[0];
-      console.log('event point', event)
-      console.log('clicked feature', feature);
-      if (feature) {
-        console.log('restroom name', feature.properties.Name);
-        await dispatch(addSavedRestroom(feature.id));
-      }
-    };
 
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -99,8 +88,7 @@ const Map = () => {
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>
-        <button class="saveBtn" style="background-color:#D4A373">Save me</button>`
+        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -111,8 +99,7 @@ const Map = () => {
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>
-        <button class="saveBtn" style="background-color:#D4A373">Save me</button>`
+        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -123,8 +110,7 @@ const Map = () => {
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>
-        <button class="saveBtn" style="background-color:#D4A373">Save me</button>`
+        <button class="rateBtn" style="background-color:#D4A373">Rate me</button>`
       popup.setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
         .addTo(map.current);
@@ -133,14 +119,6 @@ const Map = () => {
     $(document).on('click', '.rateBtn', function() {
       setIsModalOpen(true);
     });
-
-    //-------------------------WORKING HERE ----------------------
-     //-------------------------WORKING HERE ----------------------
-     $(document).on('click', '.saveBtn', (event) => {
-      handleAddSavedRestroom(event);
-    });
-     //-------------------------WORKING HERE ----------------------
-      //-------------------------WORKING HERE ----------------------
 
     map.current.on('load', () => {
       const marker = new mapboxgl.Marker({
