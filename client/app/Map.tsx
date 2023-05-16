@@ -6,10 +6,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { useRef, useState, useEffect } from "react";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { PrimaryButton } from "../features/styles/StyleGuide";
-import {
-  getAllRestrooms,
-  selectRestroom,
-} from "../features/restrooms/allRestroomSlice";
+import { selectRestroom } from "../features/restrooms/allRestroomSlice";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { SearchByName } from "../features/search/SearchSlice";
@@ -26,7 +23,6 @@ const Map = () => {
 
   const dispatch = useDispatch();
   const popuprestroom = useSelector((state) => state.searchoutput.output);
-  const restrooms = useSelector(selectRestroom);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -76,7 +72,7 @@ const Map = () => {
     map.current.on("mouseenter", "restroom-mall-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature)
+      console.log(feature);
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -89,7 +85,7 @@ const Map = () => {
     map.current.on("mouseenter", "restroom-hotel-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature)
+      console.log(feature);
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -102,7 +98,7 @@ const Map = () => {
     map.current.on("mouseenter", "public-restroom-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      console.log(feature)
+      console.log(feature);
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
       <p>${feature.properties.Location}</p>
       <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;

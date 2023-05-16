@@ -13,7 +13,11 @@ import {
   Card,
   CardMedia,
 } from "@mui/material";
-import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
+import {
+  PrimaryButton,
+  SecondaryButton,
+  TertiaryButton,
+} from "../styles/StyleGuide";
 import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
 import { addSavedRestroom } from "../save/saveSlice";
@@ -71,7 +75,7 @@ const SingleRestroom = () => {
             }}
           >
             <Link to="/">
-              <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
+              <TertiaryButton sx={{ position: "absolute", top: 280, right: 0 }}>
                 <CloseRoundedIcon />
               </TertiaryButton>
             </Link>
