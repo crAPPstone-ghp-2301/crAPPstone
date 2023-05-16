@@ -22,7 +22,6 @@ import HistoryRoundedIcon from "@mui/icons-material/HistoryRounded";
 import ReviewsRoundedIcon from "@mui/icons-material/ReviewsRounded";
 import LinkRoundedIcon from "@mui/icons-material/LinkRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
-import Saved from "../save/Saved";
 
 const Settings = ({ open, onClose }) => {
   const navigate = useNavigate();
@@ -39,14 +38,14 @@ const Settings = ({ open, onClose }) => {
     );
   });
 
-  const handleButtonClick = (buttonAction) => {
-    if (isLoggedIn) {
-      buttonAction();
-    } else {
-      navigate("/login");
-      setIsOpen(true);
-    }
-  };
+  // const handleButtonClick = (buttonAction) => {
+  //   if (isLoggedIn) {
+  //     buttonAction();
+  //   } else {
+  //     navigate("/login");
+  //     setIsOpen(true);
+  //   }
+  // };
 
   return (
     <ThemeProvider theme={crAppTheme}>
