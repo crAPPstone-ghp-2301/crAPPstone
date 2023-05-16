@@ -63,6 +63,9 @@ const Map = () => {
         40.7273 ]
       });
        
+     const sub= new MapboxGeocoder({accessToken: mapboxgl.accessToken, mapboxgl: mapboxgl})
+     map.current.addControl(sub,"top-right")
+     sub.container.style.display = "none";
 
       map.current.addControl(geocoder, 'top-right');
       geocoder.container.setAttribute('id', 'geocoder-search')
@@ -75,7 +78,7 @@ const Map = () => {
               geocoder.on("result", async (event) => {
                 const point = event.result.center;
                 console.log(point);
-                const tileset = "fxu2023.509pfoqy";
+                const tileset = "fxu2023.clhs7ziyw0lfz2arsitz3ct0o-7dbgr";
                 const radius = 1609;
                 const limit = 50;
                 marker.setLngLat(point).addTo(map.current);
@@ -145,7 +148,8 @@ const Map = () => {
                   properties.Placetype
                 }</h4><p>${properties.STORE_LOCATION}</p><p>${(
                   obj.distance / 1609.344
-                ).toFixed(2)} mi. from location</p>`;
+                ).toFixed(2)} mi. from location</p>
+                <a href="/restrooms/${properties.id_restroom}">More info</a>`;
 
                 popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
               });
@@ -171,6 +175,18 @@ const Map = () => {
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
+        <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
+      popup
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(popupContent)
+        .addTo(map.current);
+    });
+
+    map.current.on("click", "all", (event) => {
+      map.current.getCanvas().style.cursor = "pointer";
+      const feature = event.features[0];
+      const popupContent = `<p><strong>${feature.properties.STORE_NAME}</strong></p>
+        <p>${feature.properties.STORE_LOCATION}</p>
         <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
       popup
         .setLngLat(feature.geometry.coordinates)
@@ -204,6 +220,8 @@ const Map = () => {
 
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        map.current.setLayoutProperty("all", "visibility", "visible");
+
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         map.current.setLayoutProperty(
@@ -216,6 +234,7 @@ const Map = () => {
           "visibility",
           "none"
         );
+        map.current.setLayoutProperty("all", "visibility", "none");
       }
     });
 
@@ -234,6 +253,7 @@ const Map = () => {
       // Toggle layer visibility by changing the layout object's visibility property.
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        map.current.setLayoutProperty("all", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         map.current.setLayoutProperty(
@@ -246,6 +266,7 @@ const Map = () => {
           "visibility",
           "none"
         );
+        map.current.setLayoutProperty("all", "visibility", "none");
       }
     });
 
@@ -263,6 +284,7 @@ const Map = () => {
       // Toggle layer visibility by changing the layout object's visibility property.
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        map.current.setLayoutProperty("all", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         map.current.setLayoutProperty(
@@ -275,6 +297,7 @@ const Map = () => {
           "visibility",
           "none"
         );
+        map.current.setLayoutProperty("all", "visibility", "none");
       }
     });
 
