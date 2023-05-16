@@ -1,39 +1,37 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
+//This code works solo and is no longer needed since file handling is now implemented in AddReview. Might use as reference for user avatar.
 const ImageUpload = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedImage(file);
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
   };
 
-  const handleImageUpload = async () => {
+  const handleUpload = async () => {
     try {
       const formData = new FormData();
-      formData.append('image', selectedImage);
-      console.log(formData);
-  
-      const response = await axios.post('https://api.imgur.com/3/image', formData);
-      // console.log("dataaaaaaaaaaaaaaaaaaaaaaaaa", response.data); 
-  
-      console.log('Image uploaded successfully');
-    
-  
+      formData.append("image", selectedFile);
+
+      const response = await axios.post(
+        "http://localhost:8080/api/upload",
+        formData
+      );
+      console.log(response.data);
     } catch (error) {
-      console.error('Image upload failed:', error);
+      console.error(error);
     }
   };
-  
 
   return (
     <div>
-      <input type="file" accept="image/*" onChange={handleImageChange} />
-      <button onClick={handleImageUpload}>Upload Image</button>
+      <input type="file" onChange={handleFileChange} />
+      <button onClick={handleUpload} disabled={!selectedFile}>
+        Upload
+      </button>
     </div>
   );
 };
 
 export default ImageUpload;
-

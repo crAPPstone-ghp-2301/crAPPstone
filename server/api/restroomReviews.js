@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const { models: { Comments, User, Review, Restroom } } = require('../db')
-module.exports = router
 
 router.get('/:restroomId/reviews', async (req, res, next) => {
   try {
@@ -18,7 +17,6 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
 
     const reviewsWithUsername = reviews.map(review => {
       const username = review.user ? review.user.username : 'Anonymous';
-      console.log(username);
       return {
         ...review.toJSON(),
         username
@@ -44,16 +42,19 @@ router.post('/:restroomId/reviews', async (req, res, next) => {
       userId = user.dataValues.id;
     }
 
-    const review = await restroom.createReview({
+    const review = await Review.create({
       imageURL,
       reviewText,
       reportStatus,
       userId,
+      restroomId: req.params.restroomId,
     });
 
     res.json(review);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 });
+
+module.exports = router

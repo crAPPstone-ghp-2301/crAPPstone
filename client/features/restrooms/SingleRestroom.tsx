@@ -53,6 +53,7 @@ const SingleRestroom = () => {
             height: "100%",
           }}
         >
+
           <CardMedia
             component="img"
             image={restroom.imageUrl}
@@ -86,7 +87,7 @@ const SingleRestroom = () => {
             </Link>
           </CardContent>
         </Card>
-        <Box
+<Box
           style={{ height: "310px", overflowY: "scroll", paddingRight: "20px" }}
         >
           {reviews
