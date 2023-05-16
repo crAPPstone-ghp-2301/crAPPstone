@@ -1,7 +1,16 @@
-import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
-import { selectSaved, addSavedRestroom, getSavedRestrooms, deleteSavedRestroom } from "./saveSlice";
-import { PrimaryButton, SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectSaved,
+  addSavedRestroom,
+  getSavedRestrooms,
+  deleteSavedRestroom,
+} from "./saveSlice";
+import {
+  PrimaryButton,
+  SecondaryButton,
+  TertiaryButton,
+} from "../styles/StyleGuide";
 import crAppTheme from "../../app/theme";
 import { Link } from "react-router-dom";
 import {
@@ -21,7 +30,7 @@ import axios from "axios";
 const Saved = () => {
   const [savedRestrooms, setSavedRestrooms] = useState([]);
   const { id } = useSelector((state) => state.auth.me);
-  const token = window.localStorage.getItem('token')
+  const token = window.localStorage.getItem("token");
 
   useEffect(() => {
     async function fetchSavedRestrooms() {
@@ -57,14 +66,16 @@ const Saved = () => {
     fetchSavedRestrooms();
   }, []);
 
-    const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-    const handleDeleteSavedRestroom = async (restroomId) => {
-      await dispatch(deleteSavedRestroom(restroomId))
-      setSavedRestrooms((prevSavedRestrooms) =>
-        prevSavedRestrooms.filter((restroom) => restroom.restroomId !== restroomId)
-      );
-    }
+  const handleDeleteSavedRestroom = async (restroomId) => {
+    await dispatch(deleteSavedRestroom(restroomId));
+    setSavedRestrooms((prevSavedRestrooms) =>
+      prevSavedRestrooms.filter(
+        (restroom) => restroom.restroomId !== restroomId
+      )
+    );
+  };
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -162,7 +173,13 @@ const Saved = () => {
                         <SecondaryButton>
                           <NoteAddRoundedIcon /> Review
                         </SecondaryButton>
-                        <TertiaryButton onClick={()=>{handleDeleteSavedRestroom(restroom.restroomId)}}>Delete</TertiaryButton>
+                        <TertiaryButton
+                          onClick={() => {
+                            handleDeleteSavedRestroom(restroom.restroomId);
+                          }}
+                        >
+                          Delete
+                        </TertiaryButton>
                       </Box>
                     </Box>
                     <Box
