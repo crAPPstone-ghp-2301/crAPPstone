@@ -1,15 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import crAppTheme from "../../app/theme";
 import { useDispatch } from "react-redux";
 import { createReview, fetchAllReviewsOfRestroomId } from "./reviewSlice";
-import { Box, Typography, Container, TextField, MenuItem } from "@mui/material";
-import { PrimaryButton } from "../styles/StyleGuide";
-import axios from "axios";
+import {
+  ThemeProvider,
+  CssBaseline,
+  Box,
+  Container,
+  TextField,
+  MenuItem,
+  useMediaQuery,
+  Typography,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const AddReview = ({ restroomId }) => {
   const dispatch = useDispatch();
   const [reviewText, setReviewText] = useState("");
   const [reportStatus, setReportStatus] = useState("none");
   const [selectedFile, setSelectedFile] = useState(null);
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width:700px)");
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const container = document.getElementById("add-review-container");
+      if (container && !container.contains(event.target)) {
+        navigate("/");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   const handleChange = (event) => {
     setReviewText(event.target.value);
@@ -35,10 +64,7 @@ const AddReview = ({ restroomId }) => {
         const formData = new FormData();
         formData.append("image", selectedFile);
 
-        const response = await axios.post(
-          "http://localhost:8080/api/upload",
-          formData
-        );
+        const response = await axios.post("/api/upload", formData);
         imageURL = response.data.data.link;
       }
 
@@ -57,40 +83,74 @@ const AddReview = ({ restroomId }) => {
   };
 
   return (
-    <Box>
-      <form onSubmit={handleSubmit}>
-        <Container maxWidth="sm">
-          <TextField
-            label="Add Review"
-            value={reviewText}
-            onChange={handleChange}
-            fullWidth
-            multiline
-            rows={4}
-            variant="outlined"
-            margin="normal"
-          />
-          <TextField
-            select
-            label="Report Status"
-            value={reportStatus}
-            onChange={handleReportStatusChange}
-            fullWidth
-            variant="outlined"
-            margin="normal"
-          >
-            <MenuItem value="none">None</MenuItem>
-            <MenuItem value="spam">Spam</MenuItem>
-            <MenuItem value="closed">Closed</MenuItem>
-            <MenuItem value="super dirty">Super Dirty</MenuItem>
-          </TextField>
-          <input type="file" onChange={handleFileChange} />
-          <PrimaryButton type="submit" variant="contained" color="primary">
-            Submit
-          </PrimaryButton>
-        </Container>
-      </form>
-    </Box>
+    <ThemeProvider theme={crAppTheme}>
+      <CssBaseline />
+      <Container
+        id="add-review-container"
+        sx={{
+          position: "absolute",
+          zIndex: 1,
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          backgroundColor: "#FFF",
+          p: 4,
+          width: isMobile ? "100%" : "30%",
+          textAlign: "center",
+        }}
+      >
+        <Link to="/">
+          <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
+            <CloseRoundedIcon />
+          </TertiaryButton>
+        </Link>
+        <Box sx={{ p: 2 }}>
+          <Typography variant="h3">Add A Review</Typography>
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Add Review"
+              value={reviewText}
+              onChange={handleChange}
+              fullWidth
+              multiline
+              rows={4}
+              variant="outlined"
+              margin="normal"
+            />
+            <TextField
+              select
+              label="Report Status"
+              value={reportStatus}
+              onChange={handleReportStatusChange}
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            >
+              <MenuItem value="none">None</MenuItem>
+              <MenuItem value="spam">Spam</MenuItem>
+              <MenuItem value="closed">Closed</MenuItem>
+              <MenuItem value="super dirty">Super Dirty</MenuItem>
+            </TextField>
+            <input type="file" onChange={handleFileChange} />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+              }}
+            >
+              <PrimaryButton type="submit" variant="contained" color="primary">
+                Submit
+              </PrimaryButton>
+            </Box>
+          </form>
+        </Box>
+      </Container>
+    </ThemeProvider>
   );
 };
 

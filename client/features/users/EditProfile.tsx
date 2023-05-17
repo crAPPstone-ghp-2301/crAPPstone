@@ -74,6 +74,7 @@ const EditProfile = () => {
   };
 
   useEffect(() => {
+    document.title = `Edit Profile - crAPP Account`;
     const handleClickOutside = (event) => {
       const container = document.getElementById("edit-profile-container");
       if (container && !container.contains(event.target)) {
@@ -109,7 +110,6 @@ const EditProfile = () => {
             flexDirection: "column",
             justifyContent: "flex-start",
             py: 2,
-            marginTop: 10,
           }}
         >
           <Box sx={{ py: 1 }}>
@@ -119,7 +119,7 @@ const EditProfile = () => {
             </Typography>
           </Box>
           <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>

@@ -18,6 +18,7 @@ const Profile = () => {
   const token = window.localStorage.getItem("token");
 
   useEffect(() => {
+    document.title = `Profile - crAPP Account`;
     const handleClickOutside = (event) => {
       const container = document.getElementById("profile-container");
       if (container && !container.contains(event.target)) {
@@ -53,7 +54,6 @@ const Profile = () => {
             flexDirection: "column",
             justifyContent: "flex-start",
             py: 1,
-            marginTop: 10,
           }}
         >
           <Box sx={{ py: 1 }}>
@@ -63,7 +63,7 @@ const Profile = () => {
             </Typography>
           </Box>
           <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>

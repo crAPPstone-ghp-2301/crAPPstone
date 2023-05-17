@@ -123,7 +123,7 @@ const SideBar = () => {
               </TertiaryButton>
             </Link>
           </ListItem>
-          <ListItem>
+          {/* <ListItem>
             <TertiaryButton
               onClick={isMobile ? handleDrawerToggle : true}
               sx={{
@@ -140,7 +140,7 @@ const SideBar = () => {
                 History
               </Typography>
             </TertiaryButton>
-          </ListItem>
+          </ListItem> */}
         </List>
         <List
           sx={{

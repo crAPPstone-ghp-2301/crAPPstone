@@ -31,6 +31,7 @@ import BookmarkAddedRoundedIcon from "@mui/icons-material/BookmarkAddedRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
+import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import { fetchRatings } from "../rating/RatingSlice";
 
 const SingleRestroom = () => {
@@ -43,6 +44,11 @@ const SingleRestroom = () => {
   const [savedRestroomIds, setSavedRestroomIds] = useState([]);
   const restroom = useSelector(selectSingleRestroom);
   const ratings = useSelector((state) => state.rating.pastRating);
+  const restroomName = restroom.name;
+
+  useEffect(() => {
+    document.title = `${restroomName} - crAPP the Map`;
+  });
 
   const handleCloseSnackbar = () => {
     setIsSnackbarOpen(false);
@@ -184,7 +190,7 @@ const SingleRestroom = () => {
                       {restroom.name} is saved <BookmarkAddedRoundedIcon />
                     </>
                   }
-                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                  anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
                 />
               </Box>
               <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
@@ -201,7 +207,11 @@ const SingleRestroom = () => {
                   }}
                 >
                   <Tab label="Overview" />
-                  <Tab label="Reviews" />
+                  <Tab
+                    label="Reviews"
+                    component={Link}
+                    to={`/restrooms/${restroom.id}/reviews`}
+                  />
                 </Tabs>
               </Box>
               <Box sx={{ my: 2 }}>
@@ -245,11 +255,31 @@ const SingleRestroom = () => {
                 <AddRating />
               </Box>
               <Divider />
-              <Box sx={{ my: 2 }}>
-                <Link to={`/restrooms/${restroom.id}/reviews`}>
-                  <PrimaryButton>Reviews</PrimaryButton>
-                </Link>
+              <Box sx={{ m: 2 }}>
+                <Typography
+                  variant="subtitle1"
+                  sx={{
+                    fontWeight: "900",
+                    color: crAppTheme.palette.primary.dark,
+                    lineHeight: 1,
+                  }}
+                >
+                  Dropped the kids off at the pool… now craving some food?
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: crAppTheme.palette.primary.dark,
+                    paddingRight: 2,
+                  }}
+                >
+                  Check out Empire Eats
+                </Typography>
+                <a href="https://empireeats.onrender.com/" target="_blank">
+                  <OpenInNewRoundedIcon />
+                </a>
               </Box>
+              <Divider />
             </Container>
             <Box
               style={{
