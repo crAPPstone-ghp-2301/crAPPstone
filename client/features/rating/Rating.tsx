@@ -1,5 +1,5 @@
-import React, {useEffect, useState } from "react"
-import {StyledRating,customIcons} from "../styles/StyleGuide"
+import React, { useEffect, useState } from "react";
+import { StyledRating, customIcons } from "../styles/StyleGuide";
 import PropTypes from "prop-types";
 import { useDispatch,useSelector } from "react-redux";
 import {createRating,fetchRatings} from "./RatingSlice"
@@ -28,16 +28,8 @@ const AddRating=()=>{
     const restroomId=useSelector(state=>state.singleRestroom.singleRestroom.id)
     const navigate=useNavigate()
 
-    function IconContainer(props) {
-        const { value, ...other } = props;
-        return <span {...other}>{customIcons[value].icon}</span>;
-      }
-      IconContainer.propTypes = {
-        value: PropTypes.number.isRequired,
-      };
-
-      const submithandel = async (event) => {
-        event.preventDefault();
+  const submitHandle = async (event) => {
+    event.preventDefault();
         await dispatch(
         createRating({userId, restroomId, userRating, isClean})
         );
@@ -115,7 +107,7 @@ const AddRating=()=>{
               alignItems: "center",
             }}
           >
-            <SecondaryButton onClick={submithandel}>
+            <SecondaryButton onClick={submitHandle}>
               <Typography variant="subtitle1">
                 Submit <CheckCircleIcon />
               </Typography>

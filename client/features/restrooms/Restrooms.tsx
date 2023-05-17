@@ -1,11 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { ThemeProvider } from "@mui/material/styles";
-import { getAllRestrooms, selectRestroom } from "./allRestroomSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import crAppTheme from "../../app/theme";
+import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
+import { getAllRestrooms, selectRestroom } from "./allRestroomSlice";
 import { addSavedRestroom } from "../save/saveSlice";
 import {
+  ThemeProvider,
   Typography,
   Container,
   Box,
@@ -14,7 +15,6 @@ import {
   CardContent,
   CssBaseline,
 } from "@mui/material";
-import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -22,6 +22,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllRestrooms());
@@ -31,6 +32,32 @@ const AllRestrooms = () => {
     console.log("restroom id", restroomId);
     await dispatch(addSavedRestroom(restroomId));
   };
+
+  const isLoggedIn = useSelector((state) => {
+    const { me, authToken } = state.auth;
+    const storedAuthToken = localStorage.getItem("authToken");
+    const storedUserId = sessionStorage.getItem("userId");
+    return (
+      me.id ||
+      (authToken && storedAuthToken === authToken) ||
+      (storedUserId && me.id === storedUserId)
+    );
+  });
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const container = document.getElementById("restroom-container");
+      if (container && !container.contains(event.target)) {
+        navigate("/");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -64,15 +91,7 @@ const AllRestrooms = () => {
             marginTop: 10,
           }}
         >
-          <Typography
-            variant="h3"
-            align="center"
-            gutterBottom
-            backgroundColor="secondary.light"
-            color="primary.light"
-          >
-            All Restrooms
-          </Typography>
+          <Typography variant="h3">All Restrooms</Typography>
           <Link to="/">
             <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
               <CloseRoundedIcon />
@@ -86,7 +105,13 @@ const AllRestrooms = () => {
                     sx={{
                       display: "flex",
                       my: 2,
+                      p: 1,
                       width: 380,
+                      transition: "box-shadow 0.3s",
+                      "&:hover": {
+                        backgroundColor: crAppTheme.palette.primary.main,
+                        outline: `2px solid ${crAppTheme.palette.primary.dark}}`,
+                      },
                     }}
                     key={restroom.id}
                   >
@@ -96,11 +121,18 @@ const AllRestrooms = () => {
                     >
                       <Box
                         sx={{
+                          flex: "1 1 auto",
                           display: "flex",
                           flexDirection: "column",
                         }}
                       >
-                        <CardContent sx={{ flex: "1 0 auto" }}>
+                        <CardContent
+                          sx={{
+                            flex: "1 1 auto",
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
                           <Typography
                             variant="subtitle1"
                             sx={{
@@ -111,55 +143,61 @@ const AllRestrooms = () => {
                             {restroom.name}
                           </Typography>
                           <Typography
-                            variant="caption"
+                            variant="body2"
                             sx={{ color: crAppTheme.palette.primary.dark }}
                           >
                             <b>Opening Hours</b>: {restroom.openingHours}
                           </Typography>
-                          <br />
                           <Typography
-                            variant="caption"
+                            variant="body2"
+                            sx={{ color: crAppTheme.palette.primary.dark }}
+                          >
+                            <b>Address</b>: {restroom.address}
+                          </Typography>
+                          <Typography
+                            variant="body2"
                             sx={{ color: crAppTheme.palette.primary.dark }}
                           >
                             <b>Description</b>: {restroom.description}
                           </Typography>
                         </CardContent>
-                        <Box
-                          sx={{
-                            display: "flex",
-                            alignItems: "center",
-                            pl: 1,
-                            pb: 1,
-                          }}
-                        >
-                          <SecondaryButton>
-                            <NoteAddRoundedIcon /> Review
-                          </SecondaryButton>
-                          <TertiaryButton
-                            variant="contained"
-                            size="small"
-                            onClick={() => handleAddSavedRestroom(restroom.id)}
-                          >
-                            <BookmarkAddRoundedIcon />
-                            Save
-                          </TertiaryButton>
-                        </Box>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "flex-end",
-                          flexGrow: 1,
-                        }}
-                      >
-                        <CardMedia
-                          component="img"
-                          src={restroom.imageUrl}
-                          alt="Restroom"
-                          sx={{ width: 80, height: 80 }}
-                        />
                       </Box>
                     </Link>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        src={restroom.imageUrl}
+                        alt="Restroom"
+                        sx={{ width: 80, height: 80 }}
+                      />
+
+                      <SecondaryButton sx={{ my: 1 }}>
+                        <Typography variant="body2">
+                          <NoteAddRoundedIcon fontSize="small" /> Review
+                        </Typography>
+                      </SecondaryButton>
+                      <SecondaryButton
+                        sx={{ my: 1 }}
+                        onClick={
+                          isLoggedIn
+                            ? () => handleAddSavedRestroom(restroom.id)
+                            : () => navigate("/login")
+                        }
+                      >
+                        <Typography variant="body2">
+                          <BookmarkAddRoundedIcon fontSize="small" />
+                          Save
+                        </Typography>
+                      </SecondaryButton>
+                    </Box>
                   </Card>
                 );
               })}

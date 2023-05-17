@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useRef, useState, useEffect } from "react";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import { PrimaryButton,TertiaryButton } from "../features/styles/StyleGuide";
+import { SecondaryButton } from "../features/styles/StyleGuide";
+import { Box, Typography } from "@mui/material";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw";
@@ -68,7 +68,7 @@ const Map = () => {
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
+        <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
       popup
         .setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
@@ -80,7 +80,7 @@ const Map = () => {
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
+        <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
       popup
         .setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
@@ -92,7 +92,7 @@ const Map = () => {
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
       <p>${feature.properties.Location}</p>
-      <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
+      <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
       popup
         .setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
@@ -293,75 +293,138 @@ const Map = () => {
         $(this).hide();
         $('#end-direction').removeClass('d-none');
       });
-      
-      $(document).on('click', '#end-direction', function() {
-        direction_reset();
-        $(this).addClass('d-none');
-        $('#get-direction').show();
-        $(geocoder.container).show();
-        map.current.removeControl(directions);
-      });
 
- },[]);
+    $(document).on("click", "#public-restroom-nyc", (e) => {
+      const clickedLayer = e.target.id;
+      e.preventDefault();
+      e.stopPropagation();
+
+      const visibility = map.current.getLayoutProperty(
+        clickedLayer,
+        "visibility"
+      );
+
+      // Toggle layer visibility by changing the layout object's visibility property.
+      if (visibility === "visible") {
+        map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+      } else {
+        map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
+        map.current.setLayoutProperty(
+          "restroom-mall-nyc",
+          "visibility",
+          "none"
+        );
+        map.current.setLayoutProperty(
+          "restroom-hotel-nyc",
+          "visibility",
+          "none"
+        );
+      }
+    });
+
+    function direction_reset() {
+      directions.actions.clearOrigin();
+      directions.actions.clearDestination();
+      directions.container.querySelector("input").value = "";
+    }
+
+    $(document).on("click", "#get-direction", function () {
+      // Adding Direction form and instructions on map
+      map.current.addControl(directions, "top-right");
+      directions.container.setAttribute("id", "direction-container");
+      $(geocoder.container).hide();
+      $(this).hide();
+      $("#end-direction").removeClass("d-none");
+    });
+
+    $(document).on("click", "#end-direction", function () {
+      direction_reset();
+      $(this).addClass("d-none");
+      $("#get-direction").show();
+      $(geocoder.container).show();
+      map.current.removeControl(directions);
+    });
+  }, []);
 
   return (
-    <div>
-      <div
-        style={{
+    <Box>
+      <Box
+        sx={{
           position: "absolute",
           top: 0,
-          left: 0,
+          left: 550,
           right: 0,
           display: "flex",
-          justifyContent: "center",
-          marginTop: "1rem",
+          marginTop: 1,
           flexDirection: "row",
-          alignItems: "center",
           zIndex: 1,
         }}
       >
-        <PrimaryButton
-          variant="outlined"
-          sx={{ px: 1, py: 0.5, mr: 2 }}
+        <SecondaryButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
           id="restroom-mall-nyc"
         >
-          Restroom in Mall
-        </PrimaryButton>
-        <PrimaryButton
-          variant="outlined"
-          sx={{ px: 1, py: 0.5, mr: 2 }}
+          <img
+            src="https://www.svgrepo.com/show/375867/present.svg"
+            width="20px"
+          />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            Malls
+          </Typography>
+        </SecondaryButton>
+        <SecondaryButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
           id="restroom-hotel-nyc"
         >
-          Restroom in Hotel
-        </PrimaryButton>
-        <PrimaryButton
-          variant="outlined"
-          sx={{ px: 1, py: 0.5, mr: 2 }}
+          <img
+            src="https://www.svgrepo.com/show/192397/hotel.svg"
+            width="20px"
+          />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            Hotels
+          </Typography>
+        </SecondaryButton>
+        <SecondaryButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
           id="public-restroom-nyc"
         >
-          Public Restroom NYC
-        </PrimaryButton>
-      </div>
-      <div>
-        <TertiaryButton
-          variant="outlined"
-          sx={{ px: 1, py: 0.5 }}
+          <img
+            src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
+            width="20px"
+          />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            Public Restrooms
+          </Typography>
+        </SecondaryButton>
+      </Box>
+      <Box>
+        <SecondaryButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
           id="get-direction"
         >
           <AssistantDirectionIcon />
-        </TertiaryButton>
-        <TertiaryButton
-          variant="outlined"
-          sx={{ px: 1, py: 0.5 }}
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            For Directions
+          </Typography>
+        </SecondaryButton>
+        <SecondaryButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
           className="d-none"
           id="end-direction"
         >
-          <HighlightOffIcon />
-        </TertiaryButton>
-      </div>
-
-      <div ref={mapContainer} className="map-container"></div>
-    </div>
+          <SearchRoundedIcon />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            For Search
+          </Typography>
+        </SecondaryButton>
+      </Box>
+      <Box ref={mapContainer} className="map-container"></Box>
+    </Box>
   );
 };
 
