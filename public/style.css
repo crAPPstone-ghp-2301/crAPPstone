@@ -26,10 +26,10 @@ a {
 
 .map-container {
   position: absolute;
-   top: 0; 
-   bottom: 0; 
-   width: 100%;
-   z-index:0
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  z-index: 0;
 }
 
 .testing {
@@ -45,12 +45,12 @@ a {
 
 .mapboxgl-popup-content {
   text-align: center;
-  font-family:Arial, Helvetica, sans-serif;
- font-size: "1.5rem";
- font-weight: 400;
- line-height: 1.5;
- background-color:#FEFAE0;
- color:#D4A373
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: "1.5rem";
+  font-weight: 400;
+  line-height: 1.5;
+  background-color: #fefae0;
+  color: #d4a373;
 }
 
 .mapbox-directions-instructions {
@@ -61,21 +61,19 @@ div#geocoder-search {
   width: 25em;
 }
 
-#get-direction{
+#get-direction {
   position: absolute;
   z-index: 1;
   top: 670px;
   right: 0px;
-  }
+}
 
-  #end-direction{
-    position: absolute;
-    z-index: 1;
-    top: 670px;
-    right: 0px;
-    }
-
-    
+#end-direction {
+  position: absolute;
+  z-index: 1;
+  top: 670px;
+  right: 0px;
+}
 
 @media only screen and (max-width: 600px) {
   body {
