@@ -24,8 +24,8 @@ Comments.belongsTo(Review);
 Review.belongsTo(User);
 User.hasMany(Review);
 
-Review.belongsTo(Restroom);
-Restroom.hasMany(Review);
+Restroom.hasMany(Review, { foreignKey: 'restroomId' });
+// Review.belongsTo(Restroom,  { foreignKey: 'restroomId' });
 
 User.hasMany(Comments, { foreignKey: 'userId' });
 Comments.belongsTo(User, { foreignKey: 'userId' });
