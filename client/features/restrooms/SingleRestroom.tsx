@@ -105,6 +105,10 @@ const SingleRestroom = () => {
     };
   }, []);
 
+  const handleWriteReview = () => {
+    navigate(`reviews/add`);
+  };
+
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
@@ -251,6 +255,17 @@ const SingleRestroom = () => {
                 </Box>
               </Box>
               <Divider />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleWriteReview}>
+                  <Typography variant="subtitle1">Write a Review</Typography>
+                </SecondaryButton>
+              </Box>
               <Box sx={{ my: 2 }}>
                 <AddRating />
               </Box>

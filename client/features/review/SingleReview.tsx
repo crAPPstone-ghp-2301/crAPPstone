@@ -13,14 +13,14 @@ import {
   Divider,
   Card,
   CardMedia,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const SingleReview = () => {
   const dispatch = useDispatch();
-  const { reviewId } = useParams();
+  const { reviewId, restroomId } = useParams();
   const isMobile = useMediaQuery("(max-width: 600px)");
 
   const singleReview = useSelector((state) => state.review.singleReview);
@@ -42,8 +42,8 @@ const SingleReview = () => {
           zIndex: 1,
           backgroundColor: "white",
           height: "100vh",
-          width: isMobile ? "100%" : "450px", 
-          padding: isMobile ? "20px" : "0", 
+          width: isMobile ? "100%" : "450px",
+          padding: isMobile ? "20px" : "0",
           overflowY: isMobile ? "auto" : "hidden",
         }}
       >
@@ -55,7 +55,7 @@ const SingleReview = () => {
             py: 2,
           }}
         >
-          <Link to="/">
+          <Link to={`/restrooms/${restroomId}/reviews`}>
             <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>

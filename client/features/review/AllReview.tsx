@@ -16,8 +16,7 @@ import {
   Tab,
   useMediaQuery,
 } from "@mui/material";
-import AddReview from "./AddReview";
-import { TertiaryButton } from "../styles/StyleGuide";
+import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const AllReviews = () => {
@@ -39,6 +38,10 @@ const AllReviews = () => {
 
   const handleReviewClick = (id) => {
     navigate(`/reviews/${id}`);
+  };
+
+  const handleWriteReview = () => {
+    navigate(`add`);
   };
 
   return (
@@ -98,11 +101,21 @@ const AllReviews = () => {
           </Link>
           <Box>
             <Box>
-              <AddReview restroomId={restroomId} />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleWriteReview}>
+                  <Typography variant="subtitle1">Write a Review</Typography>
+                </SecondaryButton>
+              </Box>
               <Divider />
               <Box
                 style={{
-                  height: "450px",
+                  height: "80vh",
                   overflowY: "scroll",
                 }}
               >
