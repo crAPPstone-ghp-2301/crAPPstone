@@ -35,6 +35,7 @@ const Saved = () => {
   const token = window.localStorage.getItem("token");
 
   useEffect(() => {
+
     async function fetchSavedRestrooms() {
       try {
         const [savedRestroomsResponse, restroomsResponse] = await Promise.all([
