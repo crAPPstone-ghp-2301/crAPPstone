@@ -15,6 +15,9 @@ const Review = db.define('review', {
     type: Sequelize.ENUM('none', 'spam', 'closed', 'super dirty'),
     defaultValue: 'none',
   },
+  restroomId: {
+    type: Sequelize.INTEGER
+  }
 })
 
 module.exports = Review

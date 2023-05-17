@@ -64,7 +64,10 @@ const AddReview = ({ restroomId }) => {
         const formData = new FormData();
         formData.append("image", selectedFile);
 
-        const response = await axios.post("/api/upload", formData);
+        const response = await axios.post(
+          "/api/upload",
+          formData
+        );
         imageURL = response.data.data.link;
       }
 
