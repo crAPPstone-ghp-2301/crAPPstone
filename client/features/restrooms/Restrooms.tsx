@@ -18,6 +18,7 @@ import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
@@ -114,7 +115,8 @@ const AllRestrooms = () => {
                             variant="caption"
                             sx={{ color: crAppTheme.palette.primary.dark }}
                           >
-                            <b>Opening Hours</b>: {restroom.openingHours}
+                            <AccessTimeRoundedIcon />
+                            {restroom.openingHours}
                           </Typography>
                           <br />
                           <Typography

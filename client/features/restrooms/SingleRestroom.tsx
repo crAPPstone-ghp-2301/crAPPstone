@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from "react";
+import crAppTheme from "../../app/theme";
+import {
+  PrimaryButton,
+  SecondaryButton,
+  TertiaryButton,
+} from "../styles/StyleGuide";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
-import { ThemeProvider } from "@mui/material/styles";
-import crAppTheme from "../../app/theme";
 import Rating from "../rating/Rating";
+import { fetchAllReviews } from "../review/reviewSlice";
+import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
+import { addSavedRestroom } from "../save/saveSlice";
 import {
+  ThemeProvider,
   Typography,
   Container,
   Tabs,
@@ -13,18 +21,15 @@ import {
   Box,
   Card,
   CardMedia,
+  Divider,
+  Snackbar,
 } from "@mui/material";
-import {
-  PrimaryButton,
-  SecondaryButton,
-  TertiaryButton,
-} from "../styles/StyleGuide";
-import { fetchAllReviews } from "../review/reviewSlice";
-import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
-import { addSavedRestroom } from "../save/saveSlice";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
 import BookmarkAddedRoundedIcon from "@mui/icons-material/BookmarkAddedRounded";
+import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
+import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
+import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 
 const SingleRestroom = () => {
   const dispatch = useDispatch();
@@ -32,7 +37,12 @@ const SingleRestroom = () => {
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
   const [savedRestroomIds, setSavedRestroomIds] = useState([]);
+  const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const restroom = useSelector(selectSingleRestroom);
+
+  const handleCloseSnackbar = () => {
+    setIsSnackbarOpen(false); // Close the snackbar
+  };
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -47,6 +57,7 @@ const SingleRestroom = () => {
   const handleAddSavedRestroom = async (restroomId) => {
     console.log("restroom id", restroomId);
     await dispatch(addSavedRestroom(restroomId));
+    setIsSnackbarOpen(true);
   };
 
   const isRestroomSaved = (restroomId) => {
@@ -125,6 +136,17 @@ const SingleRestroom = () => {
                     </>
                   )}
                 </SecondaryButton>
+                <Snackbar
+                  open={isSnackbarOpen}
+                  autoHideDuration={3000}
+                  onClose={handleCloseSnackbar}
+                  message={
+                    <>
+                      {restroom.name} is saved <BookmarkAddedRoundedIcon />
+                    </>
+                  }
+                  anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+                />
               </Box>
               <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
                 <Tabs
@@ -143,20 +165,52 @@ const SingleRestroom = () => {
                   <Tab label="Reviews" />
                 </Tabs>
               </Box>
-              <Container style={{ marginTop: "3rem" }}>
+              <Box sx={{ my: 2 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    color: crAppTheme.palette.primary.dark,
+                    my: 1,
+                  }}
+                >
+                  <LocationOnRoundedIcon sx={{ marginRight: 1 }} />
+                  <Typography variant="body2">{restroom.address}</Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    color: crAppTheme.palette.primary.dark,
+                    my: 1,
+                  }}
+                >
+                  <AccessTimeRoundedIcon sx={{ marginRight: 1 }} />
+                  <Typography variant="caption">
+                    {restroom.openingHours}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: "flex",
+                    color: crAppTheme.palette.primary.dark,
+                    my: 1,
+                  }}
+                >
+                  <InfoRoundedIcon sx={{ marginRight: 1 }} />
+                  <Typography variant="body2">
+                    {restroom.description}
+                  </Typography>
+                </Box>
+              </Box>
+              <Divider />
+              <Box sx={{ my: 2 }}>
                 <Rating />
-              </Container>
-              <Typography variant="caption" color="secondary.light">
-                Hours of Operation: {restroom.openingHours}
-              </Typography>
-              <br />
-              <Typography variant="body2" color="secondary.light">
-                <br />
-                Description: {restroom.description}
-              </Typography>
-              <Link to={`/restrooms/${restroom.id}/reviews`}>
-                <PrimaryButton>Reviews</PrimaryButton>
-              </Link>
+              </Box>
+              <Divider />
+              <Box sx={{ my: 2 }}>
+                <Link to={`/restrooms/${restroom.id}/reviews`}>
+                  <PrimaryButton>Reviews</PrimaryButton>
+                </Link>
+              </Box>
             </Container>
             <Box
               style={{
