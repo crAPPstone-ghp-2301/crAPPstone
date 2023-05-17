@@ -118,7 +118,7 @@ const restrooms = await csv().fromFile(csvFilePath);
   const reviews = [
     {
       id: 1,
-      restroomId: 1,
+      // restroomId: 1,
       userId: 1,
       imageURL: "https://example.com/image1.png",
       reviewText: "This is a great restroom!",
@@ -128,7 +128,7 @@ const restrooms = await csv().fromFile(csvFilePath);
     },
     {
       id: 2,
-      restroomId: 2,
+      // restroomId: 2,
       userId: 2,
       imageURL: "https://example.com/image2.png",
       reviewText: "This restroom is not very clean.",
@@ -138,7 +138,7 @@ const restrooms = await csv().fromFile(csvFilePath);
     },
     {
       id: 3,
-      restroomId: 3,
+      // restroomId: 3,
       userId: 3,
       imageURL: null,
       reviewText: "This is an average restroom.",
@@ -148,7 +148,7 @@ const restrooms = await csv().fromFile(csvFilePath);
     },
     {
       id: 4,
-      restroomId: 4,
+      // restroomId: 4,
       userId: 4,
       imageURL: "https://example.com/image4.png",
       reviewText: "This restroom is in bad condition.",
@@ -158,7 +158,7 @@ const restrooms = await csv().fromFile(csvFilePath);
     },
     {
       id: 5,
-      restroomId: 5,
+      // restroomId: 5,
       userId: 5,
       imageURL: null,
       reviewText: "This is the best restroom ever!",
