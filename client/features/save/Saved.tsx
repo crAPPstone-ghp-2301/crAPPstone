@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectSaved,
@@ -25,7 +26,7 @@ import {
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
-import axios from "axios";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 
 const Saved = () => {
   const navigate = useNavigate();
@@ -125,7 +126,13 @@ const Saved = () => {
                   sx={{
                     display: "flex",
                     my: 2,
+                    p: 1,
                     width: 380,
+                    transition: "box-shadow 0.3s",
+                    "&:hover": {
+                      backgroundColor: crAppTheme.palette.primary.main,
+                      outline: `2px solid ${crAppTheme.palette.primary.dark}}`,
+                    },
                   }}
                   key={restroom.restroomId}
                 >
@@ -135,6 +142,7 @@ const Saved = () => {
                   >
                     <Box
                       sx={{
+                        flex: "1 1 auto",
                         display: "flex",
                         flexDirection: "column",
                       }}
@@ -156,7 +164,12 @@ const Saved = () => {
                         >
                           <b>Opening Hours</b>: {restroom.restroom.openingHours}
                         </Typography>
-                        <br />
+                        <Typography
+                          variant="caption"
+                          sx={{ color: crAppTheme.palette.primary.dark }}
+                        >
+                          <b>Address</b>: {restroom.restroom.address}
+                        </Typography>{" "}
                         <Typography
                           variant="caption"
                           sx={{ color: crAppTheme.palette.primary.dark }}
@@ -164,31 +177,14 @@ const Saved = () => {
                           <b>Description</b>: {restroom.restroom.description}
                         </Typography>
                       </CardContent>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          pl: 1,
-                          pb: 1,
-                        }}
-                      >
-                        <SecondaryButton>
-                          <NoteAddRoundedIcon /> Review
-                        </SecondaryButton>
-                        <TertiaryButton
-                          onClick={() => {
-                            handleDeleteSavedRestroom(restroom.restroomId);
-                          }}
-                        >
-                          Delete
-                        </TertiaryButton>
-                      </Box>
                     </Box>
                     <Box
                       sx={{
                         display: "flex",
-                        justifyContent: "flex-end",
-                        flexGrow: 1,
+                        flexDirection: "column",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        pl: 2,
                       }}
                     >
                       <CardMedia
@@ -197,6 +193,19 @@ const Saved = () => {
                         alt="Restroom"
                         sx={{ width: 80, height: 80 }}
                       />
+                      <SecondaryButton sx={{ my: 1 }}>
+                        <NoteAddRoundedIcon fontSize="small" /> Review
+                      </SecondaryButton>
+                      <TertiaryButton
+                        variant="contained"
+                        sx={{ my: 1 }}
+                        onClick={() => {
+                          handleDeleteSavedRestroom(restroom.restroomId);
+                        }}
+                      >
+                        <DeleteRoundedIcon fontSize="small" />
+                        Delete
+                      </TertiaryButton>
                     </Box>
                   </Link>
                 </Card>
