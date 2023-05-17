@@ -26,6 +26,7 @@ export const createRating = createAsyncThunk(
     }
   );
 
+
   const initialState = {
     newRating: {},
     pastRating:[],
@@ -41,6 +42,7 @@ export const createRating = createAsyncThunk(
           state.newRating = action.payload;
         })
         .addCase(fetchRatings.fulfilled, (state, action) => {
+          console.log(action.payload)
           state.pastRating = action.payload;
         });
     },
