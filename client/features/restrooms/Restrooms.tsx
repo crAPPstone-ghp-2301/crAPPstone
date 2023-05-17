@@ -34,7 +34,6 @@ const AllRestrooms = () => {
   };
 
   const isLoggedIn = useSelector((state) => {
-    const navigate = useNavigate();
     const { me, authToken } = state.auth;
     const storedAuthToken = localStorage.getItem("authToken");
     const storedUserId = sessionStorage.getItem("userId");
@@ -44,6 +43,21 @@ const AllRestrooms = () => {
       (storedUserId && me.id === storedUserId)
     );
   });
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const container = document.getElementById("restroom-container");
+      if (container && !container.contains(event.target)) {
+        navigate("/");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -129,19 +143,19 @@ const AllRestrooms = () => {
                             {restroom.name}
                           </Typography>
                           <Typography
-                            variant="caption"
+                            variant="body2"
                             sx={{ color: crAppTheme.palette.primary.dark }}
                           >
                             <b>Opening Hours</b>: {restroom.openingHours}
                           </Typography>
                           <Typography
-                            variant="caption"
+                            variant="body2"
                             sx={{ color: crAppTheme.palette.primary.dark }}
                           >
                             <b>Address</b>: {restroom.address}
                           </Typography>
                           <Typography
-                            variant="caption"
+                            variant="body2"
                             sx={{ color: crAppTheme.palette.primary.dark }}
                           >
                             <b>Description</b>: {restroom.description}
@@ -166,7 +180,7 @@ const AllRestrooms = () => {
                       />
 
                       <SecondaryButton sx={{ my: 1 }}>
-                        <Typography variant="caption">
+                        <Typography variant="body2">
                           <NoteAddRoundedIcon fontSize="small" /> Review
                         </Typography>
                       </SecondaryButton>
@@ -178,7 +192,7 @@ const AllRestrooms = () => {
                             : () => navigate("/login")
                         }
                       >
-                        <Typography variant="caption">
+                        <Typography variant="body2">
                           <BookmarkAddRoundedIcon fontSize="small" />
                           Save
                         </Typography>

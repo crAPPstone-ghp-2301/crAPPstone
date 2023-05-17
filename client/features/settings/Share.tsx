@@ -1,22 +1,45 @@
-import React from "react";
+import React, { useEffect } from "react";
 import crAppTheme from "../../app/theme";
-import { TertiaryButton } from "../styles/StyleGuide";
+import {
+  PrimaryButton,
+  CustomizedTextField,
+  TertiaryButton,
+} from "../styles/StyleGuide";
 import {
   ThemeProvider,
   CssBaseline,
   Container,
+  Box,
+  Typography,
   useMediaQuery,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const Share = () => {
+  const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:700px)");
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const container = document.getElementById("share-dialog-container");
+      if (container && !container.contains(event.target)) {
+        navigate("/");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container
+        id="share-dialog-container"
         sx={{
           position: "absolute",
           zIndex: 1,

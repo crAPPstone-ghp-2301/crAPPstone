@@ -80,6 +80,21 @@ const Saved = () => {
     navigate("/saved");
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const container = document.getElementById("saved-container");
+      if (container && !container.contains(event.target)) {
+        navigate("/");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
@@ -148,34 +163,47 @@ const Saved = () => {
                       }}
                     >
                       <CardContent sx={{ flex: "1 0 auto" }}>
-                        <Typography
-                          key={restroom.restroom.name}
-                          variant="subtitle1"
-                          sx={{
-                            fontWeight: "900",
-                            color: crAppTheme.palette.primary.dark,
-                          }}
-                        >
-                          {restroom.restroom.name}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          sx={{ color: crAppTheme.palette.primary.dark }}
-                        >
-                          <b>Opening Hours</b>: {restroom.restroom.openingHours}
-                        </Typography>
-                        <Typography
-                          variant="caption"
-                          sx={{ color: crAppTheme.palette.primary.dark }}
-                        >
-                          <b>Address</b>: {restroom.restroom.address}
-                        </Typography>{" "}
-                        <Typography
-                          variant="caption"
-                          sx={{ color: crAppTheme.palette.primary.dark }}
-                        >
-                          <b>Description</b>: {restroom.restroom.description}
-                        </Typography>
+                        <Box>
+                          <Typography
+                            key={restroom.restroom.name}
+                            variant="subtitle1"
+                            sx={{
+                              fontWeight: "900",
+                              color: crAppTheme.palette.primary.dark,
+                            }}
+                          >
+                            {restroom.restroom.name}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            variant="body2"
+                            sx={{ color: crAppTheme.palette.primary.dark }}
+                          >
+                            <b>Opening Hours</b>:{" "}
+                            {restroom.restroom.openingHours}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: crAppTheme.palette.primary.dark,
+                            }}
+                          >
+                            <b>Address</b>: {restroom.restroom.address}
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <Typography
+                            variant="body2"
+                            sx={{
+                              color: crAppTheme.palette.primary.dark,
+                            }}
+                          >
+                            <b>Description</b>: {restroom.restroom.description}
+                          </Typography>
+                        </Box>
                       </CardContent>
                     </Box>
                     <Box
@@ -196,8 +224,7 @@ const Saved = () => {
                       <SecondaryButton sx={{ my: 1 }}>
                         <NoteAddRoundedIcon fontSize="small" /> Review
                       </SecondaryButton>
-                      <TertiaryButton
-                        variant="contained"
+                      <SecondaryButton
                         sx={{ my: 1 }}
                         onClick={() => {
                           handleDeleteSavedRestroom(restroom.restroomId);
@@ -205,7 +232,7 @@ const Saved = () => {
                       >
                         <DeleteRoundedIcon fontSize="small" />
                         Delete
-                      </TertiaryButton>
+                      </SecondaryButton>
                     </Box>
                   </Link>
                 </Card>

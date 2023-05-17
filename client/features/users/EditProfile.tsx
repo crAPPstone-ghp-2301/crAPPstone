@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import crAppTheme from "../../app/theme";
 import {
   CustomizedTextField,
@@ -72,6 +72,19 @@ const EditProfile = () => {
       navigate("/profile", { replace: true });
     });
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const container = document.getElementById("edit-profile-container");
+      if (container && !container.contains(event.target)) {
+        window.location.href = "/";
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={crAppTheme}>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import crAppTheme from "../../app/theme";
 import {
   PrimaryButton,
@@ -59,10 +59,25 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
     navigate("/login");
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const container = document.getElementById("auth-form-container");
+      if (container && !container.contains(event.target)) {
+        navigate("/");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container
+        id="auth-form-container"
         sx={{
           position: "absolute",
           zIndex: 1,

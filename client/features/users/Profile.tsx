@@ -19,7 +19,7 @@ const Profile = () => {
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      const container = document.getElementById("edit-profile-container");
+      const container = document.getElementById("profile-container");
       if (container && !container.contains(event.target)) {
         window.location.href = "/";
       }

@@ -70,6 +70,21 @@ const SingleRestroom = () => {
     );
   });
 
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      const container = document.getElementById("single-restroom-container");
+      if (container && !container.contains(event.target)) {
+        navigate("/");
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
@@ -137,8 +152,7 @@ const SingleRestroom = () => {
                   <BookmarkAddRoundedIcon />
                   <Typography variant="caption">Save</Typography>
                 </SecondaryButton>
-
-                {/* <Snackbar
+                <Snackbar
                   open={isSnackbarOpen}
                   autoHideDuration={3000}
                   onClose={handleCloseSnackbar}
@@ -148,7 +162,7 @@ const SingleRestroom = () => {
                     </>
                   }
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                /> */}
+                />
               </Box>
               <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
                 <Tabs
