@@ -78,7 +78,8 @@ const SideBar = () => {
             }}
           >
             <Link to="/">
-              <Box
+              <TertiaryButton
+                onClick={isMobile ? handleDrawerToggle : true}
                 sx={{
                   justifyContent: "center",
                   display: "flex",
@@ -99,12 +100,13 @@ const SideBar = () => {
                 >
                   crAPP
                 </Typography>
-              </Box>
+              </TertiaryButton>
             </Link>
           </ListItem>
           <ListItem>
             <Link to="/saved">
               <TertiaryButton
+                onClick={isMobile ? handleDrawerToggle : true}
                 sx={{
                   justifyContent: "center",
                   display: "flex",
@@ -123,6 +125,7 @@ const SideBar = () => {
           </ListItem>
           <ListItem>
             <TertiaryButton
+              onClick={isMobile ? handleDrawerToggle : true}
               sx={{
                 justifyContent: "center",
                 display: "flex",
@@ -155,7 +158,7 @@ const SideBar = () => {
           >
             <Link to="/login">
               <PrimaryButton
-                // onClick={isMobile ? drawerOpen : false}
+                onClick={isMobile ? handleDrawerToggle : true}
                 sx={{ px: 1, py: 0.5 }}
               >
                 <Typography variant="caption">
@@ -164,7 +167,16 @@ const SideBar = () => {
               </PrimaryButton>
             </Link>
           </ListItem>
-          <TertiaryButton onClick={toggleSettings}>
+          <TertiaryButton
+            onClick={
+              isMobile
+                ? () => {
+                    handleDrawerToggle();
+                    setSettingsOpen(true);
+                  }
+                : toggleSettings
+            }
+          >
             <ListItem
               sx={{
                 justifyContent: "center",
@@ -188,33 +200,25 @@ const SideBar = () => {
         </List>
       </Drawer>
       {isMobile && (
-        <Container
-          id="sidebar"
-          sx={{
-            position: "absolute",
-            top: 20,
-            left: 10,
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-            zIndex: 1,
-            width: "92%",
-          }}
-        >
+        <Box id="mobile-sidebar">
           <IconButton
             onClick={handleDrawerToggle}
             sx={{
               borderRadius: "50%",
               width: 35,
               height: 35,
-              backgroundColor: crAppTheme.palette.primary.main,
-              color: crAppTheme.palette.text.secondary,
+              position: "absolute",
+              bottom: 30,
+              left: 15,
+              zIndex: 1,
+              backgroundColor: crAppTheme.palette.primary.dark,
+              color: crAppTheme.palette.primary.light,
+              border: `1px solid ${crAppTheme.palette.primary.light}`,
             }}
           >
             <MenuRoundedIcon />
           </IconButton>
-        </Container>
+        </Box>
       )}
     </ThemeProvider>
   );

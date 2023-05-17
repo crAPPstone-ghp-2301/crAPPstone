@@ -297,8 +297,8 @@ const Map = () => {
         <Box
           sx={{
             position: "absolute",
-            top: 50,
-            right: 0,
+            bottom: 65,
+            right: 50,
             display: "flex",
             marginTop: 1,
             flexDirection: "row",
@@ -307,42 +307,33 @@ const Map = () => {
         >
           <SecondaryButton
             variant="contained"
-            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-mall-nyc"
           >
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
               width="20px"
             />
-            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-              Malls
-            </Typography>
           </SecondaryButton>
           <SecondaryButton
             variant="contained"
-            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-hotel-nyc"
           >
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
               width="20px"
             />
-            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-              Hotels
-            </Typography>
           </SecondaryButton>
           <SecondaryButton
             variant="contained"
-            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="public-restroom-nyc"
           >
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
               width="20px"
             />
-            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-              Public Restrooms
-            </Typography>
           </SecondaryButton>
         </Box>
       ) : (

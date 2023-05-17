@@ -86,7 +86,7 @@ div#geocoder-search {
   margin-bottom: 1.8rem;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
   body {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #fefae0;
@@ -110,5 +110,19 @@ div#geocoder-search {
     z-index: 1;
     top: 0;
     left: 0;
+  }
+
+  #get-direction {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: 50px;
+  }
+
+  #end-direction {
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    right: 50px;
   }
 }
