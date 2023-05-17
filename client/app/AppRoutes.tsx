@@ -91,7 +91,10 @@ const AppRoutes = () => {
         <Route path="/restrooms/:restroomId/reviews" element={<AllReviews />} />
         <Route path="/reviews/:reviewId" element={<SingleReview />} />
         <Route path="/reviews/:reviewId/comments" element={<AllComments />} />
-        <Route path="/reviews/add" element={<AddReview />} />
+        <Route
+          path="/restrooms/:restroomId/reviews/add"
+          element={<AddReview />}
+        />
       </Routes>
     </ThemeProvider>
   );
