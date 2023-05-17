@@ -4,6 +4,7 @@ import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import {
   ThemeProvider,
   Container,
+  Box,
   Drawer,
   List,
   ListItem,
@@ -77,21 +78,28 @@ const SideBar = () => {
             }}
           >
             <Link to="/">
-              <img
-                src="https://em-content.zobj.net/source/animated-noto-color-emoji/356/pile-of-poo_1f4a9.gif"
-                width="50px"
-              />
-            </Link>
-            <Link to="/">
-              <Typography
-                variant="caption"
+              <Box
                 sx={{
-                  textTransform: "none",
-                  color: crAppTheme.palette.primary.dark,
+                  justifyContent: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  textAlign: "center",
                 }}
               >
-                crAPP
-              </Typography>
+                <img
+                  src="https://em-content.zobj.net/source/animated-noto-color-emoji/356/pile-of-poo_1f4a9.gif"
+                  width="50px"
+                />
+                <Typography
+                  variant="caption"
+                  sx={{
+                    textTransform: "none",
+                    color: crAppTheme.palette.primary.dark,
+                  }}
+                >
+                  crAPP
+                </Typography>
+              </Box>
             </Link>
           </ListItem>
           <ListItem>
