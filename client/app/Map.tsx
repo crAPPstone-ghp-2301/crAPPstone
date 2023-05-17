@@ -99,200 +99,144 @@ const Map = () => {
         .addTo(map.current);
     });
 
-    map.current.on('load', () => {
+    map.current.on("load", () => {
       const marker = new mapboxgl.Marker({
-      'color': ' #CB997E'
+        color: " #CB997E",
       });
-       
-      geocoder.on('result', async (event) => {
-      const point = event.result.center;
-      console.log(point)
-      const tileset = 'fxu2023.509pfoqy';
-      const radius = 1609;
-      const limit = 50;
-      marker.setLngLat(point).addTo(map.current);
-      const query = await fetch(
-      `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
-      { method: 'GET' }
-      );
-      console.log(query)
-      const json = await query.json();
-      map.current.getSource('tilequery').setData(json);
+
+      geocoder.on("result", async (event) => {
+        const point = event.result.center;
+        console.log(point);
+        const tileset = "fxu2023.509pfoqy";
+        const radius = 1609;
+        const limit = 50;
+        marker.setLngLat(point).addTo(map.current);
+        const query = await fetch(
+          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
+          { method: "GET" }
+        );
+        console.log(query);
+        const json = await query.json();
+        map.current.getSource("tilequery").setData(json);
       });
-       
-      map.current.addSource('tilequery', {
-      type: 'geojson',
-      data: {
-      'type': 'FeatureCollection',
-      'features': []
-      }
+
+      map.current.addSource("tilequery", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
       });
-       
+
       map.current.addLayer({
-      id: 'tilequery-points',
-      type: 'circle',
-      source: 'tilequery',
-      paint: {
-      'circle-stroke-color': 'white',
-      'circle-stroke-width': {
-      stops: [
-      [0, 0.1],
-      [18, 3]
-      ],
-      base: 5
-      },
-      'circle-radius': {
-      stops: [
-      [12, 10],
-      [22, 200]
-      ],
-      base: 5
-      },
-      'circle-color': [
-      'match',
-      ['get', 'Placetype'],
-      'Mall', '#0BB000',
-      'hotel', '#F89446',
-      'restroom', '#EA0000',
-      '#FF0000' // default color if no match
-    ]
-      }
+        id: "tilequery-points",
+        type: "circle",
+        source: "tilequery",
+        paint: {
+          "circle-stroke-color": "white",
+          "circle-stroke-width": {
+            stops: [
+              [0, 0.1],
+              [18, 3],
+            ],
+            base: 5,
+          },
+          "circle-radius": {
+            stops: [
+              [12, 10],
+              [22, 200],
+            ],
+            base: 5,
+          },
+          "circle-color": [
+            "match",
+            ["get", "Placetype"],
+            "Mall",
+            "#0BB000",
+            "hotel",
+            "#F89446",
+            "restroom",
+            "#EA0000",
+            "#FF0000", // default color if no match
+          ],
+        },
       });
-       
+
       const popup = new mapboxgl.Popup();
-       
-      map.current.on('mouseenter', 'tilequery-points', (event) => {
-      map.current.getCanvas().style.cursor = 'pointer';
-      const properties = event.features[0].properties;
-      const obj = JSON.parse(properties.tilequery);
-      const coordinates = new mapboxgl.LngLat(
-      properties.Longitude,
-      properties.Latitude
-      );
-      console.log(properties)
-      const content = `<h3>${properties.STORE_NAME}</h3><h4>${
-      properties.Placetype
-      }</h4><p>${properties.STORE_LOCATION}</p><p>${(
-      obj.distance / 1609.344
-      ).toFixed(2)} mi. from location</p>`;
-       
-      popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
+
+      map.current.on("mouseenter", "tilequery-points", (event) => {
+        map.current.getCanvas().style.cursor = "pointer";
+        const properties = event.features[0].properties;
+        const obj = JSON.parse(properties.tilequery);
+        const coordinates = new mapboxgl.LngLat(
+          properties.Longitude,
+          properties.Latitude
+        );
+        console.log(properties);
+        const content = `<h3>${properties.STORE_NAME}</h3><h4>${
+          properties.Placetype
+        }</h4><p>${properties.STORE_LOCATION}</p><p>${(
+          obj.distance / 1609.344
+        ).toFixed(2)} mi. from location</p>`;
+
+        popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
       });
     });
-        
-        $(document).on("click", "#restroom-mall-nyc", (e) => {
-          const clickedLayer = e.target.id;
-          e.preventDefault();
-          e.stopPropagation();
 
-          const visibility = map.current.getLayoutProperty(
-            clickedLayer,
-            "visibility"
-          );
+    $(document).on("click", "#restroom-mall-nyc", (e) => {
+      const clickedLayer = e.target.id;
+      e.preventDefault();
+      e.stopPropagation();
 
-          if (visibility === "visible") {
-            map.current.setLayoutProperty(clickedLayer, "visibility", "none");
-          } else {
-            map.current.setLayoutProperty(
-              clickedLayer,
-              "visibility",
-              "visible"
-            );
-            map.current.setLayoutProperty(
-              "restroom-hotel-nyc",
-              "visibility",
-              "none"
-            );
-            map.current.setLayoutProperty(
-              "public-restroom-nyc",
-              "visibility",
-              "none"
-            );
-          }
-        })
-    
+      const visibility = map.current.getLayoutProperty(
+        clickedLayer,
+        "visibility"
+      );
 
-      
-        $(document).on("click", "#restroom-hotel-nyc", (e) => {
-          const clickedLayer = e.target.id;
-          e.preventDefault();
-          e.stopPropagation();
-
-          const visibility = map.current.getLayoutProperty(
-            clickedLayer,
-            "visibility"
-          );
-
-          // Toggle layer visibility by changing the layout object's visibility property.
-          if (visibility === "visible") {
-            map.current.setLayoutProperty(clickedLayer, "visibility", "none");
-          } else {
-            map.current.setLayoutProperty(
-              clickedLayer,
-              "visibility",
-              "visible"
-            );
-            map.current.setLayoutProperty(
-              "restroom-mall-nyc",
-              "visibility",
-              "none"
-            );
-            map.current.setLayoutProperty(
-              "public-restroom-nyc",
-              "visibility",
-              "none"
-            );
-          }
-        });
-     
-
-      
-        $(document).on("click", "#public-restroom-nyc", (e) => {
-          const clickedLayer = e.target.id;
-          e.preventDefault();
-          e.stopPropagation();
-
-          const visibility = map.current.getLayoutProperty(
-            clickedLayer,
-            "visibility"
-          );
-
-          // Toggle layer visibility by changing the layout object's visibility property.
-          if (visibility === "visible") {
-            map.current.setLayoutProperty(clickedLayer, "visibility", "none");
-          } else {
-            map.current.setLayoutProperty(
-              clickedLayer,
-              "visibility",
-              "visible"
-            );
-            map.current.setLayoutProperty(
-              "restroom-mall-nyc",
-              "visibility",
-              "none"
-            );
-            map.current.setLayoutProperty(
-              "restroom-hotel-nyc",
-              "visibility",
-              "none"
-            );
-          }
-        });
-
-      function direction_reset() {
-        directions.actions.clearOrigin();
-        directions.actions.clearDestination();
-        directions.container.querySelector('input').value = '';
+      if (visibility === "visible") {
+        map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+      } else {
+        map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
+        map.current.setLayoutProperty(
+          "restroom-hotel-nyc",
+          "visibility",
+          "none"
+        );
+        map.current.setLayoutProperty(
+          "public-restroom-nyc",
+          "visibility",
+          "none"
+        );
       }
-      
-      $(document).on('click', '#get-direction', function() {
-        // Adding Direction form and instructions on map
-        map.current.addControl(directions, 'top-right');
-        directions.container.setAttribute('id', 'direction-container');
-        $(geocoder.container).hide();
-        $(this).hide();
-        $('#end-direction').removeClass('d-none');
-      });
+    });
+
+    $(document).on("click", "#restroom-hotel-nyc", (e) => {
+      const clickedLayer = e.target.id;
+      e.preventDefault();
+      e.stopPropagation();
+
+      const visibility = map.current.getLayoutProperty(
+        clickedLayer,
+        "visibility"
+      );
+
+      // Toggle layer visibility by changing the layout object's visibility property.
+      if (visibility === "visible") {
+        map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+      } else {
+        map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
+        map.current.setLayoutProperty(
+          "restroom-mall-nyc",
+          "visibility",
+          "none"
+        );
+        map.current.setLayoutProperty(
+          "public-restroom-nyc",
+          "visibility",
+          "none"
+        );
+      }
+    });
 
     $(document).on("click", "#public-restroom-nyc", (e) => {
       const clickedLayer = e.target.id;

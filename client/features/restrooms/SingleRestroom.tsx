@@ -11,7 +11,7 @@ import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
 import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
 import { addSavedRestroom } from "../save/saveSlice";
-import AddRating from "../rating/Rating"
+import AddRating from "../rating/Rating";
 import {
   ThemeProvider,
   Typography,
@@ -31,7 +31,7 @@ import BookmarkAddedRoundedIcon from "@mui/icons-material/BookmarkAddedRounded";
 import AccessTimeRoundedIcon from "@mui/icons-material/AccessTimeRounded";
 import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
-import {fetchRatings} from "../rating/RatingSlice"
+import { fetchRatings } from "../rating/RatingSlice";
 
 const SingleRestroom = () => {
   const navigate = useNavigate();
@@ -40,19 +40,22 @@ const SingleRestroom = () => {
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-  const restroom = useSelector(selectSingleRestroom);
 
   const handleCloseSnackbar = () => {
     setIsSnackbarOpen(false); // Close the snackbar
   };
   const [savedRestroomIds, setSavedRestroomIds] = useState([]);
   const restroom = useSelector(selectSingleRestroom);
-  const ratings=useSelector(state=>state.rating.pastRating)
-  const sumRatings = ratings && ratings.length ? ratings.reduce((sum, rating) => {
-    return sum + rating.userRating;
-  }, 0) : 0;
-  const averageRating = sumRatings>0 ? (sumRatings / ratings.length).toFixed(1) : 0 
-  
+  const ratings = useSelector((state) => state.rating.pastRating);
+  const sumRatings =
+    ratings && ratings.length
+      ? ratings.reduce((sum, rating) => {
+          return sum + rating.userRating;
+        }, 0)
+      : 0;
+  const averageRating =
+    sumRatings > 0 ? (sumRatings / ratings.length).toFixed(1) : 0;
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -61,8 +64,8 @@ const SingleRestroom = () => {
     dispatch(getSingleRestroom(id));
     dispatch(fetchAllReviewsOfRestroomId(id));
     dispatch(fetchAllReviews());
-    dispatch(fetchRatings(id))
-  }, [dispatch, id ]);
+    dispatch(fetchRatings(id));
+  }, [dispatch, id]);
 
   const handleAddSavedRestroom = async (restroomId) => {
     await dispatch(addSavedRestroom(restroomId));
@@ -241,11 +244,11 @@ const SingleRestroom = () => {
 
               <Box>
                 <Rating size="small" value={averageRating} readOnly />
-              <Typography
-             variant="caption"
-             sx={{ color: crAppTheme.palette.primary.dark }}
+                <Typography
+                  variant="caption"
+                  sx={{ color: crAppTheme.palette.primary.dark }}
                 >{`(${ratings.length})`}</Typography>
-             </Box>
+              </Box>
 
               <Typography variant="caption" color="secondary.light">
                 Hours of Operation: {restroom.openingHours}
@@ -259,15 +262,15 @@ const SingleRestroom = () => {
                 <PrimaryButton>Reviews</PrimaryButton>
               </Link>
 
-
               <PrimaryButton
-              onClick={() => handleAddSavedRestroom(restroom.id)} >Save
+                onClick={() => handleAddSavedRestroom(restroom.id)}
+              >
+                Save
               </PrimaryButton>
 
-              <Container style={{ marginTop: '3rem' }}>
-                <AddRating/>
+              <Container style={{ marginTop: "3rem" }}>
+                <AddRating />
               </Container>
-             
             </Container>
             <Box
               style={{
