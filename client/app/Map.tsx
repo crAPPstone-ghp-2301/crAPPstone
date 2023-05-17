@@ -4,7 +4,7 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { SecondaryButton } from "../features/styles/StyleGuide";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useMediaQuery } from "@mui/material";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 
@@ -17,6 +17,7 @@ const Map = () => {
   const [lng, setLng] = useState(-73.98);
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
+  const isMobile = useMediaQuery("(max-width:700px)");
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -292,58 +293,113 @@ const Map = () => {
 
   return (
     <Box>
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: 550,
-          right: 0,
-          display: "flex",
-          marginTop: 1,
-          flexDirection: "row",
-          zIndex: 1,
-        }}
-      >
-        <SecondaryButton
-          variant="contained"
-          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-          id="restroom-mall-nyc"
+      {isMobile ? (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 50,
+            right: 0,
+            display: "flex",
+            marginTop: 1,
+            flexDirection: "row",
+            zIndex: 1,
+          }}
         >
-          <img
-            src="https://www.svgrepo.com/show/375867/present.svg"
-            width="20px"
-          />
-          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-            Malls
-          </Typography>
-        </SecondaryButton>
-        <SecondaryButton
-          variant="contained"
-          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-          id="restroom-hotel-nyc"
+          <SecondaryButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="restroom-mall-nyc"
+          >
+            <img
+              src="https://www.svgrepo.com/show/375867/present.svg"
+              width="20px"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Malls
+            </Typography>
+          </SecondaryButton>
+          <SecondaryButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="restroom-hotel-nyc"
+          >
+            <img
+              src="https://www.svgrepo.com/show/192397/hotel.svg"
+              width="20px"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Hotels
+            </Typography>
+          </SecondaryButton>
+          <SecondaryButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="public-restroom-nyc"
+          >
+            <img
+              src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
+              width="20px"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Public Restrooms
+            </Typography>
+          </SecondaryButton>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 550,
+            right: 0,
+            display: "flex",
+            marginTop: 1,
+            flexDirection: "row",
+            zIndex: 1,
+          }}
         >
-          <img
-            src="https://www.svgrepo.com/show/192397/hotel.svg"
-            width="20px"
-          />
-          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-            Hotels
-          </Typography>
-        </SecondaryButton>
-        <SecondaryButton
-          variant="contained"
-          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-          id="public-restroom-nyc"
-        >
-          <img
-            src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
-            width="20px"
-          />
-          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-            Public Restrooms
-          </Typography>
-        </SecondaryButton>
-      </Box>
+          <SecondaryButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="restroom-mall-nyc"
+          >
+            <img
+              src="https://www.svgrepo.com/show/375867/present.svg"
+              width="20px"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Malls
+            </Typography>
+          </SecondaryButton>
+          <SecondaryButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="restroom-hotel-nyc"
+          >
+            <img
+              src="https://www.svgrepo.com/show/192397/hotel.svg"
+              width="20px"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Hotels
+            </Typography>
+          </SecondaryButton>
+          <SecondaryButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="public-restroom-nyc"
+          >
+            <img
+              src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
+              width="20px"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Public Restrooms
+            </Typography>
+          </SecondaryButton>
+        </Box>
+      )}
+
       <Box>
         <SecondaryButton
           variant="contained"
