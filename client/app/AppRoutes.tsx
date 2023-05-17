@@ -4,7 +4,6 @@ import { ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { me } from "./store";
 import { useSelector, useDispatch } from "react-redux";
-
 import StyleGuide from "../features/styles/StyleGuide";
 import AuthForm from "../features/auth/AuthForm";
 import AllRestrooms from "../features/restrooms/Restrooms";
@@ -18,6 +17,7 @@ import EditProfile from "../features/users/EditProfile";
 import Saved from "../features/save/Saved";
 import Help from "../features/settings/Help";
 import Share from "../features/settings/Share";
+import AddReview from "../features/review/AddReview";
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
@@ -91,6 +91,10 @@ const AppRoutes = () => {
         <Route path="/restrooms/:restroomId/reviews" element={<AllReviews />} />
         <Route path="/reviews/:reviewId" element={<SingleReview />} />
         <Route path="/reviews/:reviewId/comments" element={<AllComments />} />
+        <Route
+          path="/restrooms/:restroomId/reviews/add"
+          element={<AddReview />}
+        />
       </Routes>
     </ThemeProvider>
   );

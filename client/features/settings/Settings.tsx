@@ -78,7 +78,7 @@ const Settings = ({ open, onClose }) => {
               </TertiaryButton>
             </Link>
           </ListItem>
-          <ListItem>
+          {/* <ListItem>
             <TertiaryButton>
               <ListItemAvatar>
                 <Avatar
@@ -89,8 +89,8 @@ const Settings = ({ open, onClose }) => {
               </ListItemAvatar>
               <Typography variant="subtitle2">History</Typography>
             </TertiaryButton>
-          </ListItem>
-          <ListItem>
+          </ListItem> */}
+          {/* <ListItem>
             <TertiaryButton>
               <ListItemAvatar>
                 <Avatar
@@ -101,23 +101,25 @@ const Settings = ({ open, onClose }) => {
               </ListItemAvatar>
               <Typography variant="subtitle2">Your Reviews</Typography>
             </TertiaryButton>
-          </ListItem>
+          </ListItem> */}
         </Box>
         <Divider />
         <Box>
           <ListItem>
-            <TertiaryButton>
-              <ListItemAvatar>
-                <Avatar
-                  sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
-                >
-                  <LinkRoundedIcon fontSize="small" />
-                </Avatar>
-              </ListItemAvatar>
-              <Typography variant="subtitle2">Share Map</Typography>
-            </TertiaryButton>
+            <Link to="/share">
+              <TertiaryButton>
+                <ListItemAvatar>
+                  <Avatar
+                    sx={{ backgroundColor: crAppTheme.palette.primary.dark }}
+                  >
+                    <LinkRoundedIcon fontSize="small" />
+                  </Avatar>
+                </ListItemAvatar>
+                <Typography variant="subtitle2">Share Map</Typography>
+              </TertiaryButton>
+            </Link>
           </ListItem>
-          <ListItem>
+          {/* <ListItem>
             <TertiaryButton>
               <ListItemAvatar>
                 <Avatar
@@ -128,7 +130,7 @@ const Settings = ({ open, onClose }) => {
               </ListItemAvatar>
               <Typography variant="subtitle2">Add Location</Typography>
             </TertiaryButton>
-          </ListItem>
+          </ListItem> */}
           <ListItem>
             <Link to={!isLoggedIn ? "/login" : "/profile"}>
               <TertiaryButton>

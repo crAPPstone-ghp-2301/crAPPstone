@@ -81,6 +81,7 @@ const Saved = () => {
   };
 
   useEffect(() => {
+    document.title = `Saved Restrooms - crAPP the Map`;
     const handleClickOutside = (event) => {
       const container = document.getElementById("saved-container");
       if (container && !container.contains(event.target)) {
@@ -118,7 +119,6 @@ const Saved = () => {
             flexDirection: "column",
             justifyContent: "flex-start",
             py: 2,
-            marginTop: 10,
           }}
         >
           <Box sx={{ py: 1 }}>
@@ -128,7 +128,7 @@ const Saved = () => {
             </Typography>
           </Box>
           <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>

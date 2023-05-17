@@ -53,8 +53,8 @@ const AllReviews = () => {
           zIndex: 1,
           backgroundColor: "white",
           height: "100vh",
-          width: isMobile ? "100%" : "450px", 
-          padding: isMobile ? "20px" : "0", 
+          width: isMobile ? "100%" : "450px",
+          padding: isMobile ? "20px" : "0",
           overflowY: isMobile ? "auto" : "hidden",
         }}
       >
@@ -82,7 +82,8 @@ const AllReviews = () => {
               <Tab
                 label="Overview"
                 component={Link}
-                to={`/restrooms/${restroomId}`}/>
+                to={`/restrooms/${restroomId}`}
+              />
               <Tab
                 label="Reviews"
                 component={Link}
