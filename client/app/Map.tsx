@@ -68,7 +68,7 @@ const Map = () => {
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
-        <a href="http://localhost:8080/restrooms/${feature.properties.id_restroom}">More info</a>`;
+        <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
       popup
         .setLngLat(feature.geometry.coordinates)
         .setHTML(popupContent)
