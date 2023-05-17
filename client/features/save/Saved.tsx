@@ -23,6 +23,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  useMediaQuery,
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
@@ -33,6 +34,7 @@ const Saved = () => {
   const [savedRestrooms, setSavedRestrooms] = useState([]);
   const { id } = useSelector((state) => state.auth.me);
   const token = window.localStorage.getItem("token");
+  const isMobile = useMediaQuery("(max-width:1000px)");
 
   useEffect(() => {
     async function fetchSavedRestrooms() {
@@ -104,10 +106,10 @@ const Saved = () => {
         sx={{
           position: "fixed",
           top: 0,
-          left: "100px",
+          left: isMobile ? 0 : "100px",
           zIndex: 1,
           backgroundColor: "white",
-          width: 450,
+          width: isMobile ? "100%" : 450,
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
@@ -118,10 +120,10 @@ const Saved = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            py: 2,
+            p: 2,
           }}
         >
-          <Box sx={{ py: 1 }}>
+          <Box sx={{ p: 1 }}>
             <Typography variant="h3">Saved Restrooms</Typography>
             <Typography variant="subtitle1">
               All your restroom(s) in one place
@@ -142,7 +144,7 @@ const Saved = () => {
                     display: "flex",
                     my: 2,
                     p: 1,
-                    width: 380,
+                    width: isMobile ? "100%" : 380,
                     transition: "box-shadow 0.3s",
                     "&:hover": {
                       backgroundColor: crAppTheme.palette.primary.main,
@@ -239,9 +241,9 @@ const Saved = () => {
               );
             })
           ) : (
-            <Box sx={{ my: 10, textAlign: "center" }}>
+            <Box sx={{ my: isMobile ? 5 : 10, textAlign: "center" }}>
               <Typography variant="body1" sx={{ my: 5 }}>
-                No saved restrooms!
+                <b>No saved restrooms!</b>
               </Typography>
               <Typography variant="subtitle1">Friendly reminder:</Typography>
               <Link to="/login">
@@ -252,13 +254,12 @@ const Saved = () => {
                 </SecondaryButton>
               </Link>
               <Link to="/">
-                <TertiaryButton sx={{ my: 8 }}>
+                <TertiaryButton sx={{ my: isMobile ? 4 : 8 }}>
                   <Typography variant="subtitle1">
                     Start exploring crAPP
                   </Typography>
                 </TertiaryButton>
               </Link>
-
               <Box sx={{ my: 2 }}>
                 <Typography variant="subtitle1">
                   Not sure what to do?

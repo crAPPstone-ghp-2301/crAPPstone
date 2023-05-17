@@ -11,24 +11,27 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  useMediaQuery,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 
 export default function Help() {
+  const isMobile = useMediaQuery("(max-width:1000px)");
+
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container
         id="edit-profile-container"
         sx={{
-          position: "fixed",
+          position: isMobile ? "absolute" : "fixed",
           top: 0,
-          left: "100px",
+          left: isMobile ? 0 : "100px",
           zIndex: 1,
           backgroundColor: "white",
-          width: 450,
+          width: isMobile ? "100%" : 450,
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
@@ -39,7 +42,6 @@ export default function Help() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            marginTop: 10,
             py: 2,
           }}
         >
@@ -49,7 +51,7 @@ export default function Help() {
             </Typography>
           </Box>
           <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
@@ -195,6 +197,32 @@ export default function Help() {
               <Typography variant="subtitle1" sx={{ paddingTop: 2 }}>
                 Discover new places and explore your surroundings with ease
                 using our powerful search feature.
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+          <Accordion
+            sx={{
+              border: `1px solid ${crAppTheme.palette.primary.dark}`,
+              my: 1,
+            }}
+          >
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1a-content"
+              id="panel1a-header"
+            >
+              <Typography variant="h5">Give Feedback</Typography>
+            </AccordionSummary>
+            <AccordionDetails
+              sx={{ backgroundColor: crAppTheme.palette.primary.light }}
+            >
+              <Typography variant="subtitle1" sx={{ paddingBottom: 2 }}>
+                Form will open in a new window{" "}
+                <span style={{ paddingLeft: 4, paddingRight: 4 }}>
+                  <a href="https://forms.gle/VEVg2ZZbKBEiNTSE6" target="_blank">
+                    <OpenInNewRoundedIcon />
+                  </a>
+                </span>
               </Typography>
             </AccordionDetails>
           </Accordion>

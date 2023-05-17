@@ -24,6 +24,7 @@ import {
   Divider,
   Snackbar,
   Rating,
+  useMediaQuery,
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
@@ -45,6 +46,7 @@ const SingleRestroom = () => {
   const restroom = useSelector(selectSingleRestroom);
   const ratings = useSelector((state) => state.rating.pastRating);
   const restroomName = restroom.name;
+  const isMobile = useMediaQuery("(max-width:1000px)");
 
   useEffect(() => {
     document.title = `${restroomName} - crAPP the Map`;
@@ -113,19 +115,15 @@ const SingleRestroom = () => {
           sx={{
             position: "fixed",
             top: 0,
-            left: "100px",
+            left: isMobile ? 0 : "100px",
             zIndex: 1,
             backgroundColor: "white",
-            width: 450,
+            width: isMobile ? "100%" : 450,
             height: "100%",
             overflow: "auto",
             paddingBottom: 10,
             "&::-webkit-scrollbar": {
               display: "none",
-            },
-            "@media (max-width: 700px)": {
-              left: "0",
-              width: "90%",
             },
           }}
         >
@@ -134,10 +132,11 @@ const SingleRestroom = () => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "flex-start",
+              p: 1,
             }}
           >
             <Link to="/">
-              <TertiaryButton sx={{ position: "absolute", top: 280, right: 0 }}>
+              <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
                 <CloseRoundedIcon />
               </TertiaryButton>
             </Link>
@@ -281,7 +280,7 @@ const SingleRestroom = () => {
               </Box>
               <Divider />
             </Container>
-            <Box
+            {/* <Box
               style={{
                 height: "310px",
                 overflow: "auto",
@@ -321,7 +320,7 @@ const SingleRestroom = () => {
                     </Typography>
                   </Card>
                 ))}
-            </Box>
+            </Box> */}
           </Box>
         </Box>
       </ThemeProvider>

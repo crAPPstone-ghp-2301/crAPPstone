@@ -14,6 +14,7 @@ import {
   CardMedia,
   CardContent,
   CssBaseline,
+  useMediaQuery,
 } from "@mui/material";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
@@ -23,6 +24,7 @@ const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width:1000px)");
 
   useEffect(() => {
     dispatch(getAllRestrooms());
@@ -67,19 +69,15 @@ const AllRestrooms = () => {
         sx={{
           position: "fixed",
           top: 0,
-          left: "100px",
+          left: isMobile ? 0 : "100px",
           zIndex: 1,
           backgroundColor: "white",
-          width: 450,
+          width: isMobile ? "100%" : 450,
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
           "&::-webkit-scrollbar": {
             display: "none",
-          },
-          "@media (max-width: 700px)": {
-            left: "0",
-            width: "90%",
           },
         }}
       >
@@ -88,12 +86,12 @@ const AllRestrooms = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            marginTop: 10,
+            p: 1,
           }}
         >
           <Typography variant="h3">All Restrooms</Typography>
           <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
@@ -106,7 +104,7 @@ const AllRestrooms = () => {
                       display: "flex",
                       my: 2,
                       p: 1,
-                      width: 380,
+                      width: isMobile ? "100%" : 380,
                       transition: "box-shadow 0.3s",
                       "&:hover": {
                         backgroundColor: crAppTheme.palette.primary.main,

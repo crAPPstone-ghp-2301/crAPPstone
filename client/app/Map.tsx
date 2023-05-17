@@ -55,101 +55,104 @@ const Map = () => {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       zoom: 13,
-      placeholder: 'Enter an address or place name',
-      bbox: [
-        -74.0171, 
-        40.6983, 
-        -73.9949, 
-        40.7273 ]
+      placeholder: "Enter an address or place name",
+      bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
+    });
+
+    const sub = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+    });
+    map.current.addControl(sub, "top-right");
+    sub.container.style.display = "none";
+
+    map.current.addControl(geocoder, "top-right");
+    geocoder.container.setAttribute("id", "geocoder-search");
+
+    map.current.on("load", () => {
+      const marker = new mapboxgl.Marker({
+        color: " #CB997E",
       });
-       
 
-      map.current.addControl(geocoder, 'top-right');
-      geocoder.container.setAttribute('id', 'geocoder-search')
+      geocoder.on("result", async (event) => {
+        const point = event.result.center;
+        console.log(point);
+        const tileset = "fxu2023.clhs7ziyw0lfz2arsitz3ct0o-7dbgr";
+        const radius = 1609;
+        const limit = 50;
+        marker.setLngLat(point).addTo(map.current);
+        const query = await fetch(
+          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
+          { method: "GET" }
+        );
+        console.log(query);
+        const json = await query.json();
+        map.current.getSource("tilequery").setData(json);
+      });
 
-        map.current.on("load", () => {
-              const marker = new mapboxgl.Marker({
-                color: " #CB997E",
-              });
+      map.current.addSource("tilequery", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
+      });
 
-              geocoder.on("result", async (event) => {
-                const point = event.result.center;
-                console.log(point);
-                const tileset = "fxu2023.509pfoqy";
-                const radius = 1609;
-                const limit = 50;
-                marker.setLngLat(point).addTo(map.current);
-                const query = await fetch(
-                  `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
-                  { method: "GET" }
-                );
-                console.log(query);
-                const json = await query.json();
-                map.current.getSource("tilequery").setData(json);
-              });
+      map.current.addLayer({
+        id: "tilequery-points",
+        type: "circle",
+        source: "tilequery",
+        paint: {
+          "circle-stroke-color": "white",
+          "circle-stroke-width": {
+            stops: [
+              [0, 0.1],
+              [18, 3],
+            ],
+            base: 5,
+          },
+          "circle-radius": {
+            stops: [
+              [12, 10],
+              [22, 200],
+            ],
+            base: 5,
+          },
+          "circle-color": [
+            "match",
+            ["get", "Placetype"],
+            "Mall",
+            "#0BB000",
+            "hotel",
+            "#F89446",
+            "restroom",
+            "#EA0000",
+            "#FF0000", // default color if no match
+          ],
+        },
+      });
 
-              map.current.addSource("tilequery", {
-                type: "geojson",
-                data: {
-                  type: "FeatureCollection",
-                  features: [],
-                },
-              });
+      const popup = new mapboxgl.Popup();
 
-              map.current.addLayer({
-                id: "tilequery-points",
-                type: "circle",
-                source: "tilequery",
-                paint: {
-                  "circle-stroke-color": "white",
-                  "circle-stroke-width": {
-                    stops: [
-                      [0, 0.1],
-                      [18, 3],
-                    ],
-                    base: 5,
-                  },
-                  "circle-radius": {
-                    stops: [
-                      [12, 10],
-                      [22, 200],
-                    ],
-                    base: 5,
-                  },
-                  "circle-color": [
-                    "match",
-                    ["get", "Placetype"],
-                    "Mall",
-                    "#0BB000",
-                    "hotel",
-                    "#F89446",
-                    "restroom",
-                    "#EA0000",
-                    "#FF0000", // default color if no match
-                  ],
-                },
-              });
+      map.current.on("click", "tilequery-points", (event) => {
+        map.current.getCanvas().style.cursor = "pointer";
+        const properties = event.features[0].properties;
+        const obj = JSON.parse(properties.tilequery);
+        const coordinates = new mapboxgl.LngLat(
+          properties.Longitude,
+          properties.Latitude
+        );
+        console.log(properties);
+        const content = `<h3>${properties.STORE_NAME}</h3><h4>${
+          properties.Placetype
+        }</h4><p>${properties.STORE_LOCATION}</p><p>${(
+          obj.distance / 1609.344
+        ).toFixed(2)} mi. from location</p>
+                <a href="/restrooms/${properties.id_restroom}">More info</a>`;
 
-              const popup = new mapboxgl.Popup();
-
-              map.current.on("click" , "tilequery-points", (event) => {
-                map.current.getCanvas().style.cursor = "pointer";
-                const properties = event.features[0].properties;
-                const obj = JSON.parse(properties.tilequery);
-                const coordinates = new mapboxgl.LngLat(
-                  properties.Longitude,
-                  properties.Latitude
-                );
-                console.log(properties);
-                const content = `<h3>${properties.STORE_NAME}</h3><h4>${
-                  properties.Placetype
-                }</h4><p>${properties.STORE_LOCATION}</p><p>${(
-                  obj.distance / 1609.344
-                ).toFixed(2)} mi. from location</p>`;
-
-                popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
-              });
-            });
+        popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
+      });
+    });
 
     let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
@@ -165,12 +168,23 @@ const Map = () => {
         .addTo(map.current);
     });
 
-
     map.current.on("click", "restroom-hotel-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
+        <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
+      popup
+        .setLngLat(feature.geometry.coordinates)
+        .setHTML(popupContent)
+        .addTo(map.current);
+    });
+
+    map.current.on("click", "all", (event) => {
+      map.current.getCanvas().style.cursor = "pointer";
+      const feature = event.features[0];
+      const popupContent = `<p><strong>${feature.properties.STORE_NAME}</strong></p>
+        <p>${feature.properties.STORE_LOCATION}</p>
         <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
       popup
         .setLngLat(feature.geometry.coordinates)
@@ -190,8 +204,6 @@ const Map = () => {
         .addTo(map.current);
     });
 
-    
-
     $(document).on("click", "#restroom-mall-nyc", (e) => {
       const clickedLayer = "restroom-mall-nyc";
       e.preventDefault();
@@ -204,6 +216,7 @@ const Map = () => {
 
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        map.current.setLayoutProperty("all", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         map.current.setLayoutProperty(
@@ -216,13 +229,12 @@ const Map = () => {
           "visibility",
           "none"
         );
+        map.current.setLayoutProperty("all", "visibility", "none");
       }
     });
 
-  
-
     $(document).on("click", "#restroom-hotel-nyc", (e) => {
-      const clickedLayer = "restroom-hotel-nyc"
+      const clickedLayer = "restroom-hotel-nyc";
       e.preventDefault();
       e.stopPropagation();
 
@@ -234,6 +246,7 @@ const Map = () => {
       // Toggle layer visibility by changing the layout object's visibility property.
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        map.current.setLayoutProperty("all", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         map.current.setLayoutProperty(
@@ -246,9 +259,9 @@ const Map = () => {
           "visibility",
           "none"
         );
+        map.current.setLayoutProperty("all", "visibility", "none");
       }
     });
-
 
     $(document).on("click", "#public-restroom-nyc", (e) => {
       const clickedLayer = "public-restroom-nyc";
@@ -263,6 +276,7 @@ const Map = () => {
       // Toggle layer visibility by changing the layout object's visibility property.
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        map.current.setLayoutProperty("all", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         map.current.setLayoutProperty(
@@ -275,34 +289,32 @@ const Map = () => {
           "visibility",
           "none"
         );
+        map.current.setLayoutProperty("all", "visibility", "none");
       }
     });
 
-  
     function direction_reset() {
       directions.actions.clearOrigin();
       directions.actions.clearDestination();
-      directions.container.querySelector('input').value = '';
+      directions.container.querySelector("input").value = "";
     }
-    
-    $(document).on('click', '#get-direction', function() {
+
+    $(document).on("click", "#get-direction", function () {
       // Adding Direction form and instructions on map
-      map.current.addControl(directions, 'top-right');
-      directions.container.setAttribute('id', 'direction-container');
+      map.current.addControl(directions, "top-right");
+      directions.container.setAttribute("id", "direction-container");
       $(geocoder.container).hide();
       $(this).hide();
-      $('#end-direction').removeClass('d-none');
+      $("#end-direction").removeClass("d-none");
     });
-    
-    $(document).on('click', '#end-direction', function() {
+
+    $(document).on("click", "#end-direction", function () {
       direction_reset();
-      $(this).addClass('d-none');
-      $('#get-direction').show();
+      $(this).addClass("d-none");
+      $("#get-direction").show();
       $(geocoder.container).show();
       map.current.removeControl(directions);
     });
-
-
   }, []);
 
   return (
@@ -405,29 +417,28 @@ const Map = () => {
         </Box>
       )}
 
-      
-        <SecondaryButton
-          variant="contained"
-          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-          id="get-direction"
-        >
-          <AssistantDirectionIcon />
-          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-            For Directions
-          </Typography>
-        </SecondaryButton>
-        <SecondaryButton
-          variant="contained"
-          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-          className="d-none"
-          id="end-direction"
-        >
-          <SearchRoundedIcon />
-          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-            For Search
-          </Typography>
-        </SecondaryButton>
-     
+      <SecondaryButton
+        variant="contained"
+        sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+        id="get-direction"
+      >
+        <AssistantDirectionIcon />
+        <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+          For Directions
+        </Typography>
+      </SecondaryButton>
+      <SecondaryButton
+        variant="contained"
+        sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+        className="d-none"
+        id="end-direction"
+      >
+        <SearchRoundedIcon />
+        <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+          For Search
+        </Typography>
+      </SecondaryButton>
+
       <Box ref={mapContainer} className="map-container"></Box>
     </Box>
   );
