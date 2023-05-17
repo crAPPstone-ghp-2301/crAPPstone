@@ -40,13 +40,14 @@ const SingleRestroom = () => {
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-
-  const handleCloseSnackbar = () => {
-    setIsSnackbarOpen(false); // Close the snackbar
-  };
   const [savedRestroomIds, setSavedRestroomIds] = useState([]);
   const restroom = useSelector(selectSingleRestroom);
   const ratings = useSelector((state) => state.rating.pastRating);
+
+  const handleCloseSnackbar = () => {
+    setIsSnackbarOpen(false);
+  };
+
   const sumRatings =
     ratings && ratings.length
       ? ratings.reduce((sum, rating) => {
@@ -146,16 +147,24 @@ const SingleRestroom = () => {
                   my: 2,
                 }}
               >
-                <Typography
-                  gutterBottom
-                  variant="body1"
-                  component="div"
-                  color="secondary.light"
-                  sx={{ fontWeight: "900" }}
-                >
-                  {restroom.name}
-                </Typography>
-
+                <Box>
+                  <Typography
+                    gutterBottom
+                    variant="body1"
+                    sx={{
+                      fontWeight: "900",
+                      color: crAppTheme.palette.primary.dark,
+                      lineHeight: 1,
+                    }}
+                  >
+                    {restroom.name}
+                  </Typography>
+                  <Rating size="small" value={averageRating} readOnly />
+                  <Typography
+                    variant="caption"
+                    sx={{ color: crAppTheme.palette.primary.dark }}
+                  >{`(${ratings.length})`}</Typography>
+                </Box>
                 <SecondaryButton
                   onClick={
                     isLoggedIn
@@ -233,7 +242,7 @@ const SingleRestroom = () => {
               </Box>
               <Divider />
               <Box sx={{ my: 2 }}>
-                <Rating />
+                <AddRating />
               </Box>
               <Divider />
               <Box sx={{ my: 2 }}>
@@ -241,36 +250,6 @@ const SingleRestroom = () => {
                   <PrimaryButton>Reviews</PrimaryButton>
                 </Link>
               </Box>
-
-              <Box>
-                <Rating size="small" value={averageRating} readOnly />
-                <Typography
-                  variant="caption"
-                  sx={{ color: crAppTheme.palette.primary.dark }}
-                >{`(${ratings.length})`}</Typography>
-              </Box>
-
-              <Typography variant="caption" color="secondary.light">
-                Hours of Operation: {restroom.openingHours}
-              </Typography>
-              <br />
-              <Typography variant="body2" color="secondary.light">
-                <br />
-                Description: {restroom.description}
-              </Typography>
-              <Link to={`/restrooms/${restroom.id}/reviews`}>
-                <PrimaryButton>Reviews</PrimaryButton>
-              </Link>
-
-              <PrimaryButton
-                onClick={() => handleAddSavedRestroom(restroom.id)}
-              >
-                Save
-              </PrimaryButton>
-
-              <Container style={{ marginTop: "3rem" }}>
-                <AddRating />
-              </Container>
             </Container>
             <Box
               style={{
