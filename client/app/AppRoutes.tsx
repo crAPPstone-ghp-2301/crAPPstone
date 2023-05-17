@@ -17,6 +17,7 @@ import Profile from "../features/users/Profile";
 import EditProfile from "../features/users/EditProfile";
 import Saved from "../features/save/Saved";
 import Help from "../features/settings/Help";
+import Share from "../features/settings/Share";
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
@@ -52,21 +53,9 @@ const AppRoutes = () => {
                 />
               }
             />
-            <Route path="/restrooms" element={<AllRestrooms />} />
-            <Route path="/restrooms/:id" element={<SingleRestroom />} />
-            <Route
-              path="/restrooms/:restroomId/reviews"
-              element={<AllReviews />}
-            />
-            <Route path="/reviews/:reviewId" element={<SingleReview />} />
-            <Route
-              path="/reviews/:reviewId/comments"
-              element={<AllComments />}
-            />
             <Route path="/profile" element={<Profile />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="saved" element={<Saved />} />
-            <Route path="/help" element={<Help />} />
           </>
         ) : (
           <>
@@ -91,22 +80,17 @@ const AppRoutes = () => {
                 />
               }
             />
-            <Route path="/styleguide" element={<StyleGuide />} />
-            <Route path="/restrooms" element={<AllRestrooms />} />
-            <Route path="/restrooms/:id" element={<SingleRestroom />} />
-            <Route
-              path="/restrooms/:restroomId/reviews"
-              element={<AllReviews />}
-            />
-            <Route path="/reviews/:reviewId" element={<SingleReview />} />
-            <Route
-              path="/reviews/:reviewId/comments"
-              element={<AllComments />}
-            />
-            <Route path="/help" element={<Help />} />
+            <Route path="saved" element={<Saved />} />
           </>
         )}
         <Route path="/styleguide" element={<StyleGuide />} />
+        <Route path="/share" element={<Share />} />
+        <Route path="/help" element={<Help />} />
+        <Route path="/restrooms" element={<AllRestrooms />} />
+        <Route path="/restrooms/:id" element={<SingleRestroom />} />
+        <Route path="/restrooms/:restroomId/reviews" element={<AllReviews />} />
+        <Route path="/reviews/:reviewId" element={<SingleReview />} />
+        <Route path="/reviews/:reviewId/comments" element={<AllComments />} />
       </Routes>
     </ThemeProvider>
   );

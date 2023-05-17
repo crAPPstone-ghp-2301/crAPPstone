@@ -6,7 +6,7 @@ import {
   TertiaryButton,
 } from "../styles/StyleGuide";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
 import Rating from "../rating/Rating";
 import { fetchAllReviews } from "../review/reviewSlice";
@@ -32,11 +32,11 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 
 const SingleRestroom = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
-  const [savedRestroomIds, setSavedRestroomIds] = useState([]);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
   const restroom = useSelector(selectSingleRestroom);
 
@@ -55,14 +55,20 @@ const SingleRestroom = () => {
   }, [dispatch, id]);
 
   const handleAddSavedRestroom = async (restroomId) => {
-    console.log("restroom id", restroomId);
     await dispatch(addSavedRestroom(restroomId));
     setIsSnackbarOpen(true);
   };
 
-  const isRestroomSaved = (restroomId) => {
-    return savedRestroomIds.includes(restroomId);
-  };
+  const isLoggedIn = useSelector((state) => {
+    const { me, authToken } = state.auth;
+    const storedAuthToken = localStorage.getItem("authToken");
+    const storedUserId = sessionStorage.getItem("userId");
+    return (
+      me.id ||
+      (authToken && storedAuthToken === authToken) ||
+      (storedUserId && me.id === storedUserId)
+    );
+  });
 
   return (
     <>
@@ -122,21 +128,17 @@ const SingleRestroom = () => {
                   {restroom.name}
                 </Typography>
                 <SecondaryButton
-                  onClick={() => handleAddSavedRestroom(restroom.id)}
+                  onClick={
+                    isLoggedIn
+                      ? () => handleAddSavedRestroom(restroom.id)
+                      : () => navigate("/login")
+                  }
                 >
-                  {isRestroomSaved(restroom.id) ? (
-                    <>
-                      <BookmarkAddedRoundedIcon />
-                      <Typography variant="caption">Saved</Typography>
-                    </>
-                  ) : (
-                    <>
-                      <BookmarkAddRoundedIcon />
-                      <Typography variant="caption">Save</Typography>
-                    </>
-                  )}
+                  <BookmarkAddRoundedIcon />
+                  <Typography variant="caption">Save</Typography>
                 </SecondaryButton>
-                <Snackbar
+
+                {/* <Snackbar
                   open={isSnackbarOpen}
                   autoHideDuration={3000}
                   onClose={handleCloseSnackbar}
@@ -146,7 +148,7 @@ const SingleRestroom = () => {
                     </>
                   }
                   anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-                />
+                /> */}
               </Box>
               <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
                 <Tabs

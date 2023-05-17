@@ -212,15 +212,27 @@ const Saved = () => {
               );
             })
           ) : (
-            <Box sx={{ my: 15, textAlign: "center" }}>
-              <Link to="/">
-                <TertiaryButton>
+            <Box sx={{ my: 10, textAlign: "center" }}>
+              <Typography variant="body1" sx={{ my: 5 }}>
+                No saved restrooms!
+              </Typography>
+              <Typography variant="subtitle1">Friendly reminder:</Typography>
+              <Link to="/login">
+                <SecondaryButton>
                   <Typography variant="subtitle1">
-                    No saved restrooms, begin exploring!
+                    Sign in to save your restrooms
+                  </Typography>
+                </SecondaryButton>
+              </Link>
+              <Link to="/">
+                <TertiaryButton sx={{ my: 8 }}>
+                  <Typography variant="subtitle1">
+                    Start exploring crAPP
                   </Typography>
                 </TertiaryButton>
               </Link>
-              <Box sx={{ my: 5 }}>
+
+              <Box sx={{ my: 2 }}>
                 <Typography variant="subtitle1">
                   Not sure what to do?
                 </Typography>

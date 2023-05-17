@@ -65,7 +65,7 @@ const Settings = ({ open, onClose }) => {
         <Divider />
         <Box>
           <ListItem>
-            <Link to="/saved">
+            <Link to={!isLoggedIn ? "/login" : "/saved"}>
               <TertiaryButton>
                 <ListItemAvatar>
                   <Avatar

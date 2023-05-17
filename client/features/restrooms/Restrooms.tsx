@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import crAppTheme from "../../app/theme";
 import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
 import { getAllRestrooms, selectRestroom } from "./allRestroomSlice";
@@ -15,7 +15,6 @@ import {
   CardContent,
   CssBaseline,
 } from "@mui/material";
-
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
@@ -23,6 +22,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(getAllRestrooms());
@@ -32,6 +32,18 @@ const AllRestrooms = () => {
     console.log("restroom id", restroomId);
     await dispatch(addSavedRestroom(restroomId));
   };
+
+  const isLoggedIn = useSelector((state) => {
+    const navigate = useNavigate();
+    const { me, authToken } = state.auth;
+    const storedAuthToken = localStorage.getItem("authToken");
+    const storedUserId = sessionStorage.getItem("userId");
+    return (
+      me.id ||
+      (authToken && storedAuthToken === authToken) ||
+      (storedUserId && me.id === storedUserId)
+    );
+  });
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -136,38 +148,42 @@ const AllRestrooms = () => {
                           </Typography>
                         </CardContent>
                       </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "column",
-                          justifyContent: "flex-start",
-                          alignItems: "center",
-                          pl: 2,
-                        }}
-                      >
-                        <CardMedia
-                          component="img"
-                          src={restroom.imageUrl}
-                          alt="Restroom"
-                          sx={{ width: 80, height: 80 }}
-                        />
-                        <SecondaryButton sx={{ my: 1 }}>
-                          <Typography variant="caption">
-                            <NoteAddRoundedIcon fontSize="small" /> Review
-                          </Typography>
-                        </SecondaryButton>
-                        <TertiaryButton
-                          variant="contained"
-                          sx={{ my: 1 }}
-                          onClick={() => handleAddSavedRestroom(restroom.id)}
-                        >
-                          <Typography variant="caption">
-                            <BookmarkAddRoundedIcon fontSize="small" />
-                            Save
-                          </Typography>
-                        </TertiaryButton>
-                      </Box>
                     </Link>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexDirection: "column",
+                        justifyContent: "flex-start",
+                        alignItems: "center",
+                        pl: 2,
+                      }}
+                    >
+                      <CardMedia
+                        component="img"
+                        src={restroom.imageUrl}
+                        alt="Restroom"
+                        sx={{ width: 80, height: 80 }}
+                      />
+
+                      <SecondaryButton sx={{ my: 1 }}>
+                        <Typography variant="caption">
+                          <NoteAddRoundedIcon fontSize="small" /> Review
+                        </Typography>
+                      </SecondaryButton>
+                      <SecondaryButton
+                        sx={{ my: 1 }}
+                        onClick={
+                          isLoggedIn
+                            ? () => handleAddSavedRestroom(restroom.id)
+                            : () => navigate("/login")
+                        }
+                      >
+                        <Typography variant="caption">
+                          <BookmarkAddRoundedIcon fontSize="small" />
+                          Save
+                        </Typography>
+                      </SecondaryButton>
+                    </Box>
                   </Card>
                 );
               })}
