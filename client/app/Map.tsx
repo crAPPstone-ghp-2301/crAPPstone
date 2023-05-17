@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useRef, useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
-import { useRef, useState, useEffect } from "react";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { SecondaryButton } from "../features/styles/StyleGuide";
+import { Box, Typography } from "@mui/material";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import { Typography } from "@mui/material";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw";
@@ -292,18 +291,16 @@ const Map = () => {
   }, []);
 
   return (
-    <div>
-      <div
-        style={{
+    <Box>
+      <Box
+        sx={{
           position: "absolute",
           top: 0,
-          left: 0,
+          left: 550,
           right: 0,
           display: "flex",
-          justifyContent: "center",
-          marginTop: "1rem",
+          marginTop: 1,
           flexDirection: "row",
-          alignItems: "center",
           zIndex: 1,
         }}
       >
@@ -346,10 +343,11 @@ const Map = () => {
             Public Restrooms
           </Typography>
         </SecondaryButton>
-
+      </Box>
+      <Box>
         <SecondaryButton
           variant="contained"
-          sx={{ px: 1, py: 0.5, backgroundColor: "#FFF" }}
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
           id="get-direction"
         >
           <AssistantDirectionIcon />
@@ -359,7 +357,7 @@ const Map = () => {
         </SecondaryButton>
         <SecondaryButton
           variant="contained"
-          sx={{ px: 1, py: 0.5, backgroundColor: "#FFF" }}
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
           className="d-none"
           id="end-direction"
         >
@@ -368,9 +366,9 @@ const Map = () => {
             For Search
           </Typography>
         </SecondaryButton>
-      </div>
-      <div ref={mapContainer} className="map-container"></div>
-    </div>
+      </Box>
+      <Box ref={mapContainer} className="map-container"></Box>
+    </Box>
   );
 };
 
