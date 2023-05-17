@@ -33,7 +33,7 @@ const Profile = () => {
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      <Container
+      <Box
         id="profile-container"
         sx={{
           position: "fixed",
@@ -45,9 +45,6 @@ const Profile = () => {
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
-          "&::-webkit-scrollbar": {
-            display: "none",
-          },
         }}
       >
         <Container
@@ -110,7 +107,7 @@ const Profile = () => {
             </PrimaryButton>
           </Link>
         </Container>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 };

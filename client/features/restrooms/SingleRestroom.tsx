@@ -152,6 +152,7 @@ const SingleRestroom = () => {
                   )}
                 </SecondaryButton>
               </Box>
+
               <Box>
                 <Rating size="small" value={averageRating} readOnly />
               <Typography
@@ -172,6 +173,7 @@ const SingleRestroom = () => {
                 <PrimaryButton>Reviews</PrimaryButton>
               </Link>
 
+
               <PrimaryButton
               onClick={() => handleAddSavedRestroom(restroom.id)} >Save
               </PrimaryButton>
@@ -181,7 +183,6 @@ const SingleRestroom = () => {
               </Container>
              
             </Container>
-
             <Box
               style={{
                 height: "310px",

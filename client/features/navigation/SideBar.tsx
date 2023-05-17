@@ -84,7 +84,7 @@ const SideBar = () => {
             </Link>
             <Link to="/">
               <Typography
-                variant="overline"
+                variant="caption"
                 sx={{
                   textTransform: "none",
                   color: crAppTheme.palette.primary.dark,
@@ -105,7 +105,7 @@ const SideBar = () => {
               >
                 <BookmarkBorderRoundedIcon fontSize="large" />
                 <Typography
-                  variant="overline"
+                  variant="caption"
                   sx={{ textTransform: "capitalize" }}
                 >
                   Saved
@@ -123,7 +123,7 @@ const SideBar = () => {
             >
               <HistoryRoundedIcon fontSize="large" />
               <Typography
-                variant="overline"
+                variant="caption"
                 sx={{ textTransform: "capitalize" }}
               >
                 History
@@ -135,31 +135,22 @@ const SideBar = () => {
           sx={{
             display: "flex",
             flexDirection: "column",
-            alignItems: "flex-start",
-          }}
-        ></List>
-        <List
-          sx={{
-            display: "flex",
-            flexDirection: "column",
             mt: "auto",
-            mb: 2,
           }}
         >
           <ListItem
             sx={{
               justifyContent: "center",
-              my: 1,
               display: "flex",
               flexDirection: "column",
             }}
           >
             <Link to="/login">
               <PrimaryButton
-                onClick={isMobile ? drawerOpen : false}
+                // onClick={isMobile ? drawerOpen : false}
                 sx={{ px: 1, py: 0.5 }}
               >
-                <Typography variant="overline">
+                <Typography variant="caption">
                   {isLoggedIn ? "Sign Out" : "Sign In"}
                 </Typography>
               </PrimaryButton>
@@ -175,7 +166,7 @@ const SideBar = () => {
             >
               <SettingsRoundedIcon fontSize="large" />
               <Typography
-                variant="overline"
+                variant="caption"
                 sx={{ textTransform: "capitalize" }}
               >
                 Settings

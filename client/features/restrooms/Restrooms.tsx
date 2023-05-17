@@ -62,7 +62,6 @@ const AllRestrooms = () => {
             flexDirection: "column",
             justifyContent: "flex-start",
             marginTop: 10,
-            padding: 10,
           }}
         >
           <Typography
@@ -71,12 +70,8 @@ const AllRestrooms = () => {
             gutterBottom
             backgroundColor="secondary.light"
             color="primary.light"
-            sx={{
-              marginBottom: 5,
-              textAlign: "center",
-            }}
           >
-            Restrooms Nearby
+            All Restrooms
           </Typography>
           <Link to="/">
             <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
