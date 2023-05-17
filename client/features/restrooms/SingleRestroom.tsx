@@ -46,13 +46,12 @@ const SingleRestroom = () => {
     setIsSnackbarOpen(false); // Close the snackbar
   };
   const [savedRestroomIds, setSavedRestroomIds] = useState([]);
-  const restroom = useSelector(selectSingleRestroom);
   const ratings=useSelector(state=>state.rating.pastRating)
   const sumRatings = ratings && ratings.length ? ratings.reduce((sum, rating) => {
     return sum + rating.userRating;
   }, 0) : 0;
-  const averageRating = sumRatings>0 ? (sumRatings / ratings.length).toFixed(1) : 0 
-  
+  const averageRating = sumRatings>0 ? (sumRatings / ratings.length).toFixed(1) : 0
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -267,7 +266,7 @@ const SingleRestroom = () => {
               <Container style={{ marginTop: '3rem' }}>
                 <AddRating/>
               </Container>
-             
+
             </Container>
             <Box
               style={{
