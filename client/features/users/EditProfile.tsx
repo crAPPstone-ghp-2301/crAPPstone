@@ -279,12 +279,28 @@ const EditProfile = () => {
                 <Box sx={{ p: 2 }}>
                   <Typography variant="h5">Profile Image</Typography>
                 </Box>
-                <Box sx={{ p: 1, display: "flex", justifyContent: "center" }}>
+                <Box
+                  sx={{
+                    p: 1,
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   <Avatar>
                     <Typography sx={{ textTransform: "capitalize" }}>
                       {username[0]}
                     </Typography>
                   </Avatar>
+                  <Box>
+                    <Typography
+                      variant="caption"
+                      sx={{ textTransform: "capitalize", textAlign: "center" }}
+                    >
+                      Ability to update Profile Image Coming Soon...
+                    </Typography>
+                  </Box>
                 </Box>
               </Box>
               <Box
@@ -295,7 +311,7 @@ const EditProfile = () => {
                   paddingBottom: 4,
                 }}
               >
-                <PrimaryButton type="submit">
+                <PrimaryButton type="submit" disabled>
                   <Typography
                     variant="subtitle1"
                     sx={{ fontWeight: 800, px: 2 }}
