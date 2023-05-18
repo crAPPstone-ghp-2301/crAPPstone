@@ -79,7 +79,32 @@ const SecondaryButton = styled(Button)(({ theme }) => ({
     opacity: 0.5,
     cursor: "not-allowed",
   },
+  
 }));
+
+const MapButton = styled(Button)(({ theme }) => ({
+  border: `1px solid ${theme.palette.primary.dark}`,
+  color: `${theme.palette.primary.dark}`,
+  borderRadius: 20,
+  fontWeight: 500,
+  textTransform: "capitalize",
+  margin: 4,
+  padding: "5px 20px",
+  "&:hover": {
+    boxShadow: "1px 1px 2.5px rgba(0, 0, 0, 0.5)",
+    backgroundColor: `${theme.palette.primary.light}`,
+    color: `${theme.palette.primary.dark}`,
+  },
+  "&:disabled": {
+    opacity: 0.5,
+    cursor: "not-allowed",
+  },
+  "&.active": {
+    backgroundColor: "blue", // Replace with your desired background color
+    color: "white", // Replace with your desired text color
+  },
+}));
+
 
 // Tertiary button
 const TertiaryButton = styled(Button)(({ theme }) => ({
@@ -736,4 +761,5 @@ export {
   CustomizedTextField,
   StyledRating,
   customIcons,
+  MapButton,
 };

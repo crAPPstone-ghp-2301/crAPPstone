@@ -74,7 +74,6 @@ const AddRating = () => {
 
   return (
     <div>
-      {userId ? (
         <>
           <Typography
             variant="subtitle1"
@@ -144,7 +143,6 @@ const AddRating = () => {
             </SecondaryButton>
           </Box>
         </>
-      ) : (
         <>
           <Typography
             variant="subtitle1"
@@ -214,7 +212,7 @@ const AddRating = () => {
             </SecondaryButton>
           </Box>
         </>
-      )}
+
     </div>
   );
 };

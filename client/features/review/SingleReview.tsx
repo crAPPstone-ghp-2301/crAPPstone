@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { fetchSingleReview } from "./reviewSlice";
 import AllComments from "../Comments/AllComments";
 import crAppTheme from "../../app/theme";
+import PastRating from "../rating/PastRating";
 import {
   ThemeProvider,
   CssBaseline,

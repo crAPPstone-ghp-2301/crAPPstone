@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
 import crAppTheme from "../../app/theme";
+import PastRating from "../rating/PastRating";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
   Card,
   Box,
@@ -17,7 +19,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import AddReview from "./AddReview";
-import { TertiaryButton } from "../styles/StyleGuide";
+import { TertiaryButton,SecondaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
 const AllReviews = () => {
@@ -26,13 +28,17 @@ const AllReviews = () => {
   const { restroomId } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const userId = useSelector((state) => state.auth.me.id);
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
   useEffect(() => {
     dispatch(fetchAllReviewsOfRestroomId(restroomId));
   }, [dispatch, restroomId]);
 
   const reviews = useSelector((state) => state.review.allReviews);
-
+ 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -40,6 +46,12 @@ const AllReviews = () => {
   const handleReviewClick = (id) => {
     navigate(`/reviews/${id}`);
   };
+
+  const handleAddReview=()=>{
+    navigate(`/restrooms/${restroomId}/reviews/add`);
+  }
+
+  const ratings=useSelector(state=>state.rating.pastRating)
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -98,8 +110,46 @@ const AllReviews = () => {
           </Link>
           <Box>
             <Box>
-              <AddReview restroomId={restroomId} />
+            {ratings.length === 0 ? (
+                <Box sx={{ my: 2 }}>
+                  <PastRating />
+                </Box>
+              ) : (
+                <>
+                  <Box sx={{ my: 2 }}>
+                    <PastRating />
+                  </Box>
+                  {userId?( <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <SecondaryButton onClick={handleAddReview}>
+                      <Typography variant="subtitle1">
+                        Review<AddCircleIcon />
+                      </Typography>
+                    </SecondaryButton>
+                  </Box>):( <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <SecondaryButton onClick={handleLogin}>
+                      <Typography variant="subtitle1">
+                        Review<AddCircleIcon />
+                      </Typography>
+                    </SecondaryButton>
+                  </Box>)}
+                 
+                </>
+              )}
+            
               <Divider />
+
               <Box
                 style={{
                   height: "450px",
