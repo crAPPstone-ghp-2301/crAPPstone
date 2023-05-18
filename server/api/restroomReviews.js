@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const { models: { Comments, User, Review, Restroom } } = require('../db')
 
+//fetch all reviews of restroomId
 router.get('/:restroomId/reviews', async (req, res, next) => {
   try {
     const reviews = await Review.findAll({
@@ -25,6 +26,26 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
 
     res.json(reviewsWithUsername);
   } catch (error) {
+    next(error);
+  }
+});
+
+//fetch a single review of restroomId
+router.get('/:restroomId/reviews/:reviewId', async (req, res, next) => {
+  try {
+    const singleReview = await Review.findOne({
+      where: {
+        id: req.params.reviewId, 
+        restroomId: req.params.restroomId
+      },
+    });
+
+    if (singleReview) {
+      res.json(singleReview);
+    } else {
+      res.status(404).send('Review not found'); 
+    }
+  } catch (error) { 
     next(error);
   }
 });

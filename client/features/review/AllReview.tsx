@@ -16,9 +16,9 @@ import {
   Tab,
   useMediaQuery,
 } from "@mui/material";
-import AddReview from "./AddReview";
-import { TertiaryButton } from "../styles/StyleGuide";
+import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import Loading from "../loading/Loading";
 
 const AllReviews = () => {
   const dispatch = useDispatch();
@@ -26,6 +26,11 @@ const AllReviews = () => {
   const { restroomId } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    dispatch(fetchAllReviewsOfRestroomId(restroomId)).then(() => setIsLoading(false));
+  }, [dispatch, restroomId]);
 
   useEffect(() => {
     dispatch(fetchAllReviewsOfRestroomId(restroomId));
@@ -33,12 +38,22 @@ const AllReviews = () => {
 
   const reviews = useSelector((state) => state.review.allReviews);
 
+  if (isLoading) {
+    return (
+      <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
+    );
+  }
+  
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
-  const handleReviewClick = (id) => {
-    navigate(`/reviews/${id}`);
+  const handleReviewClick = (reviewId) => {
+    navigate(`${reviewId}`);
+  };
+
+  const handleWriteReview = () => {
+    navigate(`add`);
   };
 
   return (
@@ -98,11 +113,20 @@ const AllReviews = () => {
           </Link>
           <Box>
             <Box>
-              <AddReview restroomId={restroomId} />
-              <Divider />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleWriteReview}>
+                  <Typography variant="subtitle1">Write a Review</Typography>
+                </SecondaryButton>
+              </Box>
               <Box
                 style={{
-                  height: "450px",
+                  height: "80vh",
                   overflowY: "scroll",
                 }}
               >

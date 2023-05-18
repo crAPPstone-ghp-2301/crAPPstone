@@ -13,32 +13,18 @@ import {
   useMediaQuery,
   Typography,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 
-const AddReview = ({ restroomId }) => {
+const AddReview = () => {
   const dispatch = useDispatch();
   const [reviewText, setReviewText] = useState("");
   const [reportStatus, setReportStatus] = useState("none");
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:700px)");
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const container = document.getElementById("add-review-container");
-      if (container && !container.contains(event.target)) {
-        navigate("/");
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const { restroomId } = useParams();
 
   const handleChange = (event) => {
     setReviewText(event.target.value);
@@ -64,10 +50,7 @@ const AddReview = ({ restroomId }) => {
         const formData = new FormData();
         formData.append("image", selectedFile);
 
-        const response = await axios.post(
-          "/api/upload",
-          formData
-        );
+        const response = await axios.post("/api/upload", formData);
         imageURL = response.data.data.link;
       }
 
@@ -75,6 +58,7 @@ const AddReview = ({ restroomId }) => {
         createReview({ restroomId, reviewText, reportStatus, imageURL })
       ).then(() => {
         dispatch(fetchAllReviewsOfRestroomId(restroomId));
+        navigate(`/restrooms/${restroomId}/reviews`);
       });
 
       setReviewText("");
@@ -106,7 +90,7 @@ const AddReview = ({ restroomId }) => {
           textAlign: "center",
         }}
       >
-        <Link to="/">
+        <Link to={`/restrooms/${restroomId}/reviews`}>
           <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
             <CloseRoundedIcon />
           </TertiaryButton>

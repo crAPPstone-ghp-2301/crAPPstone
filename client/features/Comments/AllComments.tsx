@@ -13,24 +13,44 @@ import {
   Box,
   Divider,
 } from "@mui/material";
+import { SecondaryButton } from "../styles/StyleGuide";
+
 
 const AllComments = () => {
   const dispatch = useDispatch();
   const { reviewId } = useParams();
   const comments = useSelector((state) => state.comments.allComments);
+  const [showAddComment, setShowAddComment] = useState(false);
+
 
   useEffect(() => {
     dispatch(fetchAllComments(reviewId));
   }, [dispatch, reviewId]);
 
+    const handleWriteComment = () => {
+    setShowAddComment(!showAddComment);
+  };
+
+
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container>
-        <Box>
-          <AddComment reviewId={reviewId} />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {!showAddComment ? (
+            <SecondaryButton onClick={handleWriteComment}>
+              <Typography variant="subtitle1">Write a Comment</Typography>
+            </SecondaryButton>
+          ) : (
+            <AddComment reviewId={reviewId} />
+          )}
         </Box>
-
         <Box
           style={{ height: "310px", overflowY: "scroll", paddingRight: "20px" }}
         >
