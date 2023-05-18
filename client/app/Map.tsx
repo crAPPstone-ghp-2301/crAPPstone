@@ -6,9 +6,8 @@ import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-direct
 import { MapButton } from "../features/styles/StyleGuide";
 import { Box, Typography, useMediaQuery, Popper } from "@mui/material";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import CancelIcon from "@mui/icons-material/Cancel";
-import crAppTheme from "./theme";
+import { addToLocalStorage,getLocalStorage,clearLocalStorage } from "../features/history/HistoryLocalHelper";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw";
@@ -49,6 +48,9 @@ const Map = () => {
     setAnchorElRestroom(anchorElRestroom ? null : event.currentTarget);
   };
 
+  const history=getLocalStorage()
+  console.log(history)
+  
   const openMall = Boolean(anchorElMall);
   const openHotel = Boolean(anchorElHotel);
   const openRestroom = Boolean(anchorElRestroom);
@@ -202,6 +204,7 @@ const Map = () => {
     map.current.on("click", "restroom-mall-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
+      addToLocalStorage(feature.properties)
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -214,6 +217,7 @@ const Map = () => {
     map.current.on("click", "restroom-hotel-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
+      addToLocalStorage(feature.properties)
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
         <p>${feature.properties.Location}</p>
         <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -223,11 +227,12 @@ const Map = () => {
         .addTo(map.current);
     });
 
-    map.current.on("click", "all", (event) => {
+    map.current.on("click", "all-restroom", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
-      const popupContent = `<p><strong>${feature.properties.STORE_NAME}</strong></p>
-        <p>${feature.properties.STORE_LOCATION}</p>
+      addToLocalStorage(feature.properties)
+      const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
+        <p>${feature.properties.Location}</p>
         <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
       popup
         .setLngLat(feature.geometry.coordinates)
@@ -238,6 +243,7 @@ const Map = () => {
     map.current.on("click", "public-restroom-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
+      addToLocalStorage(feature.properties)
       const popupContent = `<p><strong>${feature.properties.Name}</strong></p>
       <p>${feature.properties.Location}</p>
       <a href="/restrooms/${feature.properties.id_restroom}">More info</a>`;
@@ -260,7 +266,7 @@ const Map = () => {
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
         $("#restroom-mall-nyc").removeClass("active");
-        map.current.setLayoutProperty("all", "visibility", "visible");
+        map.current.setLayoutProperty("all-restroom", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         $("#restroom-mall-nyc").addClass("active");
@@ -274,7 +280,7 @@ const Map = () => {
           "visibility",
           "none"
         );
-        map.current.setLayoutProperty("all", "visibility", "none");
+        map.current.setLayoutProperty("all-restroom", "visibility", "none");
       }
     });
 
@@ -292,7 +298,7 @@ const Map = () => {
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
         $("#restroom-hotel-nyc").removeClass("active");
-        map.current.setLayoutProperty("all", "visibility", "visible");
+        map.current.setLayoutProperty("all-restroom", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         $("#restroom-hotel-nyc").addClass("active");
@@ -306,7 +312,7 @@ const Map = () => {
           "visibility",
           "none"
         );
-        map.current.setLayoutProperty("all", "visibility", "none");
+        map.current.setLayoutProperty("all-restroom", "visibility", "none");
       }
     });
 
@@ -324,7 +330,7 @@ const Map = () => {
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
         $("#public-restroom-nyc").removeClass("active");
-        map.current.setLayoutProperty("all", "visibility", "visible");
+        map.current.setLayoutProperty("all-restroom", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         $("#public-restroom-nyc").addClass("active");
@@ -338,7 +344,7 @@ const Map = () => {
           "visibility",
           "none"
         );
-        map.current.setLayoutProperty("all", "visibility", "none");
+        map.current.setLayoutProperty("all-restroom", "visibility", "none");
       }
     });
 
