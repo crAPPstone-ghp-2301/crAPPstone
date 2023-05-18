@@ -16,6 +16,8 @@ import {
 import { createRating, fetchRatings } from "../rating/RatingSlice";
 import { Link, useNavigate,useParams } from "react-router-dom";
 import { SecondaryButton, TertiaryButton,StyledRating, customIcons } from "../styles/StyleGuide";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PropTypes from "prop-types";
@@ -33,6 +35,7 @@ const AddReview = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:700px)");
+
 
   //settings in rating
   const initialRating = 3; // Initial rating value
@@ -63,6 +66,8 @@ const AddReview = () => {
     };
   }, []);
 
+
+
   const handleChange = (event) => {
     setReviewText(event.target.value);
   };
@@ -87,10 +92,7 @@ const AddReview = () => {
         const formData = new FormData();
         formData.append("image", selectedFile);
 
-        const response = await axios.post(
-          "/api/upload",
-          formData
-        );
+        const response = await axios.post("/api/upload", formData);
         imageURL = response.data.data.link;
       }
 
@@ -101,7 +103,7 @@ const AddReview = () => {
 
       dispatch(fetchAllReviewsOfRestroomId(restroomId));
       dispatch(fetchRatings(restroomId));
-
+      navigate(`/restrooms/${restroomId}/reviews`);
       setReviewText("");
       setReportStatus("none");
       setSelectedFile(null);
@@ -169,7 +171,7 @@ const handleCheckboxhate = (event) => {
           textAlign: "center",
         }}
       >
-        <Link to="/">
+        <Link to={`/restrooms/${restroomId}/reviews`}>
           <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
             <CloseRoundedIcon />
           </TertiaryButton>
