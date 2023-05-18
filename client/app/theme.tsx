@@ -43,7 +43,7 @@ let crAppTheme = createTheme({
     primary: {
       main: "#FEFAE0",
       light: "#FAEDCD",
-      dark: "#D4A373",
+      dark: "#885742",
     },
     secondary: {
       main: "#EDDCD2",

@@ -69,7 +69,6 @@ div#geocoder-search {
   width: 25em;
 }
 
-
 #get-direction {
   position: absolute;
   z-index: 1;
@@ -93,41 +92,23 @@ div#geocoder-search {
 
   
 @media only screen and (max-width: 700px) {
-  body {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    background-color: #fefae0;
-    overflow: "hidden";
-  }
+  body,
   #app {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #fefae0;
-    overflow: "hidden";
-  }
-
-  #sidebar {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
-  }
-
-  #edit-profile-container {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
+    overflow: hidden;
   }
 
   #get-direction {
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     bottom: 0;
     right: 50px;
   }
 
   #end-direction {
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     bottom: 0;
     right: 50px;
   }

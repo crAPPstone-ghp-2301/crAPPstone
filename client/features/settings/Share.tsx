@@ -49,11 +49,9 @@ const Share = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center",
           backgroundColor: "#FFF",
           p: 4,
           width: isMobile ? "100%" : "30%",
-          textAlign: "center",
         }}
       >
         <Link to="/">
@@ -61,7 +59,7 @@ const Share = () => {
             <CloseRoundedIcon />
           </TertiaryButton>
         </Link>
-        Testing Share
+        <Typography variant="h3">Share crAPP</Typography>
       </Container>
     </ThemeProvider>
   );

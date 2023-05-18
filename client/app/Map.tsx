@@ -17,7 +17,7 @@ const Map = () => {
   const [lng, setLng] = useState(-73.98);
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
-  const isMobile = useMediaQuery("(max-width:1000px)");
+  const isMobile = useMediaQuery("(max-width:1250px)");
 
  
     const [isActivehotel, setIsActivehotel] = useState(false)
@@ -79,14 +79,24 @@ const Map = () => {
       accessToken: mapboxgl.accessToken,
       mapboxgl: mapboxgl,
       zoom: 13,
-      placeholder: 'Enter an address or place name',
-      bbox: [
-        -74.0171, 
-        40.6983, 
-        -73.9949, 
-        40.7273 ]
-      });
-       
+      placeholder: "Enter an address or place name",
+      bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
+    });
+
+    const sub = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl: mapboxgl,
+    });
+    map.current.addControl(sub, "top-right");
+    sub.container.style.display = "none";
+
+    map.current.addControl(geocoder, "top-right");
+    geocoder.container.setAttribute("id", "geocoder-search");
+
+    map.current.on("load", () => {
+      const marker = new mapboxgl.Marker({
+        color: " #CB997E",
+      });      
      const sub= new MapboxGeocoder({accessToken: mapboxgl.accessToken, mapboxgl: mapboxgl})
      map.current.addControl(sub,"top-right")
      sub.container.style.display = "none";
@@ -193,7 +203,6 @@ const Map = () => {
         .addTo(map.current);
     });
 
-
     map.current.on("click", "restroom-hotel-nyc", (event) => {
       map.current.getCanvas().style.cursor = "pointer";
       const feature = event.features[0];
@@ -230,8 +239,6 @@ const Map = () => {
         .addTo(map.current);
     });
 
-    
-
     $(document).on("click", "#restroom-mall-nyc", (e) => {
       const clickedLayer = "restroom-mall-nyc";
       e.preventDefault();
@@ -246,7 +253,6 @@ const Map = () => {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
         $("#restroom-mall-nyc").removeClass('active');
         map.current.setLayoutProperty("all", "visibility", "visible");
-
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
         $("#restroom-mall-nyc").addClass('active');
@@ -264,10 +270,8 @@ const Map = () => {
       }
     });
 
-  
-
     $(document).on("click", "#restroom-hotel-nyc", (e) => {
-      const clickedLayer = "restroom-hotel-nyc"
+      const clickedLayer = "restroom-hotel-nyc";
       e.preventDefault();
       e.stopPropagation();
 
@@ -297,7 +301,6 @@ const Map = () => {
         map.current.setLayoutProperty("all", "visibility", "none");
       }
     });
-
 
     $(document).on("click", "#public-restroom-nyc", (e) => {
       const clickedLayer = "public-restroom-nyc";
@@ -331,31 +334,28 @@ const Map = () => {
       }
     });
 
-  
     function direction_reset() {
       directions.actions.clearOrigin();
       directions.actions.clearDestination();
-      directions.container.querySelector('input').value = '';
+      directions.container.querySelector("input").value = "";
     }
-    
-    $(document).on('click', '#get-direction', function() {
+
+    $(document).on("click", "#get-direction", function () {
       // Adding Direction form and instructions on map
-      map.current.addControl(directions, 'top-right');
-      directions.container.setAttribute('id', 'direction-container');
+      map.current.addControl(directions, "top-right");
+      directions.container.setAttribute("id", "direction-container");
       $(geocoder.container).hide();
       $(this).hide();
-      $('#end-direction').removeClass('d-none');
+      $("#end-direction").removeClass("d-none");
     });
-    
-    $(document).on('click', '#end-direction', function() {
+
+    $(document).on("click", "#end-direction", function () {
       direction_reset();
-      $(this).addClass('d-none');
-      $('#get-direction').show();
+      $(this).addClass("d-none");
+      $("#get-direction").show();
       $(geocoder.container).show();
       map.current.removeControl(directions);
     });
-
-
   }, []);
 
   return (
@@ -468,9 +468,7 @@ const Map = () => {
             </Typography>
           </MapButton>
         </Box>
-      )}
-
-      
+      )}   
         <MapButton
           variant="contained"
           sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
@@ -492,8 +490,7 @@ const Map = () => {
             For Search
           </Typography>
         </MapButton>
-     
-      <Box ref={mapContainer} className="map-container"></Box>
+           <Box ref={mapContainer} className="map-container"></Box>
     </Box>
   );
 };

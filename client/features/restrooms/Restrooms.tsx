@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import crAppTheme from "../../app/theme";
@@ -14,15 +14,19 @@ import {
   CardMedia,
   CardContent,
   CssBaseline,
+  useMediaQuery,
+  Fab,
 } from "@mui/material";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   useEffect(() => {
     dispatch(getAllRestrooms());
@@ -57,29 +61,58 @@ const AllRestrooms = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [navigate]);
 
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      <Container
+      <Box
         id="restroom-container"
         sx={{
           position: "fixed",
           top: 0,
-          left: "100px",
-          zIndex: 1,
+          left: isMobile ? 0 : "100px",
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
-          width: 450,
+          width: isMobile ? "100%" : 450,
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
+          scrollBehavior: "smooth",
+          scrollbarWidth: "thin",
           "&::-webkit-scrollbar": {
-            display: "none",
+            width: "8px",
           },
-          "@media (max-width: 700px)": {
-            left: "0",
-            width: "90%",
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical": {
+            minHeight: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal": {
+            minWidth: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-corner": {
+            backgroundColor: "transparent",
           },
         }}
       >
@@ -88,15 +121,17 @@ const AllRestrooms = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            marginTop: 10,
+            p: 2,
           }}
         >
-          <Typography variant="h3">All Restrooms</Typography>
-          <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 80, right: 0 }}>
-              <CloseRoundedIcon />
-            </TertiaryButton>
-          </Link>
+          <Box sx={{ p: 1 }}>
+            <Typography variant="h3">All Restrooms</Typography>
+            <Link to="/">
+              <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
+                <CloseRoundedIcon />
+              </TertiaryButton>
+            </Link>
+          </Box>
           <Box>
             {Array.isArray(restrooms) &&
               restrooms.map((restroom) => {
@@ -106,7 +141,7 @@ const AllRestrooms = () => {
                       display: "flex",
                       my: 2,
                       p: 1,
-                      width: 380,
+                      width: isMobile ? "100%" : 380,
                       transition: "box-shadow 0.3s",
                       "&:hover": {
                         backgroundColor: crAppTheme.palette.primary.main,
@@ -203,7 +238,7 @@ const AllRestrooms = () => {
               })}
           </Box>
         </Container>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 };

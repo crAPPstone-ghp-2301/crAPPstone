@@ -7,6 +7,8 @@ import {
   Container,
   Typography,
   Box,
+  useMediaQuery,
+  Avatar,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -16,6 +18,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 const Profile = () => {
   const { id, name, email, username } = useSelector((state) => state.auth.me);
   const token = window.localStorage.getItem("token");
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   useEffect(() => {
     document.title = `Profile - crAPP Account`;
@@ -39,10 +42,10 @@ const Profile = () => {
         sx={{
           position: "fixed",
           top: 0,
-          left: "100px",
-          zIndex: 1,
+          left: isMobile ? 0 : "100px",
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
-          width: 450,
+          width: isMobile ? "100%" : 450,
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
@@ -53,10 +56,10 @@ const Profile = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            py: 1,
+            p: 1,
           }}
         >
-          <Box sx={{ py: 1 }}>
+          <Box sx={{ p: 1 }}>
             <Typography variant="h3">Personal Profile</Typography>
             <Typography variant="subtitle1">
               Info about you and your preferences on crAPP
@@ -67,35 +70,42 @@ const Profile = () => {
               <CloseRoundedIcon />
             </TertiaryButton>
           </Link>
-          <Box sx={{ py: 1 }}>
-            <Box sx={{ py: 1 }}>
+          <Box sx={{ p: 1 }}>
+            <Box sx={{ p: 1 }}>
               <Typography variant="h5">Basic Info</Typography>
             </Box>
-            <Box sx={{ py: 1 }}>
+            <Box sx={{ p: 1 }}>
               <Typography variant="caption">Username:</Typography>
               <Typography variant="subtitle1">{username}</Typography>
             </Box>
-            <Box sx={{ py: 1 }}>
+            <Box sx={{ p: 1 }}>
               <Typography variant="caption">Name:</Typography>
               <Typography variant="subtitle1">{name}</Typography>
             </Box>
-            <Box sx={{ py: 1 }}>
+            <Box sx={{ p: 1 }}>
               <Typography variant="caption">Email:</Typography>
               <Typography variant="subtitle1">{email}</Typography>
             </Box>
           </Box>
-          <Box sx={{ py: 1 }}>
-            <Box sx={{ py: 1 }}>
+          <Box sx={{ p: 1 }}>
+            <Box sx={{ p: 1 }}>
               <Typography variant="h5">Password</Typography>
             </Box>
-            <Box sx={{ py: 1 }}>
+            <Box sx={{ p: 1 }}>
               <Typography variant="caption">Your secure password</Typography>
               <Typography variant="subtitle1">*****</Typography>
             </Box>
           </Box>
-          <Box sx={{ py: 1 }}>
-            <Box sx={{ py: 1 }}>
+          <Box sx={{ p: 1 }}>
+            <Box sx={{ p: 1 }}>
               <Typography variant="h5">Profile Image</Typography>
+            </Box>
+            <Box sx={{ p: 1 }}>
+              <Avatar>
+                <Typography sx={{ textTransform: "capitalize" }}>
+                  {username[0]}
+                </Typography>
+              </Avatar>
             </Box>
           </Box>
           <Link to="/editprofile">

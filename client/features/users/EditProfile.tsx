@@ -13,6 +13,8 @@ import {
   Box,
   Tabs,
   Tab,
+  Avatar,
+  useMediaQuery,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,6 +25,8 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { me } = useSelector((state) => state.auth);
+  const isMobile = useMediaQuery("(max-width:900px)");
+
   const { id, name, email, username, password } = useSelector(
     (state) => state.auth.me
   );
@@ -91,14 +95,14 @@ const EditProfile = () => {
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Box
-        id="edit-profile-container"
+        id="profile-container"
         sx={{
           position: "fixed",
           top: 0,
-          left: "100px",
-          zIndex: 1,
+          left: isMobile ? 0 : "100px",
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
-          width: 450,
+          width: isMobile ? "100%" : 450,
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
@@ -109,10 +113,10 @@ const EditProfile = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            py: 2,
+            p: 1,
           }}
         >
-          <Box sx={{ py: 1 }}>
+          <Box sx={{ p: 1 }}>
             <Typography variant="h3">Edit Profile</Typography>
             <Typography variant="subtitle1">
               Change your preferences on crAPP
@@ -147,7 +151,7 @@ const EditProfile = () => {
           {activeTab === 0 && (
             <form onSubmit={handleInfoEdit}>
               <Box sx={{ py: 3 }}>
-                <Box sx={{ py: 2 }}>
+                <Box sx={{ p: 2 }}>
                   <Typography variant="h5">Basic Info</Typography>
                 </Box>
                 <CustomizedTextField
@@ -157,12 +161,14 @@ const EditProfile = () => {
                   defaultValue={username}
                   required
                   fullWidth
+                  sx={{ width: isMobile ? 300 : "auto" }}
                 />
                 <CustomizedTextField
                   label="Name"
                   name="name"
                   defaultValue={name}
                   fullWidth
+                  sx={{ width: isMobile ? 300 : "auto" }}
                 />
                 <CustomizedTextField
                   label="Email"
@@ -172,6 +178,7 @@ const EditProfile = () => {
                   defaultValue={email}
                   required
                   fullWidth
+                  sx={{ width: isMobile ? 300 : "auto" }}
                 />
               </Box>
               <Box
@@ -191,7 +198,7 @@ const EditProfile = () => {
                   </Typography>
                 </PrimaryButton>
                 <Link to="/profile">
-                  <TertiaryButton sx={{ mx: 2, py: 2 }}>
+                  <TertiaryButton sx={{ mx: 2, p: 2 }}>
                     <Typography
                       variant="subtitle1"
                       sx={{ fontWeight: 800, px: 2 }}
@@ -206,7 +213,7 @@ const EditProfile = () => {
           {activeTab === 1 && (
             <form onSubmit={handlePasswordEdit}>
               <Box sx={{ py: 3 }}>
-                <Box sx={{ py: 2 }}>
+                <Box sx={{ p: 2 }}>
                   <Typography variant="h5">Password</Typography>
                 </Box>
                 <CustomizedTextField
@@ -216,6 +223,7 @@ const EditProfile = () => {
                   helperText="Required Input"
                   required
                   fullWidth
+                  sx={{ width: isMobile ? 300 : "auto" }}
                 />
                 <CustomizedTextField
                   label="Confirm Password"
@@ -224,6 +232,7 @@ const EditProfile = () => {
                   helperText="Required Input"
                   required
                   fullWidth
+                  sx={{ width: isMobile ? 300 : "auto" }}
                 />
               </Box>
               {error && (
@@ -267,8 +276,15 @@ const EditProfile = () => {
           {activeTab === 2 && (
             <form>
               <Box sx={{ py: 3 }}>
-                <Box sx={{ py: 2 }}>
+                <Box sx={{ p: 2 }}>
                   <Typography variant="h5">Profile Image</Typography>
+                </Box>
+                <Box sx={{ p: 1, display: "flex", justifyContent: "center" }}>
+                  <Avatar>
+                    <Typography sx={{ textTransform: "capitalize" }}>
+                      {username[0]}
+                    </Typography>
+                  </Avatar>
                 </Box>
               </Box>
               <Box

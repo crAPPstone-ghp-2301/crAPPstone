@@ -25,6 +25,7 @@ import {
   Divider,
   Snackbar,
   Rating,
+  useMediaQuery,
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
@@ -47,6 +48,7 @@ const SingleRestroom = () => {
   const restroom = useSelector(selectSingleRestroom);
   const ratings = useSelector((state) => state.rating.pastRating);
   const restroomName = restroom.name;
+  const isMobile = useMediaQuery("(max-width:900px)");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -134,19 +136,15 @@ const SingleRestroom = () => {
           sx={{
             position: "fixed",
             top: 0,
-            left: "100px",
-            zIndex: 1,
+            left: isMobile ? 0 : "100px",
+            zIndex: isMobile ? 2 : 1,
             backgroundColor: "white",
-            width: 450,
+            width: isMobile ? "100%" : 450,
             height: "100%",
             overflow: "auto",
             paddingBottom: 10,
             "&::-webkit-scrollbar": {
               display: "none",
-            },
-            "@media (max-width: 700px)": {
-              left: "0",
-              width: "90%",
             },
           }}
         >
@@ -155,10 +153,11 @@ const SingleRestroom = () => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "flex-start",
+              p: 1,
             }}
           >
             <Link to="/">
-              <TertiaryButton sx={{ position: "absolute", top: 280, right: 0 }}>
+              <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
                 <CloseRoundedIcon />
               </TertiaryButton>
             </Link>
@@ -287,73 +286,65 @@ const SingleRestroom = () => {
                 <PastRating />
               </Box>
               <Divider />
-              <Box sx={{ m: 2 }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: "900",
-                    color: crAppTheme.palette.primary.dark,
-                    lineHeight: 1,
-                  }}
-                >
-                  Dropped the kids off at the pool… now craving some food?
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: crAppTheme.palette.primary.dark,
-                    paddingRight: 2,
-                  }}
-                >
-                  Check out Empire Eats
-                </Typography>
-                <a href="https://empireeats.onrender.com/" target="_blank">
-                  <OpenInNewRoundedIcon />
-                </a>
+              <Box
+                sx={{
+                  m: 1,
+                  p: 1,
+                  borderRadius: 2,
+                  backgroundColor: crAppTheme.palette.primary.main,
+                }}
+              >
+                <span>
+                  <Typography
+                    variant="overline"
+                    sx={{
+                      color: crAppTheme.palette.primary.dark,
+                      border: `1px solid ${crAppTheme.palette.primary.dark}`,
+                      borderRadius: 2,
+                      m: 1,
+                      p: 0.5,
+                      textTransform: "none",
+                    }}
+                  >
+                    Ad -{" "}
+                    <a
+                      href="https://empireeats.onrender.com/"
+                      target="_blank"
+                      style={{ textTransform: "none" }}
+                    >
+                      https://empireeats.onrender.com
+                    </a>
+                  </Typography>
+                </span>
+                <Box sx={{ display: "flex", flexDirection: "column", m: 1 }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      fontWeight: "900",
+                      color: crAppTheme.palette.primary.dark,
+                      lineHeight: 1,
+                    }}
+                  >
+                    Dropped the kids off at the pool and craving some food?
+                  </Typography>
+                  <span>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: crAppTheme.palette.primary.dark,
+                        paddingRight: 1,
+                      }}
+                    >
+                      Check out Empire Eats
+                    </Typography>
+                    <a href="https://empireeats.onrender.com/" target="_blank">
+                      <OpenInNewRoundedIcon />
+                    </a>
+                  </span>
+                </Box>
               </Box>
               <Divider />
             </Container>
-            <Box
-              style={{
-                height: "310px",
-                overflow: "auto",
-                paddingRight: "20px",
-                "&::-webkit-scrollbar": {
-                  display: "none",
-                },
-              }}
-            >
-              {reviews
-                .filter((review) => review.restroomId === id) // Filter reviews based on restroomId matching id
-                .map((review) => (
-                  <Card
-                    key={review.id}
-                    sx={{
-                      cursor: "pointer",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      src={review.imageURL}
-                      alt="Picture unavailable!"
-                      onError={(e) => {
-                        e.target.src =
-                          "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
-                      }}
-                    />
-                    <Typography variant="h5">
-                      {review.user ? review.user.username : "Anonymous"}
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      {review.reviewText}
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      Report: {review.reportStatus}
-                    </Typography>
-                  </Card>
-                ))}
-            </Box>
           </Box>
         </Box>
       </ThemeProvider>
