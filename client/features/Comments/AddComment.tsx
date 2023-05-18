@@ -17,6 +17,7 @@ const AddComment = ({ reviewId }) => {
   const navigate = useNavigate();
   const [content, setContent] = useState("");
   const user = useSelector((state) => state.auth.me);
+  const { restroomId } = useParams();
 
   const handleChange = (event) => {
     setContent(event.target.value);
@@ -28,7 +29,7 @@ const AddComment = ({ reviewId }) => {
     dispatch(createComment({ content, reviewId, userId })).then(() => {
       dispatch(fetchAllComments(reviewId));
       setContent("");
-      navigate(`/reviews/${reviewId}`);
+      navigate(``);
     });
   };
 
