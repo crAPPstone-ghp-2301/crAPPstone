@@ -18,18 +18,25 @@ import {
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Loading from "../loading/Loading";
 
 const SingleReview = () => {
   const dispatch = useDispatch();
   const { reviewId, restroomId } = useParams();
   const isMobile = useMediaQuery("(max-width: 600px)");
-
   const singleReview = useSelector((state) => state.review.singleReview);
   const { reviewText, imageURL, reportStatus } = singleReview;
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchSingleReviewOfRestroomId({ restroomId, reviewId }));
+    dispatch(fetchSingleReviewOfRestroomId({ restroomId, reviewId })).then(() => setIsLoading(false));
   }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
+    );
+  }
 
   return (
     <ThemeProvider theme={crAppTheme}>

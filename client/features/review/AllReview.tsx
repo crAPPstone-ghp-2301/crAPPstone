@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import Loading from "../loading/Loading";
 
 const AllReviews = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,11 @@ const AllReviews = () => {
   const { restroomId } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    dispatch(fetchAllReviewsOfRestroomId(restroomId)).then(() => setIsLoading(false));
+  }, [dispatch, restroomId]);
 
   useEffect(() => {
     dispatch(fetchAllReviewsOfRestroomId(restroomId));
@@ -32,6 +38,12 @@ const AllReviews = () => {
 
   const reviews = useSelector((state) => state.review.allReviews);
 
+  if (isLoading) {
+    return (
+      <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
+    );
+  }
+  
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
