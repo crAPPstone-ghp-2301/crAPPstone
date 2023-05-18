@@ -11,7 +11,6 @@ import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
 import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
 import { addSavedRestroom } from "../save/saveSlice";
-import AddRating from "../rating/Rating";
 import PastRating from "../rating/PastRating";
 import {
   ThemeProvider,
@@ -41,6 +40,8 @@ const SingleRestroom = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { id } = useParams();
+  const userId = useSelector((state) => state.auth.me.id);
+  
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
@@ -57,6 +58,9 @@ const SingleRestroom = () => {
 
   const handleCloseSnackbar = () => {
     setIsSnackbarOpen(false);
+  };
+  const handleLogin = () => {
+    navigate("/login");
   };
 
   const sumRatings =
@@ -275,17 +279,27 @@ const SingleRestroom = () => {
               <Box sx={{ my: 2 }}>
                 <PastRating />
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <SecondaryButton onClick={handleWriteReview}>
-                  <Typography variant="subtitle1">Write a Review</Typography>
-                </SecondaryButton>
-              </Box>
+              {userId?( <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <SecondaryButton onClick={handleWriteReview}>
+                <Typography variant="subtitle1">Write a Review</Typography>
+              </SecondaryButton>
+            </Box>):( <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <SecondaryButton onClick={handleLogin}>
+                <Typography variant="subtitle1">Write a Review</Typography>
+              </SecondaryButton>
+            </Box>)}
               <Divider />
               <Box
                 sx={{

@@ -63,9 +63,7 @@ const AllReviews = () => {
     navigate(`add`);
   };
 
-  const handleAddReview = () => {
-    navigate(`/restrooms/${restroomId}/reviews/add`);
-  };
+ 
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -126,7 +124,7 @@ const AllReviews = () => {
             <Box sx={{ my: 2 }}>
               <PastRating />
             </Box>
-            <Box
+            {userId?( <Box
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -136,7 +134,18 @@ const AllReviews = () => {
               <SecondaryButton onClick={handleWriteReview}>
                 <Typography variant="subtitle1">Write a Review</Typography>
               </SecondaryButton>
-            </Box>
+            </Box>):( <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <SecondaryButton onClick={handleLogin}>
+                <Typography variant="subtitle1">Write a Review</Typography>
+              </SecondaryButton>
+            </Box>)}
+            
             <Divider />
 
             <Box>

@@ -81,29 +81,13 @@ const Map = () => {
       bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
     });
 
-    const sub = new MapboxGeocoder({
-      accessToken: mapboxgl.accessToken,
-      mapboxgl: mapboxgl,
-    });
-    map.current.addControl(sub, "top-right");
-    sub.container.style.display = "none";
+    
 
     map.current.addControl(geocoder, "top-right");
     geocoder.container.setAttribute("id", "geocoder-search");
 
-    map.current.on("load", () => {
-      const marker = new mapboxgl.Marker({
-        color: " #CB997E",
-      });
-      const sub = new MapboxGeocoder({
-        accessToken: mapboxgl.accessToken,
-        mapboxgl: mapboxgl,
-      });
-      map.current.addControl(sub, "top-right");
-      sub.container.style.display = "none";
-
-      map.current.addControl(geocoder, "top-right");
-      geocoder.container.setAttribute("id", "geocoder-search");
+ 
+   
 
       map.current.on("load", () => {
         const marker = new mapboxgl.Marker({
@@ -167,7 +151,7 @@ const Map = () => {
             ],
           },
         });
-      });
+      
 
       const popup = new mapboxgl.Popup();
 
