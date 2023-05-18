@@ -12,7 +12,7 @@ import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
 import { addSavedRestroom } from "../save/saveSlice";
 import AddRating from "../rating/Rating";
-import PastRating from "../rating/PastRating"
+import PastRating from "../rating/PastRating";
 import {
   ThemeProvider,
   Typography,
@@ -127,7 +127,7 @@ const SingleRestroom = () => {
       <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
     );
   }
-  
+
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
@@ -271,6 +271,10 @@ const SingleRestroom = () => {
                 </Box>
               </Box>
               <Divider />
+
+              <Box sx={{ my: 2 }}>
+                <PastRating />
+              </Box>
               <Box
                 sx={{
                   display: "flex",
@@ -281,9 +285,6 @@ const SingleRestroom = () => {
                 <SecondaryButton onClick={handleWriteReview}>
                   <Typography variant="subtitle1">Write a Review</Typography>
                 </SecondaryButton>
-              </Box>
-              <Box sx={{ my: 2 }}>
-                <PastRating />
               </Box>
               <Divider />
               <Box

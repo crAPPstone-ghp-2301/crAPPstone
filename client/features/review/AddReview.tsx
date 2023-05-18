@@ -14,10 +14,13 @@ import {
   Typography,
 } from "@mui/material";
 import { createRating, fetchRatings } from "../rating/RatingSlice";
-import { Link, useNavigate,useParams } from "react-router-dom";
-import { SecondaryButton, TertiaryButton,StyledRating, customIcons } from "../styles/StyleGuide";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
+import {
+  SecondaryButton,
+  TertiaryButton,
+  StyledRating,
+  customIcons,
+} from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PropTypes from "prop-types";
@@ -27,7 +30,6 @@ import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 
-
 const AddReview = () => {
   const dispatch = useDispatch();
   const [reviewText, setReviewText] = useState("");
@@ -35,7 +37,6 @@ const AddReview = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const navigate = useNavigate();
   const isMobile = useMediaQuery("(max-width:700px)");
-
 
   //settings in rating
   const initialRating = 3; // Initial rating value
@@ -50,7 +51,7 @@ const AddReview = () => {
   //   (state) => state.singleRestroom.singleRestroom.id
   // );
   const { restroomId } = useParams();
-  console.log(restroomId)
+  console.log(restroomId);
   useEffect(() => {
     const handleClickOutside = (event) => {
       const container = document.getElementById("add-review-container");
@@ -65,8 +66,6 @@ const AddReview = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-
 
   const handleChange = (event) => {
     setReviewText(event.target.value);
@@ -97,7 +96,9 @@ const AddReview = () => {
       }
 
       await Promise.all([
-        dispatch(createReview({ restroomId, reviewText, reportStatus, imageURL })),
+        dispatch(
+          createReview({ restroomId, reviewText, reportStatus, imageURL })
+        ),
         dispatch(createRating({ userId, restroomId, userRating, isClean })),
       ]);
 
@@ -108,38 +109,37 @@ const AddReview = () => {
       setReportStatus("none");
       setSelectedFile(null);
       setuserRating(initialRating);
-    setLikeChecked(initialLikeChecked);
-    setHateChecked(initialHateChecked);
+      setLikeChecked(initialLikeChecked);
+      setHateChecked(initialHateChecked);
     } catch (error) {
       console.error(error);
     }
-}
+  };
 
-const handleLogin = () => {
-  navigate("/login");
-};
+  const handleLogin = () => {
+    navigate("/login");
+  };
 
-const handleRatingChange = (event, newValue) => {
-  setuserRating(newValue);
-};
-const handleCheckboxlike = (event) => {
-  const isChecked = event.target.checked;
-  setLikeChecked(isChecked);
-  if (isChecked) {
-    setHateChecked(false);
-  }
-  setisClean(true);
-};
+  const handleRatingChange = (event, newValue) => {
+    setuserRating(newValue);
+  };
+  const handleCheckboxlike = (event) => {
+    const isChecked = event.target.checked;
+    setLikeChecked(isChecked);
+    if (isChecked) {
+      setHateChecked(false);
+    }
+    setisClean(true);
+  };
 
-const handleCheckboxhate = (event) => {
-  const isChecked = event.target.checked;
-  setHateChecked(isChecked);
-  if (isChecked) {
-    setLikeChecked(false);
-  }
-  setisClean(false);
-};
-
+  const handleCheckboxhate = (event) => {
+    const isChecked = event.target.checked;
+    setHateChecked(isChecked);
+    if (isChecked) {
+      setLikeChecked(false);
+    }
+    setisClean(false);
+  };
 
   function IconContainer(props) {
     const { value, ...other } = props;
@@ -177,64 +177,74 @@ const handleCheckboxhate = (event) => {
           </TertiaryButton>
         </Link>
         <Box sx={{ p: 2 }}>
-          <Typography variant="h3" sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}>Add A Review</Typography>
-          <Box sx={{
-          justifyContent: "center",
-          alignItems: "center",
-        }} >
-           <Typography
-            variant="subtitle1"
+          <Typography
+            variant="h3"
             sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}
           >
-            Share your Experience
+            Add A Review
           </Typography>
-          <StyledRating
-            name="customized-icons"
-            value={userRating}
-            getLabelText={(value) => customIcons[value].label}
-            IconContainerComponent={IconContainer}
-            onChange={handleRatingChange}
-            sx={{ display: "flex", justifyContent: "center" }}
-          />
-
-          <div style={{ textAlign: "center" }}>
+          <Box
+            sx={{
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Typography
               variant="subtitle1"
-              sx={{ color: crAppTheme.palette.primary.dark }}
+              sx={{
+                color: crAppTheme.palette.primary.dark,
+                textAlign: "center",
+              }}
             >
-              Is Restroom Clean?
+              Share your Experience
             </Typography>
-            <div style={{ display: "flex", justifyContent: "center" }}>
-              <Checkbox
-                icon={
-                  <ThumbUpOffAltIcon
-                    style={{ color: crAppTheme.palette.primary.dark }}
-                  />
-                }
-                checkedIcon={
-                  <ThumbUpIcon
-                    style={{ color: crAppTheme.palette.success.main }}
-                  />
-                }
-                onChange={handleCheckboxlike}
-                checked={likeChecked}
-              />
-              <Checkbox
-                icon={
-                  <ThumbDownOffAltIcon
-                    style={{ color: crAppTheme.palette.primary.dark }}
-                  />
-                }
-                checkedIcon={
-                  <ThumbDownIcon
-                    style={{ color: crAppTheme.palette.error.main }}
-                  />
-                }
-                onChange={handleCheckboxhate}
-                checked={hateChecked}
-              />
+            <StyledRating
+              name="customized-icons"
+              value={userRating}
+              getLabelText={(value) => customIcons[value].label}
+              IconContainerComponent={IconContainer}
+              onChange={handleRatingChange}
+              sx={{ display: "flex", justifyContent: "center" }}
+            />
+
+            <div style={{ textAlign: "center" }}>
+              <Typography
+                variant="subtitle1"
+                sx={{ color: crAppTheme.palette.primary.dark }}
+              >
+                Is Restroom Clean?
+              </Typography>
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Checkbox
+                  icon={
+                    <ThumbUpOffAltIcon
+                      style={{ color: crAppTheme.palette.primary.dark }}
+                    />
+                  }
+                  checkedIcon={
+                    <ThumbUpIcon
+                      style={{ color: crAppTheme.palette.success.main }}
+                    />
+                  }
+                  onChange={handleCheckboxlike}
+                  checked={likeChecked}
+                />
+                <Checkbox
+                  icon={
+                    <ThumbDownOffAltIcon
+                      style={{ color: crAppTheme.palette.primary.dark }}
+                    />
+                  }
+                  checkedIcon={
+                    <ThumbDownIcon
+                      style={{ color: crAppTheme.palette.error.main }}
+                    />
+                  }
+                  onChange={handleCheckboxhate}
+                  checked={hateChecked}
+                />
               </div>
-           </div>
+            </div>
           </Box>
           <form onSubmit={handleSubmit}>
             <TextField
@@ -262,35 +272,36 @@ const handleCheckboxhate = (event) => {
               <MenuItem value="super dirty">Super Dirty</MenuItem>
             </TextField>
             <input type="file" onChange={handleFileChange} />
-            
-            {userId?(<Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            
-            <SecondaryButton onClick={handleSubmit}>
-              <Typography variant="subtitle1">
-                Submit <CheckCircleIcon />
-              </Typography>
-            </SecondaryButton>
-          </Box>):(<Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            
-            <SecondaryButton onClick={handleLogin}>
-              <Typography variant="subtitle1">
-                Submit <CheckCircleIcon />
-              </Typography>
-            </SecondaryButton>
-          </Box>)}
-            
+
+            {userId ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleSubmit}>
+                  <Typography variant="subtitle1">
+                    Submit <CheckCircleIcon />
+                  </Typography>
+                </SecondaryButton>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleLogin}>
+                  <Typography variant="subtitle1">
+                    Submit <CheckCircleIcon />
+                  </Typography>
+                </SecondaryButton>
+              </Box>
+            )}
           </form>
         </Box>
       </Container>

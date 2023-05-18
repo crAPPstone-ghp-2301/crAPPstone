@@ -16,19 +16,15 @@ import { auto } from "@popperjs/core";
 import { fetchRatings } from "./RatingSlice";
 import { useNavigate } from "react-router-dom";
 import { SecondaryButton } from "../styles/StyleGuide";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-
-
-
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
 const PastRating = () => {
-
   const dispatch = useDispatch();
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const restroomId = useSelector(
     (state) => state.singleRestroom.singleRestroom.id
   );
-  
+
   const restroomName = useSelector(
     (state) => state.singleRestroom.singleRestroom.name
   );
@@ -39,9 +35,9 @@ const PastRating = () => {
     navigate("/login");
   };
 
-  const handleAddReview=()=>{
+  const handleAddReview = () => {
     navigate(`/restrooms/${restroomId}/reviews/add`);
-  }
+  };
 
   const sumRatings =
     ratings && ratings.length
@@ -57,7 +53,7 @@ const PastRating = () => {
   const markthree = ratings.filter((rating) => rating.userRating === 3);
   const marktwo = ratings.filter((rating) => rating.userRating === 2);
   const markone = ratings.filter((rating) => rating.userRating === 1);
-  
+
   useEffect(() => {
     dispatch(fetchRatings(restroomId));
   }, [dispatch, restroomId]);
@@ -80,98 +76,93 @@ const PastRating = () => {
 
   return (
     <>
-    {ratings.length === 0  ? (
-      <Box>
-       <Typography
-          variant="body1"
-          sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}
-        >
-          No Ratings Yet!🤨
-        </Typography>
-        <Typography
-          variant="subtitle1"
-          sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}
-        >
-          Be the first to add a review about {restroomName}
-        </Typography>
-        
-        {userId? (<Box
-            sx={{
+      {ratings.length === 0 ? (
+        <Box>
+          <Typography
+            variant="body1"
+            sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}
+          >
+            No Ratings Yet!🤨
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}
+          >
+            Be the first to add a review about {restroomName}
+          </Typography>
+
+          {userId ? (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            ></Box>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            ></Box>
+          )}
+        </Box>
+      ) : (
+        <div style={{ display: "flex" }}>
+          <ResponsiveContainer width="70%" height={160}>
+            <BarChart data={data} layout="vertical">
+              <XAxis hide axisLine={false} type="number" tick={false} />
+              <YAxis
+                dataKey="rating"
+                type="category"
+                axisLine={false}
+                tickLine={false}
+                tick={{
+                  fontSize: "14px",
+                  color: crAppTheme.palette.primary.dark,
+                }}
+              />
+              <Tooltip
+                content={<CustomTooltip />}
+                cursor={false}
+                wrapperStyle={{ background: "transparent" }}
+              />
+              <Bar
+                dataKey="count"
+                fill="#F89446"
+                barSize={10}
+                barRadius={5}
+              ></Bar>
+            </BarChart>
+          </ResponsiveContainer>
+
+          <Box
+            style={{
+              width: "30%",
               display: "flex",
-              justifyContent: "center",
               alignItems: "center",
+              flexDirection: "column",
+              marginLeft: "10px",
             }}
           >
-            <SecondaryButton onClick={handleAddReview}>
-              <Typography variant="subtitle1">
-                Review<AddCircleIcon />
-              </Typography>
-            </SecondaryButton>
+            <Typography
+              style={{
+                fontSize: "4.5rem",
+                color: crAppTheme.palette.primary.dark,
+              }}
+            >
+              {averageRating}
+            </Typography>
+            <Rating size="small" value={averageRating} readOnly />
+            <Typography
+              variant="caption"
+              sx={{ color: crAppTheme.palette.primary.dark }}
+            >{`(${ratings.length})`}</Typography>
           </Box>
-      ):(<Box
-        sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <SecondaryButton onClick={handleLogin}>
-          <Typography variant="subtitle1">
-            Review<AddCircleIcon />
-          </Typography>
-        </SecondaryButton>
-      </Box>)}
-      </Box>
-     
-    ) : (
-      <div style={{ display: "flex" }}>
-      <ResponsiveContainer width="70%" height={160}>
-        <BarChart data={data} layout="vertical">
-          <XAxis hide axisLine={false} type="number" tick={false} />
-          <YAxis
-            dataKey="rating"
-            type="category"
-            axisLine={false}
-            tickLine={false}
-            tick={{ fontSize: "14px", color: crAppTheme.palette.primary.dark }}
-          />
-          <Tooltip
-            content={<CustomTooltip />}
-            cursor={false}
-            wrapperStyle={{ background: "transparent" }}
-          />
-          <Bar
-          dataKey="count"
-          fill="#F89446" 
-          barSize={10}
-          barRadius={5}
-        >
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-
-      <Box
-        style={{
-          width: "30%",
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          marginLeft: "10px",
-        }}
-      >
-        <Typography
-          style={{ fontSize: "4.5rem", color: crAppTheme.palette.primary.dark }}
-        >
-          {averageRating}
-        </Typography>
-        <Rating size="small" value={averageRating} readOnly />
-        <Typography
-          variant="caption"
-          sx={{ color: crAppTheme.palette.primary.dark }}
-        >{`(${ratings.length})`}</Typography>
-      </Box>
-    </div>
-    )}
+        </div>
+      )}
     </>
   );
 };

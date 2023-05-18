@@ -4,7 +4,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
 import crAppTheme from "../../app/theme";
 import PastRating from "../rating/PastRating";
-import AddCircleIcon from '@mui/icons-material/AddCircle';
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   Card,
   Box,
@@ -20,7 +20,7 @@ import {
 } from "@mui/material";
 
 import AddReview from "./AddReview";
-import { TertiaryButton,SecondaryButton } from "../styles/StyleGuide";
+import { TertiaryButton, SecondaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Loading from "../loading/Loading";
 
@@ -31,23 +31,25 @@ const AllReviews = () => {
   const [activeTab, setActiveTab] = useState(1);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const userId = useSelector((state) => state.auth.me.id);
+  const ratings = useSelector((state) => state.rating.pastRating);
+  const reviews = useSelector((state) => state.review.allReviews);
+
   const handleLogin = () => {
     navigate("/login");
   };
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchAllReviewsOfRestroomId(restroomId)).then(() => setIsLoading(false));
+    dispatch(fetchAllReviewsOfRestroomId(restroomId)).then(() =>
+      setIsLoading(false)
+    );
   }, [dispatch, restroomId]);
-
-  const reviews = useSelector((state) => state.review.allReviews);
 
   if (isLoading) {
     return (
       <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
     );
   }
-  
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
@@ -61,11 +63,9 @@ const AllReviews = () => {
     navigate(`add`);
   };
 
-  const handleAddReview=()=>{
+  const handleAddReview = () => {
     navigate(`/restrooms/${restroomId}/reviews/add`);
-  }
-
-  const ratings=useSelector(state=>state.rating.pastRating)
+  };
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -123,22 +123,23 @@ const AllReviews = () => {
             </TertiaryButton>
           </Link>
           <Box>
-              <Box sx={{ my: 2 }}>
-                  <PastRating />
+            <Box sx={{ my: 2 }}>
+              <PastRating />
             </Box>
-              <Divider />
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <SecondaryButton onClick={handleWriteReview}>
-                  <Typography variant="subtitle1">Write a Review</Typography>
-                </SecondaryButton>
-              </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <SecondaryButton onClick={handleWriteReview}>
+                <Typography variant="subtitle1">Write a Review</Typography>
+              </SecondaryButton>
+            </Box>
+            <Divider />
 
+            <Box>
               <Box
                 style={{
                   height: "80vh",
@@ -175,6 +176,17 @@ const AllReviews = () => {
                   </Card>
                 ))}
               </Box>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <SecondaryButton onClick={handleWriteReview}>
+                <Typography variant="subtitle1">Write a Review</Typography>
+              </SecondaryButton>
             </Box>
           </Box>
         </Container>
