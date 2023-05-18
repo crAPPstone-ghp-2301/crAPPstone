@@ -94,14 +94,19 @@ const MapButton = styled(Button)(({ theme }) => ({
     boxShadow: "1px 1px 2.5px rgba(0, 0, 0, 0.5)",
     backgroundColor: `${theme.palette.primary.light}`,
     color: `${theme.palette.primary.dark}`,
+    "&.active": {
+      boxShadow: "1px 1px 2.5px rgba(0, 0, 0, 0.5)",
+      backgroundColor: `${theme.palette.primary.dark}`,
+      color: `${theme.palette.primary.main}`,
+    },
   },
   "&:disabled": {
     opacity: 0.5,
     cursor: "not-allowed",
   },
   "&.active": {
-    backgroundColor: "blue", // Replace with your desired background color
-    color: "white", // Replace with your desired text color
+    backgroundColor: "#885742",
+    color: `${theme.palette.primary.main}`,
   },
 }));
 

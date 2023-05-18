@@ -18,7 +18,31 @@ const Map = () => {
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
   const isMobile = useMediaQuery("(max-width:1000px)");
-  const [isActive, setIsActive] = useState(true);
+
+ 
+    const [isActivehotel, setIsActivehotel] = useState(false)
+    const [isActivemall, setIsActivemall] = useState(false)
+    const [isActiverestroom, setIsActiverestroom] = useState(false)
+  
+    const handleClickhotel = () => {
+      setIsActivehotel(!isActivehotel);
+      setIsActivemall(false)
+      setIsActiverestroom(false)
+    };
+
+    const handleClickmall = () => {
+      setIsActivemall(!isActivemall);
+      setIsActivehotel(false)
+      setIsActiverestroom(false)
+    };
+
+    const handleClickrestroom = () => {
+      setIsActiverestroom(!isActiverestroom);
+      setIsActivehotel(false)
+      setIsActivemall(false)
+    };
+    
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -352,6 +376,8 @@ const Map = () => {
             variant="contained"
             sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-mall-nyc"
+            className={isActivemall ? "active" : ""}
+            onClick={handleClickmall}
           >
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
@@ -362,6 +388,8 @@ const Map = () => {
             variant="contained"
             sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-hotel-nyc"
+            className={isActivehotel ? "active" : ""}
+            onClick={handleClickhotel}
           >
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
@@ -372,6 +400,8 @@ const Map = () => {
             variant="contained"
             sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="public-restroom-nyc"
+            className={isActiverestroom ? "active" : ""}
+            onClick={handleClickrestroom}
           >
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
@@ -396,6 +426,8 @@ const Map = () => {
             variant="contained"
             sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-mall-nyc"
+            className={isActivemall ? "active" : ""}
+            onClick={handleClickmall}
           >
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
@@ -409,6 +441,8 @@ const Map = () => {
             variant="contained"
             sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-hotel-nyc"
+            className={isActivehotel ? "active" : ""}
+            onClick={handleClickhotel}
           >
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
@@ -422,6 +456,8 @@ const Map = () => {
             variant="contained"
             sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
             id="public-restroom-nyc"
+            className={isActiverestroom ? "active" : ""}
+            onClick={handleClickrestroom}
           >
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
