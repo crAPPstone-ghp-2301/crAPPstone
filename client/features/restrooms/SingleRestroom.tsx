@@ -12,6 +12,7 @@ import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
 import { addSavedRestroom } from "../save/saveSlice";
 import AddRating from "../rating/Rating";
+import PastRating from "../rating/PastRating"
 import {
   ThemeProvider,
   Typography,
@@ -283,7 +284,7 @@ const SingleRestroom = () => {
                 </SecondaryButton>
               </Box>
               <Box sx={{ my: 2 }}>
-                <AddRating />
+                <PastRating />
               </Box>
               <Divider />
               <Box sx={{ m: 2 }}>

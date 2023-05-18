@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
 import crAppTheme from "../../app/theme";
+import PastRating from "../rating/PastRating";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
   Card,
   Box,
@@ -16,7 +18,9 @@ import {
   Tab,
   useMediaQuery,
 } from "@mui/material";
-import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
+
+import AddReview from "./AddReview";
+import { TertiaryButton,SecondaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Loading from "../loading/Loading";
 
@@ -26,14 +30,14 @@ const AllReviews = () => {
   const { restroomId } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const userId = useSelector((state) => state.auth.me.id);
+  const handleLogin = () => {
+    navigate("/login");
+  };
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     dispatch(fetchAllReviewsOfRestroomId(restroomId)).then(() => setIsLoading(false));
-  }, [dispatch, restroomId]);
-
-  useEffect(() => {
-    dispatch(fetchAllReviewsOfRestroomId(restroomId));
   }, [dispatch, restroomId]);
 
   const reviews = useSelector((state) => state.review.allReviews);
@@ -44,6 +48,7 @@ const AllReviews = () => {
     );
   }
   
+
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -55,6 +60,12 @@ const AllReviews = () => {
   const handleWriteReview = () => {
     navigate(`add`);
   };
+
+  const handleAddReview=()=>{
+    navigate(`/restrooms/${restroomId}/reviews/add`);
+  }
+
+  const ratings=useSelector(state=>state.rating.pastRating)
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -112,7 +123,10 @@ const AllReviews = () => {
             </TertiaryButton>
           </Link>
           <Box>
-            <Box>
+              <Box sx={{ my: 2 }}>
+                  <PastRating />
+            </Box>
+              <Divider />
               <Box
                 sx={{
                   display: "flex",
@@ -124,6 +138,7 @@ const AllReviews = () => {
                   <Typography variant="subtitle1">Write a Review</Typography>
                 </SecondaryButton>
               </Box>
+
               <Box
                 style={{
                   height: "80vh",
