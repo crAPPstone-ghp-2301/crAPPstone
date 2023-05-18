@@ -71,17 +71,53 @@ const AllReviews = () => {
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container
-        id="edit-profile-container"
+        id="review-container"
         sx={{
           position: "fixed",
           top: 0,
-          left: "100px",
-          zIndex: 1,
+          left: isMobile ? 0 : "100px",
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
-          height: "100vh",
-          width: isMobile ? "100%" : "450px",
-          padding: isMobile ? "20px" : "0",
-          overflowY: isMobile ? "auto" : "hidden",
+          width: isMobile ? "100%" : 450,
+          height: "100%",
+          overflowY: "scroll",
+          paddingBottom: 10,
+          scrollBehavior: "smooth",
+          scrollbarWidth: "thin",
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical": {
+            minHeight: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal": {
+            minWidth: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-corner": {
+            backgroundColor: "transparent",
+          },
         }}
       >
         <Container
@@ -141,10 +177,10 @@ const AllReviews = () => {
 
             <Box>
               <Box
-                style={{
-                  height: "80vh",
-                  overflowY: "scroll",
-                }}
+                // style={{
+                //   height: "70vh",
+                //   overflowY: "scroll",
+                // }}
               >
                 {reviews.map((review) => (
                   <Card
@@ -176,17 +212,6 @@ const AllReviews = () => {
                   </Card>
                 ))}
               </Box>
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <SecondaryButton onClick={handleWriteReview}>
-                <Typography variant="subtitle1">Write a Review</Typography>
-              </SecondaryButton>
             </Box>
           </Box>
         </Container>
