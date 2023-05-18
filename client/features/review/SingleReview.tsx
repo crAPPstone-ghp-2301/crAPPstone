@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 const SingleReview = () => {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ const SingleReview = () => {
         >
           <Link to={`/restrooms/${restroomId}/reviews`}>
             <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
-              <CloseRoundedIcon />
+              <ArrowBackIcon />
             </TertiaryButton>
           </Link>
           <Box>
