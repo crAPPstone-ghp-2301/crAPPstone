@@ -132,13 +132,48 @@ const Saved = () => {
           position: "fixed",
           top: 0,
           left: isMobile ? 0 : "100px",
-          zIndex: 2,
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
           width: isMobile ? "100%" : 450,
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
           scrollBehavior: "smooth",
+          scrollbarWidth: "thin",
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical": {
+            minHeight: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal": {
+            minWidth: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-corner": {
+            backgroundColor: "transparent",
+          },
         }}
         ref={ref}
       >

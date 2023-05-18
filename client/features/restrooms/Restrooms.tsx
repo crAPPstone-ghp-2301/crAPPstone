@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import crAppTheme from "../../app/theme";
@@ -15,10 +15,12 @@ import {
   CardContent,
   CssBaseline,
   useMediaQuery,
+  Fab,
 } from "@mui/material";
 import BookmarkAddRoundedIcon from "@mui/icons-material/BookmarkAddRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 
 const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
@@ -61,6 +63,37 @@ const AllRestrooms = () => {
     };
   }, []);
 
+  const ref = useRef();
+
+  const [pos, setPos] = useState(false);
+
+  const handleTop = () => {
+    ref.current.scrollTop = 0;
+    setPos(false);
+  };
+
+  const handleScroll = () => {
+    if (ref.current.scrollTop > 50) {
+      if (!pos) setPos(true);
+    } else {
+      if (pos) setPos(false);
+    }
+  };
+
+  useEffect(() => {
+    const temp = ref.current;
+
+    if (temp) {
+      temp.addEventListener("scroll", handleScroll);
+    }
+
+    return () => {
+      if (temp) {
+        temp.removeEventListener("scroll", handleScroll);
+      }
+    };
+  });
+
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
@@ -70,14 +103,47 @@ const AllRestrooms = () => {
           position: "fixed",
           top: 0,
           left: isMobile ? 0 : "100px",
-          zIndex: 1,
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
           width: isMobile ? "100%" : 450,
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
+          scrollBehavior: "smooth",
+          scrollbarWidth: "thin",
           "&::-webkit-scrollbar": {
-            display: "none",
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical": {
+            minHeight: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal": {
+            minWidth: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-corner": {
+            backgroundColor: "transparent",
           },
         }}
       >
@@ -199,6 +265,19 @@ const AllRestrooms = () => {
                   </Card>
                 );
               })}
+            <Fab
+              color="primary"
+              aria-label="scroll-to-top"
+              onClick={handleTop}
+              sx={{
+                position: "fixed",
+                bottom: 10,
+                left: 0,
+                display: pos ? "block" : "none",
+              }}
+            >
+              <KeyboardArrowUpRoundedIcon />
+            </Fab>
           </Box>
         </Container>
       </Container>
