@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { createComment, fetchAllComments } from "./commentsSlice";
 import crAppTheme from "../../app/theme";
 import { PrimaryButton } from "../styles/StyleGuide";
-import { ThemeProvider, Box, Container, TextField, Typography } from "@mui/material";
+import {
+  ThemeProvider,
+  Box,
+  Container,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 const AddComment = ({ reviewId }) => {
   const dispatch = useDispatch();
@@ -23,8 +29,8 @@ const AddComment = ({ reviewId }) => {
       dispatch(fetchAllComments(reviewId));
       setContent("");
       navigate(`/reviews/${reviewId}`);
-    })
-  };  
+    });
+  };
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -48,21 +54,31 @@ const AddComment = ({ reviewId }) => {
             margin="normal"
           />
 
-        <PrimaryButton
-          type="submit"
-          variant="contained"
-          color="primary"
-          disabled={!content.trim()}
-          onClick={handleSubmit}
-            style={{ marginTop: "1px", width: "100px" }}
-        >
-          <Typography variant="subtitle1" sx={{ textTranform: "capitalize" }}>
-            Submit
-          </Typography>
-          </PrimaryButton>
-        </Container>  
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <PrimaryButton
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={!content.trim()}
+              onClick={handleSubmit}
+              style={{ marginTop: "1px", width: "100px" }}
+            >
+              <Typography
+                variant="subtitle1"
+                sx={{ textTranform: "capitalize" }}
+              >
+                Submit
+              </Typography>
+            </PrimaryButton>
+          </Box>
+        </Container>
       </Box>
-
     </ThemeProvider>
   );
 };
