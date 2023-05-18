@@ -293,7 +293,7 @@ const SingleRestroom = () => {
                       lineHeight: 1,
                     }}
                   >
-                    Dropped the kids off at the pool now craving some food?
+                    Dropped the kids off at the pool and craving some food?
                   </Typography>
                   <span>
                     <Typography
