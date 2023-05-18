@@ -25,7 +25,7 @@ const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
   const user = useSelector((state) => state.auth.user);
-  const isMobile = useMediaQuery("(max-width:700px)");
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   const isLoggedIn = useSelector((state) => {
     const { me, authToken } = state.auth;

@@ -17,7 +17,7 @@ const Map = () => {
   const [lng, setLng] = useState(-73.98);
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
-  const isMobile = useMediaQuery("(max-width:1000px)");
+  const isMobile = useMediaQuery("(max-width:1250px)");
 
   useEffect(() => {
     if (map.current) return; // initialize map only once

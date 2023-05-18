@@ -26,7 +26,7 @@ const AllRestrooms = () => {
   const restrooms = useSelector(selectRestroom);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const isMobile = useMediaQuery("(max-width:1000px)");
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   useEffect(() => {
     dispatch(getAllRestrooms());

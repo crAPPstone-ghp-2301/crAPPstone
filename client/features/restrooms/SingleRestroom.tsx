@@ -46,7 +46,7 @@ const SingleRestroom = () => {
   const restroom = useSelector(selectSingleRestroom);
   const ratings = useSelector((state) => state.rating.pastRating);
   const restroomName = restroom.name;
-  const isMobile = useMediaQuery("(max-width:1000px)");
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   useEffect(() => {
     document.title = `${restroomName} - crAPP the Map`;

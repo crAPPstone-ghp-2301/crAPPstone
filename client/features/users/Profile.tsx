@@ -18,7 +18,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 const Profile = () => {
   const { id, name, email, username } = useSelector((state) => state.auth.me);
   const token = window.localStorage.getItem("token");
-  const isMobile = useMediaQuery("(max-width:1000px)");
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   useEffect(() => {
     document.title = `Profile - crAPP Account`;

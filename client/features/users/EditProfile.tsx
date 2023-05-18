@@ -25,7 +25,7 @@ const EditProfile = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { me } = useSelector((state) => state.auth);
-  const isMobile = useMediaQuery("(max-width:1000px)");
+  const isMobile = useMediaQuery("(max-width:900px)");
 
   const { id, name, email, username, password } = useSelector(
     (state) => state.auth.me
