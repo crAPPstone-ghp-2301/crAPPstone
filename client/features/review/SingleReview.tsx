@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { fetchSingleReview } from "./reviewSlice";
+import { fetchSingleReviewOfRestroomId } from "./reviewSlice";
 import AllComments from "../Comments/AllComments";
 import crAppTheme from "../../app/theme";
+import PastRating from "../rating/PastRating";
 import {
   ThemeProvider,
   CssBaseline,
@@ -13,22 +14,30 @@ import {
   Divider,
   Card,
   CardMedia,
-  useMediaQuery
+  useMediaQuery,
 } from "@mui/material";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Loading from "../loading/Loading";
 
 const SingleReview = () => {
   const dispatch = useDispatch();
-  const { reviewId } = useParams();
+  const { reviewId, restroomId } = useParams();
   const isMobile = useMediaQuery("(max-width: 600px)");
-
   const singleReview = useSelector((state) => state.review.singleReview);
   const { reviewText, imageURL, reportStatus } = singleReview;
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchSingleReview(reviewId));
-  }, [dispatch, reviewId]);
+    dispatch(fetchSingleReviewOfRestroomId({ restroomId, reviewId })).then(() => setIsLoading(false));
+  }, [dispatch]);
+
+  if (isLoading) {
+    return (
+      <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
+    );
+  }
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -42,8 +51,8 @@ const SingleReview = () => {
           zIndex: 1,
           backgroundColor: "white",
           height: "100vh",
-          width: isMobile ? "100%" : "450px", 
-          padding: isMobile ? "20px" : "0", 
+          width: isMobile ? "100%" : "450px",
+          padding: isMobile ? "20px" : "0",
           overflowY: isMobile ? "auto" : "hidden",
         }}
       >
@@ -55,9 +64,9 @@ const SingleReview = () => {
             py: 2,
           }}
         >
-          <Link to="/">
+          <Link to={`/restrooms/${restroomId}/reviews`}>
             <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
-              <CloseRoundedIcon />
+              <ArrowBackIcon />
             </TertiaryButton>
           </Link>
           <Box>

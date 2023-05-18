@@ -12,6 +12,7 @@ import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
 import { addSavedRestroom } from "../save/saveSlice";
 import AddRating from "../rating/Rating";
+import PastRating from "../rating/PastRating"
 import {
   ThemeProvider,
   Typography,
@@ -34,6 +35,7 @@ import InfoRoundedIcon from "@mui/icons-material/InfoRounded";
 import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import OpenInNewRoundedIcon from "@mui/icons-material/OpenInNewRounded";
 import { fetchRatings } from "../rating/RatingSlice";
+import Loading from "../loading/Loading";
 
 const SingleRestroom = () => {
   const navigate = useNavigate();
@@ -47,6 +49,7 @@ const SingleRestroom = () => {
   const ratings = useSelector((state) => state.rating.pastRating);
   const restroomName = restroom.name;
   const isMobile = useMediaQuery("(max-width:900px)");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     document.title = `${restroomName} - crAPP the Map`;
@@ -70,10 +73,18 @@ const SingleRestroom = () => {
   };
 
   useEffect(() => {
-    dispatch(getSingleRestroom(id));
-    dispatch(fetchAllReviewsOfRestroomId(id));
-    dispatch(fetchAllReviews());
-    dispatch(fetchRatings(id));
+    setIsLoading(true);
+    Promise.all([
+      dispatch(getSingleRestroom(id)),
+      dispatch(fetchAllReviewsOfRestroomId(id)),
+      dispatch(fetchAllReviews()),
+      dispatch(fetchRatings(id)),
+    ])
+      .then(() => setIsLoading(false))
+      .catch((error) => {
+        console.error(error);
+        setIsLoading(false);
+      });
   }, [dispatch, id]);
 
   const handleAddSavedRestroom = async (restroomId) => {
@@ -107,6 +118,16 @@ const SingleRestroom = () => {
     };
   }, []);
 
+  const handleWriteReview = () => {
+    navigate(`reviews/add`);
+  };
+
+  if (isLoading) {
+    return (
+      <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
+    );
+  }
+  
   return (
     <>
       <ThemeProvider theme={crAppTheme}>
@@ -250,8 +271,19 @@ const SingleRestroom = () => {
                 </Box>
               </Box>
               <Divider />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleWriteReview}>
+                  <Typography variant="subtitle1">Write a Review</Typography>
+                </SecondaryButton>
+              </Box>
               <Box sx={{ my: 2 }}>
-                <AddRating />
+                <PastRating />
               </Box>
               <Divider />
               <Box

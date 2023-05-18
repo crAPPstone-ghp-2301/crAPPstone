@@ -18,6 +18,7 @@ import Saved from "../features/save/Saved";
 import Help from "../features/settings/Help";
 import Share from "../features/settings/Share";
 import AddReview from "../features/review/AddReview";
+import NotFound from "../features/notFound/NotFound";
 
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
@@ -89,12 +90,12 @@ const AppRoutes = () => {
         <Route path="/restrooms" element={<AllRestrooms />} />
         <Route path="/restrooms/:id" element={<SingleRestroom />} />
         <Route path="/restrooms/:restroomId/reviews" element={<AllReviews />} />
-        <Route path="/reviews/:reviewId" element={<SingleReview />} />
+        <Route path="/restrooms/:restroomId/reviews/:reviewId" element={<SingleReview />} />
         <Route path="/reviews/:reviewId/comments" element={<AllComments />} />
-        <Route
-          path="/restrooms/:restroomId/reviews/add"
-          element={<AddReview />}
-        />
+        <Route path="/restrooms/:restroomId/reviews/add" element={<AddReview />} />
+        <Route path="*" element={<NotFound />} />
+        <Route path="/NotFound" element={<NotFound />} />
+
       </Routes>
     </ThemeProvider>
   );

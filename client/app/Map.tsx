@@ -3,7 +3,7 @@ import mapboxgl from "mapbox-gl";
 import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
-import { SecondaryButton } from "../features/styles/StyleGuide";
+import { MapButton } from "../features/styles/StyleGuide";
 import { Box, Typography, useMediaQuery } from "@mui/material";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
@@ -18,6 +18,30 @@ const Map = () => {
   const [lat, setLat] = useState(40.76);
   const [zoom, setZoom] = useState(12);
   const isMobile = useMediaQuery("(max-width:1250px)");
+
+ 
+    const [isActivehotel, setIsActivehotel] = useState(false)
+    const [isActivemall, setIsActivemall] = useState(false)
+    const [isActiverestroom, setIsActiverestroom] = useState(false)
+  
+    const handleClickhotel = () => {
+      setIsActivehotel(!isActivehotel);
+      setIsActivemall(false)
+      setIsActiverestroom(false)
+    };
+
+    const handleClickmall = () => {
+      setIsActivemall(!isActivemall);
+      setIsActivehotel(false)
+      setIsActiverestroom(false)
+    };
+
+    const handleClickrestroom = () => {
+      setIsActiverestroom(!isActiverestroom);
+      setIsActivehotel(false)
+      setIsActivemall(false)
+    };
+    
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -72,87 +96,98 @@ const Map = () => {
     map.current.on("load", () => {
       const marker = new mapboxgl.Marker({
         color: " #CB997E",
-      });
+      });      
+     const sub= new MapboxGeocoder({accessToken: mapboxgl.accessToken, mapboxgl: mapboxgl})
+     map.current.addControl(sub,"top-right")
+     sub.container.style.display = "none";
 
-      geocoder.on("result", async (event) => {
-        const point = event.result.center;
-        console.log(point);
-        const tileset = "fxu2023.clhs7ziyw0lfz2arsitz3ct0o-7dbgr";
-        const radius = 1609;
-        const limit = 50;
-        marker.setLngLat(point).addTo(map.current);
-        const query = await fetch(
-          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
-          { method: "GET" }
-        );
-        console.log(query);
-        const json = await query.json();
-        map.current.getSource("tilequery").setData(json);
-      });
+      map.current.addControl(geocoder, 'top-right');
+      geocoder.container.setAttribute('id', 'geocoder-search')
 
-      map.current.addSource("tilequery", {
-        type: "geojson",
-        data: {
-          type: "FeatureCollection",
-          features: [],
-        },
-      });
+        map.current.on("load", () => {
+              const marker = new mapboxgl.Marker({
+                color: " #CB997E",
+              });
 
-      map.current.addLayer({
-        id: "tilequery-points",
-        type: "circle",
-        source: "tilequery",
-        paint: {
-          "circle-stroke-color": "white",
-          "circle-stroke-width": {
-            stops: [
-              [0, 0.1],
-              [18, 3],
-            ],
-            base: 5,
-          },
-          "circle-radius": {
-            stops: [
-              [12, 10],
-              [22, 200],
-            ],
-            base: 5,
-          },
-          "circle-color": [
-            "match",
-            ["get", "Placetype"],
-            "Mall",
-            "#0BB000",
-            "hotel",
-            "#F89446",
-            "restroom",
-            "#EA0000",
-            "#FF0000", // default color if no match
-          ],
-        },
-      });
+              geocoder.on("result", async (event) => {
+                const point = event.result.center;
+                console.log(point);
+                const tileset = "fxu2023.clhs7ziyw0lfz2arsitz3ct0o-7dbgr";
+                const radius = 1609;
+                const limit = 50;
+                marker.setLngLat(point).addTo(map.current);
+                const query = await fetch(
+                  `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
+                  { method: "GET" }
+                );
+                console.log(query);
+                const json = await query.json();
+                map.current.getSource("tilequery").setData(json);
+              });
 
-      const popup = new mapboxgl.Popup();
+              map.current.addSource("tilequery", {
+                type: "geojson",
+                data: {
+                  type: "FeatureCollection",
+                  features: [],
+                },
+              });
 
-      map.current.on("click", "tilequery-points", (event) => {
-        map.current.getCanvas().style.cursor = "pointer";
-        const properties = event.features[0].properties;
-        const obj = JSON.parse(properties.tilequery);
-        const coordinates = new mapboxgl.LngLat(
-          properties.Longitude,
-          properties.Latitude
-        );
-        console.log(properties);
-        const content = `<h3>${properties.STORE_NAME}</h3><h4>${
-          properties.Placetype
-        }</h4><p>${properties.STORE_LOCATION}</p><p>${(
-          obj.distance / 1609.344
-        ).toFixed(2)} mi. from location</p>
+              map.current.addLayer({
+                id: "tilequery-points",
+                type: "circle",
+                source: "tilequery",
+                paint: {
+                  "circle-stroke-color": "white",
+                  "circle-stroke-width": {
+                    stops: [
+                      [0, 0.1],
+                      [18, 3],
+                    ],
+                    base: 5,
+                  },
+                  "circle-radius": {
+                    stops: [
+                      [12, 10],
+                      [22, 200],
+                    ],
+                    base: 5,
+                  },
+                  "circle-color": [
+                    "match",
+                    ["get", "Place_type"],
+                    "mall",
+                    "#0BB000",
+                    "hotel",
+                    "#F89446",
+                    "restroom",
+                    "#EA0000",
+                    "#FF0000", // default color if no match
+                  ],
+                },
+              });
+
+              const popup = new mapboxgl.Popup();
+
+              map.current.on("click" , "tilequery-points", (event) => {
+                map.current.getCanvas().style.cursor = "pointer";
+                const properties = event.features[0].properties;
+                const obj = JSON.parse(properties.tilequery);
+                const coordinates = new mapboxgl.LngLat(
+                  properties.Longitude,
+                  properties.Latitude
+                );
+                console.log(properties);
+                const content = `<h3>${properties.STORE_NAME}</h3><h4>${
+                  properties.Placetype
+                }</h4><p>${properties.STORE_LOCATION}</p><p>${(
+                  obj.distance / 1609.344
+                ).toFixed(2)} mi. from location</p>
                 <a href="/restrooms/${properties.id_restroom}">More info</a>`;
 
-        popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
-      });
-    });
+                popup.setLngLat(coordinates).setHTML(content).addTo(map.current);
+              });
+            });
 
     let popup = new mapboxgl.Popup({ offset: [0, -15] });
 
@@ -216,9 +251,11 @@ const Map = () => {
 
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        $("#restroom-mall-nyc").removeClass('active');
         map.current.setLayoutProperty("all", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
+        $("#restroom-mall-nyc").addClass('active');
         map.current.setLayoutProperty(
           "restroom-hotel-nyc",
           "visibility",
@@ -246,9 +283,11 @@ const Map = () => {
       // Toggle layer visibility by changing the layout object's visibility property.
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        $("#restroom-hotel-nyc").removeClass('active');
         map.current.setLayoutProperty("all", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
+        $("#restroom-hotel-nyc").addClass('active');
         map.current.setLayoutProperty(
           "restroom-mall-nyc",
           "visibility",
@@ -276,9 +315,11 @@ const Map = () => {
       // Toggle layer visibility by changing the layout object's visibility property.
       if (visibility === "visible") {
         map.current.setLayoutProperty(clickedLayer, "visibility", "none");
+        $("#public-restroom-nyc").removeClass('active');
         map.current.setLayoutProperty("all", "visibility", "visible");
       } else {
         map.current.setLayoutProperty(clickedLayer, "visibility", "visible");
+        $("#public-restroom-nyc").addClass('active');
         map.current.setLayoutProperty(
           "restroom-mall-nyc",
           "visibility",
@@ -331,36 +372,42 @@ const Map = () => {
             zIndex: 1,
           }}
         >
-          <SecondaryButton
+          <MapButton
             variant="contained"
             sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-mall-nyc"
+            className={isActivemall ? "active" : ""}
+            onClick={handleClickmall}
           >
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
               width="20px"
             />
-          </SecondaryButton>
-          <SecondaryButton
+          </MapButton>
+          <MapButton
             variant="contained"
             sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-hotel-nyc"
+            className={isActivehotel ? "active" : ""}
+            onClick={handleClickhotel}
           >
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
               width="20px"
             />
-          </SecondaryButton>
-          <SecondaryButton
+          </MapButton>
+          <MapButton
             variant="contained"
             sx={{ mx: 0.5, backgroundColor: "#FFF" }}
             id="public-restroom-nyc"
+            className={isActiverestroom ? "active" : ""}
+            onClick={handleClickrestroom}
           >
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
               width="20px"
             />
-          </SecondaryButton>
+          </MapButton>
         </Box>
       ) : (
         <Box
@@ -375,10 +422,12 @@ const Map = () => {
             zIndex: 1,
           }}
         >
-          <SecondaryButton
+          <MapButton
             variant="contained"
             sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-mall-nyc"
+            className={isActivemall ? "active" : ""}
+            onClick={handleClickmall}
           >
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
@@ -387,11 +436,13 @@ const Map = () => {
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Malls
             </Typography>
-          </SecondaryButton>
-          <SecondaryButton
+          </MapButton>
+          <MapButton
             variant="contained"
             sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
             id="restroom-hotel-nyc"
+            className={isActivehotel ? "active" : ""}
+            onClick={handleClickhotel}
           >
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
@@ -400,11 +451,13 @@ const Map = () => {
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Hotels
             </Typography>
-          </SecondaryButton>
-          <SecondaryButton
+          </MapButton>
+          <MapButton
             variant="contained"
             sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
             id="public-restroom-nyc"
+            className={isActiverestroom ? "active" : ""}
+            onClick={handleClickrestroom}
           >
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
@@ -413,33 +466,31 @@ const Map = () => {
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Public Restrooms
             </Typography>
-          </SecondaryButton>
+          </MapButton>
         </Box>
-      )}
-
-      <SecondaryButton
-        variant="contained"
-        sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-        id="get-direction"
-      >
-        <AssistantDirectionIcon />
-        <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-          For Directions
-        </Typography>
-      </SecondaryButton>
-      <SecondaryButton
-        variant="contained"
-        sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-        className="d-none"
-        id="end-direction"
-      >
-        <SearchRoundedIcon />
-        <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-          For Search
-        </Typography>
-      </SecondaryButton>
-
-      <Box ref={mapContainer} className="map-container"></Box>
+      )}   
+        <MapButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+          id="get-direction"
+        >
+          <AssistantDirectionIcon />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            For Directions
+          </Typography>
+        </MapButton>
+        <MapButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+          className="d-none"
+          id="end-direction"
+        >
+          <SearchRoundedIcon />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            For Search
+          </Typography>
+        </MapButton>
+           <Box ref={mapContainer} className="map-container"></Box>
     </Box>
   );
 };

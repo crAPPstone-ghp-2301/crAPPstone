@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
 import crAppTheme from "../../app/theme";
+import PastRating from "../rating/PastRating";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {
   Card,
   Box,
@@ -16,9 +18,11 @@ import {
   Tab,
   useMediaQuery,
 } from "@mui/material";
+
 import AddReview from "./AddReview";
-import { TertiaryButton } from "../styles/StyleGuide";
+import { TertiaryButton,SecondaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import Loading from "../loading/Loading";
 
 const AllReviews = () => {
   const dispatch = useDispatch();
@@ -26,20 +30,42 @@ const AllReviews = () => {
   const { restroomId } = useParams();
   const [activeTab, setActiveTab] = useState(1);
   const isMobile = useMediaQuery("(max-width: 600px)");
+  const userId = useSelector((state) => state.auth.me.id);
+  const handleLogin = () => {
+    navigate("/login");
+  };
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchAllReviewsOfRestroomId(restroomId));
+    dispatch(fetchAllReviewsOfRestroomId(restroomId)).then(() => setIsLoading(false));
   }, [dispatch, restroomId]);
 
   const reviews = useSelector((state) => state.review.allReviews);
+
+  if (isLoading) {
+    return (
+      <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
+    );
+  }
+  
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
   };
 
-  const handleReviewClick = (id) => {
-    navigate(`/reviews/${id}`);
+  const handleReviewClick = (reviewId) => {
+    navigate(`${reviewId}`);
   };
+
+  const handleWriteReview = () => {
+    navigate(`add`);
+  };
+
+  const handleAddReview=()=>{
+    navigate(`/restrooms/${restroomId}/reviews/add`);
+  }
+
+  const ratings=useSelector(state=>state.rating.pastRating)
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -97,12 +123,25 @@ const AllReviews = () => {
             </TertiaryButton>
           </Link>
           <Box>
-            <Box>
-              <AddReview restroomId={restroomId} />
+              <Box sx={{ my: 2 }}>
+                  <PastRating />
+            </Box>
               <Divider />
               <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleWriteReview}>
+                  <Typography variant="subtitle1">Write a Review</Typography>
+                </SecondaryButton>
+              </Box>
+
+              <Box
                 style={{
-                  height: "450px",
+                  height: "80vh",
                   overflowY: "scroll",
                 }}
               >

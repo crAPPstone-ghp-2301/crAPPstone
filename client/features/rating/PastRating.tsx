@@ -14,13 +14,35 @@ import { Typography, Box, Rating } from "@mui/material";
 import crAppTheme from "../../app/theme";
 import { auto } from "@popperjs/core";
 import { fetchRatings } from "./RatingSlice";
+import { useNavigate } from "react-router-dom";
+import { SecondaryButton } from "../styles/StyleGuide";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+
+
+
 
 const PastRating = () => {
+
   const dispatch = useDispatch();
+  const navigate=useNavigate()
   const restroomId = useSelector(
     (state) => state.singleRestroom.singleRestroom.id
   );
+  
+  const restroomName = useSelector(
+    (state) => state.singleRestroom.singleRestroom.name
+  );
+  const userId = useSelector((state) => state.auth.me.id);
   const ratings = useSelector((state) => state.rating.pastRating);
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
+  const handleAddReview=()=>{
+    navigate(`/restrooms/${restroomId}/reviews/add`);
+  }
+
   const sumRatings =
     ratings && ratings.length
       ? ratings.reduce((sum, rating) => {
@@ -35,7 +57,7 @@ const PastRating = () => {
   const markthree = ratings.filter((rating) => rating.userRating === 3);
   const marktwo = ratings.filter((rating) => rating.userRating === 2);
   const markone = ratings.filter((rating) => rating.userRating === 1);
-
+  
   useEffect(() => {
     dispatch(fetchRatings(restroomId));
   }, [dispatch, restroomId]);
@@ -57,7 +79,52 @@ const PastRating = () => {
   };
 
   return (
-    <div style={{ display: "flex" }}>
+    <>
+    {ratings.length === 0  ? (
+      <Box>
+       <Typography
+          variant="body1"
+          sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}
+        >
+          No Ratings Yet!🤨
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}
+        >
+          Be the first to add a review about {restroomName}
+        </Typography>
+        
+        {userId? (<Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <SecondaryButton onClick={handleAddReview}>
+              <Typography variant="subtitle1">
+                Review<AddCircleIcon />
+              </Typography>
+            </SecondaryButton>
+          </Box>
+      ):(<Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <SecondaryButton onClick={handleLogin}>
+          <Typography variant="subtitle1">
+            Review<AddCircleIcon />
+          </Typography>
+        </SecondaryButton>
+      </Box>)}
+      </Box>
+     
+    ) : (
+      <div style={{ display: "flex" }}>
       <ResponsiveContainer width="70%" height={160}>
         <BarChart data={data} layout="vertical">
           <XAxis hide axisLine={false} type="number" tick={false} />
@@ -73,7 +140,13 @@ const PastRating = () => {
             cursor={false}
             wrapperStyle={{ background: "transparent" }}
           />
-          <Bar dataKey="count" fill="#F89446" barSize={10} barRadius={5} />
+          <Bar
+          dataKey="count"
+          fill="#F89446" 
+          barSize={10}
+          barRadius={5}
+        >
+          </Bar>
         </BarChart>
       </ResponsiveContainer>
 
@@ -98,6 +171,8 @@ const PastRating = () => {
         >{`(${ratings.length})`}</Typography>
       </Box>
     </div>
+    )}
+    </>
   );
 };
 
