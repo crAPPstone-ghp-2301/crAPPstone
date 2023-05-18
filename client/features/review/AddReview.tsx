@@ -182,45 +182,6 @@ const AddReview = () => {
             />
 
 
-            <div style={{ textAlign: "center" }}>
-              <Typography
-                variant="subtitle1"
-                sx={{ color: crAppTheme.palette.primary.dark }}
-              >
-                Is {restroomName} Clean?
-              </Typography>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Checkbox
-                  icon={
-                    <ThumbUpOffAltIcon
-                      style={{ color: crAppTheme.palette.primary.dark }}
-                    />
-                  }
-                  checkedIcon={
-                    <ThumbUpIcon
-                      style={{ color: crAppTheme.palette.success.main }}
-                    />
-                  }
-                  onChange={handleCheckboxlike}
-                  checked={likeChecked}
-                />
-                <Checkbox
-                  icon={
-                    <ThumbDownOffAltIcon
-                      style={{ color: crAppTheme.palette.primary.dark }}
-                    />
-                  }
-                  checkedIcon={
-                    <ThumbDownIcon
-                      style={{ color: crAppTheme.palette.error.main }}
-                    />
-                  }
-                  onChange={handleCheckboxhate}
-                  checked={hateChecked}
-                />
-              </div>
-            </div>
-
           </Box>
           <form onSubmit={handleSubmit}>
             <TextField
