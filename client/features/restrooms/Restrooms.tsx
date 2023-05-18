@@ -61,43 +61,12 @@ const AllRestrooms = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
-
-  const ref = useRef();
-
-  const [pos, setPos] = useState(false);
-
-  const handleTop = () => {
-    ref.current.scrollTop = 0;
-    setPos(false);
-  };
-
-  const handleScroll = () => {
-    if (ref.current.scrollTop > 50) {
-      if (!pos) setPos(true);
-    } else {
-      if (pos) setPos(false);
-    }
-  };
-
-  useEffect(() => {
-    const temp = ref.current;
-
-    if (temp) {
-      temp.addEventListener("scroll", handleScroll);
-    }
-
-    return () => {
-      if (temp) {
-        temp.removeEventListener("scroll", handleScroll);
-      }
-    };
-  });
+  }, [navigate]);
 
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
-      <Container
+      <Box
         id="restroom-container"
         sx={{
           position: "fixed",
@@ -152,15 +121,17 @@ const AllRestrooms = () => {
             display: "flex",
             flexDirection: "column",
             justifyContent: "flex-start",
-            p: 1,
+            p: 2,
           }}
         >
-          <Typography variant="h3">All Restrooms</Typography>
-          <Link to="/">
-            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
-              <CloseRoundedIcon />
-            </TertiaryButton>
-          </Link>
+          <Box sx={{ p: 1 }}>
+            <Typography variant="h3">All Restrooms</Typography>
+            <Link to="/">
+              <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
+                <CloseRoundedIcon />
+              </TertiaryButton>
+            </Link>
+          </Box>
           <Box>
             {Array.isArray(restrooms) &&
               restrooms.map((restroom) => {
@@ -265,22 +236,9 @@ const AllRestrooms = () => {
                   </Card>
                 );
               })}
-            <Fab
-              color="primary"
-              aria-label="scroll-to-top"
-              onClick={handleTop}
-              sx={{
-                position: "fixed",
-                bottom: 10,
-                left: 0,
-                display: pos ? "block" : "none",
-              }}
-            >
-              <KeyboardArrowUpRoundedIcon />
-            </Fab>
           </Box>
         </Container>
-      </Container>
+      </Box>
     </ThemeProvider>
   );
 };
