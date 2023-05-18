@@ -43,7 +43,7 @@ const Profile = () => {
           position: "fixed",
           top: 0,
           left: isMobile ? 0 : "100px",
-          zIndex: 1,
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
           width: isMobile ? "100%" : 450,
           height: "100%",

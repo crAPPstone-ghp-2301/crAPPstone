@@ -132,7 +132,7 @@ const Saved = () => {
           position: "fixed",
           top: 0,
           left: isMobile ? 0 : "100px",
-          zIndex: 1,
+          zIndex: 2,
           backgroundColor: "white",
           width: isMobile ? "100%" : 450,
           height: "100%",
