@@ -107,6 +107,7 @@ const MapButton = styled(Button)(({ theme }) => ({
   "&.active": {
     backgroundColor: "#885742",
     color: `${theme.palette.primary.main}`,
+    border: `1px solid ${theme.palette.primary.main}`,
   },
 }));
 
