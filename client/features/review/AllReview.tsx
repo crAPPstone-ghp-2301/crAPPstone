@@ -112,7 +112,6 @@ const AllReviews = () => {
                   <Typography variant="subtitle1">Write a Review</Typography>
                 </SecondaryButton>
               </Box>
-              <Divider />
               <Box
                 style={{
                   height: "80vh",
