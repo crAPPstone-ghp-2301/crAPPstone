@@ -44,12 +44,19 @@ const SingleRestroom = () => {
   const reviews = useSelector((state) => state.review.allReviews);
   const [activeTab, setActiveTab] = useState(0);
   const [isSnackbarOpen, setIsSnackbarOpen] = useState(false);
-  const [savedRestroomIds, setSavedRestroomIds] = useState([]);
   const restroom = useSelector(selectSingleRestroom);
   const ratings = useSelector((state) => state.rating.pastRating);
   const restroomName = restroom.name;
   const isMobile = useMediaQuery("(max-width:900px)");
   const [isLoading, setIsLoading] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
+  const [savedRestroomIds, setSavedRestroomIds] = useState([]);
+
+  useEffect(() => {
+    // Check if the restroom ID exists in the savedRestroomIds array
+    const isRestroomSaved = savedRestroomIds.includes(restroom.id);
+    setIsSaved(isRestroomSaved);
+  }, [restroom.id, savedRestroomIds]);
 
   useEffect(() => {
     document.title = `${restroomName} - crAPP the Map`;
@@ -89,6 +96,7 @@ const SingleRestroom = () => {
 
   const handleAddSavedRestroom = async (restroomId) => {
     await dispatch(addSavedRestroom(restroomId));
+    setSavedRestroomIds([...savedRestroomIds, restroomId]);
     setIsSnackbarOpen(true);
   };
 
@@ -198,8 +206,17 @@ const SingleRestroom = () => {
                       : () => navigate("/login")
                   }
                 >
-                  <BookmarkAddRoundedIcon />
-                  <Typography variant="caption">Save</Typography>
+                  {isSaved ? (
+                    <>
+                      <BookmarkAddedRoundedIcon />
+                      <Typography variant="caption">Saved</Typography>
+                    </>
+                  ) : (
+                    <>
+                      <BookmarkAddRoundedIcon />
+                      <Typography variant="caption">Save</Typography>
+                    </>
+                  )}
                 </SecondaryButton>
                 <Snackbar
                   open={isSnackbarOpen}
