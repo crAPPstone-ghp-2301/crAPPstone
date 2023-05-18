@@ -36,8 +36,8 @@ const AllReviews = () => {
     setActiveTab(newValue);
   };
 
-  const handleReviewClick = (id) => {
-    navigate(`/reviews/${id}`);
+  const handleReviewClick = (reviewId) => {
+    navigate(`${reviewId}`);
   };
 
   const handleWriteReview = () => {

@@ -36,6 +36,19 @@ export const fetchSingleReview = createAsyncThunk(
   }
 );
 
+export const fetchSingleReviewOfRestroomId = createAsyncThunk(
+  "reviews/fetchSingleReviewOfRestroomId",
+  async ({restroomId, reviewId}) => { 
+    try {
+      const { data } = await axios.get(`/api/restrooms/${restroomId}/reviews/${reviewId}`);
+      return data;
+    } catch (err) {
+      return err.message;
+    }
+  }
+);
+
+
 //delete single review
 export const deleteReview = createAsyncThunk(
   "reviews/delete",
@@ -119,6 +132,9 @@ export const reviewSlice = createSlice({
       state.allReviews = action.payload;
     });
     builder.addCase(fetchSingleReview.fulfilled, (state, action) => {
+      state.singleReview = action.payload;
+    });
+    builder.addCase(fetchSingleReviewOfRestroomId.fulfilled, (state, action) => {
       state.singleReview = action.payload;
     });
     builder.addCase(deleteReview.fulfilled, (state, action) => {

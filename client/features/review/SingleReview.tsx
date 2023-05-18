@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { fetchSingleReview } from "./reviewSlice";
+import { fetchSingleReviewOfRestroomId } from "./reviewSlice";
 import AllComments from "../Comments/AllComments";
 import crAppTheme from "../../app/theme";
 import {
@@ -27,8 +27,8 @@ const SingleReview = () => {
   const { reviewText, imageURL, reportStatus } = singleReview;
 
   useEffect(() => {
-    dispatch(fetchSingleReview(reviewId));
-  }, [dispatch, reviewId]);
+    dispatch(fetchSingleReviewOfRestroomId({ restroomId, reviewId }));
+  }, [dispatch]);
 
   return (
     <ThemeProvider theme={crAppTheme}>
