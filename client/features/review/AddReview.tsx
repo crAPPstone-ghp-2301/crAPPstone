@@ -24,11 +24,7 @@ import {
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import PropTypes from "prop-types";
-import ThumbDownOffAltIcon from "@mui/icons-material/ThumbDownOffAlt";
-import Checkbox from "@mui/material/Checkbox";
-import ThumbUpOffAltIcon from "@mui/icons-material/ThumbUpOffAlt";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+
 
 const AddReview = () => {
   const dispatch = useDispatch();
@@ -44,8 +40,6 @@ const AddReview = () => {
   const initialHateChecked = false; // In
   const [userRating, setuserRating] = useState(initialRating);
   const [isClean, setisClean] = useState(false);
-  const [likeChecked, setLikeChecked] = useState(initialLikeChecked);
-  const [hateChecked, setHateChecked] = useState(initialHateChecked);
   const userId = useSelector((state) => state.auth.me.id);
   const { restroomId } = useParams();
   const restroomName=useSelector((state) => state.singleRestroom.singleRestroom.name);
@@ -78,7 +72,12 @@ const AddReview = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
+    if (userRating===0 || reviewText==="" ){
+      alert("form could not be empty")
+      return 
+    }
+    else{
     try {
       let imageURL =
         "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
@@ -111,6 +110,7 @@ const AddReview = () => {
     } catch (error) {
       console.error(error);
     }
+  }
   };
 
   const handleLogin = () => {
@@ -119,23 +119,6 @@ const AddReview = () => {
 
   const handleRatingChange = (event, newValue) => {
     setuserRating(newValue);
-  };
-  const handleCheckboxlike = (event) => {
-    const isChecked = event.target.checked;
-    setLikeChecked(isChecked);
-    if (isChecked) {
-      setHateChecked(false);
-    }
-    setisClean(true);
-  };
-
-  const handleCheckboxhate = (event) => {
-    const isChecked = event.target.checked;
-    setHateChecked(isChecked);
-    if (isChecked) {
-      setLikeChecked(false);
-    }
-    setisClean(false);
   };
 
   function IconContainer(props) {
@@ -195,53 +178,15 @@ const AddReview = () => {
             >
               Share your Experience
             </Typography>
+           
             <StyledRating
               name="customized-icons"
               value={userRating}
               getLabelText={(value) => customIcons[value].label}
               IconContainerComponent={IconContainer}
               onChange={handleRatingChange}
-              sx={{ display: "flex", justifyContent: "center" }}
             />
 
-            <div style={{ textAlign: "center" }}>
-              <Typography
-                variant="subtitle1"
-                sx={{ color: crAppTheme.palette.primary.dark }}
-              >
-               Is {restroomName} Clean?
-              </Typography>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Checkbox
-                  icon={
-                    <ThumbUpOffAltIcon
-                      style={{ color: crAppTheme.palette.primary.dark }}
-                    />
-                  }
-                  checkedIcon={
-                    <ThumbUpIcon
-                      style={{ color: crAppTheme.palette.success.main }}
-                    />
-                  }
-                  onChange={handleCheckboxlike}
-                  checked={likeChecked}
-                />
-                <Checkbox
-                  icon={
-                    <ThumbDownOffAltIcon
-                      style={{ color: crAppTheme.palette.primary.dark }}
-                    />
-                  }
-                  checkedIcon={
-                    <ThumbDownIcon
-                      style={{ color: crAppTheme.palette.error.main }}
-                    />
-                  }
-                  onChange={handleCheckboxhate}
-                  checked={hateChecked}
-                />
-              </div>
-            </div>
           </Box>
           <form onSubmit={handleSubmit}>
             <TextField

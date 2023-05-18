@@ -46,7 +46,7 @@ const Map = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/fxu2023/clhfcen9i02bg01qncp8vg9d1",
-      center: [-74.006, 40.7128], //center is ny
+      // center: [-74.006, 40.7128], //center is ny
       zoom: zoom,
     });
 
@@ -63,6 +63,18 @@ const Map = () => {
         showUserHeading: true,
       }),
       "bottom-right"
+    );
+
+    navigator.geolocation.getCurrentPosition(
+      function (position) {
+        // Retrieve latitude and longitude
+        var latitude = position.coords.latitude;
+        var longitude = position.coords.longitude;
+        map.current.setCenter([longitude, latitude]);
+      },
+      function (error) {
+        console.error(error);
+      }
     );
 
     map.current.addControl(new mapboxgl.NavigationControl(), "bottom-right");
