@@ -254,73 +254,65 @@ const SingleRestroom = () => {
                 <AddRating />
               </Box>
               <Divider />
-              <Box sx={{ m: 2 }}>
-                <Typography
-                  variant="subtitle1"
-                  sx={{
-                    fontWeight: "900",
-                    color: crAppTheme.palette.primary.dark,
-                    lineHeight: 1,
-                  }}
-                >
-                  Dropped the kids off at the pool… now craving some food?
-                </Typography>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: crAppTheme.palette.primary.dark,
-                    paddingRight: 2,
-                  }}
-                >
-                  Check out Empire Eats
-                </Typography>
-                <a href="https://empireeats.onrender.com/" target="_blank">
-                  <OpenInNewRoundedIcon />
-                </a>
+              <Box
+                sx={{
+                  m: 1,
+                  p: 1,
+                  borderRadius: 2,
+                  backgroundColor: crAppTheme.palette.primary.main,
+                }}
+              >
+                <span>
+                  <Typography
+                    variant="overline"
+                    sx={{
+                      color: crAppTheme.palette.primary.dark,
+                      border: `1px solid ${crAppTheme.palette.primary.dark}`,
+                      borderRadius: 2,
+                      m: 1,
+                      p: 0.5,
+                      textTransform: "none",
+                    }}
+                  >
+                    Ad -{" "}
+                    <a
+                      href="https://empireeats.onrender.com/"
+                      target="_blank"
+                      style={{ textTransform: "none" }}
+                    >
+                      https://empireeats.onrender.com
+                    </a>
+                  </Typography>
+                </span>
+                <Box sx={{ display: "flex", flexDirection: "column", m: 1 }}>
+                  <Typography
+                    variant="subtitle1"
+                    sx={{
+                      fontWeight: "900",
+                      color: crAppTheme.palette.primary.dark,
+                      lineHeight: 1,
+                    }}
+                  >
+                    Dropped the kids off at the pool now craving some food?
+                  </Typography>
+                  <span>
+                    <Typography
+                      variant="caption"
+                      sx={{
+                        color: crAppTheme.palette.primary.dark,
+                        paddingRight: 1,
+                      }}
+                    >
+                      Check out Empire Eats
+                    </Typography>
+                    <a href="https://empireeats.onrender.com/" target="_blank">
+                      <OpenInNewRoundedIcon />
+                    </a>
+                  </span>
+                </Box>
               </Box>
               <Divider />
             </Container>
-            {/* <Box
-              style={{
-                height: "310px",
-                overflow: "auto",
-                paddingRight: "20px",
-                "&::-webkit-scrollbar": {
-                  display: "none",
-                },
-              }}
-            >
-              {reviews
-                .filter((review) => review.restroomId === id) // Filter reviews based on restroomId matching id
-                .map((review) => (
-                  <Card
-                    key={review.id}
-                    sx={{
-                      cursor: "pointer",
-                      paddingBottom: "10px",
-                    }}
-                  >
-                    <CardMedia
-                      component="img"
-                      src={review.imageURL}
-                      alt="Picture unavailable!"
-                      onError={(e) => {
-                        e.target.src =
-                          "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
-                      }}
-                    />
-                    <Typography variant="h5">
-                      {review.user ? review.user.username : "Anonymous"}
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      {review.reviewText}
-                    </Typography>
-                    <Typography variant="subtitle1">
-                      Report: {review.reportStatus}
-                    </Typography>
-                  </Card>
-                ))}
-            </Box> */}
           </Box>
         </Box>
       </ThemeProvider>

@@ -13,6 +13,7 @@ import {
   Box,
   Tabs,
   Tab,
+  Avatar,
   useMediaQuery,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
@@ -212,7 +213,7 @@ const EditProfile = () => {
           {activeTab === 1 && (
             <form onSubmit={handlePasswordEdit}>
               <Box sx={{ py: 3 }}>
-                <Box sx={{ py: 2 }}>
+                <Box sx={{ p: 2 }}>
                   <Typography variant="h5">Password</Typography>
                 </Box>
                 <CustomizedTextField
@@ -275,8 +276,15 @@ const EditProfile = () => {
           {activeTab === 2 && (
             <form>
               <Box sx={{ py: 3 }}>
-                <Box sx={{ py: 2 }}>
+                <Box sx={{ p: 2 }}>
                   <Typography variant="h5">Profile Image</Typography>
+                </Box>
+                <Box sx={{ p: 1, display: "flex", justifyContent: "center" }}>
+                  <Avatar>
+                    <Typography sx={{ textTransform: "capitalize" }}>
+                      {username[0]}
+                    </Typography>
+                  </Avatar>
                 </Box>
               </Box>
               <Box

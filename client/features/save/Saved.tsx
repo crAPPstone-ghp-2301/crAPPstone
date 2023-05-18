@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -24,10 +24,12 @@ import {
   CardContent,
   CardMedia,
   useMediaQuery,
+  Fab,
 } from "@mui/material";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
 
 const Saved = () => {
   const navigate = useNavigate();
@@ -98,6 +100,29 @@ const Saved = () => {
     };
   }, []);
 
+  const ref = useRef();
+
+  const [pos, setPos] = useState(false);
+
+  const handleTop = () => {
+    ref.current.scrollTop = 0;
+    setPos(false);
+  };
+
+  const handleScroll = () => {
+    if (ref.current.scrollTop > 50) {
+      if (!pos) setPos(true);
+    } else {
+      if (pos) setPos(false);
+    }
+  };
+
+  useEffect(() => {
+    const temp = ref.current;
+    temp.addEventListener("scroll", handleScroll);
+    return () => temp.removeEventListener("scroll", handleScroll);
+  });
+
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
@@ -113,7 +138,9 @@ const Saved = () => {
           height: "100%",
           overflowY: "scroll",
           paddingBottom: 10,
+          scrollBehavior: "smooth",
         }}
+        ref={ref}
       >
         <Container
           sx={{
@@ -272,6 +299,19 @@ const Saved = () => {
               </Box>
             </Box>
           )}
+          <Fab
+            color="primary"
+            aria-label="scroll-to-top"
+            onClick={handleTop}
+            sx={{
+              position: "fixed",
+              bottom: 10,
+              left: isMobile ? 0 : "300px",
+              display: pos ? "block" : "none",
+            }}
+          >
+            <KeyboardArrowUpRoundedIcon />
+          </Fab>
         </Container>
       </Box>
     </ThemeProvider>

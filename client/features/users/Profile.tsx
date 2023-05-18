@@ -8,6 +8,7 @@ import {
   Typography,
   Box,
   useMediaQuery,
+  Avatar,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -98,6 +99,13 @@ const Profile = () => {
           <Box sx={{ p: 1 }}>
             <Box sx={{ p: 1 }}>
               <Typography variant="h5">Profile Image</Typography>
+            </Box>
+            <Box sx={{ p: 1 }}>
+              <Avatar>
+                <Typography sx={{ textTransform: "capitalize" }}>
+                  {username[0]}
+                </Typography>
+              </Avatar>
             </Box>
           </Box>
           <Link to="/editprofile">
