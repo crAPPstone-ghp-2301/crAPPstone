@@ -3,6 +3,7 @@ import axios from "axios";
 import crAppTheme from "../../app/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { createReview, fetchAllReviewsOfRestroomId } from "./reviewSlice";
+import { selectSingleRestroom } from "../restrooms/singleRestroomSlice";
 import {
   ThemeProvider,
   CssBaseline,
@@ -14,6 +15,7 @@ import {
   RadioGroup,
   FormControlLabel,
   Radio,
+  IconButton,
 } from "@mui/material";
 import { createRating, fetchRatings } from "../rating/RatingSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -25,28 +27,28 @@ import {
 } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import ExpandLessIcon from "@mui/icons-material/ExpandLess";
 import PropTypes from "prop-types";
-
 
 const AddReview = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width:700px)");
+  const userId = useSelector((state) => state.auth.me.id);
+  const { restroomId } = useParams();
+  const restroom = useSelector(selectSingleRestroom);
+  const restroomName = restroom.name;
   const [reviewText, setReviewText] = useState("");
   const [reportStatus, setReportStatus] = useState("none");
   const [selectedFile, setSelectedFile] = useState(null);
-  const navigate = useNavigate();
-  const isMobile = useMediaQuery("(max-width:700px)");
-
   //settings in rating
   const initialRating = 0; // Initial rating value
   const initialLikeChecked = false; // Initial checkbox value for "like"
   const initialHateChecked = false; // In
   const [userRating, setuserRating] = useState(initialRating);
   const [isClean, setisClean] = useState(false);
-  const userId = useSelector((state) => state.auth.me.id);
-  const { restroomId } = useParams();
-  const restroomName = useSelector(
-    (state) => state.singleRestroom.singleRestroom.name
-  );
+  const [showOptional, setShowOptional] = useState(false);
 
   const handleChange = (event) => {
     setReviewText(event.target.value);
@@ -61,8 +63,8 @@ const AddReview = () => {
   };
 
   const handleCancel = (event) => {
-    navigate(`/restrooms/${restroomId}/reviews`)
-  }
+    navigate(`/restrooms/${restroomId}/reviews`);
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -99,8 +101,6 @@ const AddReview = () => {
       setReportStatus("none");
       setSelectedFile(null);
       setuserRating(initialRating);
-      setLikeChecked(initialLikeChecked);
-      setHateChecked(initialHateChecked);
     } catch (error) {
       console.error(error);
     }
@@ -150,29 +150,28 @@ const AddReview = () => {
             <CloseRoundedIcon />
           </TertiaryButton>
         </Link>
-        <Box sx={{ p: 2 }}>
-          <Typography
-            variant="h3"
-            sx={{ color: crAppTheme.palette.primary.dark, textAlign: "center" }}
-          >
+        <Container
+          sx={{
+            p: 2,
+            color: crAppTheme.palette.primary.dark,
+            textAlign: "center",
+          }}
+        >
+          <Typography variant="h3" sx={{ my: 1 }}>
             Add A Review
           </Typography>
+          <Typography variant="body1">{restroomName}</Typography>
           <Box
             sx={{
               justifyContent: "center",
               alignItems: "center",
+              color: crAppTheme.palette.primary.dark,
+              textAlign: "center",
+              my: 2,
+              textTransform: "capitalize",
             }}
           >
-            <Typography
-              variant="subtitle1"
-              sx={{
-                color: crAppTheme.palette.primary.dark,
-                textAlign: "center",
-              }}
-            >
-              Share your Experience
-            </Typography>
-           
+            <Typography variant="subtitle1">Rate your Experience</Typography>
             <StyledRating
               name="customized-icons"
               value={userRating}
@@ -181,118 +180,129 @@ const AddReview = () => {
               onChange={handleRatingChange}
             />
 
-
-            <div style={{ textAlign: "center" }}>
-              <Typography
-                variant="subtitle1"
-                sx={{ color: crAppTheme.palette.primary.dark }}
-              >
-                Is {restroomName} Clean?
-              </Typography>
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <Checkbox
-                  icon={
-                    <ThumbUpOffAltIcon
-                      style={{ color: crAppTheme.palette.primary.dark }}
-                    />
-                  }
-                  checkedIcon={
-                    <ThumbUpIcon
-                      style={{ color: crAppTheme.palette.success.main }}
-                    />
-                  }
-                  onChange={handleCheckboxlike}
-                  checked={likeChecked}
-                />
-                <Checkbox
-                  icon={
-                    <ThumbDownOffAltIcon
-                      style={{ color: crAppTheme.palette.primary.dark }}
-                    />
-                  }
-                  checkedIcon={
-                    <ThumbDownIcon
-                      style={{ color: crAppTheme.palette.error.main }}
-                    />
-                  }
-                  onChange={handleCheckboxhate}
-                  checked={hateChecked}
-                />
-              </div>
-            </div>
-
           </Box>
-          <form onSubmit={handleSubmit}>
-            <TextField
-              label="Add Review"
-              value={reviewText}
-              onChange={handleChange}
-              fullWidth
-              multiline
-              rows={4}
-              variant="outlined"
-              margin="normal"
-            />
-            <RadioGroup
-              value={reportStatus}
-              onChange={handleReportStatusChange}
-              row
-              sx={{
-                margin: "10px 0",
-              }}
-            >
-              <FormControlLabel value="none" control={<Radio />} label="None" />
-              <FormControlLabel value="clean" control={<Radio />} label="Clean" />
-              <FormControlLabel
-                value="dirty"
-                control={<Radio />}
-                label="Dirty"
+          <Container>
+            <form onSubmit={handleSubmit}>
+              <TextField
+                label="Add Review"
+                value={reviewText}
+                onChange={handleChange}
+                multiline
+                rows={3}
+                variant="outlined"
+                margin="normal"
               />
-              <FormControlLabel
-                value="closed"
-                control={<Radio />}
-                label="Closed"
-              />
-            </RadioGroup>
-            <input type="file" onChange={handleFileChange} />
-
-            {userId ? (
+              <Box
+                sx={{
+                  backgroundColor: crAppTheme.palette.primary.light,
+                  color: crAppTheme.palette.primary.dark,
+                  m: 2,
+                  p: 2,
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  borderRadius: 4,
+                }}
+              >
+                <Typography variant="overline">
+                  Other Options
+                  <IconButton
+                    onClick={() => setShowOptional(!showOptional)}
+                    sx={{ float: "right" }}
+                  >
+                    {showOptional ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                  </IconButton>
+                </Typography>
+                {showOptional && (
+                  <>
+                    <Box
+                      sx={{
+                        border: `1px solid ${crAppTheme.palette.primary.dark}`,
+                        borderRadius: "4px",
+                        my: 2,
+                      }}
+                    >
+                      <Typography variant="caption">
+                        Report Restroom Status:
+                      </Typography>
+                      <RadioGroup
+                        value={reportStatus}
+                        onChange={handleReportStatusChange}
+                        row
+                        sx={{
+                          m: 2,
+                        }}
+                      >
+                        <FormControlLabel
+                          value="none"
+                          control={<Radio />}
+                          label="None"
+                        />
+                        <FormControlLabel
+                          value="clean"
+                          control={<Radio />}
+                          label="Clean"
+                        />
+                        <FormControlLabel
+                          value="dirty"
+                          control={<Radio />}
+                          label="Dirty"
+                        />
+                        <FormControlLabel
+                          value="closed"
+                          control={<Radio />}
+                          label="Closed"
+                        />
+                      </RadioGroup>
+                    </Box>
+                    <Box
+                      sx={{
+                        my: 1,
+                        border: `1px solid ${crAppTheme.palette.primary.dark}`,
+                        borderRadius: "4px",
+                        padding: "8px",
+                      }}
+                    >
+                      <Typography
+                        variant="caption"
+                        sx={{ my: 2, textAlign: "left" }}
+                      >
+                        Upload a Restroom Image:
+                      </Typography>
+                      <input
+                        type="file"
+                        onChange={handleFileChange}
+                        style={{
+                          color: crAppTheme.palette.text.dark,
+                          marginTop: 10,
+                          width: "100%",
+                        }}
+                      />
+                    </Box>
+                  </>
+                )}
+              </Box>
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
+                  flexDirection: "row",
+                  my: 4,
                 }}
               >
-                <SecondaryButton onClick={handleSubmit}>
+                <SecondaryButton onClick={userId ? handleSubmit : handleLogin}>
                   <Typography variant="subtitle1">
                     Submit <CheckCircleIcon />
                   </Typography>
                 </SecondaryButton>
+                <TertiaryButton onClick={handleCancel}>
+                  <Typography variant="subtitle1">Cancel</Typography>
+                </TertiaryButton>
               </Box>
-            ) : (
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <SecondaryButton onClick={handleLogin}>
-                  <Typography variant="subtitle1">
-                    Submit <CheckCircleIcon />
-                  </Typography>
-                </SecondaryButton>
-              </Box>
-            )}
-          </form>
-          <SecondaryButton onClick={handleCancel}>
-                  <Typography variant="subtitle1">
-                    Cancel
-                  </Typography>
-                </SecondaryButton>
-          
-        </Box>
+            </form>
+          </Container>
+        </Container>
       </Container>
     </ThemeProvider>
   );

@@ -110,7 +110,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
             </Typography>
             <Typography
               variant="h5"
-              sx={{ m: 4, color: crAppTheme.palette.primary.dark, mb: 6 }}
+              sx={{ m: 2, color: crAppTheme.palette.primary.dark, mb: 6 }}
             >
               {username}
             </Typography>
@@ -119,7 +119,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
                 <TertiaryButton>Start Exploring</TertiaryButton>
               </Link>
             </Box>
-            <Box sx={{ marginTop: 5 }}>
+            <Box sx={{ marginTop: 3 }}>
               <Link to="/editprofile">
                 <PrimaryButton>Manage Account</PrimaryButton>
               </Link>
@@ -132,7 +132,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
           </Container>
         ) : (
           <Container>
-            <Typography variant="h3" sx={{ marginTop: 4 }}>
+            <Typography variant="h3" sx={{ marginTop: 3 }}>
               Welcome to crAPP
             </Typography>
             <img
@@ -144,7 +144,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
                 variant="h4"
                 sx={{
                   textAlign: "center",
-                  padding: 4,
+                  padding: 1,
                   color: crAppTheme.palette.text.secondary,
                 }}
               >
