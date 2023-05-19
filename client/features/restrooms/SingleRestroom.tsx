@@ -7,7 +7,6 @@ import { selectSingleRestroom, getSingleRestroom } from "./singleRestroomSlice";
 import { fetchAllReviews } from "../review/reviewSlice";
 import { fetchAllReviewsOfRestroomId } from "../review/reviewSlice";
 import { addSavedRestroom, deleteSavedRestroom } from "../save/saveSlice";
-import AddRating from "../rating/Rating";
 import PastRating from "../rating/PastRating";
 import {
   ThemeProvider,
@@ -45,7 +44,6 @@ const SingleRestroom = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isSaved, setIsSaved] = useState(false);
   const [savedRestroomIds, setSavedRestroomIds] = useState([]);
-
   const authToken = useSelector((state) => state.auth.authToken);
   const storedUserId = useSelector((state) => state.auth.me.id);
 
@@ -199,10 +197,44 @@ const SingleRestroom = () => {
             backgroundColor: "white",
             width: isMobile ? "100%" : 450,
             height: "100%",
-            overflow: "auto",
             paddingBottom: 10,
+            overflowY: "scroll",
+            overscrollBehavior: "contain",
+            scrollBehavior: "smooth",
+            scrollbarWidth: "thin",
             "&::-webkit-scrollbar": {
-              display: "none",
+              width: "8px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              backgroundColor: "rgba(0, 0, 0, 0.5)",
+              borderRadius: "4px",
+            },
+            "&::-webkit-scrollbar-track": {
+              backgroundColor: "transparent",
+            },
+            "&::-webkit-scrollbar-thumb:hover": {
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            },
+            "&::-webkit-scrollbar-thumb:vertical": {
+              minHeight: "30px",
+            },
+            "&::-webkit-scrollbar-thumb:vertical:active": {
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            },
+            "&::-webkit-scrollbar-thumb:vertical:hover": {
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            },
+            "&::-webkit-scrollbar-thumb:horizontal": {
+              minWidth: "30px",
+            },
+            "&::-webkit-scrollbar-thumb:horizontal:active": {
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            },
+            "&::-webkit-scrollbar-thumb:horizontal:hover": {
+              backgroundColor: "rgba(0, 0, 0, 0.7)",
+            },
+            "&::-webkit-scrollbar-corner": {
+              backgroundColor: "transparent",
             },
           }}
         >

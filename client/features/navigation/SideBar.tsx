@@ -159,11 +159,13 @@ const SideBar = () => {
           >
             <Link to="/login">
               {isLoggedIn ? (
-                <Avatar>
-                  <Typography sx={{ textTransform: "capitalize" }}>
-                    {username[0]}
-                  </Typography>
-                </Avatar>
+                <TertiaryButton onClick={isMobile ? handleDrawerToggle : true}>
+                  <Avatar>
+                    <Typography sx={{ textTransform: "capitalize" }}>
+                      {username[0]}
+                    </Typography>
+                  </Avatar>
+                </TertiaryButton>
               ) : (
                 <PrimaryButton
                   onClick={isMobile ? handleDrawerToggle : true}
