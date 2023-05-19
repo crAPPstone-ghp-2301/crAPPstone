@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import Loading from "../loading/Loading";
 
 const SingleReview = () => {
@@ -26,11 +26,13 @@ const SingleReview = () => {
   const { reviewId, restroomId } = useParams();
   const isMobile = useMediaQuery("(max-width: 600px)");
   const singleReview = useSelector((state) => state.review.singleReview);
-  const { reviewText, imageURL, reportStatus } = singleReview;
+  const { reviewText, imageURL, reportStatus, user } = singleReview;
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(fetchSingleReviewOfRestroomId({ restroomId, reviewId })).then(() => setIsLoading(false));
+    dispatch(fetchSingleReviewOfRestroomId({ restroomId, reviewId })).then(() =>
+      setIsLoading(false)
+    );
   }, [dispatch]);
 
   if (isLoading) {
@@ -43,17 +45,53 @@ const SingleReview = () => {
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container
-        id="edit-profile-container"
+        id="review-container"
         sx={{
           position: "fixed",
           top: 0,
-          left: "100px",
-          zIndex: 1,
+          left: isMobile ? 0 : "100px",
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
-          height: "100vh",
-          width: isMobile ? "100%" : "450px",
-          padding: isMobile ? "20px" : "0",
-          overflowY: isMobile ? "auto" : "hidden",
+          width: isMobile ? "100%" : 450,
+          height: "100%",
+          overflowY: "scroll",
+          paddingBottom: 10,
+          scrollBehavior: "smooth",
+          scrollbarWidth: "thin",
+          "&::-webkit-scrollbar": {
+            width: "8px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+          "&::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical": {
+            minHeight: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:vertical:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal": {
+            minWidth: "30px",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:active": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-thumb:horizontal:hover": {
+            backgroundColor: "rgba(0, 0, 0, 0.7)",
+          },
+          "&::-webkit-scrollbar-corner": {
+            backgroundColor: "transparent",
+          },
         }}
       >
         <Container
@@ -65,7 +103,7 @@ const SingleReview = () => {
           }}
         >
           <Link to={`/restrooms/${restroomId}/reviews`}>
-            <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: 0, left: 0 }}>
               <ArrowBackIcon />
             </TertiaryButton>
           </Link>
@@ -81,20 +119,23 @@ const SingleReview = () => {
                       "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
                   }}
                 />
+                <Box sx={{ p: 2 }}>
+                <Typography variant="h5" color="secondary.dark">
+                  {user ? user.username : "Anonymous"}
+                </Typography>
                 <Typography
                   variant="subtitle1"
                   color="secondary.light"
-                  sx={{ px: 2 }}
                 >
                   {reviewText}
                 </Typography>
                 <Typography
                   variant="subtitle1"
                   color="secondary.light"
-                  sx={{ px: 2 }}
                 >
                   Report: {reportStatus}
-                </Typography>
+                  </Typography>
+                  </Box>
                 <Divider />
                 <AllComments reviewId={reviewId} />
               </Card>

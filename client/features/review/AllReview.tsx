@@ -219,15 +219,30 @@ const AllReviews = () => {
                           "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
                       }}
                     />
-                    <Typography variant="h5" color="secondary.dark">
-                      {review.user ? review.user.username : "Anonymous"}
-                    </Typography>
-                    <Typography variant="subtitle1" color="secondary.light">
-                      {review.reviewText}
-                    </Typography>
-                    <Typography variant="subtitle1" color="secondary.light">
-                      Report: {review.reportStatus}
-                    </Typography>
+                    <Box
+                      sx={{
+                        padding: "10px",
+                      }}
+                    >
+                      <Typography variant="h5" color="secondary.dark">
+                        {review.user ? review.user.username : "Anonymous"}
+                      </Typography>
+                      <Typography variant="subtitle1" color="secondary.light">
+                        {review.reviewText}
+                      </Typography>
+                      <Typography variant="subtitle1" color="secondary.light">
+                        Report: {review.reportStatus}
+                      </Typography>
+                      <Box
+                        sx={{
+                          marginLeft: "auto",
+                        }}
+                      >
+                        <Typography variant="subtitle2" color="secondary.main">
+                          Comments: {review.comments.length}
+                        </Typography>
+                      </Box>
+                    </Box>
                   </Card>
                 ))}
               </Box>
