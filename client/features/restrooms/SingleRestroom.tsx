@@ -77,11 +77,9 @@
       let updatedIsSaved;
 
       if (!isSaved) {
-        // Add the restroom to saved list
         updatedSavedRestroomIds.push(restroomId);
         updatedIsSaved = true;
       } else {
-        // Remove the restroom from saved list
         const index = updatedSavedRestroomIds.indexOf(restroomId);
         if (index > -1) {
           updatedSavedRestroomIds.splice(index, 1);
@@ -103,7 +101,6 @@
       );
 
       if (!isSaved) {
-        // Add the saved restroom
         dispatch(addSavedRestroom(restroomId))
           .then(() => {
             setIsSnackbarOpen(true);
@@ -112,7 +109,6 @@
             console.error(error);
           });
       } else {
-        // Remove the saved restroom
         dispatch(deleteSavedRestroom(restroomId))
           .then(() => {
             setIsSnackbarOpen(true);
