@@ -3,7 +3,7 @@ import crAppTheme from "../../app/theme";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import {
   ThemeProvider,
-  Container,
+  Avatar,
   Box,
   Drawer,
   List,
@@ -25,6 +25,7 @@ const SideBar = () => {
   const [drawerOpen, setDrawerOpen] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
   const user = useSelector((state) => state.auth.user);
+  const { username } = useSelector((state) => state.auth.me);
   const isMobile = useMediaQuery("(max-width:900px)");
 
   const isLoggedIn = useSelector((state) => {
@@ -157,14 +158,20 @@ const SideBar = () => {
             }}
           >
             <Link to="/login">
-              <PrimaryButton
-                onClick={isMobile ? handleDrawerToggle : true}
-                sx={{ px: 1, py: 0.5 }}
-              >
-                <Typography variant="caption">
-                  {isLoggedIn ? "Sign Out" : "Sign In"}
-                </Typography>
-              </PrimaryButton>
+              {isLoggedIn ? (
+                <Avatar>
+                  <Typography sx={{ textTransform: "capitalize" }}>
+                    {username[0]}
+                  </Typography>
+                </Avatar>
+              ) : (
+                <PrimaryButton
+                  onClick={isMobile ? handleDrawerToggle : true}
+                  sx={{ px: 1, py: 0.5 }}
+                >
+                  <Typography variant="caption">Sign In</Typography>
+                </PrimaryButton>
+              )}
             </Link>
           </ListItem>
           <TertiaryButton

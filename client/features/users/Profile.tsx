@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import crAppTheme from "../../app/theme";
 import { PrimaryButton, TertiaryButton } from "../styles/StyleGuide";
 import {
@@ -14,11 +15,20 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import VisibilityRoundedIcon from "@mui/icons-material/VisibilityRounded";
+import VisibilityOffRoundedIcon from "@mui/icons-material/VisibilityOffRounded";
 
 const Profile = () => {
-  const { id, name, email, username } = useSelector((state) => state.auth.me);
+  const { id, name, email, username, password } = useSelector(
+    (state) => state.auth.me
+  );
+  const [showPassword, setShowPassword] = useState(false);
   const token = window.localStorage.getItem("token");
   const isMobile = useMediaQuery("(max-width:900px)");
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   useEffect(() => {
     document.title = `Profile - crAPP Account`;
@@ -93,7 +103,19 @@ const Profile = () => {
             </Box>
             <Box sx={{ p: 1 }}>
               <Typography variant="caption">Your secure password</Typography>
-              <Typography variant="subtitle1">*****</Typography>
+              <Typography variant="subtitle1">
+                {showPassword ? (
+                  <React.Fragment>
+                    <VisibilityRoundedIcon
+                      onClick={handleTogglePassword}
+                      sx={{ cursor: "pointer" }}
+                    />
+                    <span>{"*".repeat(password.length)}</span>
+                  </React.Fragment>
+                ) : (
+                  <VisibilityOffRoundedIcon onClick={handleTogglePassword} />
+                )}
+              </Typography>
             </Box>
           </Box>
           <Box sx={{ p: 1 }}>

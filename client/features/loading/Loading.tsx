@@ -17,15 +17,15 @@ const Loading = ({ loadingGif }) => {
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
       <Container
-        id="edit-profile-container"
+        id="loading-container"
         sx={{
           position: "fixed",
           top: 0,
-          left: "100px",
-          zIndex: 1,
+          left: isMobile ? 0 : "100px",
+          zIndex: isMobile ? 2 : 1,
           backgroundColor: "white",
-          height: "100vh",
-          width: isMobile ? "100%" : "450px",
+          width: isMobile ? "100%" : 450,
+          height: "100%",
           padding: isMobile ? "20px" : "0",
           overflowY: isMobile ? "auto" : "hidden",
         }}
