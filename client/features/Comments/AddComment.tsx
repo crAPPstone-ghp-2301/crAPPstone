@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { createComment, fetchAllComments } from "./commentsSlice";
 import crAppTheme from "../../app/theme";
-import { PrimaryButton } from "../styles/StyleGuide";
+import { PrimaryButton, CustomizedTextField } from "../styles/StyleGuide";
 import {
   ThemeProvider,
   Box,
@@ -46,7 +46,8 @@ const AddComment = ({ reviewId }) => {
         }}
       >
         <Container>
-          <TextField
+          <CustomizedTextField
+            id="outlined-required"
             label="Add Comment"
             value={content}
             onChange={handleChange}
