@@ -12,23 +12,33 @@ router.get('/:restroomId/reviews', async (req, res, next) => {
         {
           model: User,
           attributes: ['username']
+        },
+        {
+          model: Comments, // Include the Comments model
+          attributes: ['id', 'content'] // Adjust the attributes as needed
         }
       ]
     });
 
-    const reviewsWithUsername = reviews.map(review => {
+    const reviewsWithUsernameAndComments = reviews.map(review => {
       const username = review.user ? review.user.username : 'Anonymous';
+      const comments = review.comments.map(comment => ({
+        id: comment.id,
+        content: comment.content
+      }));
       return {
         ...review.toJSON(),
-        username
+        username,
+        comments
       };
     });
 
-    res.json(reviewsWithUsername);
+    res.json(reviewsWithUsernameAndComments);
   } catch (error) {
     next(error);
   }
 });
+
 
 //fetch a single review of restroomId
 router.get('/:restroomId/reviews/:reviewId', async (req, res, next) => {
@@ -38,6 +48,12 @@ router.get('/:restroomId/reviews/:reviewId', async (req, res, next) => {
         id: req.params.reviewId, 
         restroomId: req.params.restroomId
       },
+      include: [
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
     });
 
     if (singleReview) {

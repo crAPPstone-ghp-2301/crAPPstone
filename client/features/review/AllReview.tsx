@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
+import { selectSingleRestroom } from "../restrooms/singleRestroomSlice";
 import crAppTheme from "../../app/theme";
 import PastRating from "../rating/PastRating";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 import {
   Card,
   Box,
@@ -18,8 +18,6 @@ import {
   Tab,
   useMediaQuery,
 } from "@mui/material";
-
-import AddReview from "./AddReview";
 import { TertiaryButton, SecondaryButton } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Loading from "../loading/Loading";
@@ -33,6 +31,8 @@ const AllReviews = () => {
   const userId = useSelector((state) => state.auth.me.id);
   const ratings = useSelector((state) => state.rating.pastRating);
   const reviews = useSelector((state) => state.review.allReviews);
+  const restroom = useSelector(selectSingleRestroom);
+  const restroomName = restroom.name;
 
   const handleLogin = () => {
     navigate("/login");
@@ -62,8 +62,6 @@ const AllReviews = () => {
   const handleWriteReview = () => {
     navigate(`add`);
   };
-
- 
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -126,6 +124,19 @@ const AllReviews = () => {
             py: 2,
           }}
         >
+          <Box>
+            <Typography
+              gutterBottom
+              variant="body1"
+              sx={{
+                fontWeight: "900",
+                color: crAppTheme.palette.primary.dark,
+                lineHeight: 1,
+              }}
+            >
+              {restroomName}
+            </Typography>
+          </Box>
           <Box sx={{ borderBottom: 1, borderColor: "divider", my: 2 }}>
             <Tabs
               value={activeTab}
@@ -160,37 +171,36 @@ const AllReviews = () => {
             <Box sx={{ my: 2 }}>
               <PastRating />
             </Box>
-            {userId?( <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <SecondaryButton onClick={handleWriteReview}>
-                <Typography variant="subtitle1">Write a Review</Typography>
-              </SecondaryButton>
-            </Box>):( <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <SecondaryButton onClick={handleLogin}>
-                <Typography variant="subtitle1">Write a Review</Typography>
-              </SecondaryButton>
-            </Box>)}
-            
+            {userId ? (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleWriteReview}>
+                  <Typography variant="subtitle1">Write a Review</Typography>
+                </SecondaryButton>
+              </Box>
+            ) : (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <SecondaryButton onClick={handleLogin}>
+                  <Typography variant="subtitle1">Write a Review</Typography>
+                </SecondaryButton>
+              </Box>
+            )}
+
             <Divider />
 
             <Box>
-              <Box
-                // style={{
-                //   height: "70vh",
-                //   overflowY: "scroll",
-                // }}
-              >
+              <Box>
                 {reviews.map((review) => (
                   <Card
                     key={review.id}
@@ -209,15 +219,30 @@ const AllReviews = () => {
                           "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
                       }}
                     />
-                    <Typography variant="h5" color="secondary.dark">
-                      {review.user ? review.user.username : "Anonymous"}
-                    </Typography>
-                    <Typography variant="subtitle1" color="secondary.light">
-                      {review.reviewText}
-                    </Typography>
-                    <Typography variant="subtitle1" color="secondary.light">
-                      Report: {review.reportStatus}
-                    </Typography>
+                    <Box
+                      sx={{
+                        padding: "10px",
+                      }}
+                    >
+                      <Typography variant="h5" color="secondary.dark">
+                        {review.user ? review.user.username : "Anonymous"}
+                      </Typography>
+                      <Typography variant="subtitle1" color="secondary.light">
+                        {review.reviewText}
+                      </Typography>
+                      <Typography variant="subtitle1" color="secondary.light">
+                        Report: {review.reportStatus}
+                      </Typography>
+                      <Box
+                        sx={{
+                          marginLeft: "auto",
+                        }}
+                      >
+                        <Typography variant="subtitle2" color="secondary.main">
+                          Comments: {review.comments.length}
+                        </Typography>
+                      </Box>
+                    </Box>
                   </Card>
                 ))}
               </Box>
