@@ -30,6 +30,7 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
+import Loading from "../loading/Loading";
 
 const Saved = () => {
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ const Saved = () => {
   const user = useSelector((state) => state.auth.user);
   const token = window.localStorage.getItem("token");
   const isMobile = useMediaQuery("(max-width:1000px)");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchSavedRestrooms() {
@@ -66,6 +68,7 @@ const Saved = () => {
         );
 
         setSavedRestrooms(savedRestroomsWithDetails);
+        setIsLoading(false);
       } catch (error) {
         console.log("Error fetching saved restrooms:", error);
       }
@@ -139,13 +142,18 @@ const Saved = () => {
 
   useEffect(() => {
     const temp = ref.current;
-    temp.addEventListener("scroll", handleScroll);
-    return () => temp.removeEventListener("scroll", handleScroll);
-  });
+    if (temp) {
+      temp.addEventListener("scroll", handleScroll);
+      return () => temp.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
+      {isLoading ? (
+        <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
+    ) : (
       <Box
         id="saved-container"
         sx={{
@@ -377,6 +385,7 @@ const Saved = () => {
           </Fab>
         </Container>
       </Box>
+    )}
     </ThemeProvider>
   );
 };

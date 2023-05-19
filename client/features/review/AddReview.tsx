@@ -68,7 +68,12 @@ const AddReview = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    
+    if (userRating===0 || reviewText==="" ){
+      alert("form could not be empty")
+      return 
+    }
+    else{
     try {
       let imageURL =
         "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
@@ -99,6 +104,7 @@ const AddReview = () => {
     } catch (error) {
       console.error(error);
     }
+  }
   };
 
   const handleLogin = () => {
@@ -172,8 +178,8 @@ const AddReview = () => {
               getLabelText={(value) => customIcons[value].label}
               IconContainerComponent={IconContainer}
               onChange={handleRatingChange}
-              sx={{ display: "flex", justifyContent: "center" }}
             />
+
           </Box>
           <Container>
             <form onSubmit={handleSubmit}>

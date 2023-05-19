@@ -52,7 +52,7 @@ const AllComments = () => {
           )}
         </Box>
         <Box
-          style={{ height: "310px", overflowY: "scroll", paddingRight: "20px" }}
+          // style={{ height: "310px", overflowY: "scroll", paddingRight: "20px" }}
         >
           {comments.map((comment) => (
             <Box key={comment.id}>
