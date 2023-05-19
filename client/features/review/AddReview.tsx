@@ -256,15 +256,15 @@ const AddReview = () => {
                 margin: "10px 0",
               }}
             >
-              <FormControlLabel value="None" control={<Radio />} label="None" />
-              <FormControlLabel value="Clean" control={<Radio />} label="Clean" />
+              <FormControlLabel value="none" control={<Radio />} label="None" />
+              <FormControlLabel value="clean" control={<Radio />} label="Clean" />
               <FormControlLabel
-                value="Dirty"
+                value="dirty"
                 control={<Radio />}
                 label="Dirty"
               />
               <FormControlLabel
-                value="Closed"
+                value="closed"
                 control={<Radio />}
                 label="Closed"
               />
