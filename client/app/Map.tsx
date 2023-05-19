@@ -81,77 +81,71 @@ const Map = () => {
       bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
     });
 
-    
-
     map.current.addControl(geocoder, "top-right");
     geocoder.container.setAttribute("id", "geocoder-search");
 
- 
-   
+    map.current.on("load", () => {
+      const marker = new mapboxgl.Marker({
+        color: " #CB997E",
+      });
 
-      map.current.on("load", () => {
-        const marker = new mapboxgl.Marker({
-          color: " #CB997E",
-        });
+      geocoder.on("result", async (event) => {
+        const point = event.result.center;
+        console.log(point);
+        const tileset = "fxu2023.clhs7ziyw0lfz2arsitz3ct0o-7dbgr";
+        const radius = 1609;
+        const limit = 50;
+        marker.setLngLat(point).addTo(map.current);
+        const query = await fetch(
+          `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
+          { method: "GET" }
+        );
+        console.log(query);
+        const json = await query.json();
+        map.current.getSource("tilequery").setData(json);
+      });
 
-        geocoder.on("result", async (event) => {
-          const point = event.result.center;
-          console.log(point);
-          const tileset = "fxu2023.clhs7ziyw0lfz2arsitz3ct0o-7dbgr";
-          const radius = 1609;
-          const limit = 50;
-          marker.setLngLat(point).addTo(map.current);
-          const query = await fetch(
-            `https://api.mapbox.com/v4/${tileset}/tilequery/${point[0]},${point[1]}.json?radius=${radius}&limit=${limit}&access_token=${mapboxgl.accessToken}`,
-            { method: "GET" }
-          );
-          console.log(query);
-          const json = await query.json();
-          map.current.getSource("tilequery").setData(json);
-        });
+      map.current.addSource("tilequery", {
+        type: "geojson",
+        data: {
+          type: "FeatureCollection",
+          features: [],
+        },
+      });
 
-        map.current.addSource("tilequery", {
-          type: "geojson",
-          data: {
-            type: "FeatureCollection",
-            features: [],
-          },
-        });
-
-        map.current.addLayer({
-          id: "tilequery-points",
-          type: "circle",
-          source: "tilequery",
-          paint: {
-            "circle-stroke-color": "white",
-            "circle-stroke-width": {
-              stops: [
-                [0, 0.1],
-                [18, 3],
-              ],
-              base: 5,
-            },
-            "circle-radius": {
-              stops: [
-                [12, 10],
-                [22, 200],
-              ],
-              base: 5,
-            },
-            "circle-color": [
-              "match",
-              ["get", "Place_type"],
-              "mall",
-              "#0BB000",
-              "hotel",
-              "#F89446",
-              "restroom",
-              "#EA0000",
-              "#FF0000", // default color if no match
+      map.current.addLayer({
+        id: "tilequery-points",
+        type: "circle",
+        source: "tilequery",
+        paint: {
+          "circle-stroke-color": "white",
+          "circle-stroke-width": {
+            stops: [
+              [0, 0.1],
+              [18, 3],
             ],
+            base: 5,
           },
-        });
-      
+          "circle-radius": {
+            stops: [
+              [12, 10],
+              [22, 200],
+            ],
+            base: 5,
+          },
+          "circle-color": [
+            "match",
+            ["get", "Place_type"],
+            "mall",
+            "#0BB000",
+            "hotel",
+            "#F89446",
+            "restroom",
+            "#EA0000",
+            "#FF0000", // default color if no match
+          ],
+        },
+      });
 
       const popup = new mapboxgl.Popup();
 
@@ -364,10 +358,12 @@ const Map = () => {
             id="restroom-mall-nyc"
             className={isActivemall ? "active" : ""}
             onClick={handleClickmall}
+            aria-label="Malls"
           >
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
               width="20px"
+              alt="Malls"
             />
           </MapButton>
           <MapButton
@@ -376,10 +372,12 @@ const Map = () => {
             id="restroom-hotel-nyc"
             className={isActivehotel ? "active" : ""}
             onClick={handleClickhotel}
+            aria-label="Hotels"
           >
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
               width="20px"
+              alt="Hotels"
             />
           </MapButton>
           <MapButton
@@ -388,10 +386,12 @@ const Map = () => {
             id="public-restroom-nyc"
             className={isActiverestroom ? "active" : ""}
             onClick={handleClickrestroom}
+            aria-label="Public Restrooms"
           >
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
               width="20px"
+              alt="Public Restrooms"
             />
           </MapButton>
         </Box>
@@ -418,6 +418,7 @@ const Map = () => {
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
               width="20px"
+              alt="Malls"
             />
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Malls
@@ -433,6 +434,7 @@ const Map = () => {
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
               width="20px"
+              alt="Hotels"
             />
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Hotels
@@ -448,6 +450,7 @@ const Map = () => {
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
               width="20px"
+              alt="Public Restrooms"
             />
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Public Restrooms
