@@ -3,6 +3,7 @@ import axios from "axios";
 import crAppTheme from "../../app/theme";
 import { useDispatch, useSelector } from "react-redux";
 import { createReview, fetchAllReviewsOfRestroomId } from "./reviewSlice";
+import { selectSingleRestroom } from "../restrooms/singleRestroomSlice";
 import {
   ThemeProvider,
   CssBaseline,
@@ -36,9 +37,8 @@ const AddReview = () => {
   const isMobile = useMediaQuery("(max-width:700px)");
   const userId = useSelector((state) => state.auth.me.id);
   const { restroomId } = useParams();
-  const restroomName = useSelector(
-    (state) => state.singleRestroom.singleRestroom.name
-  );
+  const restroom = useSelector(selectSingleRestroom);
+  const restroomName = restroom.name;
   const [reviewText, setReviewText] = useState("");
   const [reportStatus, setReportStatus] = useState("none");
   const [selectedFile, setSelectedFile] = useState(null);
@@ -151,8 +151,10 @@ const AddReview = () => {
             textAlign: "center",
           }}
         >
+          <Typography variant="h3" sx={{ my: 1 }}>
+            Add A Review
+          </Typography>
           <Typography variant="body1">{restroomName}</Typography>
-          <Typography variant="h3">Add A Review</Typography>
           <Box
             sx={{
               justifyContent: "center",
@@ -192,6 +194,7 @@ const AddReview = () => {
                   p: 2,
                   display: "flex",
                   flexDirection: "column",
+                  justifyContent: "center",
                   borderRadius: 4,
                 }}
               >
@@ -220,25 +223,27 @@ const AddReview = () => {
                         value={reportStatus}
                         onChange={handleReportStatusChange}
                         row
-                        sx={{ mx: 2 }}
+                        sx={{
+                          m: 2,
+                        }}
                       >
                         <FormControlLabel
-                          value="None"
+                          value="none"
                           control={<Radio />}
                           label="None"
                         />
                         <FormControlLabel
-                          value="Clean"
+                          value="clean"
                           control={<Radio />}
                           label="Clean"
                         />
                         <FormControlLabel
-                          value="Dirty"
+                          value="dirty"
                           control={<Radio />}
                           label="Dirty"
                         />
                         <FormControlLabel
-                          value="Closed"
+                          value="closed"
                           control={<Radio />}
                           label="Closed"
                         />
