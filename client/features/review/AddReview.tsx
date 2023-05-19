@@ -39,7 +39,7 @@ const AddReview = () => {
   const isMobile = useMediaQuery("(max-width:700px)");
 
   //settings in rating
-  const initialRating = 3; // Initial rating value
+  const initialRating = 0; // Initial rating value
   const initialLikeChecked = false; // Initial checkbox value for "like"
   const initialHateChecked = false; // In
   const [userRating, setuserRating] = useState(initialRating);
@@ -47,11 +47,8 @@ const AddReview = () => {
   const [likeChecked, setLikeChecked] = useState(initialLikeChecked);
   const [hateChecked, setHateChecked] = useState(initialHateChecked);
   const userId = useSelector((state) => state.auth.me.id);
-  // const restroomId = useSelector(
-  //   (state) => state.singleRestroom.singleRestroom.id
-  // );
   const { restroomId } = useParams();
-  console.log(restroomId);
+  const restroomName=useSelector((state) => state.singleRestroom.singleRestroom.name);
   useEffect(() => {
     const handleClickOutside = (event) => {
       const container = document.getElementById("add-review-container");
@@ -212,7 +209,7 @@ const AddReview = () => {
                 variant="subtitle1"
                 sx={{ color: crAppTheme.palette.primary.dark }}
               >
-                Is Restroom Clean?
+               Is {restroomName} Clean?
               </Typography>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Checkbox

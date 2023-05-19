@@ -226,6 +226,7 @@
               </Link>
               <img src={restroom.imageUrl} style={{ width: "100%", top: 0 }} />
               <Container>
+
                 <Box
                   sx={{
                     display: "flex",
