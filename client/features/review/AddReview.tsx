@@ -9,9 +9,11 @@ import {
   Box,
   Container,
   TextField,
-  MenuItem,
   useMediaQuery,
   Typography,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import { createRating, fetchRatings } from "../rating/RatingSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -48,21 +50,9 @@ const AddReview = () => {
   const [hateChecked, setHateChecked] = useState(initialHateChecked);
   const userId = useSelector((state) => state.auth.me.id);
   const { restroomId } = useParams();
-  const restroomName=useSelector((state) => state.singleRestroom.singleRestroom.name);
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const container = document.getElementById("add-review-container");
-      if (container && !container.contains(event.target)) {
-        navigate("/");
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
+  const restroomName = useSelector(
+    (state) => state.singleRestroom.singleRestroom.name
+  );
 
   const handleChange = (event) => {
     setReviewText(event.target.value);
@@ -75,6 +65,10 @@ const AddReview = () => {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  const handleCancel = (event) => {
+    navigate(`/restrooms/${restroomId}/reviews`)
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -168,7 +162,7 @@ const AddReview = () => {
           textAlign: "center",
         }}
       >
-        <Link to={`/restrooms/${restroomId}/reviews`}>
+        <Link to={`/restrooms/${restroomId}`}>
           <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
             <CloseRoundedIcon />
           </TertiaryButton>
@@ -209,7 +203,7 @@ const AddReview = () => {
                 variant="subtitle1"
                 sx={{ color: crAppTheme.palette.primary.dark }}
               >
-               Is {restroomName} Clean?
+                Is {restroomName} Clean?
               </Typography>
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <Checkbox
@@ -254,20 +248,27 @@ const AddReview = () => {
               variant="outlined"
               margin="normal"
             />
-            <TextField
-              select
-              label="Report Status"
+            <RadioGroup
               value={reportStatus}
               onChange={handleReportStatusChange}
-              fullWidth
-              variant="outlined"
-              margin="normal"
+              row
+              sx={{
+                margin: "10px 0",
+              }}
             >
-              <MenuItem value="none">None</MenuItem>
-              <MenuItem value="spam">Spam</MenuItem>
-              <MenuItem value="closed">Closed</MenuItem>
-              <MenuItem value="super dirty">Super Dirty</MenuItem>
-            </TextField>
+              <FormControlLabel value="None" control={<Radio />} label="None" />
+              <FormControlLabel value="Clean" control={<Radio />} label="Clean" />
+              <FormControlLabel
+                value="Dirty"
+                control={<Radio />}
+                label="Dirty"
+              />
+              <FormControlLabel
+                value="Closed"
+                control={<Radio />}
+                label="Closed"
+              />
+            </RadioGroup>
             <input type="file" onChange={handleFileChange} />
 
             {userId ? (
@@ -300,6 +301,12 @@ const AddReview = () => {
               </Box>
             )}
           </form>
+          <SecondaryButton onClick={handleCancel}>
+                  <Typography variant="subtitle1">
+                    Cancel
+                  </Typography>
+                </SecondaryButton>
+          
         </Box>
       </Container>
     </ThemeProvider>
