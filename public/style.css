@@ -85,10 +85,7 @@ div#geocoder-search {
   margin-bottom: 1.8rem;
 }
 
-.active {
-  background-color: #3887be;
-  color: #ffffff;
-  }
+
 
   
 @media only screen and (max-width: 700px) {
