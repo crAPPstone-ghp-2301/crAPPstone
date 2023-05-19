@@ -94,6 +94,7 @@ const Map = () => {
     //   bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
     // });
 
+
     
 
     // map.current.addControl(geocoder, "top-right");
@@ -165,6 +166,8 @@ const Map = () => {
     //       },
     //     });
       
+
+ 
 
     //   const popup = new mapboxgl.Popup();
 
@@ -377,10 +380,12 @@ const Map = () => {
             id="restroom-mall-nyc"
             className={isActivemall ? "active" : ""}
             onClick={handleClickmall}
+            aria-label="Malls"
           >
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
               width="20px"
+              alt="Malls"
             />
           </MapButton>
           <MapButton
@@ -389,10 +394,12 @@ const Map = () => {
             id="restroom-hotel-nyc"
             className={isActivehotel ? "active" : ""}
             onClick={handleClickhotel}
+            aria-label="Hotels"
           >
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
               width="20px"
+              alt="Hotels"
             />
           </MapButton>
           <MapButton
@@ -401,10 +408,12 @@ const Map = () => {
             id="public-restroom-nyc"
             className={isActiverestroom ? "active" : ""}
             onClick={handleClickrestroom}
+            aria-label="Public Restrooms"
           >
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
               width="20px"
+              alt="Public Restrooms"
             />
           </MapButton>
         </Box>
@@ -431,6 +440,7 @@ const Map = () => {
             <img
               src="https://www.svgrepo.com/show/375867/present.svg"
               width="20px"
+              alt="Malls"
             />
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Malls
@@ -446,6 +456,7 @@ const Map = () => {
             <img
               src="https://www.svgrepo.com/show/192397/hotel.svg"
               width="20px"
+              alt="Hotels"
             />
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Hotels
@@ -461,6 +472,7 @@ const Map = () => {
             <img
               src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
               width="20px"
+              alt="Public Restrooms"
             />
             <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
               Public Restrooms

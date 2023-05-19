@@ -120,7 +120,7 @@ const AuthForm = ({ name, displayName, oppositeName }) => {
               </Link>
             </Box>
             <Box sx={{ marginTop: 5 }}>
-              <Link to="/profile">
+              <Link to="/editprofile">
                 <PrimaryButton>Manage Account</PrimaryButton>
               </Link>
             </Box>

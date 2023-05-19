@@ -30,13 +30,16 @@ import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NoteAddRoundedIcon from "@mui/icons-material/NoteAddRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import KeyboardArrowUpRoundedIcon from "@mui/icons-material/KeyboardArrowUpRounded";
+import Loading from "../loading/Loading";
 
 const Saved = () => {
   const navigate = useNavigate();
   const [savedRestrooms, setSavedRestrooms] = useState([]);
   const { id } = useSelector((state) => state.auth.me);
+  const user = useSelector((state) => state.auth.user);
   const token = window.localStorage.getItem("token");
   const isMobile = useMediaQuery("(max-width:1000px)");
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function fetchSavedRestrooms() {
@@ -65,6 +68,7 @@ const Saved = () => {
         );
 
         setSavedRestrooms(savedRestroomsWithDetails);
+        setIsLoading(false);
       } catch (error) {
         console.log("Error fetching saved restrooms:", error);
       }
@@ -100,6 +104,25 @@ const Saved = () => {
     };
   }, []);
 
+  const isLoggedIn = useSelector((state) => {
+    const { me, authToken } = state.auth;
+    const storedAuthToken = localStorage.getItem("authToken");
+    const storedUserId = sessionStorage.getItem("userId");
+    return (
+      me.id ||
+      (authToken && storedAuthToken === authToken) ||
+      (storedUserId && me.id === storedUserId)
+    );
+  });
+
+  React.useEffect(() => {
+    if (isLoggedIn) {
+      localStorage.setItem("user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("user");
+    }
+  }, [isLoggedIn, user]);
+
   const ref = useRef();
 
   const [pos, setPos] = useState(false);
@@ -119,13 +142,18 @@ const Saved = () => {
 
   useEffect(() => {
     const temp = ref.current;
-    temp.addEventListener("scroll", handleScroll);
-    return () => temp.removeEventListener("scroll", handleScroll);
-  });
+    if (temp) {
+      temp.addEventListener("scroll", handleScroll);
+      return () => temp.removeEventListener("scroll", handleScroll);
+    }
+  }, []);
 
   return (
     <ThemeProvider theme={crAppTheme}>
       <CssBaseline />
+      {isLoading ? (
+        <Loading loadingGif="https://media2.giphy.com/media/3o7TKWpg8S6WTD5i7u/200w.webp" />
+    ) : (
       <Box
         id="saved-container"
         sx={{
@@ -307,14 +335,22 @@ const Saved = () => {
               <Typography variant="body1" sx={{ my: 5 }}>
                 <b>No saved restrooms!</b>
               </Typography>
-              <Typography variant="subtitle1">Friendly reminder:</Typography>
-              <Link to="/login">
-                <SecondaryButton>
+              {isLoggedIn ? (
+                <></>
+              ) : (
+                <>
                   <Typography variant="subtitle1">
-                    Sign in to save your restrooms
+                    Friendly reminder:
                   </Typography>
-                </SecondaryButton>
-              </Link>
+                  <Link to="/login">
+                    <SecondaryButton>
+                      <Typography variant="subtitle1">
+                        Sign in to save your restrooms
+                      </Typography>
+                    </SecondaryButton>
+                  </Link>
+                </>
+              )}
               <Link to="/">
                 <TertiaryButton sx={{ my: isMobile ? 4 : 8 }}>
                   <Typography variant="subtitle1">
@@ -349,6 +385,7 @@ const Saved = () => {
           </Fab>
         </Container>
       </Box>
+    )}
     </ThemeProvider>
   );
 };
