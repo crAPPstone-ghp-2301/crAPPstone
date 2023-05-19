@@ -197,7 +197,7 @@ const EditProfile = () => {
                     Save
                   </Typography>
                 </PrimaryButton>
-                <Link to="/profile">
+                <Link to="/login">
                   <TertiaryButton sx={{ mx: 2, p: 2 }}>
                     <Typography
                       variant="subtitle1"
@@ -260,7 +260,7 @@ const EditProfile = () => {
                     Save
                   </Typography>
                 </PrimaryButton>
-                <Link to="/profile">
+                <Link to="/login">
                   <TertiaryButton sx={{ mx: 2, py: 2 }}>
                     <Typography
                       variant="subtitle1"
@@ -319,7 +319,7 @@ const EditProfile = () => {
                     Save
                   </Typography>
                 </PrimaryButton>
-                <Link to="/profile">
+                <Link to="/login">
                   <TertiaryButton sx={{ mx: 2, py: 2 }}>
                     <Typography
                       variant="subtitle1"
