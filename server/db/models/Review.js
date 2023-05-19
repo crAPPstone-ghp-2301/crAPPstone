@@ -13,7 +13,7 @@ const Review = db.define('review', {
   },
   reportStatus: {
     type: Sequelize.ENUM('None', 'Clean', 'Closed', 'Dirty'),
-    defaultValue: 'none',
+    defaultValue: 'None',
   },
   restroomId: {
     type: Sequelize.INTEGER
