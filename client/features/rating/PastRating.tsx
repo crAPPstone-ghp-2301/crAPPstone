@@ -12,18 +12,17 @@ import {
 } from "recharts";
 import { Typography, Box, Rating } from "@mui/material";
 import crAppTheme from "../../app/theme";
-import { auto } from "@popperjs/core";
+
 import { fetchRatings } from "./RatingSlice";
 import { useNavigate } from "react-router-dom";
-import { SecondaryButton } from "../styles/StyleGuide";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-const PastRating = () => {
+
+const PastRating = ({restroomId}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const restroomId = useSelector(
-    (state) => state.singleRestroom.singleRestroom.id
-  );
+  // const restroomId = useSelector(
+  //   (state) => state.singleRestroom.singleRestroom.id
+  // );
 
   const restroomName = useSelector(
     (state) => state.singleRestroom.singleRestroom.name

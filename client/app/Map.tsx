@@ -49,7 +49,7 @@ const Map = () => {
   };
 
   const history=getLocalStorage()
-  console.log(history)
+  
   
   const openMall = Boolean(anchorElMall);
   const openHotel = Boolean(anchorElHotel);
