@@ -53,20 +53,6 @@ const AddReview = () => {
   const restroomName = useSelector(
     (state) => state.singleRestroom.singleRestroom.name
   );
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      const container = document.getElementById("add-review-container");
-      if (container && !container.contains(event.target)) {
-        navigate("/");
-      }
-    };
-
-    document.addEventListener("mousedown", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
 
   const handleChange = (event) => {
     setReviewText(event.target.value);
@@ -79,6 +65,10 @@ const AddReview = () => {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  const handleCancel = (event) => {
+    navigate(`/restrooms/${restroomId}/reviews`)
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -172,7 +162,7 @@ const AddReview = () => {
           textAlign: "center",
         }}
       >
-        <Link to={`/restrooms/${restroomId}/reviews`}>
+        <Link to={`/restrooms/${restroomId}`}>
           <TertiaryButton sx={{ position: "absolute", top: 0, right: 0 }}>
             <CloseRoundedIcon />
           </TertiaryButton>
@@ -266,17 +256,17 @@ const AddReview = () => {
                 margin: "10px 0",
               }}
             >
-              <FormControlLabel value="none" control={<Radio />} label="None" />
-              <FormControlLabel value="spam" control={<Radio />} label="Spam" />
+              <FormControlLabel value="None" control={<Radio />} label="None" />
+              <FormControlLabel value="Clean" control={<Radio />} label="Clean" />
               <FormControlLabel
-                value="closed"
+                value="Dirty"
                 control={<Radio />}
-                label="Closed"
+                label="Dirty"
               />
               <FormControlLabel
-                value="super dirty"
+                value="Closed"
                 control={<Radio />}
-                label="Super Dirty"
+                label="Closed"
               />
             </RadioGroup>
             <input type="file" onChange={handleFileChange} />
@@ -311,6 +301,12 @@ const AddReview = () => {
               </Box>
             )}
           </form>
+          <SecondaryButton onClick={handleCancel}>
+                  <Typography variant="subtitle1">
+                    Cancel
+                  </Typography>
+                </SecondaryButton>
+          
         </Box>
       </Container>
     </ThemeProvider>
