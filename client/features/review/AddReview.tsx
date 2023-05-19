@@ -9,9 +9,11 @@ import {
   Box,
   Container,
   TextField,
-  MenuItem,
   useMediaQuery,
   Typography,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import { createRating, fetchRatings } from "../rating/RatingSlice";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -257,20 +259,19 @@ const AddReview = () => {
               variant="outlined"
               margin="normal"
             />
-            <TextField
-              select
-              label="Report Status"
+            <RadioGroup
               value={reportStatus}
               onChange={handleReportStatusChange}
-              fullWidth
-              variant="outlined"
-              margin="normal"
+              row
+              sx={{
+                margin: "10px 0",
+              }}
             >
-              <MenuItem value="none">None</MenuItem>
-              <MenuItem value="spam">Spam</MenuItem>
-              <MenuItem value="closed">Closed</MenuItem>
-              <MenuItem value="super dirty">Super Dirty</MenuItem>
-            </TextField>
+              <FormControlLabel value="none" control={<Radio />} label="None" />
+              <FormControlLabel value="spam" control={<Radio />} label="Spam" />
+              <FormControlLabel value="closed" control={<Radio />} label="Closed" />
+              <FormControlLabel value="super dirty" control={<Radio />} label="Super Dirty" />
+            </RadioGroup>
             <input type="file" onChange={handleFileChange} />
 
             {userId ? (
