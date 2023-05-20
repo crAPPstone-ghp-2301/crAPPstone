@@ -33,6 +33,7 @@ const AllReviews = () => {
   const reviews = useSelector((state) => state.review.allReviews);
   const restroom = useSelector(selectSingleRestroom);
   const restroomName = restroom.name;
+  const currentUser = useSelector((state) => state.auth.user);
 
   const handleLogin = () => {
     navigate("/login");
@@ -67,6 +68,14 @@ const AllReviews = () => {
     dispatch(deleteReview({ restroomId, reviewId })).then(() => {
       dispatch(fetchAllReviewsOfRestroomId(restroomId));
     });
+  };
+
+  const isCurrentUserPostOwner = (review) => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      return review.userId === userId;
+    }
+    return false;
   };
 
   return (
@@ -256,17 +265,19 @@ const AllReviews = () => {
                         </Box>
                       </Box>
                     </Box>
-                    <Box sx={{ display: "flex" }}>
-                      <Box sx={{ marginLeft: "auto" }}>
-                        <TertiaryButton
-                          onClick={() =>
-                            handleDeleteReview(review.restroomId, review.id)
-                          }
-                        >
-                          Delete
-                        </TertiaryButton>
+                    {isCurrentUserPostOwner(review) && (
+                      <Box sx={{ display: "flex" }}>
+                        <Box sx={{ marginLeft: "auto" }}>
+                          <TertiaryButton
+                            onClick={() =>
+                              handleDeleteReview(review.restroomId, review.id)
+                            }
+                          >
+                            Delete
+                          </TertiaryButton>
+                        </Box>
                       </Box>
-                    </Box>
+                    )}
                   </Card>
                 ))}
               </Box>
