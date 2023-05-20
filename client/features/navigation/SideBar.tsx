@@ -191,6 +191,7 @@ const SideBar = () => {
                 justifyContent: "center",
                 display: "flex",
                 flexDirection: "column",
+                marginBottom: 3,
               }}
             >
               <SettingsRoundedIcon fontSize="large" />

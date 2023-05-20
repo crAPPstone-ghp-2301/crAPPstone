@@ -4,10 +4,11 @@ import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 import "mapbox-gl/dist/mapbox-gl.css";
 import MapboxDirections from "@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions";
 import { MapButton } from "../features/styles/StyleGuide";
-import { Box, Typography, useMediaQuery } from "@mui/material";
+import { Box, Typography, useMediaQuery, Popper } from "@mui/material";
 import AssistantDirectionIcon from "@mui/icons-material/AssistantDirection";
 import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
-import CancelIcon from '@mui/icons-material/Cancel';
+import CancelIcon from "@mui/icons-material/Cancel";
+import crAppTheme from "./theme";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoiZnh1MjAyMyIsImEiOiJjbGg5d3psZjcwYnJoM2Z0ZG13dXhiZzc1In0.scud3ARQla5nkZt5h-5cOw";
@@ -23,24 +24,38 @@ const Map = () => {
   const [isActivehotel, setIsActivehotel] = useState(false);
   const [isActivemall, setIsActivemall] = useState(false);
   const [isActiverestroom, setIsActiverestroom] = useState(false);
+  const [anchorElMall, setAnchorElMall] = useState(null);
+  const [anchorElHotel, setAnchorElHotel] = useState(null);
+  const [anchorElRestroom, setAnchorElRestroom] = useState(null);
 
   const handleClickhotel = () => {
     setIsActivehotel(!isActivehotel);
     setIsActivemall(false);
     setIsActiverestroom(false);
+    setAnchorElHotel(anchorElHotel ? null : event.currentTarget);
   };
 
   const handleClickmall = () => {
     setIsActivemall(!isActivemall);
     setIsActivehotel(false);
     setIsActiverestroom(false);
+    setAnchorElMall(anchorElMall ? null : event.currentTarget);
   };
 
   const handleClickrestroom = () => {
     setIsActiverestroom(!isActiverestroom);
     setIsActivehotel(false);
     setIsActivemall(false);
+    setAnchorElRestroom(anchorElRestroom ? null : event.currentTarget);
   };
+
+  const openMall = Boolean(anchorElMall);
+  const openHotel = Boolean(anchorElHotel);
+  const openRestroom = Boolean(anchorElRestroom);
+
+  const anchorIdMall = openMall ? "mall-popper" : undefined;
+  const anchorIdHotel = openHotel ? "hotel-popper" : undefined;
+  const anchorIdRestroom = openRestroom ? "restroom-popper" : undefined;
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -94,14 +109,8 @@ const Map = () => {
     //   bbox: [-74.0171, 40.6983, -73.9949, 40.7273],
     // });
 
-
-    
-
     // map.current.addControl(geocoder, "top-right");
     // geocoder.container.setAttribute("id", "geocoder-search");
-
- 
-   
 
     //   map.current.on("load", () => {
     //     const marker = new mapboxgl.Marker({
@@ -165,9 +174,6 @@ const Map = () => {
     //         ],
     //       },
     //     });
-      
-
- 
 
     //   const popup = new mapboxgl.Popup();
 
@@ -362,124 +368,67 @@ const Map = () => {
 
   return (
     <Box>
-      {isMobile ? (
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: 65,
-            right: 50,
-            display: "flex",
-            marginTop: 1,
-            flexDirection: "row",
-            zIndex: 1,
-          }}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: isMobile ? 10 : 550,
+          right: 0,
+          display: "flex",
+          marginTop: 1,
+          flexDirection: "row",
+          zIndex: 2,
+        }}
+      >
+        <MapButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+          id="restroom-mall-nyc"
+          className={isActivemall ? "active" : ""}
+          onClick={handleClickmall}
         >
-          <MapButton
-            variant="contained"
-            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
-            id="restroom-mall-nyc"
-            className={isActivemall ? "active" : ""}
-            onClick={handleClickmall}
-            aria-label="Malls"
-          >
-            <img
-              src="https://www.svgrepo.com/show/375867/present.svg"
-              width="20px"
-              alt="Malls"
-            />
-          </MapButton>
-          <MapButton
-            variant="contained"
-            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
-            id="restroom-hotel-nyc"
-            className={isActivehotel ? "active" : ""}
-            onClick={handleClickhotel}
-            aria-label="Hotels"
-          >
-            <img
-              src="https://www.svgrepo.com/show/192397/hotel.svg"
-              width="20px"
-              alt="Hotels"
-            />
-          </MapButton>
-          <MapButton
-            variant="contained"
-            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
-            id="public-restroom-nyc"
-            className={isActiverestroom ? "active" : ""}
-            onClick={handleClickrestroom}
-            aria-label="Public Restrooms"
-          >
-            <img
-              src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
-              width="20px"
-              alt="Public Restrooms"
-            />
-          </MapButton>
-        </Box>
-      ) : (
-        <Box
-          sx={{
-            position: "absolute",
-            top: 0,
-            left: 550,
-            right: 0,
-            display: "flex",
-            marginTop: 1,
-            flexDirection: "row",
-            zIndex: 1,
-          }}
+          <img
+            src="https://www.svgrepo.com/show/375867/present.svg"
+            width="20px"
+            alt="Malls"
+          />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            Malls
+          </Typography>
+        </MapButton>
+        <MapButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+          id="restroom-hotel-nyc"
+          className={isActivehotel ? "active" : ""}
+          onClick={handleClickhotel}
         >
-          <MapButton
-            variant="contained"
-            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-            id="restroom-mall-nyc"
-            className={isActivemall ? "active" : ""}
-            onClick={handleClickmall}
-          >
-            <img
-              src="https://www.svgrepo.com/show/375867/present.svg"
-              width="20px"
-              alt="Malls"
-            />
-            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-              Malls
-            </Typography>
-          </MapButton>
-          <MapButton
-            variant="contained"
-            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-            id="restroom-hotel-nyc"
-            className={isActivehotel ? "active" : ""}
-            onClick={handleClickhotel}
-          >
-            <img
-              src="https://www.svgrepo.com/show/192397/hotel.svg"
-              width="20px"
-              alt="Hotels"
-            />
-            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-              Hotels
-            </Typography>
-          </MapButton>
-          <MapButton
-            variant="contained"
-            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-            id="public-restroom-nyc"
-            className={isActiverestroom ? "active" : ""}
-            onClick={handleClickrestroom}
-          >
-            <img
-              src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
-              width="20px"
-              alt="Public Restrooms"
-            />
-            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-              Public Restrooms
-            </Typography>
-          </MapButton>
-        </Box>
-      )}
+          <img
+            src="https://www.svgrepo.com/show/192397/hotel.svg"
+            width="20px"
+            alt="Hotels"
+          />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            Hotels
+          </Typography>
+        </MapButton>
+        <MapButton
+          variant="contained"
+          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+          id="public-restroom-nyc"
+          className={isActiverestroom ? "active" : ""}
+          onClick={handleClickrestroom}
+        >
+          <img
+            src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
+            width="20px"
+            alt="Public Restrooms"
+          />
+          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+            Public Restrooms
+          </Typography>
+        </MapButton>
+      </Box>
       <MapButton
         variant="contained"
         sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
@@ -498,7 +447,7 @@ const Map = () => {
       >
         <CancelIcon />
         <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-        End Directions
+          End Directions
         </Typography>
       </MapButton>
       <Box ref={mapContainer} className="map-container"></Box>
