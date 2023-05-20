@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { fetchAllComments } from "./commentsSlice";
+import { fetchAllComments, deleteComment } from "./commentsSlice";
 import AddComment from "./AddComment";
 import LikeButton from "./LikeButton";
 import crAppTheme from "../../app/theme";
@@ -13,13 +13,18 @@ import {
   Box,
   Divider,
 } from "@mui/material";
-import { SecondaryButton } from "../styles/StyleGuide";
+import { SecondaryButton, TertiaryButton } from "../styles/StyleGuide";
 
 const AllComments = () => {
   const dispatch = useDispatch();
   const { reviewId } = useParams();
   const comments = useSelector((state) => state.comments.allComments);
   const [showAddComment, setShowAddComment] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const userId = useSelector((state) => state.auth.me.id);
+  const currentUser = useSelector((state) => state.auth.user);
+
+
   
   useEffect(() => {
     dispatch(fetchAllComments(reviewId));
@@ -27,6 +32,25 @@ const AllComments = () => {
 
   const handleWriteComment = () => {
     setShowAddComment(!showAddComment);
+  };
+
+  const handleDeleteConfirmation = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleDeleteComment = (commentId) => {
+    setShowConfirmation(false);
+    dispatch(deleteComment({ commentId })).then(() => {
+      dispatch(fetchAllComments(reviewId));
+    });
+  };
+
+  const isCurrentUserPostOwner = (comments) => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      return comments.userId === userId;
+    }
+    return false;
   };
 
   return (
@@ -76,6 +100,34 @@ const AllComments = () => {
                   />
                 </Box>
               </Box>
+              {isCurrentUserPostOwner(comment) && (
+                <Box sx={{ display: "flex" }}>
+                  <Box sx={{ marginLeft: "auto" }}>
+                    {showConfirmation ? (
+                      <>
+                        <TertiaryButton
+                          onClick={() =>
+                            handleDeleteComment(
+                              comment.id
+                            )
+                          }
+                        >
+                          Yes
+                        </TertiaryButton>
+                        <TertiaryButton
+                          onClick={() => setShowConfirmation(false)}
+                        >
+                          No
+                        </TertiaryButton>
+                      </>
+                    ) : (
+                      <TertiaryButton onClick={handleDeleteConfirmation}>
+                        Delete
+                      </TertiaryButton>
+                    )}
+                  </Box>
+                </Box>
+              )}
               <Divider />
             </Box>
           ))}
