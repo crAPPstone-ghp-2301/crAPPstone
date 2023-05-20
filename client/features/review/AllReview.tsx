@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
+import { fetchAllReviewsOfRestroomId, deleteReview } from "./reviewSlice";
 import { selectSingleRestroom } from "../restrooms/singleRestroomSlice";
 import crAppTheme from "../../app/theme";
 import PastRating from "../rating/PastRating";
@@ -61,6 +61,12 @@ const AllReviews = () => {
 
   const handleWriteReview = () => {
     navigate(`add`);
+  };
+
+  const handleDeleteReview = (restroomId, reviewId) => {
+    dispatch(deleteReview({ restroomId, reviewId })).then(() => {
+      dispatch(fetchAllReviewsOfRestroomId(restroomId));
+    });
   };
 
   return (
@@ -204,19 +210,21 @@ const AllReviews = () => {
                 {reviews.map((review) => (
                   <Card
                     key={review.id}
-                    onClick={() => handleReviewClick(review.id)}
                     sx={{
-                      cursor: "pointer",
                       paddingBottom: "10px",
                     }}
                   >
                     <CardMedia
+                      onClick={() => handleReviewClick(review.id)}
                       component="img"
                       src={review.imageURL}
                       alt="Picture unavailable!"
                       onError={(e) => {
                         e.target.src =
                           "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
+                      }}
+                      sx={{
+                        cursor: "pointer",
                       }}
                     />
                     <Box
@@ -233,14 +241,30 @@ const AllReviews = () => {
                       <Typography variant="subtitle1" color="secondary.light">
                         Report: {review.reportStatus}
                       </Typography>
-                      <Box
-                        sx={{
-                          marginLeft: "auto",
-                        }}
-                      >
-                        <Typography variant="subtitle2" color="secondary.main">
-                          Comments: {review.comments.length}
-                        </Typography>
+                      <Box sx={{ display: "flex" }}>
+                        <Box sx={{ marginLeft: "auto" }}>
+                          <Typography
+                            variant="subtitle2"
+                            color="secondary.main"
+                            onClick={() => handleReviewClick(review.id)}
+                            sx={{
+                              cursor: "pointer",
+                            }}
+                          >
+                            Comments: {review.comments.length}
+                          </Typography>
+                        </Box>
+                      </Box>
+                    </Box>
+                    <Box sx={{ display: "flex" }}>
+                      <Box sx={{ marginLeft: "auto" }}>
+                        <TertiaryButton
+                          onClick={() =>
+                            handleDeleteReview(review.restroomId, review.id)
+                          }
+                        >
+                          Delete
+                        </TertiaryButton>
                       </Box>
                     </Box>
                   </Card>

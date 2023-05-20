@@ -94,4 +94,18 @@ router.patch('/:restroomId/reviews', async (req, res, next) => {
   }
 });
 
+router.delete("/:restroomId/reviews/:reviewId", async (req, res, next) => {
+  try {
+    console.log(req.params.restroomId); 
+    console.log(req.params.reviewId); 
+
+    const reviewToDelete = await Review.findByPk(req.params.reviewId);
+    await reviewToDelete.destroy();
+    res.sendStatus(204);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 module.exports = router

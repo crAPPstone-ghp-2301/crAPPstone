@@ -15,22 +15,19 @@ import {
 } from "@mui/material";
 import { SecondaryButton } from "../styles/StyleGuide";
 
-
 const AllComments = () => {
   const dispatch = useDispatch();
   const { reviewId } = useParams();
   const comments = useSelector((state) => state.comments.allComments);
   const [showAddComment, setShowAddComment] = useState(false);
-
-
+  
   useEffect(() => {
     dispatch(fetchAllComments(reviewId));
   }, [dispatch, reviewId]);
 
-    const handleWriteComment = () => {
+  const handleWriteComment = () => {
     setShowAddComment(!showAddComment);
   };
-
 
   return (
     <ThemeProvider theme={crAppTheme}>
@@ -51,12 +48,10 @@ const AllComments = () => {
             <AddComment reviewId={reviewId} />
           )}
         </Box>
-        <Box
-          // style={{ height: "310px", overflowY: "scroll", paddingRight: "20px" }}
-        >
+        <Box style={{ paddingTop: "10px" }}>
           {comments.map((comment) => (
             <Box key={comment.id}>
-              <Box>
+              <Box sx={{paddingTop: "10px"}}>
                 {comment.user ? (
                   <Typography variant="h5" color="secondary.dark">
                     {comment.user.username}
@@ -71,11 +66,15 @@ const AllComments = () => {
                 <Typography variant="subtitle1" color="secondary.light">
                   {comment.content}
                 </Typography>
-                <LikeButton
-                  commentId={comment.id}
-                  likes={comment.likes}
-                  reviewId={reviewId}
-                />
+              </Box>
+              <Box sx={{ display: "flex" }}>
+                <Box sx={{ marginLeft: "auto" }}>
+                  <LikeButton
+                    commentId={comment.id}
+                    likes={comment.likes}
+                    reviewId={reviewId}
+                  />
+                </Box>
               </Box>
               <Divider />
             </Box>

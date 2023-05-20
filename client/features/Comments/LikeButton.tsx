@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { updateComment } from "./commentsSlice";
 import { IconButton } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import crAppTheme from "../../app/theme";
-import { PrimaryButton } from "../styles/StyleGuide";
 import {
   ThemeProvider,
   Typography,
@@ -39,7 +39,7 @@ const LikeButton = ({ commentId, likes, reviewId }) => {
       <Grid container alignItems="center">
         <Grid item>
           <IconButton color="secondary" onClick={handleLike}>
-            <ThumbUpIcon />
+            {isLiked ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
           </IconButton>
         </Grid>
         <Grid item>
@@ -53,4 +53,3 @@ const LikeButton = ({ commentId, likes, reviewId }) => {
 };
 
 export default LikeButton;
-
