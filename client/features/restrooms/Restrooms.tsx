@@ -69,7 +69,7 @@ const AllRestrooms = () => {
       <Box
         id="restroom-container"
         sx={{
-          position: isMobile ? "sticky" : "fixed",
+          position: "fixed",
           top: 0,
           left: isMobile ? 0 : "100px",
           zIndex: isMobile ? 2 : 1,
