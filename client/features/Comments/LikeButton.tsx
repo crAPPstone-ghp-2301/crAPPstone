@@ -5,11 +5,7 @@ import { IconButton } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbUpOutlinedIcon from "@mui/icons-material/ThumbUpOutlined";
 import crAppTheme from "../../app/theme";
-import {
-  ThemeProvider,
-  Typography,
-  Grid,
-} from "@mui/material";
+import { ThemeProvider, Typography, Grid } from "@mui/material";
 
 const LikeButton = ({ commentId, likes, reviewId }) => {
   const dispatch = useDispatch();
@@ -30,7 +26,18 @@ const LikeButton = ({ commentId, likes, reviewId }) => {
       setCurrentLikes(newLikes);
       setIsLiked(true);
 
-      localStorage.setItem(`likeStatus_${commentId}`, 'liked');
+      localStorage.setItem(`likeStatus_${commentId}`, "liked");
+    }
+  };
+
+  const handleUnlike = () => {
+    if (isLiked) {
+      const newLikes = currentLikes - 1;
+      dispatch(updateComment({ reviewId, commentId, likes: newLikes }));
+      setCurrentLikes(newLikes);
+      setIsLiked(false);
+
+      localStorage.removeItem(`likeStatus_${commentId}`);
     }
   };
 
@@ -38,7 +45,10 @@ const LikeButton = ({ commentId, likes, reviewId }) => {
     <ThemeProvider theme={crAppTheme}>
       <Grid container alignItems="center">
         <Grid item>
-          <IconButton color="secondary" onClick={handleLike}>
+          <IconButton
+            color="secondary"
+            onClick={isLiked ? handleUnlike : handleLike}
+          >
             {isLiked ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
           </IconButton>
         </Grid>
