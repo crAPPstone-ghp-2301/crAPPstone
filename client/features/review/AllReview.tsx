@@ -27,6 +27,7 @@ const AllReviews = () => {
   const navigate = useNavigate();
   const { restroomId } = useParams();
   const [activeTab, setActiveTab] = useState(1);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const userId = useSelector((state) => state.auth.me.id);
   const ratings = useSelector((state) => state.rating.pastRating);
@@ -64,7 +65,12 @@ const AllReviews = () => {
     navigate(`add`);
   };
 
+  const handleDeleteConfirmation = () => {
+    setShowConfirmation(true);
+  };
+
   const handleDeleteReview = (restroomId, reviewId) => {
+    setShowConfirmation(false);
     dispatch(deleteReview({ restroomId, reviewId })).then(() => {
       dispatch(fetchAllReviewsOfRestroomId(restroomId));
     });
@@ -268,13 +274,29 @@ const AllReviews = () => {
                     {isCurrentUserPostOwner(review) && (
                       <Box sx={{ display: "flex" }}>
                         <Box sx={{ marginLeft: "auto" }}>
-                          <TertiaryButton
-                            onClick={() =>
-                              handleDeleteReview(review.restroomId, review.id)
-                            }
-                          >
-                            Delete
-                          </TertiaryButton>
+                          {showConfirmation ? (
+                            <>
+                              <TertiaryButton
+                                onClick={() =>
+                                  handleDeleteReview(
+                                    review.restroomId,
+                                    review.id
+                                  )
+                                }
+                              >
+                                Yes
+                              </TertiaryButton>
+                              <TertiaryButton
+                                onClick={() => setShowConfirmation(false)}
+                              >
+                                No
+                              </TertiaryButton>
+                            </>
+                          ) : (
+                            <TertiaryButton onClick={handleDeleteConfirmation}>
+                              Delete
+                            </TertiaryButton>
+                          )}
                         </Box>
                       </Box>
                     )}
