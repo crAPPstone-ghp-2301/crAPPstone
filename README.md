@@ -1,5 +1,8 @@
 # crAPP
 
+## Check out our site!
+https://crapp.onrender.com/
+
 ## About crAPP
 
 ***Welcome to crAPP - your ultimate destination for finding, reviewing, and reporting public bathrooms in New York and beyond!***
@@ -19,6 +22,3 @@ At crAPP, we understand the importance of clean and accessible public restrooms.
 ***Save Favorite Bathrooms:*** Keep track of your preferred restroom locations by saving them as favorites. Whether it's a spotless facility with great amenities or a hidden gem that's always clean and available, you can easily access your favorite bathrooms whenever you need them.
 
 Whether you're looking for a clean and well-maintained restroom, need to report a problem, want to contribute to our database, or simply want to save your favorite bathrooms, crAPP is here to assist you. Use our app today and join our growing community of users who are making public restroom experiences better for everyone!
-
-## Live Deployment 
-https://crapp.onrender.com/
