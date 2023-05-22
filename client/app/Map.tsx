@@ -374,67 +374,124 @@ const Map = () => {
 
   return (
     <Box>
-      <Box
-        sx={{
-          position: "absolute",
-          top: 0,
-          left: isMobile ? 10 : 550,
-          right: 0,
-          display: "flex",
-          marginTop: 1,
-          flexDirection: "row",
-          zIndex: 2,
-        }}
-      >
-        <MapButton
-          variant="contained"
-          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-          id="restroom-mall-nyc"
-          className={isActivemall ? "active" : ""}
-          onClick={handleClickmall}
+      {isMobile ? (
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: 65,
+            right: 50,
+            display: "flex",
+            marginTop: 1,
+            flexDirection: "row",
+            zIndex: 1,
+          }}
         >
-          <img
-            src="https://www.svgrepo.com/show/375867/present.svg"
-            width="20px"
-            alt="Malls"
-          />
-          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-            Malls
-          </Typography>
-        </MapButton>
-        <MapButton
-          variant="contained"
-          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-          id="restroom-hotel-nyc"
-          className={isActivehotel ? "active" : ""}
-          onClick={handleClickhotel}
+          <MapButton
+            variant="contained"
+            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
+            id="restroom-mall-nyc"
+            className={isActivemall ? "active" : ""}
+            onClick={handleClickmall}
+            aria-label="Malls"
+          >
+            <img
+              src="https://www.svgrepo.com/show/375867/present.svg"
+              width="20px"
+              alt="Malls"
+            />
+          </MapButton>
+          <MapButton
+            variant="contained"
+            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
+            id="restroom-hotel-nyc"
+            className={isActivehotel ? "active" : ""}
+            onClick={handleClickhotel}
+            aria-label="Hotels"
+          >
+            <img
+              src="https://www.svgrepo.com/show/192397/hotel.svg"
+              width="20px"
+              alt="Hotels"
+            />
+          </MapButton>
+          <MapButton
+            variant="contained"
+            sx={{ mx: 0.5, backgroundColor: "#FFF" }}
+            id="public-restroom-nyc"
+            className={isActiverestroom ? "active" : ""}
+            onClick={handleClickrestroom}
+            aria-label="Public Restrooms"
+          >
+            <img
+              src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
+              width="20px"
+              alt="Public Restrooms"
+            />
+          </MapButton>
+        </Box>
+      ) : (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 550,
+            right: 0,
+            display: "flex",
+            marginTop: 1,
+            flexDirection: "row",
+            zIndex: 1,
+          }}
         >
-          <img
-            src="https://www.svgrepo.com/show/192397/hotel.svg"
-            width="20px"
-            alt="Hotels"
-          />
-          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-            Hotels
-          </Typography>
-        </MapButton>
-        <MapButton
-          variant="contained"
-          sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
-          id="public-restroom-nyc"
-          className={isActiverestroom ? "active" : ""}
-          onClick={handleClickrestroom}
-        >
-          <img
-            src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
-            width="20px"
-            alt="Public Restrooms"
-          />
-          <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-            Public Restrooms
-          </Typography>
-        </MapButton>
-      </Box>
+          <MapButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="restroom-mall-nyc"
+            className={isActivemall ? "active" : ""}
+            onClick={handleClickmall}
+          >
+            <img
+              src="https://www.svgrepo.com/show/375867/present.svg"
+              width="20px"
+              alt="Malls"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Malls
+            </Typography>
+          </MapButton>
+          <MapButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="restroom-hotel-nyc"
+            className={isActivehotel ? "active" : ""}
+            onClick={handleClickhotel}
+          >
+            <img
+              src="https://www.svgrepo.com/show/192397/hotel.svg"
+              width="20px"
+              alt="Hotels"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Hotels
+            </Typography>
+          </MapButton>
+          <MapButton
+            variant="contained"
+            sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
+            id="public-restroom-nyc"
+            className={isActiverestroom ? "active" : ""}
+            onClick={handleClickrestroom}
+          >
+            <img
+              src="https://www.svgrepo.com/show/87415/toilet-paper.svg"
+              width="20px"
+              alt="Public Restrooms"
+            />
+            <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
+              Public Restrooms
+            </Typography>
+          </MapButton>
+        </Box>
+      )}
       <MapButton
         variant="contained"
         sx={{ px: 1, py: 0.5, mx: 0.5, backgroundColor: "#FFF" }}
@@ -453,7 +510,7 @@ const Map = () => {
       >
         <CancelIcon />
         <Typography variant="caption" sx={{ px: 1, fontWeight: 900 }}>
-          End Directions
+        End Directions
         </Typography>
       </MapButton>
       <Box ref={mapContainer} className="map-container"></Box>
