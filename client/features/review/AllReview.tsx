@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { fetchAllReviewsOfRestroomId } from "./reviewSlice";
+import { fetchAllReviewsOfRestroomId, deleteReview } from "./reviewSlice";
 import { selectSingleRestroom } from "../restrooms/singleRestroomSlice";
 import crAppTheme from "../../app/theme";
 import PastRating from "../rating/PastRating";
@@ -27,12 +27,14 @@ const AllReviews = () => {
   const navigate = useNavigate();
   const { restroomId } = useParams();
   const [activeTab, setActiveTab] = useState(1);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const isMobile = useMediaQuery("(max-width: 600px)");
   const userId = useSelector((state) => state.auth.me.id);
   const ratings = useSelector((state) => state.rating.pastRating);
   const reviews = useSelector((state) => state.review.allReviews);
   const restroom = useSelector(selectSingleRestroom);
   const restroomName = restroom.name;
+  const currentUser = useSelector((state) => state.auth.user);
 
   const handleLogin = () => {
     navigate("/login");
@@ -61,6 +63,25 @@ const AllReviews = () => {
 
   const handleWriteReview = () => {
     navigate(`add`);
+  };
+
+  const handleDeleteConfirmation = () => {
+    setShowConfirmation(true);
+  };
+
+  const handleDeleteReview = (restroomId, reviewId) => {
+    setShowConfirmation(false);
+    dispatch(deleteReview({ restroomId, reviewId })).then(() => {
+      dispatch(fetchAllReviewsOfRestroomId(restroomId));
+    });
+  };
+
+  const isCurrentUserPostOwner = (review) => {
+    let token = localStorage.getItem("token");
+    if (token) {
+      return review.userId === userId;
+    }
+    return false;
   };
 
   return (
@@ -204,19 +225,21 @@ const AllReviews = () => {
                 {reviews.map((review) => (
                   <Card
                     key={review.id}
-                    onClick={() => handleReviewClick(review.id)}
                     sx={{
-                      cursor: "pointer",
                       paddingBottom: "10px",
                     }}
                   >
                     <CardMedia
+                      onClick={() => handleReviewClick(review.id)}
                       component="img"
                       src={review.imageURL}
                       alt="Picture unavailable!"
                       onError={(e) => {
                         e.target.src =
                           "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
+                      }}
+                      sx={{
+                        cursor: "pointer",
                       }}
                     />
                     <Box
@@ -233,16 +256,50 @@ const AllReviews = () => {
                       <Typography variant="subtitle1" color="secondary.light">
                         Report: {review.reportStatus}
                       </Typography>
-                      <Box
-                        sx={{
-                          marginLeft: "auto",
-                        }}
-                      >
-                        <Typography variant="subtitle2" color="secondary.main">
-                          Comments: {review.comments.length}
-                        </Typography>
+                      <Box sx={{ display: "flex" }}>
+                        <Box sx={{ marginLeft: "auto" }}>
+                          <Typography
+                            variant="subtitle2"
+                            color="secondary.main"
+                            onClick={() => handleReviewClick(review.id)}
+                            sx={{
+                              cursor: "pointer",
+                            }}
+                          >
+                            Comments: {review.comments.length}
+                          </Typography>
+                        </Box>
                       </Box>
                     </Box>
+                    {isCurrentUserPostOwner(review) && (
+                      <Box sx={{ display: "flex" }}>
+                        <Box sx={{ marginLeft: "auto" }}>
+                          {showConfirmation ? (
+                            <>
+                              <TertiaryButton
+                                onClick={() =>
+                                  handleDeleteReview(
+                                    review.restroomId,
+                                    review.id
+                                  )
+                                }
+                              >
+                                Yes
+                              </TertiaryButton>
+                              <TertiaryButton
+                                onClick={() => setShowConfirmation(false)}
+                              >
+                                No
+                              </TertiaryButton>
+                            </>
+                          ) : (
+                            <TertiaryButton onClick={handleDeleteConfirmation}>
+                              Delete
+                            </TertiaryButton>
+                          )}
+                        </Box>
+                      </Box>
+                    )}
                   </Card>
                 ))}
               </Box>

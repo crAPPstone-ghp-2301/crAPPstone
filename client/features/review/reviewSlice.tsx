@@ -52,9 +52,9 @@ export const fetchSingleReviewOfRestroomId = createAsyncThunk(
 //delete single review
 export const deleteReview = createAsyncThunk(
   "reviews/delete",
-  async (reviewId) => {
+  async ({restroomId, reviewId}) => {
     try {
-      const { data } = await axios.delete(`/api/reviews/${reviewId}`);
+      const { data } = await axios.delete(`/api/restrooms/${restroomId}/reviews/${reviewId}`);
       return data;
     } catch (err) {
       return err.message;
