@@ -105,7 +105,7 @@ const Settings = ({ open, onClose }) => {
         </Box>
         <Divider />
         <Box>
-          <ListItem>
+          {/* <ListItem>
             <Link to="/share">
               <TertiaryButton>
                 <ListItemAvatar>
@@ -118,7 +118,7 @@ const Settings = ({ open, onClose }) => {
                 <Typography variant="subtitle2">Share Map</Typography>
               </TertiaryButton>
             </Link>
-          </ListItem>
+          </ListItem> */}
           {/* <ListItem>
             <TertiaryButton>
               <ListItemAvatar>

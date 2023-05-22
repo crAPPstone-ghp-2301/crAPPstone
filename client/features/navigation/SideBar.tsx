@@ -124,7 +124,8 @@ const SideBar = () => {
               </TertiaryButton>
             </Link>
           </ListItem>
-          {/* <ListItem>
+          <ListItem>
+            <Link to="/history">
             <TertiaryButton
               onClick={isMobile ? handleDrawerToggle : true}
               sx={{
@@ -141,7 +142,8 @@ const SideBar = () => {
                 History
               </Typography>
             </TertiaryButton>
-          </ListItem> */}
+            </Link>
+          </ListItem>
         </List>
         <List
           sx={{
@@ -191,6 +193,7 @@ const SideBar = () => {
                 justifyContent: "center",
                 display: "flex",
                 flexDirection: "column",
+                marginBottom: 3,
               }}
             >
               <SettingsRoundedIcon fontSize="large" />
