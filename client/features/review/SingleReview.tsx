@@ -103,7 +103,7 @@ const SingleReview = () => {
           }}
         >
           <Link to={`/restrooms/${restroomId}/reviews`}>
-            <TertiaryButton sx={{ position: "absolute", top: 0, left: 0 }}>
+            <TertiaryButton sx={{ position: "absolute", top: isMobile ? "45px" : 0, left: 0 }}>
               <ArrowBackIcon />
             </TertiaryButton>
           </Link>

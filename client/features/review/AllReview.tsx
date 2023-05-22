@@ -143,6 +143,9 @@ const AllReviews = () => {
             flexDirection: "column",
             justifyContent: "flex-start",
             py: 2,
+            position: "absolute",
+            top: isMobile ? "40px" : 0,
+            right: 0
           }}
         >
           <Box>
