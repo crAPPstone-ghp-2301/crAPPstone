@@ -1,4 +1,4 @@
-﻿id_restroom,STORE_NAME,STORE_LOCATION,city,Latitude,Longitude,Place_type
+﻿id_restroom,Name,Location,city,Latitude,Longitude,Place_type
 1632,100% Playground,"Glenwood Road, East 100 & East 101 streets",,40.7875,-73.9448,restroom
 1633,174th Street Playground,"East 174 Street, Stratford Avenue, Bronx River Avenue",,40.8339,-73.8766,restroom
 1634,227 Street Playground,Bronx Boulevard between East 226 and East 228 streets,,40.8886,-73.855,restroom

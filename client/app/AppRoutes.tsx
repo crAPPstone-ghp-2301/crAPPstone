@@ -19,7 +19,7 @@ import Help from "../features/settings/Help";
 import Share from "../features/settings/Share";
 import AddReview from "../features/review/AddReview";
 import NotFound from "../features/notFound/NotFound";
-
+import History from "../features/history/History";
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
   const dispatch = useDispatch();
@@ -57,6 +57,7 @@ const AppRoutes = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/editprofile" element={<EditProfile />} />
             <Route path="saved" element={<Saved />} />
+            <Route path="history" element={<History />} />
           </>
         ) : (
           <>
@@ -95,6 +96,7 @@ const AppRoutes = () => {
         <Route path="/restrooms/:restroomId/reviews/add" element={<AddReview />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/NotFound" element={<NotFound />} />
+        <Route path="history" element={<History />} />
 
       </Routes>
     </ThemeProvider>
