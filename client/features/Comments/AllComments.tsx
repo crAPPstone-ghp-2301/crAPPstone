@@ -24,8 +24,6 @@ const AllComments = () => {
   const userId = useSelector((state) => state.auth.me.id);
   const currentUser = useSelector((state) => state.auth.user);
 
-
-  
   useEffect(() => {
     dispatch(fetchAllComments(reviewId));
   }, [dispatch, reviewId]);
@@ -75,7 +73,7 @@ const AllComments = () => {
         <Box style={{ paddingTop: "10px" }}>
           {comments.map((comment) => (
             <Box key={comment.id}>
-              <Box sx={{paddingTop: "10px"}}>
+              <Box sx={{ paddingTop: "10px" }}>
                 {comment.user ? (
                   <Typography variant="h5" color="secondary.dark">
                     {comment.user.username}
@@ -95,8 +93,7 @@ const AllComments = () => {
                 <Box sx={{ marginLeft: "auto" }}>
                   <LikeButton
                     commentId={comment.id}
-                    likes={comment.likes}
-                    reviewId={reviewId}
+                    initialLikes={comment.likes}
                   />
                 </Box>
               </Box>
@@ -106,11 +103,7 @@ const AllComments = () => {
                     {showConfirmation ? (
                       <>
                         <TertiaryButton
-                          onClick={() =>
-                            handleDeleteComment(
-                              comment.id
-                            )
-                          }
+                          onClick={() => handleDeleteComment(comment.id)}
                         >
                           Yes
                         </TertiaryButton>
