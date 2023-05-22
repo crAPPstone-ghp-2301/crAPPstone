@@ -3,6 +3,7 @@ import crAppTheme from "./theme";
 import { ThemeProvider } from "@mui/material";
 import { Route, Routes } from "react-router-dom";
 import { me } from "./store";
+import AddRestroom from "../features/restrooms/AddRestroom";
 import { useSelector, useDispatch } from "react-redux";
 import StyleGuide from "../features/styles/StyleGuide";
 import AuthForm from "../features/auth/AuthForm";
@@ -23,7 +24,7 @@ import History from "../features/history/History";
 const AppRoutes = () => {
   const isLoggedIn = useSelector((state) => !!state.auth.me.id);
   const dispatch = useDispatch();
-
+//
   useEffect(() => {
     dispatch(me());
   }, []);
@@ -62,6 +63,7 @@ const AppRoutes = () => {
         ) : (
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/addRestroom" element={<AddRestroom />} />
             <Route
               path="/login"
               element={

@@ -28,7 +28,8 @@ export const deleteRestroom = createAsyncThunk(
 //create or update a restroom
 export const createOrUpdateRestroom = createAsyncThunk(
   "restrooms/createOrUpdateRestroom",
-  async ({ name, imageURL, description, openingHours }) => {
+  async ({ id, name, imageURL, description, openingHours }) => {
+    console.log("AXIOS CREATE OR UPDATE WORKING")
     const { data } = await axios.patch(`/api/restrooms/${id}`, {
       name,
       imageURL,

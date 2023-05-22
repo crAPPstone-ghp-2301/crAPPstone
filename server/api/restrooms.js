@@ -75,18 +75,39 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
   try {
-    const response = await Restroom.update(req.body, {
-      where: {
-        id: req.params.id,
-      },
-    });
-    res.json(response);
-  } catch (err) {
-    next(err);
+    const { id } = req.params;
+    const { name, imageURL, description, openingHours } = req.body;
+
+    // Check if the restroom with the given ID exists
+    const existingRestroom = await Restroom.findByPk(id);
+
+    if (existingRestroom) {
+      // If the restroom exists, update its properties
+      await existingRestroom.update({
+        name,
+        imageURL,
+        description,
+        openingHours,
+      });
+      res.sendStatus(200);
+    } else {
+      // If the restroom doesn't exist, create a new one
+      await Restroom.create({
+        id,
+        name,
+        imageURL,
+        description,
+        openingHours,
+      });
+      res.sendStatus(201);
+    }
+  } catch (error) {
+    next(error);
   }
 });
+
 
 
 
