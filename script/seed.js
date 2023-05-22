@@ -91,9 +91,6 @@ const restrooms = await csv().fromFile(csvFilePath);
 
     console.log(`seeded ${users.length} users`)
     console.log(`seeded ${restrooms.length} restrooms`)
-    console.log(`seeded ${comments.length} comments`)
-    console.log(`seeded ${reviews.length} reviews`)
-    // console.log(`seeded ${ratings.length} ratings`)
     console.log(`seeded successfully`)
   }
 
