@@ -373,7 +373,7 @@ const SingleRestroom = () => {
               </Box>
               <Divider />
               <Box sx={{ my: 2 }}>
-                <PastRating />
+                <PastRating restroomId={id}/>
                 <Box
                   sx={{
                     display: "flex",

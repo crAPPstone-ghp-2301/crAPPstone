@@ -190,7 +190,7 @@ const AllReviews = () => {
           </Link>
           <Box>
             <Box sx={{ my: 2 }}>
-              <PastRating />
+              <PastRating restroomId={restroomId}/>
             </Box>
             {userId ? (
               <Box
