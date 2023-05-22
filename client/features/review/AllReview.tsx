@@ -230,16 +230,12 @@ const AllReviews = () => {
                     }}
                   >
                     <CardMedia
-                      onClick={() => handleReviewClick(review.id)}
                       component="img"
                       src={review.imageURL}
                       alt="Picture unavailable!"
                       onError={(e) => {
                         e.target.src =
                           "https://img.freepik.com/free-vector/cute-cat-poop-cartoon-icon-illustration_138676-2655.jpg?w=2000";
-                      }}
-                      sx={{
-                        cursor: "pointer",
                       }}
                     />
                     <Box
@@ -258,13 +254,25 @@ const AllReviews = () => {
                       </Typography>
                       <Box sx={{ display: "flex" }}>
                         <Box sx={{ marginLeft: "auto" }}>
+                          <TertiaryButton>
+                            <Typography
+                              variant="subtitle2"
+                              onClick={() => handleReviewClick(review.id)}
+                              sx={{
+                                cursor: "pointer",
+                              }}
+                            >
+                              view comments
+                              {/* Comments: {review.comments.length} */}
+                            </Typography>
+                          </TertiaryButton>
+                        </Box>
+                      </Box>
+                      <Box sx={{ display: "flex" }}>
+                        <Box sx={{ marginLeft: "auto", px: "15px" }}>
                           <Typography
                             variant="subtitle2"
                             color="secondary.main"
-                            onClick={() => handleReviewClick(review.id)}
-                            sx={{
-                              cursor: "pointer",
-                            }}
                           >
                             Comments: {review.comments.length}
                           </Typography>

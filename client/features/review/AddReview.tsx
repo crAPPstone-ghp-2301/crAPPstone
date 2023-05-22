@@ -24,6 +24,7 @@ import {
   TertiaryButton,
   StyledRating,
   customIcons,
+  CustomizedTextField
 } from "../styles/StyleGuide";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -183,7 +184,8 @@ const AddReview = () => {
           </Box>
           <Container>
             <form onSubmit={handleSubmit}>
-              <TextField
+              <CustomizedTextField
+                id="outlined-required"
                 label="Add Review"
                 value={reviewText}
                 onChange={handleChange}
