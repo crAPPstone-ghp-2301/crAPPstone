@@ -8,7 +8,7 @@
     "npm": "7.x"
   },
   "scripts": {
-    "postinstall": "npm install --force",
+    "preinstall": "npm install --legacy-peer-deps",
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
     "seed": "node script/seed.js",
