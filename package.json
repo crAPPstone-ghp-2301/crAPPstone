@@ -8,7 +8,8 @@
     "npm": "7.x"
   },
   "scripts": {
-    "preinstall": "npm install --legacy-peer-deps",
+    "preinstall": "node force-resolutions.js",
+    "install": "NODE_OPTIONS=--legacy-peer-deps npm install --production",
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
     "seed": "node script/seed.js",
@@ -63,6 +64,7 @@
     "not ie 11"
   ],
   "devDependencies": {
+    "npm-force-resolutions": "^0.0.7",
     "@babel/compat-data": "7.19.4",
     "@babel/core": "7.19.6",
     "@babel/generator": "7.19.6",
