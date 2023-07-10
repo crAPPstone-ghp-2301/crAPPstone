@@ -8,7 +8,6 @@
     "npm": "7.x"
   },
   "scripts": {
-    "preinstall": "node force-resolutions.js",
     "install": "NODE_OPTIONS=--legacy-peer-deps npm install --production",
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
